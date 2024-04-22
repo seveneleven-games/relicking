@@ -1,0 +1,34 @@
+{
+  "players": [
+    {
+      "PlayerId": 1,
+      "Name": "전근렬",
+      "MaxHp": 50,
+      "Atk": 10,
+      "Speed": 3.0,
+      "DropGold": 1.0,
+      "CritRate": 1.0,
+      "CritDmgRate": 2.0,
+      "CoolDown": 1.0,
+      "SkillList": [
+        0,
+        1
+      ]
+    },
+    {
+      "PlayerId": 2,
+      "Name": "농부",
+      "MaxHp": 70,
+      "Atk": 10,
+      "Speed": 5.0,
+      "DropGold": 1.0,
+      "CritRate": 1.0,
+      "CritDmgRate": 2.0,
+      "CoolDown": 1.0,
+      "SkillList": [
+        0,
+        1
+      ]
+    }
+  ]
+}

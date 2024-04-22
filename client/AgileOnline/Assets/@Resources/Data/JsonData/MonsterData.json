@@ -1,0 +1,32 @@
+{
+  "monsters": [
+    {
+      "MonsterId": 1,
+      "Name": "dmd",
+      "MaxHp": 10,
+      "Atk": 1,
+      "Speed": 2.0,
+      "DropGold": 1.0,
+      "CritRate": 0.0,
+      "CritDmgRate": 0.0,
+      "CoolDown": 1.0,
+      "SkillList": [
+        0
+      ]
+    },
+    {
+      "MonsterId": 2,
+      "Name": "뮻",
+      "MaxHp": 10,
+      "Atk": 1,
+      "Speed": 2.0,
+      "DropGold": 1.0,
+      "CritRate": 0.0,
+      "CritDmgRate": 0.0,
+      "CoolDown": 1.0,
+      "SkillList": [
+        0
+      ]
+    }
+  ]
+}

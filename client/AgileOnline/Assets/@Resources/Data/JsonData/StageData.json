@@ -1,0 +1,17 @@
+{
+  "stages": [
+    {
+      "StageId": 1,
+      "Name": "first",
+      "NormalMonsterList": [
+        0
+      ],
+      "EliteMonsterList": [
+        1
+      ],
+      "BossMonsterList": [
+        2
+      ]
+    }
+  ]
+}
