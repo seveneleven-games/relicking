@@ -2,16 +2,27 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using static Define;
 
-public class UI_Base : InitBase
+public abstract class UI_Base : MonoBehaviour
 {
 	protected Dictionary<Type, UnityEngine.Object[]> _objects = new Dictionary<Type, UnityEngine.Object[]>();
+	protected bool _init = false;
 
-	private void Awake()
+	public virtual bool Init()
+	{
+		if (_init)
+			return false;
+
+		_init = true;
+		return true;
+	}
+
+	private void Start()
 	{
 		Init();
 	}
@@ -34,11 +45,12 @@ public class UI_Base : InitBase
 		}
 	}
 
-	protected void BindObjects(Type type) { Bind<GameObject>(type); }
-	protected void BindImages(Type type) { Bind<Image>(type); }
-	protected void BindTexts(Type type) { Bind<TMP_Text>(type); }
-	protected void BindButtons(Type type) { Bind<Button>(type); }
-	protected void BindToggles(Type type) { Bind<Toggle>(type); }
+	protected void BindObject(Type type) { Bind<GameObject>(type); }
+	protected void BindImage(Type type) { Bind<Image>(type); }
+	protected void BindText(Type type) { Bind<TMP_Text>(type); }
+	protected void BindButton(Type type) { Bind<Button>(type); }
+	protected void BindToggle(Type type) { Bind<Toggle>(type); }
+
 
 	protected T Get<T>(int idx) where T : UnityEngine.Object
 	{
@@ -55,7 +67,7 @@ public class UI_Base : InitBase
 	protected Image GetImage(int idx) { return Get<Image>(idx); }
 	protected Toggle GetToggle(int idx) { return Get<Toggle>(idx); }
 
-	public static void BindEvent(GameObject go, Action<PointerEventData> action = null, EUIEvent type = EUIEvent.Click)
+	public static void BindEvent(GameObject go, Action action = null, Action<BaseEventData> dragAction = null, EUIEvent type = EUIEvent.Click)
 	{
 		UI_EventHandler evt = Util.GetOrAddComponent<UI_EventHandler>(go);
 
@@ -64,6 +76,10 @@ public class UI_Base : InitBase
 			case EUIEvent.Click:
 				evt.OnClickHandler -= action;
 				evt.OnClickHandler += action;
+				break;
+			case EUIEvent.Pressed:
+				evt.OnPressedHandler -= action;
+				evt.OnPressedHandler += action;
 				break;
 			case EUIEvent.PointerDown:
 				evt.OnPointerDownHandler -= action;
@@ -74,10 +90,17 @@ public class UI_Base : InitBase
 				evt.OnPointerUpHandler += action;
 				break;
 			case EUIEvent.Drag:
-				evt.OnDragHandler -= action;
-				evt.OnDragHandler += action;
+				evt.OnDragHandler -= dragAction;
+				evt.OnDragHandler += dragAction;
+				break;
+			case EUIEvent.BeginDrag:
+				evt.OnBeginDragHandler -= dragAction;
+				evt.OnBeginDragHandler += dragAction;
+				break;
+			case EUIEvent.EndDrag:
+				evt.OnEndDragHandler -= dragAction;
+				evt.OnEndDragHandler += dragAction;
 				break;
 		}
 	}
 }
-

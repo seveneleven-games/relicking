@@ -21,10 +21,10 @@ public class UI_TitleScene : UI_Scene
         if (base.Init() == false)
             return false;
 
-        BindObjects(typeof(GameObjects));
-        BindTexts(typeof(Texts));
+        BindObject(typeof(GameObjects));
+        BindText(typeof(Texts));
 
-        GetObject((int)GameObjects.StartImage).BindEvent((evt) =>
+        GetObject((int)GameObjects.StartImage).BindEvent(() =>
         {
             Debug.Log("ChangeScene");
             Managers.Scene.LoadScene(EScene.GameScene);

@@ -25,7 +25,8 @@ public class GameScene : BaseScene
         CameraController camera = Camera.main.GetOrAddComponent<CameraController>();
         camera.Target = pc;
         
-        Managers.UI.ShowBaseUI<UI_Joystick>();
+        GameObject joystickObject = Managers.Resource.Instantiate("UI_Joystick");
+        joystickObject.name = "@UI_Joystick";
 
         StartCoroutine(SpawnMonsters());
         

@@ -14,9 +14,12 @@ public static class Define
     public enum EUIEvent
     {
         Click,
+        Pressed,
         PointerDown,
         PointerUp,
+        BeginDrag,
         Drag,
+        EndDrag,
     }
 
     public enum ESound

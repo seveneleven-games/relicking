@@ -1,73 +1,63 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using static Define;
 
-public class UI_Joystick : UI_Base
+public class UI_Joystick : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
-    enum GameObjects
+    [SerializeField]
+    Image _background;
+
+    [SerializeField]
+    Image _handler;
+
+    float _joystickRadius;
+    Vector2 _touchPosition;
+    Vector2 _moveDir;
+
+    void Start()
     {
-        JoystickBG,
-        JoystickCursor,
+        _joystickRadius = _background.gameObject.GetComponent<RectTransform>().sizeDelta.y / 2;
+        _background.gameObject.SetActive(false);
+        _handler.gameObject.SetActive(false);
     }
 
-    private GameObject _background;
-    private GameObject _cursor;
-    private float _radius;
-    private Vector2 _touchPos;
-
-    public override bool Init()
+    public void OnPointerDown(UnityEngine.EventSystems.PointerEventData eventData)
     {
-        if (base.Init() == false)
-            return false;
+        _background.gameObject.SetActive(true);
+        _handler.gameObject.SetActive(true);
         
-        BindObjects(typeof(GameObjects));
-
-        _background = GetObject((int)GameObjects.JoystickBG);
-        _cursor = GetObject((int)GameObjects.JoystickCursor);
-        _radius = _background.GetComponent<RectTransform>().sizeDelta.y / 5;
-        
-        gameObject.BindEvent(OnPointerDown, type: EUIEvent.PointerDown);
-        gameObject.BindEvent(OnPointerUp, type: EUIEvent.PointerUp);
-        gameObject.BindEvent(OnDrag, type: EUIEvent.Drag);
-
-        return true;
-    }
-
-    #region Event
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
         _background.transform.position = eventData.position;
-        _cursor.transform.position = eventData.position;
-        _touchPos = eventData.position;
-
+        _handler.transform.position = eventData.position;
+        _touchPosition = eventData.position;
+        
         Managers.Game.JoystickState = EJoystickState.PointerDown;
     }
 
-    public void OnPointerUp(PointerEventData eventData)
+    public void OnPointerUp(UnityEngine.EventSystems.PointerEventData eventData)
     {
-        _cursor.transform.position = _touchPos;
-
-        Managers.Game.MoveDir = Vector2.zero;
+        _background.gameObject.SetActive(false);
+        _handler.gameObject.SetActive(false);
+        
+        _moveDir = Vector2.zero;
+        Managers.Game.MoveDir = _moveDir;
         Managers.Game.JoystickState = EJoystickState.PointerUp;
     }
 
-    public void OnDrag(PointerEventData eventData)
+    public void OnDrag(UnityEngine.EventSystems.PointerEventData eventData)
     {
-        Vector2 touchDir = (eventData.position - _touchPos);
+        Vector2 touchDir = (eventData.position - _touchPosition);
 
-        float moveDist = Mathf.Min(touchDir.magnitude, _radius);
-        Vector2 moveDir = touchDir.normalized;
-        Vector2 newPosition = _touchPos + moveDir * moveDist;
-        _cursor.transform.position = newPosition;
+        float moveDist = Mathf.Min(touchDir.magnitude, _joystickRadius);
+        _moveDir = touchDir.normalized;
+        Vector2 newPosition = _touchPosition + _moveDir * moveDist;
+        _handler.transform.position = newPosition;
 
-        Managers.Game.MoveDir = moveDir;
+        Managers.Game.MoveDir = _moveDir;
         Managers.Game.JoystickState = EJoystickState.Drag;
     }
-
-    #endregion
     
+    public void OnPointerClick(UnityEngine.EventSystems.PointerEventData eventData) {}
 }
