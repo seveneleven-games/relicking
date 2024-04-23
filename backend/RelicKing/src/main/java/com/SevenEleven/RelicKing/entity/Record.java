@@ -37,7 +37,7 @@ public class Record {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int recordId;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id", referencedColumnName = "member_id", nullable = false)
 	private Member member;
 
