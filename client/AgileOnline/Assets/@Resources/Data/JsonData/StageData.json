@@ -2,6 +2,7 @@
   "stages": [
     {
       "StageId": 1,
+      "PrefabName": "Map1",
       "Name": "first",
       "NormalMonsterList": [
         1

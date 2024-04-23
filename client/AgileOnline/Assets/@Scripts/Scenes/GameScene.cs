@@ -6,26 +6,27 @@ using static Define;
 public class GameScene : BaseScene
 {
     private const float MONSTER_SPAWN_INTERVAL = 3f;
-    
+
     public override bool Init()
     {
         if (base.Init() == false)
             return false;
 
         SceneType = EScene.GameScene;
-        
-        StartGame();
-        
+
+        StartGame("Map1", "Player1", "Monster1", "Monster2");
+
         return true;
     }
-    
-    public void StartGame()
+
+    public void StartGame(string mapPrefabName, string playerPrefabName, string monsterPrefabName1,
+        string monsterPrefabName2)
     {
-        GameObject map = Managers.Resource.Instantiate("BaseMap");
+        GameObject map = Managers.Resource.Instantiate(mapPrefabName);
         map.transform.position = Vector3.zero;
         map.name = "@BaseMap";
 
-        PlayerController pc = Managers.Object.Spawn<PlayerController>(Vector3.zero, "Player2");
+        PlayerController pc = Managers.Object.Spawn<PlayerController>(Vector3.zero, playerPrefabName);
         Data.PlayerData playerData = Managers.Data.PlayerDic[2];
         pc.InitPlayer(playerData);
 
@@ -35,10 +36,10 @@ public class GameScene : BaseScene
         GameObject joystickObject = Managers.Resource.Instantiate("UI_Joystick");
         joystickObject.name = "@UI_Joystick";
 
-        StartCoroutine(SpawnMonsters());
+        StartCoroutine(SpawnMonsters(monsterPrefabName1, monsterPrefabName2));
     }
-    
-    private IEnumerator SpawnMonsters()
+
+    private IEnumerator SpawnMonsters(string monsterPrefabName1, string monsterPrefabName2)
     {
         while (true)
         {
@@ -48,23 +49,23 @@ public class GameScene : BaseScene
                 GameObject target = Managers.Resource.Load<GameObject>("Target");
                 target = Managers.Pool.Pop(target);
                 target.transform.position = randomPosition;
-            
+
                 yield return new WaitForSeconds(0.5f);
-            
+
                 Managers.Pool.Push(target);
-                MonsterController mc1 = Managers.Object.Spawn<MonsterController>(randomPosition, "Monster1");
+                MonsterController mc1 = Managers.Object.Spawn<MonsterController>(randomPosition, monsterPrefabName1);
                 Data.MonsterData monsterData = Managers.Data.MonsterDic[1];
                 mc1.InitMonster(monsterData);
-            
+
                 Vector3 randomPosition2 = GetRandomPositionOutsidePlayerRadius();
                 target = Managers.Resource.Load<GameObject>("Target");
                 target = Managers.Pool.Pop(target);
                 target.transform.position = randomPosition2;
-            
+
                 yield return new WaitForSeconds(0.5f);
-            
+
                 Managers.Pool.Push(target);
-                MonsterController mc2 = Managers.Object.Spawn<MonsterController>(randomPosition2, "Monster2");
+                MonsterController mc2 = Managers.Object.Spawn<MonsterController>(randomPosition2, monsterPrefabName2);
                 Data.MonsterData monster2Data = Managers.Data.MonsterDic[2];
                 mc2.InitMonster(monster2Data);
             }
@@ -72,7 +73,7 @@ public class GameScene : BaseScene
             yield return new WaitForSeconds(MONSTER_SPAWN_INTERVAL);
         }
     }
-    
+
     private Vector3 GetRandomPositionOutsidePlayerRadius()
     {
         Vector3 playerPosition = Managers.Object.Player.transform.position;
@@ -89,6 +90,5 @@ public class GameScene : BaseScene
 
     public override void Clear()
     {
-
     }
 }

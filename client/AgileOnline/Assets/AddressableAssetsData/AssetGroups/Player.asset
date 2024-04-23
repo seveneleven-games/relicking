@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Prefabs
+  m_Name: Player
   m_EditorClassIdentifier: 
-  m_GroupName: Prefabs
+  m_GroupName: Player
   m_Data:
     m_SerializedData: []
-  m_GUID: 6511bde4a3ae1b742afec3b528faf51c
+  m_GUID: 68d3d22b72f43e34f9f2b25ce55d0fcd
   m_SerializeEntries:
-  - m_GUID: 2cb7c44658433804ebe2d1327ad3cd72
-    m_Address: Target
+  - m_GUID: b18661ebec3634d4385e6b8c59897051
+    m_Address: Player1
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: b563387184d10a2449f428a4115f4340
-    m_Address: Gold
+  - m_GUID: 2abf0c7acdcb69a43a7898fcc1d9ee8d
+    m_Address: Player2
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
@@ -33,5 +33,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: 5172e12bf4a124f4e9826e7812874449, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 3fb5afa46d5843b438936e0d0fc1cb39, type: 2}
-    - {fileID: 11400000, guid: 808b89fbf51eae8438319e2568170b80, type: 2}
+    - {fileID: 11400000, guid: 0fa5a364fe9abb142abd52177099a654, type: 2}
+    - {fileID: 11400000, guid: c20c47facf572e94489a70d837d18b17, type: 2}

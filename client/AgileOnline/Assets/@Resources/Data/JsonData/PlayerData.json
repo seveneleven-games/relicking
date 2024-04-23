@@ -2,6 +2,7 @@
   "players": [
     {
       "PlayerId": 1,
+      "PrefabName": "Player1",
       "Name": "전근렬",
       "MaxHp": 50,
       "Atk": 10,
@@ -16,6 +17,7 @@
     },
     {
       "PlayerId": 2,
+      "PrefabName": "Player2",
       "Name": "농부",
       "MaxHp": 70,
       "Atk": 10,

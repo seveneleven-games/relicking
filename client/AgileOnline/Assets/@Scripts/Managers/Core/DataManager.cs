@@ -11,15 +11,15 @@ public interface ILoader<Key, Value>
 
 public class DataManager
 {
-    public Dictionary<int, Data.PlayerData> PlayerDic { get; private set; } = new Dictionary<int, Data.PlayerData>();
-    public Dictionary<int, Data.MonsterData> MonsterDic { get; private set; } = new Dictionary<int, Data.MonsterData>();
-    public Dictionary<int, Data.StageData> StageDic { get; private set; } = new Dictionary<int, StageData>();
+    public Dictionary<int, PlayerData> PlayerDic { get; private set; } = new Dictionary<int, PlayerData>();
+    public Dictionary<int, MonsterData> MonsterDic { get; private set; } = new Dictionary<int, MonsterData>();
+    public Dictionary<int, StageData> StageDic { get; private set; } = new Dictionary<int, StageData>();
 
     public void Init()
     {
-        PlayerDic = LoadJson<Data.PlayerDataLoader, int, Data.PlayerData>("PlayerData").MakeDict();
-        MonsterDic = LoadJson<Data.MonsterDataLoader, int, Data.MonsterData>("MonsterData").MakeDict();
-        StageDic = LoadJson<Data.StageDataLoader, int, Data.StageData>("StageData").MakeDict();
+        PlayerDic = LoadJson<PlayerDataLoader, int, PlayerData>("PlayerData").MakeDict();
+        MonsterDic = LoadJson<MonsterDataLoader, int, MonsterData>("MonsterData").MakeDict();
+        StageDic = LoadJson<StageDataLoader, int, StageData>("StageData").MakeDict();
     }
 
     private Loader LoadJson<Loader, Key, Value>(string path) where Loader : ILoader<Key, Value>

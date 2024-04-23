@@ -12,6 +12,7 @@ namespace Data
     public class PlayerData
     {
         public int PlayerId;
+        public string PrefabName;
         public string Name;
         public int MaxHp;
         public int Atk;
@@ -45,6 +46,7 @@ namespace Data
     public class MonsterData
     {
         public int MonsterId;
+        public string PrefabName;
         public string Name;
         public int MaxHp;
         public int Atk;
@@ -79,6 +81,7 @@ namespace Data
     public class StageData
     {
         public int StageId;
+        public string PrefabName;
         public string Name;
         public List<int> NormalMonsterList;
         public List<int> EliteMonsterList;
