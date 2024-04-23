@@ -9,6 +9,7 @@ public class MonsterController : CreatureController
     private PlayerController _player;
     
     public int MonsterId { get; private set; }
+    public string PrefabName { get; private set; }
     public string Name { get; protected set; }
     public int Atk { get; protected set; }
     public float DropGold { get; private set; }
@@ -32,6 +33,7 @@ public class MonsterController : CreatureController
     public void InitMonster(Data.MonsterData data)
     {
         MonsterId = data.MonsterId;
+        PrefabName = data.PrefabName;
         Name = data.Name;
         MaxHp = data.MaxHp;
         Hp = MaxHp;

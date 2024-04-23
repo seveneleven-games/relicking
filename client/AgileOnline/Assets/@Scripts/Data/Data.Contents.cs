@@ -83,9 +83,9 @@ namespace Data
         public int StageId;
         public string PrefabName;
         public string Name;
-        public List<int> NormalMonsterList;
-        public List<int> EliteMonsterList;
-        public List<int> BossMonsterList;
+        public List<string> NormalMonsterList;
+        public List<string> EliteMonsterList;
+        public List<string> BossMonsterList;
     }
     
     [Serializable]
