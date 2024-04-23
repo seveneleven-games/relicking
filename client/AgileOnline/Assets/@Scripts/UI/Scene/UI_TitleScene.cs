@@ -26,8 +26,7 @@ public class UI_TitleScene : UI_Scene
 
         GetObject((int)GameObjects.StartImage).BindEvent(() =>
         {
-            Debug.Log("ChangeScene");
-            Managers.Scene.LoadScene(EScene.GameScene);
+            Managers.Scene.LoadScene(EScene.LobbyScene);
         });
         
         GetObject((int)GameObjects.StartImage).gameObject.SetActive(false);

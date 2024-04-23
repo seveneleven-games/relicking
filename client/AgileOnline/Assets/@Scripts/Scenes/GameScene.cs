@@ -18,7 +18,7 @@ public class GameScene : BaseScene
         map.transform.position = Vector3.zero;
         map.name = "@BaseMap";
 
-        PlayerController pc = Managers.Object.Spawn<PlayerController>(Vector3.zero, Managers.Resource.Load<GameObject>("Player2"));
+        PlayerController pc = Managers.Object.Spawn<PlayerController>(Vector3.zero, "Player2");
         Data.PlayerData playerData = Managers.Data.PlayerDic[2];
         pc.InitPlayer(playerData);
 
@@ -47,7 +47,7 @@ public class GameScene : BaseScene
                 yield return new WaitForSeconds(0.5f);
             
                 Managers.Pool.Push(target);
-                MonsterController mc1 = Managers.Object.Spawn<MonsterController>(randomPosition, Managers.Resource.Load<GameObject>("Monster1"));
+                MonsterController mc1 = Managers.Object.Spawn<MonsterController>(randomPosition, "Monster1");
                 Data.MonsterData monsterData = Managers.Data.MonsterDic[1];
                 mc1.InitMonster(monsterData);
             
@@ -59,7 +59,7 @@ public class GameScene : BaseScene
                 yield return new WaitForSeconds(0.5f);
             
                 Managers.Pool.Push(target);
-                MonsterController mc2 = Managers.Object.Spawn<MonsterController>(randomPosition2, Managers.Resource.Load<GameObject>("Monster2"));
+                MonsterController mc2 = Managers.Object.Spawn<MonsterController>(randomPosition2, "Monster2");
                 Data.MonsterData monster2Data = Managers.Data.MonsterDic[2];
                 mc2.InitMonster(monster2Data);
             }

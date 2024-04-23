@@ -20,6 +20,8 @@ public abstract class BaseScene : InitBase
             go.AddComponent<EventSystem>();
             go.AddComponent<StandaloneInputModule>();
         }
+        
+        Debug.Log("Init start");
 
         return true;
     }

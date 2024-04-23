@@ -97,6 +97,8 @@ public class MonsterController : CreatureController
         if (_coDotDamage != null)
             StopCoroutine(_coDotDamage);
         _coDotDamage = null;
+
+        Managers.Object.Spawn<GoldController>(transform.position, "Gold");
         
         Managers.Object.Despawn(this);
     }

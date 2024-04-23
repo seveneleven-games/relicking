@@ -431,7 +431,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 20
   m_SortAtRoot: 0
 --- !u!95 &204709486630510279
 Animator:
@@ -528,7 +528,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b6c9ed4445e99f46974daadd7c8d8de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raycastDistance: 1
 --- !u!1 &1073211705962841662
 GameObject:
   m_ObjectHideFlags: 0

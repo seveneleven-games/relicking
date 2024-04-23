@@ -8,6 +8,7 @@ public static class Define
     {
         Unknown,
         TitleScene,
+        LobbyScene,
         GameScene,
     }
 

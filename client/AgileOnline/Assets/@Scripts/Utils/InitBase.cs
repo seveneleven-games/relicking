@@ -19,4 +19,14 @@ public class InitBase : MonoBehaviour
     {
         Init();
     }
+    
+    private void Update()
+    {
+        UpdateController();
+    }
+
+    public virtual void UpdateController()
+    {
+        
+    }
 }

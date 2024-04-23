@@ -7,6 +7,7 @@ public class ObjectManager
 {
     public PlayerController Player { get; set; }
     public HashSet<MonsterController> Monsters { get; } = new HashSet<MonsterController>();
+    public HashSet<GoldController> Golds { get; } = new HashSet<GoldController>();
 
     #region Roots
 
@@ -29,10 +30,16 @@ public class ObjectManager
         get { return GetRootTransform("@Monsters"); }
     }
 
+    public Transform GoldRoot
+    {
+        get { return GetRootTransform("@Golds"); }
+    }
+
     #endregion
 
-    public T Spawn<T>(Vector3 position, GameObject prefab) where T : BaseController
+    public T Spawn<T>(Vector3 position, string prefabName) where T : BaseController
     {
+        GameObject prefab = Managers.Resource.Load<GameObject>(prefabName);
         GameObject go = Managers.Pool.Pop(prefab);
         go.name = prefab.name;
         go.transform.position = position;
@@ -55,6 +62,14 @@ public class ObjectManager
                     break;
             }
         }
+        else if (obj.ObjectType == EObjectType.Env)
+        {
+            GoldController gc = go.GetComponent<GoldController>();
+            obj.transform.parent = GoldRoot;
+            CircleCollider2D cc2D = obj.GetComponent<CircleCollider2D>();
+            cc2D.isTrigger = true;
+            Golds.Add(gc);
+        }
         else if (obj.ObjectType == EObjectType.Projectile)
         {
             // TODO
@@ -65,8 +80,6 @@ public class ObjectManager
 
     public void Despawn<T>(T obj) where T : BaseController
     {
-        EObjectType objectType = obj.ObjectType;
-
         if (obj.ObjectType == EObjectType.Creature)
         {
             CreatureController cc = obj.GetComponent<CreatureController>();
@@ -76,10 +89,13 @@ public class ObjectManager
                     Player = null;
                     break;
                 case ECreatureType.Monster:
-                    MonsterController mc = cc as MonsterController;
-                    Monsters.Remove(mc);
+                    Monsters.Remove(cc as MonsterController);
                     break;
             }
+        }
+        else if (obj.ObjectType == EObjectType.Env)
+        {
+            Golds.Remove(obj as GoldController);
         }
         else if (obj.ObjectType == EObjectType.Projectile)
         {
