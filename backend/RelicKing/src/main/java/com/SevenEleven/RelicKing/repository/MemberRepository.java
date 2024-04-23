@@ -13,5 +13,9 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
 
 	@EntityGraph(attributePaths = "memberRelics")
 	@Query("select m from Member m where m.memberId = :memberId")
-	Optional<Member> selectOne(@Param("memberId") Integer memberId);
+	Optional<Member> memberWithMemberRelics(@Param("memberId") Integer memberId);
+
+	@EntityGraph(attributePaths = {"records"})
+	@Query("select m from Member m where m.memberId = :memberId")
+	Optional<Member> memberWithRecords(@Param("memberId") Integer memberId);
 }

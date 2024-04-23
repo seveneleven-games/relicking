@@ -19,29 +19,22 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class MemberRelic {
+public class RecordRelic {
+
 	@Id
-	@Column(name = "member_relic_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int memberRelicId;
+	private int recordRelicId;
 
 	@ManyToOne
-	@JoinColumn(name = "member_id", referencedColumnName = "member_id", nullable = false)
-	private Member member;
+	@JoinColumn(name = "record_id", referencedColumnName = "record_id", nullable = false)
+	private Record record;
 
-	@Builder.Default
 	@Column(nullable = false)
-	private int relicNo = 0;
+	private int relicNo;
 
-	@Builder.Default
 	@Column(nullable = false)
-	private int level = 1;
+	private int level;
 
-	@Builder.Default
 	@Column(nullable = false)
-	private int exp = 0;
-
-	@Builder.Default
-	@Column(nullable = false)
-	private int slot = 0;
+	private int slot;
 }
