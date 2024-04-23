@@ -6,50 +6,69 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.SevenEleven.RelicKing.entity.Member;
-import com.SevenEleven.RelicKing.entity.MemberRelic;
-import com.SevenEleven.RelicKing.repository.MemberRelicRepository;
+import com.SevenEleven.RelicKing.entity.Record;
 import com.SevenEleven.RelicKing.repository.MemberRepository;
+import com.SevenEleven.RelicKing.repository.RecordRepository;
 
 import lombok.extern.log4j.Log4j2;
 
 @SpringBootTest
 @Log4j2
-public class MemberRelicRepositoryTests {
+public class RecordRepositoryTests {
 
 	@Autowired
-	private MemberRelicRepository memberRelicRepository;
+	private RecordRepository recordRepository;
 
 	@Autowired
 	private MemberRepository memberRepository;
 
+
 	@Test
-	public void test1() {
-		Assertions.assertNotNull(memberRelicRepository);
+	public void Test1() {
+		Assertions.assertNotNull(recordRepository);
 		log.info("--------------------------------------------------------------");
-		log.info(memberRelicRepository.getClass().getName());
+		log.info(recordRepository.getClass().getName());
 		log.info("--------------------------------------------------------------");
 	}
 
 	@Test
 	public void insertTest() {
-		Member member = memberRepository.findById(1).orElseThrow();
-		for (int i = 12; i <= 12; i++ ) {
-			MemberRelic memberRelic = MemberRelic.builder()
-				.member(member)
-				.relicNo(i)
-				.slot(0)
-				.build();
 
-			memberRelicRepository.save(memberRelic);
-		}
+		Member member = memberRepository.findById(1).orElseThrow();
+
+		Record record = Record.builder()
+			.member(member)
+			.stage(1)
+			.difficulty(1)
+			.eliteKill(10)
+			.normalKill(200)
+			.classNo(1)
+			.build();
+
+		recordRepository.save(record);
 	}
 
 	@Test
 	public void readTest() {
-		MemberRelic memberRelic = memberRelicRepository.findById(1).orElseThrow();
+		Record record = recordRepository.findById(1).orElseThrow();
 
 		log.info("--------------------------------------------------------------");
-		log.info(memberRelic);
+		log.info(record);
 		log.info("--------------------------------------------------------------");
 	}
+
+	// @Test
+	// public void updateTest() {
+	// 	Record record = recordRepository.findById(1).orElseThrow();
+	//
+	// 	record.setStage(2);
+	// 	record.setDifficulty(2);
+	// 	record.setClassNo(2);
+	// 	record.setEliteKill(20);
+	// 	record.setNormalKill(250);
+	//
+	// 	recordRepository.save(record);
+	//
+	// }
+
 }

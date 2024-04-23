@@ -10,6 +10,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,7 +29,7 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = "memberRelics")
+@ToString(exclude = {"memberRelics", "records"})
 @EntityListeners(AuditingEntityListener.class)
 public class Member {
 
@@ -80,6 +81,9 @@ public class Member {
 	@NotNull
 	private boolean lockYn;
 
-	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<MemberRelic> memberRelics;
+
+	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private List<Record> records;
 }

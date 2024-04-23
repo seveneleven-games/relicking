@@ -1,7 +1,13 @@
 package com.SevenEleven.RelicKing.entity;
 
+import java.time.LocalDate;
+
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,29 +25,34 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class MemberRelic {
+@EntityListeners(AuditingEntityListener.class)
+public class Record {
 	@Id
-	@Column(name = "member_relic_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int memberRelicId;
+	private int recordId;
 
 	@ManyToOne
 	@JoinColumn(name = "member_id", referencedColumnName = "member_id", nullable = false)
 	private Member member;
 
-	@Builder.Default
 	@Column(nullable = false)
-	private int relicNo = 0;
+	private int stage;
 
-	@Builder.Default
 	@Column(nullable = false)
-	private int level = 1;
+	private int difficulty;
 
-	@Builder.Default
 	@Column(nullable = false)
-	private int exp = 0;
+	private int eliteKill;
 
-	@Builder.Default
 	@Column(nullable = false)
-	private int slot = 0;
+	private int normalKill;
+
+	@Column(nullable = false)
+	private int classNo;
+
+	@LastModifiedDate
+	@Column(nullable = false)
+	@Builder.Default
+	private LocalDate updatedDate = LocalDate.now();
+
 }
