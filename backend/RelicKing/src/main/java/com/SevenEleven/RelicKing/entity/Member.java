@@ -2,40 +2,75 @@ package com.SevenEleven.RelicKing.entity;
 
 import java.time.LocalDate;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Member {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int memberId;
 
-	@Column(unique = true, length = 255)
+	@Column(unique = true)
+	@NotNull
+	@Email
+	@Size(min = 3, max = 255)
 	private String email;
 
-	@Column(unique = true, length = 12)
+	@Column(unique = true)
+	@NotNull
+	@Size(max = 12)
 	private String nickname;
 
+	@NotNull
 	private String password;
 
-	private int gacha;
+	@Builder.Default
+	@NotNull
+	private int gacha = 0;
 
-	private int current_class_no;
+	@Builder.Default
+	@NotNull
+	private int currentClassNo = 0;
 
-	private int cumulative_lock_time;
+	@Builder.Default
+	@NotNull
+	private int cumulativeLockTime = 0;
 
-	private int continuous_lock_date;
+	@Builder.Default
+	@NotNull
+	private int continuousLockDate = 0;
 
-	private LocalDate last_lock_date;
+	private LocalDate lastLockDate;
 
-	private boolean withdrawal_yn;
+	@NotNull
+	private boolean withdrawalYn;
 
-	private LocalDate created_date;
+	@CreatedDate
+	@Column(updatable = false)
+	@NotNull
+	private LocalDate createdDate;
 
-	private boolean lock_yn;
+	@NotNull
+	private boolean lockYn;
 }
