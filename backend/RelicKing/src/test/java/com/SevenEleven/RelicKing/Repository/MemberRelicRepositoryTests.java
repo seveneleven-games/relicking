@@ -1,65 +1,59 @@
 package com.SevenEleven.RelicKing.Repository;
 
-import java.util.Optional;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Commit;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.SevenEleven.RelicKing.entity.Member;
+import com.SevenEleven.RelicKing.entity.MemberRelic;
+import com.SevenEleven.RelicKing.repository.MemberRelicRepository;
 import com.SevenEleven.RelicKing.repository.MemberRepository;
 
 import lombok.extern.log4j.Log4j2;
 
 @SpringBootTest
 @Log4j2
-public class MemberRepositoryTests {
+public class MemberRelicRepositoryTests {
+
+	@Autowired
+	private MemberRelicRepository memberRelicRepository;
 
 	@Autowired
 	private MemberRepository memberRepository;
 
 	@Test
 	public void test1() {
-		Assertions.assertNotNull(memberRepository);
+		Assertions.assertNotNull(memberRelicRepository);
 		log.info("--------------------------------------------------------------");
-		log.info(memberRepository.getClass().getName());
+		log.info(memberRelicRepository.getClass().getName());
 		log.info("--------------------------------------------------------------");
 	}
 
 	@Test
 	public void insertTest() {
-		Member member = Member.builder()
-			.email("test@test.com")
-			.nickname("test")
-			.password("1234")
-			.build();
+		Member member = memberRepository.findById(1).orElseThrow();
+		for (int i = 1; i <= 6; i++ ) {
+			MemberRelic memberRelic = MemberRelic.builder()
+				.member(member)
+				.relicNo(i)
+				.slot(i)
+				.build();
 
-		Member result = memberRepository.save(member);
+			MemberRelic result = memberRelicRepository.save(memberRelic);
 
-		log.info("--------------------------------------------------------------");
-		log.info(result);
-		log.info("--------------------------------------------------------------");
+			log.info("--------------------------------------------------------------");
+			log.info(result);
+			log.info("--------------------------------------------------------------");
+		}
 	}
 
 	@Test
 	public void readTest() {
-
-		Optional<Member> result = memberRepository.selectOne(1);
-		Member member = result.orElseThrow();
+		MemberRelic memberRelic = memberRelicRepository.findById(1).orElseThrow();
 
 		log.info("--------------------------------------------------------------");
-		log.info(member);
+		log.info(memberRelic);
 		log.info("--------------------------------------------------------------");
-
-	}
-
-	@Test
-	@Commit
-	@Transactional
-	public void deleteTest() {
-		memberRepository.deleteById(9);
 	}
 }
