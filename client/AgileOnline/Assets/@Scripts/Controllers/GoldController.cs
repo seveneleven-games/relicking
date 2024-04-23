@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GoldController : BaseController
 {
+    public int GoldValue { get; private set; }
+    
     public override bool Init()
     {
         if (base.Init() == false)
@@ -12,5 +14,10 @@ public class GoldController : BaseController
         ObjectType = Define.EObjectType.Env;
 
         return true;
+    }
+    
+    public void InitGold(Data.MonsterData data)
+    {
+        GoldValue = data.DropGold;
     }
 }

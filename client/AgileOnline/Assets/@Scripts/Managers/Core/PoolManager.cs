@@ -13,12 +13,6 @@ internal class Pool
     {
         get
         {
-            if (_root == null)
-            {
-                GameObject go = new GameObject() { name = $"@{_prefab.name}Pool" };
-                _root = go.transform;
-            }
-
             return _root;
         }
     }

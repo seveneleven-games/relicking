@@ -11,11 +11,11 @@ public class PlayerController : CreatureController
     public int PlayerId { get; private set; }
     public string Name { get; protected set; }
     public int Atk { get; protected set; }
-    public float DropGold { get; private set; }
     public float CritRate { get; protected set; }
     public float CritDmgRate { get; protected set; }
     public float CoolDown { get; protected set; }
     public List<int> SkillList { get; protected set; }
+    public int PlayerGold { get; protected set; }
     
     public override bool Init()
     {
@@ -42,7 +42,6 @@ public class PlayerController : CreatureController
         Hp = MaxHp;
         Atk = data.Atk;
         Speed = data.Speed;
-        DropGold = data.DropGold;
         CritRate = data.CritRate;
         CritDmgRate = data.CritDmgRate;
         CoolDown = data.CoolDown;
@@ -81,6 +80,22 @@ public class PlayerController : CreatureController
         MonsterController target = collision.gameObject.GetComponent<MonsterController>();
         if (target == null)
             return;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Gold"))
+        {
+            GoldController gc = collision.GetComponent<GoldController>();
+
+            int goldValue = gc.GoldValue;
+
+            PlayerGold += goldValue;
+            
+            Destroy(collision.gameObject);
+
+            Debug.Log($"획득한 골드: {goldValue}, 현재 골드 량: {PlayerGold}");
+        }
     }
 
     public override void OnDamaged(BaseController attacker, int damage)

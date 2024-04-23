@@ -16,7 +16,6 @@ namespace Data
         public int MaxHp;
         public int Atk;
         public float Speed;
-        public float DropGold;
         public float CritRate;
         public float CritDmgRate;
         public float CoolDown;
@@ -50,7 +49,7 @@ namespace Data
         public int MaxHp;
         public int Atk;
         public float Speed;
-        public float DropGold;
+        public int DropGold;
         public float CritRate;
         public float CritDmgRate;
         public float CoolDown;

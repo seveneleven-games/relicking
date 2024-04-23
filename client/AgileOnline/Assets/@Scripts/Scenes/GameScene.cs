@@ -13,7 +13,14 @@ public class GameScene : BaseScene
             return false;
 
         SceneType = EScene.GameScene;
-
+        
+        StartGame();
+        
+        return true;
+    }
+    
+    public void StartGame()
+    {
         GameObject map = Managers.Resource.Instantiate("BaseMap");
         map.transform.position = Vector3.zero;
         map.name = "@BaseMap";
@@ -24,13 +31,11 @@ public class GameScene : BaseScene
 
         CameraController camera = Camera.main.GetOrAddComponent<CameraController>();
         camera.Target = pc;
-        
+
         GameObject joystickObject = Managers.Resource.Instantiate("UI_Joystick");
         joystickObject.name = "@UI_Joystick";
 
         StartCoroutine(SpawnMonsters());
-        
-        return true;
     }
     
     private IEnumerator SpawnMonsters()

@@ -98,8 +98,10 @@ public class MonsterController : CreatureController
             StopCoroutine(_coDotDamage);
         _coDotDamage = null;
 
-        Managers.Object.Spawn<GoldController>(transform.position, "Gold");
-        
+        GoldController gc = Managers.Object.Spawn<GoldController>(transform.position, "Gold");
+        Data.MonsterData monsterData = Managers.Data.MonsterDic[1];
+        gc.InitGold(monsterData);
+
         Managers.Object.Despawn(this);
     }
 }

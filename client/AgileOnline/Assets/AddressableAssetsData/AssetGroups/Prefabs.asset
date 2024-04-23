@@ -41,7 +41,7 @@ MonoBehaviour:
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c95cd2f287d0e4a46b642b5c1971b4ab
+  - m_GUID: 6c32206e71c32374cb10c06e46efb5a7
     m_Address: Monster2
     m_ReadOnly: 0
     m_SerializedLabels:
@@ -55,6 +55,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b563387184d10a2449f428a4115f4340
     m_Address: Gold
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2d470e11b44912f4aa4ef6335fd7f3a2
+    m_Address: Monster3
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
