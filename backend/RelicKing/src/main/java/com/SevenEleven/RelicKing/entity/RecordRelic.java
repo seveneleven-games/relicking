@@ -1,34 +1,20 @@
 package com.SevenEleven.RelicKing.entity;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Entity
+@Embeddable
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
 public class RecordRelic {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int recordRelicId;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "record_id", referencedColumnName = "record_id", nullable = false)
-	private Record record;
 
 	@Column(nullable = false)
 	private int relicNo;

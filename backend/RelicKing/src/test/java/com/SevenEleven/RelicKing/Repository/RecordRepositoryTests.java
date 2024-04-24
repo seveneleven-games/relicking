@@ -36,14 +36,25 @@ public class RecordRepositoryTests {
 
 		Member member = memberRepository.findById(1).orElseThrow();
 
+		int stage = 2;
+		int difficulty = 3;
+
 		Record record = Record.builder()
 			.member(member)
-			.stage(1)
-			.difficulty(1)
+			.stage(stage)
+			.difficulty(difficulty)
 			.eliteKill(10)
 			.normalKill(200)
 			.classNo(1)
 			.build();
+
+		for (int i = 1; i <= 6; i++) {
+			record.addRecordRelic(i, 10, i);
+		}
+
+		for (int i = 1; i <= 6; i++) {
+			record.addRecordSkill(i, 10, i);
+		}
 
 		recordRepository.save(record);
 	}
@@ -57,18 +68,10 @@ public class RecordRepositoryTests {
 		log.info("--------------------------------------------------------------");
 	}
 
-	// @Test
-	// public void updateTest() {
-	// 	Record record = recordRepository.findById(1).orElseThrow();
-	//
-	// 	record.setStage(2);
-	// 	record.setDifficulty(2);
-	// 	record.setClassNo(2);
-	// 	record.setEliteKill(20);
-	// 	record.setNormalKill(250);
-	//
-	// 	recordRepository.save(record);
-	//
-	// }
+	@Test
+	public void deleteTest() {
+		int id = 1;
+		recordRepository.deleteById(id);
+	}
 
 }

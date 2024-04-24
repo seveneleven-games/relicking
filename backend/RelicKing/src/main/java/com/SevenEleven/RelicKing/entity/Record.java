@@ -1,13 +1,15 @@
 package com.SevenEleven.RelicKing.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
@@ -16,7 +18,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,7 +36,7 @@ public class Record {
 	@Id
 	@Column(name = "record_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int recordId;
+	private int id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id", referencedColumnName = "member_id", nullable = false)
@@ -61,10 +62,37 @@ public class Record {
 	@Builder.Default
 	private LocalDate updatedDate = LocalDate.now();
 
-	@OneToMany(mappedBy = "record", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<RecordRelic> recordRelics;
+	@ElementCollection
+	@CollectionTable(name = "record_relic", joinColumns = @JoinColumn(name = "record_id"))
+	@Builder.Default
+	private List<RecordRelic> recordRelics = new ArrayList<>(6);
 
-	@OneToMany(mappedBy = "record", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<RecordSkill> recordSkills;
+	@ElementCollection
+	@CollectionTable(name = "record_skill", joinColumns = @JoinColumn(name = "record_id"))
+	@Builder.Default
+	private List<RecordSkill> recordSkills = new ArrayList<>(6);
 
+	public void addRecordRelic(int relicNo, int level, int slot) {
+
+		RecordRelic recordRelic = RecordRelic.builder()
+			.relicNo(relicNo)
+			.level(level)
+			.slot(slot)
+			.build();
+
+		recordRelics.add(recordRelic);
+
+	}
+
+	public void addRecordSkill(int skillNo, int level, int slot) {
+
+		RecordSkill recordSkill = RecordSkill.builder()
+			.skillNo(skillNo)
+			.level(level)
+			.slot(slot)
+			.build();
+
+		recordSkills.add(recordSkill);
+
+	}
 }
