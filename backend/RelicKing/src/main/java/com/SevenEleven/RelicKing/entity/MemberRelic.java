@@ -1,5 +1,7 @@
 package com.SevenEleven.RelicKing.entity;
 
+import com.SevenEleven.RelicKing.dto.model.MemberRelicDTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -45,4 +47,13 @@ public class MemberRelic {
 	@Builder.Default
 	@Column(nullable = false)
 	private int slot = 0;
+
+	public static MemberRelicDTO entityToDTO(MemberRelic memberRelic) {
+		return MemberRelicDTO.builder()
+			.relicNo(memberRelic.getRelicNo())
+			.level(memberRelic.getLevel())
+			.exp(memberRelic.getExp())
+			.slot(memberRelic.getSlot())
+			.build();
+	}
 }

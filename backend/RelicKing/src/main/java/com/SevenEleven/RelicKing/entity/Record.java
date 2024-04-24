@@ -36,7 +36,7 @@ public class Record {
 	@Id
 	@Column(name = "record_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private int recordId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id", referencedColumnName = "member_id", nullable = false)
@@ -62,12 +62,12 @@ public class Record {
 	@Builder.Default
 	private LocalDate updatedDate = LocalDate.now();
 
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "record_relic", joinColumns = @JoinColumn(name = "record_id"))
 	@Builder.Default
 	private List<RecordRelic> recordRelics = new ArrayList<>(6);
 
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "record_skill", joinColumns = @JoinColumn(name = "record_id"))
 	@Builder.Default
 	private List<RecordSkill> recordSkills = new ArrayList<>(6);
