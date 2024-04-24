@@ -1,0 +1,18 @@
+{
+  "stages": [
+    {
+      "StageId": 1,
+      "PrefabName": "Map1",
+      "Name": "firstStage",
+      "NormalMonsterList": [
+        1
+      ],
+      "EliteMonsterList": [
+        2
+      ],
+      "BossMonsterList": [
+        3
+      ]
+    }
+  ]
+}
