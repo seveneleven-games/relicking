@@ -9,11 +9,7 @@
       "Speed": 3.0,
       "CritRate": 1.0,
       "CritDmgRate": 2.0,
-      "CoolDown": 1.0,
-      "SkillList": [
-        0,
-        1
-      ]
+      "CoolDown": 1.0
     },
     {
       "PlayerId": 2,
@@ -24,11 +20,7 @@
       "Speed": 5.0,
       "CritRate": 1.0,
       "CritDmgRate": 2.0,
-      "CoolDown": 1.0,
-      "SkillList": [
-        0,
-        1
-      ]
+      "CoolDown": 1.0
     }
   ]
 }

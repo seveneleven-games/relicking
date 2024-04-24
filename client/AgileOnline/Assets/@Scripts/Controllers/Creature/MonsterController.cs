@@ -10,13 +10,13 @@ public class MonsterController : CreatureController
     
     public int MonsterId { get; private set; }
     public string PrefabName { get; private set; }
-    public string Name { get; protected set; }
-    public int Atk { get; protected set; }
+    public int MonsterType { get; private set; }
+    public string Name { get; private set; }
+    public int Atk { get; private set; }
     public float DropGold { get; private set; }
-    public float CritRate { get; protected set; }
-    public float CritDmgRate { get; protected set; }
-    public float CoolDown { get; protected set; }
-    public List<int> SkillList { get; protected set; }
+    public float CritRate { get; private set; }
+    public float CritDmgRate { get; private set; }
+    public float CoolDown { get; private set; }
 
     public override bool Init()
     {
@@ -34,6 +34,7 @@ public class MonsterController : CreatureController
     {
         MonsterId = data.MonsterId;
         PrefabName = data.PrefabName;
+        MonsterType = data.MonsterType;
         Name = data.Name;
         MaxHp = data.MaxHp;
         Hp = MaxHp;
@@ -43,7 +44,6 @@ public class MonsterController : CreatureController
         CritRate = data.CritRate;
         CritDmgRate = data.CritDmgRate;
         CoolDown = data.CoolDown;
-        SkillList = data.SkillList;
     }
 
     private void Start()
@@ -73,13 +73,27 @@ public class MonsterController : CreatureController
     private void OnCollisionEnter2D(Collision2D collision)
     {
         PlayerController target = collision.gameObject.GetComponent<PlayerController>();
-        if (target == null)
+        if (target.IsValid() == false)
+            return;
+        if (this.IsValid() == false)
             return;
         
         if (_coDotDamage != null)
             StopCoroutine(_coDotDamage);
 
         _coDotDamage = StartCoroutine(CoStartDotDamage(target));
+    }
+
+    public void OnCollisionExit2D(Collision2D collision)
+    {
+        PlayerController target = collision.gameObject.GetComponent<PlayerController>();
+        if (target.IsValid() == false)
+            return;
+        if (this.IsValid() == false)
+            return;
+        if (_coDotDamage != null)
+            StopCoroutine(_coDotDamage);
+        _coDotDamage = null;
     }
 
     private Coroutine _coDotDamage;

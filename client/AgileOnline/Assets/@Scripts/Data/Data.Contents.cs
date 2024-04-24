@@ -20,7 +20,6 @@ namespace Data
         public float CritRate;
         public float CritDmgRate;
         public float CoolDown;
-        public List<int> SkillList;
     }
 
     [Serializable]
@@ -47,6 +46,7 @@ namespace Data
     {
         public int MonsterId;
         public string PrefabName;
+        public int MonsterType;
         public string Name;
         public int MaxHp;
         public int Atk;
@@ -55,7 +55,6 @@ namespace Data
         public float CritRate;
         public float CritDmgRate;
         public float CoolDown;
-        public List<int> SkillList;
     }
     
     [Serializable]
@@ -83,9 +82,9 @@ namespace Data
         public int StageId;
         public string PrefabName;
         public string Name;
-        public List<string> NormalMonsterList;
-        public List<string> EliteMonsterList;
-        public List<string> BossMonsterList;
+        public List<int> NormalMonsterList;
+        public List<int> EliteMonsterList;
+        public List<int> BossMonsterList;
     }
     
     [Serializable]
@@ -98,6 +97,41 @@ namespace Data
             Dictionary<int, StageData> dict = new Dictionary<int, StageData>();
             foreach (StageData stage in stages)
                 dict.Add(stage.StageId, stage);
+
+            return dict;
+        }
+    }
+
+    #endregion
+    
+    #region SkillData
+
+    [Serializable]
+    public class SkillData
+    {
+        public int SkillId;
+        public int NextId;
+        public string SkillType;
+        public string PrefabName;
+        public string Name;
+        public string Description;
+        public string IconName; 
+        public float CoolTime;
+        public int Damage;
+        public float LifeTime;
+        public float Speed;
+    }
+    
+    [Serializable]
+    public class SkillDataLoader : ILoader<int, SkillData>
+    {
+        public List<SkillData> skills = new List<SkillData>();
+
+        public Dictionary<int, SkillData> MakeDict()
+        {
+            Dictionary<int, SkillData> dict = new Dictionary<int, SkillData>();
+            foreach (SkillData skill in skills)
+                dict.Add(skill.SkillId, skill);
 
             return dict;
         }

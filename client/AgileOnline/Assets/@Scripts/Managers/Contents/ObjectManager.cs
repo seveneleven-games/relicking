@@ -8,7 +8,8 @@ public class ObjectManager
     public PlayerController Player { get; set; }
     public HashSet<MonsterController> Monsters { get; } = new HashSet<MonsterController>();
     public HashSet<GoldController> Golds { get; } = new HashSet<GoldController>();
-
+    public HashSet<ProjectileController> Projectiles { get; } = new HashSet<ProjectileController>();
+    
     #region Roots
 
     public Transform GetRootTransform(string name)
@@ -33,6 +34,11 @@ public class ObjectManager
     public Transform GoldRoot
     {
         get { return GetRootTransform("@Golds"); }
+    }
+
+    public Transform ProjectileRoot
+    {
+        get { return GetRootTransform("@Projectiles"); }
     }
 
     #endregion
@@ -72,7 +78,11 @@ public class ObjectManager
         }
         else if (obj.ObjectType == EObjectType.Projectile)
         {
-            // TODO
+            ProjectileController pc = go.GetComponent<ProjectileController>();
+            obj.transform.parent = ProjectileRoot;
+            CircleCollider2D cc2D = obj.GetComponent<CircleCollider2D>();
+            cc2D.isTrigger = true;
+            Projectiles.Add(pc);
         }
         
         return obj as T;
@@ -80,6 +90,7 @@ public class ObjectManager
 
     public void Despawn<T>(T obj) where T : BaseController
     {
+        
         if (obj.ObjectType == EObjectType.Creature)
         {
             CreatureController cc = obj.GetComponent<CreatureController>();
@@ -99,7 +110,7 @@ public class ObjectManager
         }
         else if (obj.ObjectType == EObjectType.Projectile)
         {
-            // TODO
+            Projectiles.Remove(obj as ProjectileController);
         }
         
         Managers.Pool.Push(obj.gameObject);

@@ -50,8 +50,14 @@ public static class Define
         None = 0,
         Idle = 1,
         Move = 2,
-        Dead = 3,
-        Skill = 4
+        Dead = 3
+    }
+
+    public enum ESkillType
+    {
+        Projectile,
+        Melee,
+        Field
     }
 
     public enum EJoystickState
@@ -60,6 +66,7 @@ public static class Define
         PointerUp,
         Drag
     }
+    
 }
 
 
