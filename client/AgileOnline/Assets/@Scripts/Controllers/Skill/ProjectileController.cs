@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class ProjectileController : SkillController
 {
-    private CreatureController _owner;
     private Vector3 _moveDir;
     
     public int SkillId { get; private set; }

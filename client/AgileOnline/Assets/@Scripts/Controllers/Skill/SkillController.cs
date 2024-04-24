@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SkillController : BaseController
 {
+    private CreatureController _owner;
 
     #region Destroy
 
