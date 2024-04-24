@@ -17,8 +17,8 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: bc4bf56497c9f9a4ea1fe705cb88f0e9
   m_SerializeEntries:
-  - m_GUID: d03903a81a4af694ea55c4300363e343
-    m_Address: SpellBook01_26.sprite
+  - m_GUID: 08873635774523b4fa4a57bc14caaaf9
+    m_Address: EnergyBall_icon.sprite
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad

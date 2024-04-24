@@ -5,14 +5,13 @@
       "PrefabName": "Map1",
       "Name": "firstStage",
       "NormalMonsterList": [
-        "Monster1"
+        1
       ],
       "EliteMonsterList": [
-        "Monster1",
-        "Monster2"
+        2
       ],
       "BossMonsterList": [
-        "Monster3"
+        3
       ]
     }
   ]
