@@ -36,8 +36,8 @@ public class RecordRepositoryTests {
 
 		Member member = memberRepository.findById(1).orElseThrow();
 
-		int stage = 2;
-		int difficulty = 3;
+		int stage = 3;
+		int difficulty = 7;
 
 		Record record = Record.builder()
 			.member(member)
