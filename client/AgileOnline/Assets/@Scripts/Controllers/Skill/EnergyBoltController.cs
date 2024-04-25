@@ -1,13 +1,14 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileController : SkillController
+public class EnergyBoltController : SkillController
 {
     private CreatureController _owner;
     private Vector3 _moveDir;
     
     public int SkillId { get; private set; }
     public int NextId { get; private set; }
-    public string SkillType { get; private set; }
     public string PrefabName { get; private set; }
     public string Name { get; private set; }
     public string Description { get; private set; }
@@ -20,7 +21,7 @@ public class ProjectileController : SkillController
     public override bool Init()
     {
         base.Init();
-        ObjectType = Define.EObjectType.Projectile;
+        ObjectType = Define.EObjectType.EnergyBolt;
         
         StartDestroy(LifeTime);
 
@@ -31,7 +32,6 @@ public class ProjectileController : SkillController
     {
         SkillId = data.SkillId;
         NextId = data.NextId;
-        SkillType = data.SkillType;
         PrefabName = data.PrefabName;
         Name = data.Name;
         Description = data.Description;

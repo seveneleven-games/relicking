@@ -34,7 +34,7 @@ public static class Define
     {
         None,
         Creature,
-        Projectile,
+        EnergyBolt,
         Env,
     }
 

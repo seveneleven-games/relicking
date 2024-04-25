@@ -8,7 +8,7 @@ public class ObjectManager
     public PlayerController Player { get; set; }
     public HashSet<MonsterController> Monsters { get; } = new HashSet<MonsterController>();
     public HashSet<GoldController> Golds { get; } = new HashSet<GoldController>();
-    public HashSet<ProjectileController> Projectiles { get; } = new HashSet<ProjectileController>();
+    public HashSet<EnergyBoltController> EnergyBolts { get; } = new HashSet<EnergyBoltController>();
     
     #region Roots
 
@@ -36,9 +36,9 @@ public class ObjectManager
         get { return GetRootTransform("@Golds"); }
     }
 
-    public Transform ProjectileRoot
+    public Transform EnergyBoltRoot
     {
-        get { return GetRootTransform("@Projectiles"); }
+        get { return GetRootTransform("@EnergyBolt"); }
     }
 
     #endregion
@@ -76,13 +76,13 @@ public class ObjectManager
             cc2D.isTrigger = true;
             Golds.Add(gc);
         }
-        else if (obj.ObjectType == EObjectType.Projectile)
+        else if (obj.ObjectType == EObjectType.EnergyBolt)
         {
-            ProjectileController pc = go.GetComponent<ProjectileController>();
-            obj.transform.parent = ProjectileRoot;
+            EnergyBoltController ec = go.GetComponent<EnergyBoltController>();
+            obj.transform.parent = EnergyBoltRoot;
             CircleCollider2D cc2D = obj.GetComponent<CircleCollider2D>();
             cc2D.isTrigger = true;
-            Projectiles.Add(pc);
+            EnergyBolts.Add(ec);
         }
         
         return obj as T;
@@ -108,9 +108,9 @@ public class ObjectManager
         {
             Golds.Remove(obj as GoldController);
         }
-        else if (obj.ObjectType == EObjectType.Projectile)
+        else if (obj.ObjectType == EObjectType.EnergyBolt)
         {
-            Projectiles.Remove(obj as ProjectileController);
+            EnergyBolts.Remove(obj as EnergyBoltController);
         }
         
         Managers.Pool.Push(obj.gameObject);
