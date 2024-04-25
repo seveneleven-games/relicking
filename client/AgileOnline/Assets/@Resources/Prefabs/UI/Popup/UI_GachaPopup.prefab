@@ -755,7 +755,7 @@ GameObject:
   - component: {fileID: 7065937867105520460}
   - component: {fileID: 479779754332474644}
   m_Layer: 0
-  m_Name: GachaText
+  m_Name: GachaTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2240,7 +2240,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7213386359012632296}
   m_Layer: 0
-  m_Name: GachaTextObject
+  m_Name: GachaTitleObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
