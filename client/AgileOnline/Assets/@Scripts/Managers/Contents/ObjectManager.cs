@@ -5,6 +5,7 @@ using static Define;
 
 public class ObjectManager
 {
+    // 추적 필요한 것만.
     public PlayerController Player { get; set; }
     public HashSet<MonsterController> Monsters { get; } = new HashSet<MonsterController>();
     public HashSet<GoldController> Golds { get; } = new HashSet<GoldController>();

@@ -10,6 +10,7 @@ public static class Define
         TitleScene,
         LobbyScene,
         GameScene,
+        LobbyScene,
     }
 
     public enum EUIEvent
