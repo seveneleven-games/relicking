@@ -138,4 +138,32 @@ namespace Data
     }
 
     #endregion
+
+    #region GoldData
+
+    [Serializable]
+    public class GoldData
+    {
+        public int GoldId;
+        public string PrefabName;
+        public string Name;
+        public int DropGold;
+    }
+    
+    [Serializable]
+    public class GoldDataLoader : ILoader<int, GoldData>
+    {
+        public List<GoldData> golds = new List<GoldData>();
+
+        public Dictionary<int, GoldData> MakeDict()
+        {
+            Dictionary<int, GoldData> dict = new Dictionary<int, GoldData>();
+            foreach (GoldData gold in golds)
+                dict.Add(gold.GoldId, gold);
+
+            return dict;
+        }
+    }
+
+    #endregion
 }

@@ -1,9 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Define;
 
 public class SkillController : BaseController
 {
+    public ESkillType SkillType { get; protected set; } = ESkillType.None;
+    
+    public override bool Init()
+    {
+        if (base.Init() == false)
+            return false;
+
+        ObjectType = EObjectType.Skill;
+        return true;
+    }
+    
     #region Destroy
 
     private Coroutine _coDestroy;

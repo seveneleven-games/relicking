@@ -30,7 +30,7 @@ public class PlayerController : CreatureController
         if (base.Init() == false)
             return false;
 
-        CreatureType = ECreatureType.Player;
+        ObjectType = EObjectType.Player;
         CreatureState = ECreatureState.Idle;
 
         Managers.Game.OnMoveDirChanged -= HandleOnMoveDirChanged;
@@ -39,9 +39,9 @@ public class PlayerController : CreatureController
         Managers.Game.OnJoystickStateChanged += HandleOnJoystickStateChanged;
         
         PlayerSkillList = new List<int>(new int[6]);
-        PlayerSkillList = new List<int>(new int[6]);
+        PlayerRelicList = new List<int>(new int[6]);
 
-        AddSkill(1, 0);
+        AddSkill(2, 0);
 
         // 보는 방향 정해주는 더미 오브젝트
         GameObject indicatorObject = new GameObject("Indicator");
@@ -50,14 +50,16 @@ public class PlayerController : CreatureController
         indicatorObject.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         _indicator = indicatorObject.transform;
         
-        StartSkills();
+        StartSkills();  
 
         return true;
     }
 
     // TODO: InitPlayer시 RelicList도 같이 받아야함
-    public void InitPlayer(PlayerData data)
+    public void InitPlayer(int templateId)
     {
+        PlayerData data = Managers.Data.PlayerDic[templateId];
+
         PlayerId = data.PlayerId;
         Name = data.Name;
         MaxHp = data.MaxHp;
@@ -67,6 +69,9 @@ public class PlayerController : CreatureController
         CritRate = data.CritRate;
         CritDmgRate = data.CritDmgRate;
         CoolDown = data.CoolDown;
+        
+        PlayerSkillList = new List<int>(new int[6]);
+        PlayerRelicList = new List<int>(new int[6]);
     }
 
     private void Update()
@@ -174,19 +179,16 @@ public class PlayerController : CreatureController
     IEnumerator CoStartSkill(int skillId)
     {
         SkillData skillData = Managers.Data.SkillDic[skillId];
-        WaitForSeconds wait = new WaitForSeconds(skillData.CoolTime);
+        WaitForSeconds coolTimeWait = new WaitForSeconds(skillData.CoolTime);
 
         while (true)
         {
-            string skillDataPrefabName = skillData.PrefabName;
-            EnergyBoltController ec = Managers.Object.Spawn<EnergyBoltController>(transform.position, skillDataPrefabName);
-            SkillData energyBoltData = Managers.Data.SkillDic[skillId];
-            ec.InitSkill(energyBoltData);
-
+            yield return coolTimeWait;
+            
+            EnergyBoltController ec = Managers.Object.Spawn<EnergyBoltController>(transform.position, skillId);
             Vector3 moveDirection = _indicator.up;
             ec.SetMoveDirection(moveDirection);
-
-            yield return wait;
+            ec.SetInfo(skillId);
         }
     }
 

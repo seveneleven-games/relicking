@@ -44,76 +44,75 @@ public class ObjectManager
 
     #endregion
 
-    public T Spawn<T>(Vector3 position, string prefabName) where T : BaseController
+    public T Spawn<T>(Vector3 position, int templateId) where T : BaseController
     {
-        GameObject prefab = Managers.Resource.Load<GameObject>(prefabName);
-        GameObject go = Managers.Pool.Pop(prefab);
-        go.name = prefab.name;
-        go.transform.position = position;
+        string dataType = typeof(T).Name.Replace("Controller", "Data");
 
+        string prefabName = Managers.Data.GetData<T>(dataType, templateId);
+        
+        GameObject go = Managers.Resource.Instantiate(prefabName);
+        go.name = prefabName;
+        go.transform.position = position;
+        
         BaseController obj = go.GetComponent<BaseController>();
         
-        if (obj.ObjectType == EObjectType.Creature)
+        if (obj.ObjectType == EObjectType.Player)
         {
-            CreatureController cc = go.GetComponent<CreatureController>();
-            switch (cc.CreatureType)
-            {
-                case ECreatureType.Player:
-                    obj.transform.parent = PlayerRoot;
-                    Player = cc as PlayerController;
-                    break;
-                case ECreatureType.Monster:
-                    obj.transform.parent = MonsterRoot;
-                    MonsterController mc = cc as MonsterController;
-                    Monsters.Add(mc);
-                    break;
-            }
+            obj.transform.parent = PlayerRoot;
+            PlayerController pc = go.GetComponent<PlayerController>();
+            Player = pc;
+            pc.InitPlayer(templateId);
         }
-        else if (obj.ObjectType == EObjectType.Env)
+        else if (obj.ObjectType == EObjectType.Monster)
         {
-            GoldController gc = go.GetComponent<GoldController>();
-            obj.transform.parent = GoldRoot;
-            CircleCollider2D cc2D = obj.GetComponent<CircleCollider2D>();
-            cc2D.isTrigger = true;
-            Golds.Add(gc);
+            obj.transform.parent = MonsterRoot;
+            MonsterController mc = go.GetComponent<MonsterController>();
+            Monsters.Add(mc);
+            mc.SetInfo(templateId);
         }
-        else if (obj.ObjectType == EObjectType.EnergyBolt)
-        {
-            EnergyBoltController ec = go.GetComponent<EnergyBoltController>();
-            obj.transform.parent = EnergyBoltRoot;
-            CircleCollider2D cc2D = obj.GetComponent<CircleCollider2D>();
-            cc2D.isTrigger = true;
-            EnergyBolts.Add(ec);
-        }
-        
+
         return obj as T;
     }
 
     public void Despawn<T>(T obj) where T : BaseController
     {
-        
-        if (obj.ObjectType == EObjectType.Creature)
-        {
-            CreatureController cc = obj.GetComponent<CreatureController>();
-            switch (cc.CreatureType)
-            {
-                case ECreatureType.Player:
-                    Player = null;
-                    break;
-                case ECreatureType.Monster:
-                    Monsters.Remove(cc as MonsterController);
-                    break;
-            }
-        }
-        else if (obj.ObjectType == EObjectType.Env)
-        {
-            Golds.Remove(obj as GoldController);
-        }
-        else if (obj.ObjectType == EObjectType.EnergyBolt)
-        {
-            EnergyBolts.Remove(obj as EnergyBoltController);
-        }
-        
-        Managers.Pool.Push(obj.gameObject);
+        EObjectType objectType = obj.ObjectType;
+
+        // if (obj.ObjectType == EObjectType.Hero)
+        // {
+        //     Hero hero = obj.GetComponent<Hero>();
+        //     Heroes.Remove(hero);
+        // }
+        // else if (obj.ObjectType == EObjectType.Monster)
+        // {
+        //     Monster monster = obj.GetComponent<Monster>();
+        //     Monsters.Remove(monster);
+        // }
+        // else if (obj.ObjectType == EObjectType.Projectile)
+        // {
+        //     Projectile projectile = obj as Projectile;
+        //     Projectiles.Remove(projectile);
+        // }
+        // else if (obj.ObjectType == EObjectType.Env)
+        // {
+        //     Env env = obj as Env;
+        //     Envs.Remove(env);
+        // }
+        // else if (obj.ObjectType == EObjectType.Effect)
+        // {
+        //     EffectBase effect = obj as EffectBase;
+        //     Effects.Remove(effect);
+        // }
+        // else if (obj.ObjectType == EObjectType.HeroCamp)
+        // {
+        //     Camp = null;
+        // }
+        // else if (obj.ObjectType == EObjectType.Npc)
+        // {
+        //     Npc npc = obj as Npc;
+        //     Npcs.Remove(npc);
+        // }
+
+        Managers.Resource.Destroy(obj.gameObject);
     }
 }
