@@ -9,6 +9,7 @@ public static class Define
         Unknown,
         TitleScene,
         GameScene,
+        LobbyScene,
     }
 
     public enum EUIEvent

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 파싱해주는 곳 (Json)
 
 namespace Data
 {
