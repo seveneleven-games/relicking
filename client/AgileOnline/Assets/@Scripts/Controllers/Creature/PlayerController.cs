@@ -17,9 +17,13 @@ public class PlayerController : CreatureController
     public float CoolDown { get; private set; }
 
     public int PlayerGold { get; private set; }
+    
     public List<int> PlayerSkillList { get; private set; }
+    public List<int> PlayerRelicList { get; private set; }
 
     private Transform _indicator;
+    
+    private List<Coroutine> _skillCoroutines = new List<Coroutine>();
 
     public override bool Init()
     {
@@ -28,12 +32,16 @@ public class PlayerController : CreatureController
 
         CreatureType = ECreatureType.Player;
         CreatureState = ECreatureState.Idle;
-        Speed = 5.0f;
 
         Managers.Game.OnMoveDirChanged -= HandleOnMoveDirChanged;
         Managers.Game.OnMoveDirChanged += HandleOnMoveDirChanged;
         Managers.Game.OnJoystickStateChanged -= HandleOnJoystickStateChanged;
         Managers.Game.OnJoystickStateChanged += HandleOnJoystickStateChanged;
+        
+        PlayerSkillList = new List<int>(new int[6]);
+        PlayerSkillList = new List<int>(new int[6]);
+
+        AddSkill(1, 0);
 
         // 보는 방향 정해주는 더미 오브젝트
         GameObject indicatorObject = new GameObject("Indicator");
@@ -42,12 +50,13 @@ public class PlayerController : CreatureController
         indicatorObject.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         _indicator = indicatorObject.transform;
         
-        StartProjectile();
+        StartSkills();
 
         return true;
     }
 
-    public void InitPlayer(Data.PlayerData data)
+    // TODO: InitPlayer시 RelicList도 같이 받아야함
+    public void InitPlayer(PlayerData data)
     {
         PlayerId = data.PlayerId;
         Name = data.Name;
@@ -133,22 +142,36 @@ public class PlayerController : CreatureController
         base.OnDead();
         CreatureState = ECreatureState.Dead;
 
-        // TODO: Game 종료
+        // TODO: Game 종료 씬으로~
     }
 
-    #region EnergyBallProjectile
+    #region Skill
 
-    private Coroutine _coEnergyBallProjectile;
-
-    void StartProjectile()
+    void StartSkills()
     {
-        if (_coEnergyBallProjectile != null)
-            StopCoroutine(_coEnergyBallProjectile);
+        StopSkills();
 
-        _coEnergyBallProjectile = StartCoroutine(CoStartProjectile(1));
+        foreach (int skillId in PlayerSkillList)
+        {
+            if (skillId > 0)
+            {
+                Coroutine skillCoroutine = StartCoroutine(CoStartSkill(skillId));
+                _skillCoroutines.Add(skillCoroutine);
+            }
+        }
     }
 
-    IEnumerator CoStartProjectile(int skillId)
+    void StopSkills()
+    {
+        foreach (Coroutine coroutine in _skillCoroutines)
+        {
+            if (coroutine != null)
+                StopCoroutine(coroutine);
+        }
+        _skillCoroutines.Clear();
+    }
+
+    IEnumerator CoStartSkill(int skillId)
     {
         SkillData skillData = Managers.Data.SkillDic[skillId];
         WaitForSeconds wait = new WaitForSeconds(skillData.CoolTime);
@@ -156,15 +179,20 @@ public class PlayerController : CreatureController
         while (true)
         {
             string skillDataPrefabName = skillData.PrefabName;
-            ProjectileController pc = Managers.Object.Spawn<ProjectileController>(transform.position, skillDataPrefabName);
-            SkillData projectileData = Managers.Data.SkillDic[skillId];
-            pc.InitSkill(projectileData);
+            EnergyBoltController ec = Managers.Object.Spawn<EnergyBoltController>(transform.position, skillDataPrefabName);
+            SkillData energyBoltData = Managers.Data.SkillDic[skillId];
+            ec.InitSkill(energyBoltData);
 
             Vector3 moveDirection = _indicator.up;
-            pc.SetMoveDirection(moveDirection);
+            ec.SetMoveDirection(moveDirection);
 
             yield return wait;
         }
+    }
+
+    public void AddSkill(int addSkillId, int slotNum)
+    {
+        PlayerSkillList[slotNum] = addSkillId;
     }
 
     #endregion
