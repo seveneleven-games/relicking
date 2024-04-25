@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.SevenEleven.RelicKing.entity.Member;
 import com.SevenEleven.RelicKing.entity.Record;
@@ -59,12 +60,14 @@ public class RecordRepositoryTests {
 		recordRepository.save(record);
 	}
 
+	@Transactional
 	@Test
 	public void readTest() {
 		Record record = recordRepository.findById(1).orElseThrow();
 
 		log.info("--------------------------------------------------------------");
-		log.info(record);
+		log.info(record.getRecordRelics());
+		log.info(record.getRecordSkills());
 		log.info("--------------------------------------------------------------");
 	}
 
