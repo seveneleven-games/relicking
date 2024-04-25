@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SkillController : BaseController
 {
-
     #region Destroy
 
     private Coroutine _coDestroy;

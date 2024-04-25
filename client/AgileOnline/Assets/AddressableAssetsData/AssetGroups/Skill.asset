@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Sprites
+  m_Name: Skill
   m_EditorClassIdentifier: 
-  m_GroupName: Sprites
+  m_GroupName: Skill
   m_Data:
     m_SerializedData: []
-  m_GUID: bc4bf56497c9f9a4ea1fe705cb88f0e9
+  m_GUID: b5a265ae6da327541a18253b7679140f
   m_SerializeEntries:
-  - m_GUID: 08873635774523b4fa4a57bc14caaaf9
-    m_Address: EnergyBolt_icon.sprite
+  - m_GUID: d5755661cdd9b1e4894fff437f8b1bb4
+    m_Address: EnergyBolt
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
@@ -27,5 +27,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: 5172e12bf4a124f4e9826e7812874449, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 4ebf1ba057519f14fb3aec7ab6958e88, type: 2}
-    - {fileID: 11400000, guid: e1ba537be43a10345b868e6837c13665, type: 2}
+    - {fileID: 11400000, guid: 2b7d743e4c262c345861a0d9ad9e7580, type: 2}
+    - {fileID: 11400000, guid: f46c1de303f31034d84347f145df6150, type: 2}

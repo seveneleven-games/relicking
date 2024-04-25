@@ -112,7 +112,6 @@ namespace Data
     {
         public int SkillId;
         public int NextId;
-        public string SkillType;
         public string PrefabName;
         public string Name;
         public string Description;
