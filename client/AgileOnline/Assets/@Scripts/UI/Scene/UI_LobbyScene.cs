@@ -133,9 +133,6 @@ public class UI_LobbyScene : UI_Scene
         // 팝업 초기화
         _battlePopupUI.gameObject.SetActive(false);
         
-        // 임시
-        // _battlePopupUI.GetComponent<Canvas>().sortingOrder = 99;
-        
         // 선택여부 초기화
         _isSelectedInventory = false;
         _isSelectedGacha = false;
