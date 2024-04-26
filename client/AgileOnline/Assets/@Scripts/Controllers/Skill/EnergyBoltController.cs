@@ -17,7 +17,7 @@ public class EnergyBoltController : SkillController
     public string IconName { get; private set; }
     public float CoolTime { get; private set; }
     public int Damage { get; private set; }
-    public float LifeTime { get; private set; }
+    public float LifeTime { get; private set; } = 10;
     public float Speed { get; private set; }
 
     public override bool Init()
@@ -26,8 +26,6 @@ public class EnergyBoltController : SkillController
             return false;
         
         SkillType = Define.ESkillType.EnergyBolt;
-        
-        StartDestroy(LifeTime);
 
         return true;
     }
@@ -46,6 +44,8 @@ public class EnergyBoltController : SkillController
         Damage = data.Damage;
         LifeTime = data.LifeTime;
         Speed = data.Speed;
+        
+        StartDestroy(LifeTime);
     }
 
     public override void UpdateController()
@@ -73,11 +73,6 @@ public class EnergyBoltController : SkillController
         monster.OnDamaged(_owner, Damage);
         
         Managers.Object.Despawn(this);
-    }
-
-    public void SetInfo(int skillId)
-    {
-        InitSkill(skillId);
     }
 
 }

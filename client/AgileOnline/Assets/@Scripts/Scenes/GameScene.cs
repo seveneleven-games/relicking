@@ -82,7 +82,7 @@ public class GameScene : BaseScene
                 int randomMonsterId = monsterIds[randomIndex];
     
                 MonsterController mc = Managers.Object.Spawn<MonsterController>(randomPosition, randomMonsterId);
-                mc.SetInfo(randomMonsterId);
+                mc.InitMonster(randomMonsterId);
             }
 
             yield return new WaitForSeconds(MONSTER_SPAWN_INTERVAL);

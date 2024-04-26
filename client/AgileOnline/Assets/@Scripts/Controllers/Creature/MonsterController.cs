@@ -122,10 +122,5 @@ public class MonsterController : CreatureController
         
         Managers.Object.Despawn(this);
     }
-    
-    public void SetInfo(int monsterId)
-    {
-        InitMonster(monsterId);
-    }
 
 }

@@ -3,13 +3,13 @@
     {
       "SkillId": 1,
       "NextId": 2,
-      "PrefabName": "EnergyBolt1",
+      "PrefabName": "EnergyBolt",
       "Name": "에너지볼트",
       "Description": "바라보는 방향으로 에너지 볼트를 발사한다",
       "IconName": "EnergyBolt_icon.sprite",
       "CoolTime": 1,
       "Damage": 1,
-      "LifeTime": 10.0,
+      "LifeTime": 1.0,
       "Speed": 10.0
     },
     {
@@ -21,19 +21,19 @@
       "IconName": "EnergyBolt_icon.sprite",
       "CoolTime": 1,
       "Damage": 2,
-      "LifeTime": 10.0,
+      "LifeTime": 1.0,
       "Speed": 10.0
     },
     {
       "SkillId": 3,
       "NextId": 4,
-      "PrefabName": "EnergyBolt1",
+      "PrefabName": "EnergyBolt",
       "Name": "에너지볼트",
       "Description": "바라보는 방향으로 에너지 볼트를 발사한다",
       "IconName": "EnergyBolt_icon.sprite",
       "CoolTime": 1,
       "Damage": 3,
-      "LifeTime": 10.0,
+      "LifeTime": 1.0,
       "Speed": 10.0
     }
   ]

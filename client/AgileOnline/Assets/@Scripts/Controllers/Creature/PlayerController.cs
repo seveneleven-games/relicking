@@ -148,6 +148,7 @@ public class PlayerController : CreatureController
         CreatureState = ECreatureState.Dead;
 
         // TODO: Game 종료 씬으로~
+        Managers.Scene.LoadScene(EScene.LobbyScene);
     }
 
     #region Skill
@@ -185,10 +186,10 @@ public class PlayerController : CreatureController
         {
             yield return coolTimeWait;
             
-            EnergyBoltController ec = Managers.Object.Spawn<EnergyBoltController>(transform.position, skillId);
+            EnergyBoltController ebc = Managers.Object.Spawn<EnergyBoltController>(transform.position, skillId);
+            ebc.InitSkill(skillId);
             Vector3 moveDirection = _indicator.up;
-            ec.SetMoveDirection(moveDirection);
-            ec.SetInfo(skillId);
+            ebc.SetMoveDirection(moveDirection);
         }
     }
 

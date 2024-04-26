@@ -17,14 +17,8 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: b5a265ae6da327541a18253b7679140f
   m_SerializeEntries:
-  - m_GUID: d5755661cdd9b1e4894fff437f8b1bb4
-    m_Address: EnergyBolt
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - PreLoad
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: cf8ff97fc063e8f4a90d8c3bf92c4833
-    m_Address: EnergyBolt1
+    m_Address: EnergyBolt
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
