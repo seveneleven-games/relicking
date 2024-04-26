@@ -67,7 +67,10 @@ public abstract class UI_Base : MonoBehaviour
 	protected Image GetImage(int idx) { return Get<Image>(idx); }
 	protected Toggle GetToggle(int idx) { return Get<Toggle>(idx); }
 
-	public static void BindEvent(GameObject go, Action action = null, Action<BaseEventData> dragAction = null, EUIEvent type = EUIEvent.Click)
+	public static void BindEvent(GameObject go,
+		Action action = null, 
+		Action<BaseEventData> dragAction = null, 
+		EUIEvent type = EUIEvent.Click)
 	{
 		UI_EventHandler evt = Util.GetOrAddComponent<UI_EventHandler>(go);
 
