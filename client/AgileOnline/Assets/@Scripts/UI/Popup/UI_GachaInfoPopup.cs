@@ -12,7 +12,8 @@ public class UI_GachaInfoPopup : UI_Popup
 
     enum EButtons
     {
-        CloseButton
+        ButtonBG,
+        CloseButton,
     }
 
     #endregion
@@ -34,6 +35,7 @@ public class UI_GachaInfoPopup : UI_Popup
         BindObject(typeof(EGameObjects));
         BindButton(typeof(EButtons));
 
+        GetButton((int)EButtons.ButtonBG).gameObject.BindEvent(OnClickCloseButton);
         GetButton((int)EButtons.CloseButton).gameObject.BindEvent(OnClickCloseButton);
 
         #endregion
