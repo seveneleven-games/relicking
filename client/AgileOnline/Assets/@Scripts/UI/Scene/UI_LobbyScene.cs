@@ -72,6 +72,7 @@ public class UI_LobbyScene : UI_Scene
 
     
     UI_BattlePopup _battlePopupUI;
+    UI_GachaPopup _gachaPopupUI;
     
     
     public void OnDestroy()
@@ -103,15 +104,19 @@ public class UI_LobbyScene : UI_Scene
         GetToggle((int)EToggles.RankingToggle).gameObject.BindEvent(OnClickRankingToggle);
         
         _battlePopupUI = Managers.UI.ShowPopupUI<UI_BattlePopup>();
+        _gachaPopupUI = Managers.UI.ShowPopupUI<UI_GachaPopup>();
         
         TogglesInit();
         
         // 맨 처음은 배틀로
         GetToggle((int)EToggles.BattleToggle).gameObject.GetComponent<Toggle>().isOn = true;
         OnClickBattleToggle();
-        
+        // 가챠
+        //GetToggle((int)EToggles.GachaToggle).gameObject.GetComponent<Toggle>().isOn = true;
+        //OnClickGachaToggle();
+
         #endregion
-        
+
         Managers.Game.OnResourcesChanged += Refresh;
         Refresh();
         
@@ -132,6 +137,7 @@ public class UI_LobbyScene : UI_Scene
     {
         // 팝업 초기화
         _battlePopupUI.gameObject.SetActive(false);
+        _gachaPopupUI.gameObject.SetActive(false);
         
         // 임시
         // _battlePopupUI.GetComponent<Canvas>().sortingOrder = 99;
@@ -193,7 +199,11 @@ public class UI_LobbyScene : UI_Scene
         GetImage((int)EImages.Backgroundimage).color = Util.HexToColor("525DAD"); // 배경 색상 변경
         if (_isSelectedGacha == true) // 활성화 후 토글 클릭 방지
             return;
-        // ShowUI(_gachaPopupUI.gameObject, GetToggle((int)EToggles.GachaToggle), GetText((int)ETexts.CheckGachaToggleText), GetObject((int)EGameObjects.CheckGachaBgImage),GetObject((int)EGameObjects.CheckGachaImage));
+        ShowUI(_gachaPopupUI.gameObject, 
+            GetToggle((int)EToggles.GachaToggle), 
+            GetText((int)ETexts.CheckGachaToggleText), 
+            GetObject((int)EGameObjects.CheckGachaBgImage),
+            GetObject((int)EGameObjects.CheckGachaImage));
         _isSelectedGacha = true;
     }
     void OnClickBattleToggle()
