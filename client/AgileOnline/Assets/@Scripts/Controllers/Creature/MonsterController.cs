@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Data;
 using UnityEngine;
 using static Define;
 
@@ -23,15 +24,16 @@ public class MonsterController : CreatureController
         if (base.Init() == false)
             return false;
 
-        CreatureType = ECreatureType.Monster;
+        ObjectType = EObjectType.Monster;
         CreatureState = ECreatureState.Idle;
-        Speed = 1.5f;
 
         return true;
     }
     
-    public void InitMonster(Data.MonsterData data)
+    public void InitMonster(int templateId)
     {
+        MonsterData data = Managers.Data.MonsterDic[templateId];
+        
         MonsterId = data.MonsterId;
         PrefabName = data.PrefabName;
         MonsterType = data.MonsterType;
@@ -101,11 +103,11 @@ public class MonsterController : CreatureController
     {
         while (true)
         {
-            target.OnDamaged(this, 2);
+            target.OnDamaged(this, Atk);
             yield return new WaitForSeconds(0.1f);
         }
     }
-
+    
     protected override void OnDead()
     {
         base.OnDead();
@@ -114,10 +116,10 @@ public class MonsterController : CreatureController
             StopCoroutine(_coDotDamage);
         _coDotDamage = null;
 
-        GoldController gc = Managers.Object.Spawn<GoldController>(transform.position, "Gold");
-        Data.MonsterData monsterData = Managers.Data.MonsterDic[1];
-        gc.InitGold(monsterData);
-
+        GoldController gc = Managers.Object.Spawn<GoldController>(transform.position, MonsterId);
+        gc.InitGold(MonsterId);
+        
         Managers.Object.Despawn(this);
     }
+
 }

@@ -18,7 +18,7 @@ MonoBehaviour:
   m_GUID: bc4bf56497c9f9a4ea1fe705cb88f0e9
   m_SerializeEntries:
   - m_GUID: 08873635774523b4fa4a57bc14caaaf9
-    m_Address: EnergyBall_icon.sprite
+    m_Address: EnergyBolt_icon.sprite
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad

@@ -5,11 +5,9 @@ using static Define;
 
 public class CreatureController : BaseController
 {
-    public float Speed { get; protected set; } = 1.0f;
-    public int Hp { get; protected set; } = 100;
-    public int MaxHp { get; protected set; } = 100;
-
-    public ECreatureType CreatureType { get; protected set; } = ECreatureType.None;
+    public float Speed { get; protected set; }
+    public int Hp { get; protected set; }
+    public int MaxHp { get; protected set; }
 
     protected ECreatureState _creatureState = ECreatureState.None;
 
@@ -30,14 +28,14 @@ public class CreatureController : BaseController
     {
         if (base.Init() == false)
             return false;
-
-        ObjectType = EObjectType.Creature;
+        
         CreatureState = ECreatureState.Idle;
         return true;
     }
 
     public virtual void OnDamaged(BaseController attacker, int damage)
     {
+        Debug.Log(attacker + " " + damage);
         Hp -= damage;
         if (Hp <= 0)
         {
@@ -48,7 +46,8 @@ public class CreatureController : BaseController
 
     protected virtual void OnDead()
     {
-        
+        transform.localScale = new Vector3(1, 1, 1);
+        CreatureState = ECreatureState.Dead;
     }
     
 }

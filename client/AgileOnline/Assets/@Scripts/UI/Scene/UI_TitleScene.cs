@@ -6,12 +6,12 @@ using static Define;
 
 public class UI_TitleScene : UI_Scene
 {
-    enum GameObjects
+    enum EGameObjects
     {
         StartImage
     }
     
-    enum Texts
+    enum ETexts
     {
         DisplayText
     }
@@ -21,16 +21,18 @@ public class UI_TitleScene : UI_Scene
         if (base.Init() == false)
             return false;
 
-        BindObject(typeof(GameObjects));
-        BindText(typeof(Texts));
+        BindObject(typeof(EGameObjects));
+        BindText(typeof(ETexts));
 
-        GetObject((int)GameObjects.StartImage).BindEvent(() =>
+        // 아무곳이나 누르면 씬 변환하는 객체 생성
+        GetObject((int)EGameObjects.StartImage).BindEvent(() =>
         {
+            Debug.Log("ChangeScene");
             Managers.Scene.LoadScene(EScene.LobbyScene);
         });
         
-        GetObject((int)GameObjects.StartImage).gameObject.SetActive(false);
-        GetText((int)Texts.DisplayText).text = $"";
+        GetObject((int)EGameObjects.StartImage).gameObject.SetActive(false);
+        GetText((int)ETexts.DisplayText).text = $"";
 
         StartLoadAssets();
         
@@ -47,8 +49,8 @@ public class UI_TitleScene : UI_Scene
             {
                 Managers.Data.Init();
                 
-                GetObject((int)GameObjects.StartImage).gameObject.SetActive(true);
-                GetText((int)Texts.DisplayText).text = "Touch To Start";
+                GetObject((int)EGameObjects.StartImage).gameObject.SetActive(true);
+                GetText((int)ETexts.DisplayText).text = "Touch To Start";
             }
         });
     }
