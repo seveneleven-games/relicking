@@ -11,9 +11,13 @@ public class LobbyScene : BaseScene
 
         SceneType = Define.EScene.LobbyScene;
 
+        // UI
+        Managers.UI.ShowSceneUI<UI_LobbyScene>();
+        Screen.sleepTimeout = SleepTimeout.SystemSetting;
+
         return true;
     }
-    
+
     public override void Clear()
     {
 

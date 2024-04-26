@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Data;
 using UnityEngine;
 
 public class GoldController : BaseController
@@ -16,8 +17,10 @@ public class GoldController : BaseController
         return true;
     }
     
-    public void InitGold(Data.MonsterData data)
+    public void InitGold(int templateId)
     {
+        MonsterData data = Managers.Data.MonsterDic[templateId];
+        
         GoldValue = data.DropGold;
     }
 }

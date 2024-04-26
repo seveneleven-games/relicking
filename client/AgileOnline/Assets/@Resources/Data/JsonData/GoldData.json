@@ -1,0 +1,10 @@
+{
+  "golds": [
+    {
+      "GoldId": 1,
+      "PrefabName": "Gold",
+      "Name": "작은 골드 주머니",
+      "DropGold" : 1
+    }
+  ]
+}

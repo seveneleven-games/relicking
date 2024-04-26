@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 파싱해주는 곳 (Json)
 
 namespace Data
 {
@@ -111,7 +112,6 @@ namespace Data
     {
         public int SkillId;
         public int NextId;
-        public string SkillType;
         public string PrefabName;
         public string Name;
         public string Description;
@@ -120,6 +120,7 @@ namespace Data
         public int Damage;
         public float LifeTime;
         public float Speed;
+        public int ProjectileNum;
     }
     
     [Serializable]
@@ -132,6 +133,34 @@ namespace Data
             Dictionary<int, SkillData> dict = new Dictionary<int, SkillData>();
             foreach (SkillData skill in skills)
                 dict.Add(skill.SkillId, skill);
+
+            return dict;
+        }
+    }
+
+    #endregion
+
+    #region GoldData
+
+    [Serializable]
+    public class GoldData
+    {
+        public int GoldId;
+        public string PrefabName;
+        public string Name;
+        public int DropGold;
+    }
+    
+    [Serializable]
+    public class GoldDataLoader : ILoader<int, GoldData>
+    {
+        public List<GoldData> golds = new List<GoldData>();
+
+        public Dictionary<int, GoldData> MakeDict()
+        {
+            Dictionary<int, GoldData> dict = new Dictionary<int, GoldData>();
+            foreach (GoldData gold in golds)
+                dict.Add(gold.GoldId, gold);
 
             return dict;
         }
