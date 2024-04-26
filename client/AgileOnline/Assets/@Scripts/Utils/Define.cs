@@ -33,16 +33,10 @@ public static class Define
     public enum EObjectType
     {
         None,
-        Creature,
-        Projectile,
-        Env,
-    }
-
-    public enum ECreatureType
-    {
-        None,
         Player,
-        Monster
+        Monster,
+        Skill,
+        Env,
     }
 
     public enum ECreatureState
@@ -55,9 +49,9 @@ public static class Define
 
     public enum ESkillType
     {
-        Projectile,
-        Melee,
-        Field
+        None,
+        EnergyBolt,
+        IceArrow
     }
 
     public enum EJoystickState
@@ -66,7 +60,15 @@ public static class Define
         PointerUp,
         Drag
     }
-    
+
+
+    #region UI_NodeMapScene
+
+    public static int STAGE_NO = 1;
+    public static string STAGE_BG_NAME = "Stage1BG";
+
+    #endregion
+
 }
 
 

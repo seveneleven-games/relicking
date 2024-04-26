@@ -5,11 +5,13 @@ using static Define;
 
 public class ObjectManager
 {
+    // 추적 필요한 것만.
     public PlayerController Player { get; set; }
     public HashSet<MonsterController> Monsters { get; } = new HashSet<MonsterController>();
     public HashSet<GoldController> Golds { get; } = new HashSet<GoldController>();
-    public HashSet<ProjectileController> Projectiles { get; } = new HashSet<ProjectileController>();
-    
+    public HashSet<EnergyBoltController> EnergyBolts { get; } = new HashSet<EnergyBoltController>();
+    public HashSet<IceArrowController> IceArrows { get; } = new HashSet<IceArrowController>();
+
     #region Roots
 
     public Transform GetRootTransform(string name)
@@ -20,12 +22,12 @@ public class ObjectManager
 
         return root.transform;
     }
-    
+
     public Transform PlayerRoot
     {
         get { return GetRootTransform("@Player"); }
     }
-    
+
     public Transform MonsterRoot
     {
         get { return GetRootTransform("@Monsters"); }
@@ -36,83 +38,110 @@ public class ObjectManager
         get { return GetRootTransform("@Golds"); }
     }
 
-    public Transform ProjectileRoot
+    public Transform EnergyBoltRoot
     {
-        get { return GetRootTransform("@Projectiles"); }
+        get { return GetRootTransform("@EnergyBolt"); }
+    }
+
+    public Transform IceArrowRoot
+    {
+        get { return GetRootTransform("@IceArrow"); }
     }
 
     #endregion
 
-    public T Spawn<T>(Vector3 position, string prefabName) where T : BaseController
+    public T Spawn<T>(Vector3 position, int templateId) where T : BaseController
     {
-        GameObject prefab = Managers.Resource.Load<GameObject>(prefabName);
-        GameObject go = Managers.Pool.Pop(prefab);
-        go.name = prefab.name;
+        string dataType = typeof(T).Name.Replace("Controller", "Data");
+
+        Debug.Log("이거 템플릿아이디임" + templateId);
+        string prefabName = Managers.Data.GetData<T>(dataType, templateId);
+
+        Debug.Log("이거 프리팹 이름" + prefabName);
+        GameObject go = Managers.Resource.Instantiate(prefabName, pooling: true);
+        go.name = prefabName;
         go.transform.position = position;
 
         BaseController obj = go.GetComponent<BaseController>();
-        
-        if (obj.ObjectType == EObjectType.Creature)
+
+        if (obj.ObjectType == EObjectType.Player)
         {
-            CreatureController cc = go.GetComponent<CreatureController>();
-            switch (cc.CreatureType)
-            {
-                case ECreatureType.Player:
-                    obj.transform.parent = PlayerRoot;
-                    Player = cc as PlayerController;
-                    break;
-                case ECreatureType.Monster:
-                    obj.transform.parent = MonsterRoot;
-                    MonsterController mc = cc as MonsterController;
-                    Monsters.Add(mc);
-                    break;
-            }
+            obj.transform.parent = PlayerRoot;
+            PlayerController pc = go.GetComponent<PlayerController>();
+            Player = pc;
+            pc.InitPlayer(templateId);
+        }
+        else if (obj.ObjectType == EObjectType.Monster)
+        {
+            obj.transform.parent = MonsterRoot;
+            MonsterController mc = go.GetComponent<MonsterController>();
+            Monsters.Add(mc);
+            mc.InitMonster(templateId);
         }
         else if (obj.ObjectType == EObjectType.Env)
         {
-            GoldController gc = go.GetComponent<GoldController>();
             obj.transform.parent = GoldRoot;
-            CircleCollider2D cc2D = obj.GetComponent<CircleCollider2D>();
-            cc2D.isTrigger = true;
+            GoldController gc = go.GetComponent<GoldController>();
             Golds.Add(gc);
+            gc.InitGold(templateId);
         }
-        else if (obj.ObjectType == EObjectType.Projectile)
+        else if (obj.ObjectType == EObjectType.Skill)
         {
-            ProjectileController pc = go.GetComponent<ProjectileController>();
-            obj.transform.parent = ProjectileRoot;
-            CircleCollider2D cc2D = obj.GetComponent<CircleCollider2D>();
-            cc2D.isTrigger = true;
-            Projectiles.Add(pc);
+            SkillController sc = go.GetComponent<SkillController>();
+            switch (sc.SkillType)
+            {
+                case ESkillType.EnergyBolt:
+                    sc.transform.parent = EnergyBoltRoot;
+                    EnergyBoltController ebc = sc.GetComponent<EnergyBoltController>();
+                    EnergyBolts.Add(ebc);
+                    ebc.InitSkill(templateId);
+                    break;
+                
+                case ESkillType.IceArrow:
+                    sc.transform.parent = IceArrowRoot;
+                    IceArrowController iac = sc.GetComponent<IceArrowController>();
+                    IceArrows.Add(iac);
+                    iac.InitSkill(templateId);
+                    break;
+            }
         }
-        
+
         return obj as T;
     }
 
     public void Despawn<T>(T obj) where T : BaseController
     {
-        
-        if (obj.ObjectType == EObjectType.Creature)
+        if (obj.ObjectType == EObjectType.Player)
         {
-            CreatureController cc = obj.GetComponent<CreatureController>();
-            switch (cc.CreatureType)
-            {
-                case ECreatureType.Player:
-                    Player = null;
-                    break;
-                case ECreatureType.Monster:
-                    Monsters.Remove(cc as MonsterController);
-                    break;
-            }
+            Player = null;
+        }
+        else if (obj.ObjectType == EObjectType.Monster)
+        {
+            MonsterController mc = obj.GetComponent<MonsterController>();
+            Monsters.Remove(mc);
         }
         else if (obj.ObjectType == EObjectType.Env)
         {
-            Golds.Remove(obj as GoldController);
+            GoldController gc = obj as GoldController;
+            Golds.Remove(gc);
         }
-        else if (obj.ObjectType == EObjectType.Projectile)
+        else if (obj.ObjectType == EObjectType.Skill)
         {
-            Projectiles.Remove(obj as ProjectileController);
+            SkillController sc = obj.GetComponent<SkillController>();
+            switch (sc.SkillType)
+            {
+                case ESkillType.EnergyBolt:
+                    EnergyBoltController ebc = sc as EnergyBoltController;
+                    EnergyBolts.Remove(ebc);
+                    break;
+                
+                case ESkillType.IceArrow:
+                    IceArrowController iac = sc as IceArrowController;
+                    IceArrows.Remove(iac);
+                    break;
+            }
         }
-        
-        Managers.Pool.Push(obj.gameObject);
+
+        Managers.Resource.Destroy(obj.gameObject);
     }
 }

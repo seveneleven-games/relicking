@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Data;
 using UnityEngine;
 using static Define;
@@ -17,23 +18,34 @@ public class PlayerController : CreatureController
     public float CoolDown { get; private set; }
 
     public int PlayerGold { get; private set; }
+
     public List<int> PlayerSkillList { get; private set; }
+    public List<int> PlayerRelicList { get; private set; }
 
     private Transform _indicator;
+
+    private List<Coroutine> _skillCoroutines = new List<Coroutine>();
 
     public override bool Init()
     {
         if (base.Init() == false)
             return false;
 
-        CreatureType = ECreatureType.Player;
+        ObjectType = EObjectType.Player;
         CreatureState = ECreatureState.Idle;
-        Speed = 5.0f;
 
         Managers.Game.OnMoveDirChanged -= HandleOnMoveDirChanged;
         Managers.Game.OnMoveDirChanged += HandleOnMoveDirChanged;
         Managers.Game.OnJoystickStateChanged -= HandleOnJoystickStateChanged;
         Managers.Game.OnJoystickStateChanged += HandleOnJoystickStateChanged;
+
+        PlayerSkillList = new List<int>(new int[6]);
+        PlayerRelicList = new List<int>(new int[6]);
+
+        // AddSkill(3, 0);
+        // AddSkill(1, 1);
+        AddSkill(3, 0);
+        AddSkill(13, 1);
 
         // 보는 방향 정해주는 더미 오브젝트
         GameObject indicatorObject = new GameObject("Indicator");
@@ -41,14 +53,17 @@ public class PlayerController : CreatureController
         indicatorObject.transform.localPosition = Vector3.zero;
         indicatorObject.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         _indicator = indicatorObject.transform;
-        
-        StartProjectile();
+
+        StartSkills();
 
         return true;
     }
 
-    public void InitPlayer(Data.PlayerData data)
+    // TODO: InitPlayer시 RelicList도 같이 받아야함
+    public void InitPlayer(int templateId)
     {
+        PlayerData data = Managers.Data.PlayerDic[templateId];
+
         PlayerId = data.PlayerId;
         Name = data.Name;
         MaxHp = data.MaxHp;
@@ -58,6 +73,9 @@ public class PlayerController : CreatureController
         CritRate = data.CritRate;
         CritDmgRate = data.CritDmgRate;
         CoolDown = data.CoolDown;
+
+        PlayerSkillList = new List<int>(new int[6]);
+        PlayerRelicList = new List<int>(new int[6]);
     }
 
     private void Update()
@@ -133,38 +151,112 @@ public class PlayerController : CreatureController
         base.OnDead();
         CreatureState = ECreatureState.Dead;
 
-        // TODO: Game 종료
+        // TODO: Game 종료 씬으로~
+        Managers.Scene.LoadScene(EScene.LobbyScene);
     }
 
-    #region EnergyBallProjectile
+    #region Skill
 
-    private Coroutine _coEnergyBallProjectile;
-
-    void StartProjectile()
+    void StartSkills()
     {
-        if (_coEnergyBallProjectile != null)
-            StopCoroutine(_coEnergyBallProjectile);
+        StopSkills();
 
-        _coEnergyBallProjectile = StartCoroutine(CoStartProjectile(1));
+        foreach (int skillId in PlayerSkillList)
+        {
+            if (skillId > 0)
+            {
+                Coroutine skillCoroutine = StartCoroutine(CoStartSkill(skillId));
+                _skillCoroutines.Add(skillCoroutine);
+            }
+        }
     }
 
-    IEnumerator CoStartProjectile(int skillId)
+    void StopSkills()
+    {
+        foreach (Coroutine coroutine in _skillCoroutines)
+        {
+            if (coroutine != null)
+                StopCoroutine(coroutine);
+        }
+
+        _skillCoroutines.Clear();
+    }
+
+    IEnumerator CoStartSkill(int skillId)
     {
         SkillData skillData = Managers.Data.SkillDic[skillId];
-        WaitForSeconds wait = new WaitForSeconds(skillData.CoolTime);
+        WaitForSeconds coolTimeWait = new WaitForSeconds(skillData.CoolTime);
 
         while (true)
         {
-            string skillDataPrefabName = skillData.PrefabName;
-            ProjectileController pc = Managers.Object.Spawn<ProjectileController>(transform.position, skillDataPrefabName);
-            SkillData projectileData = Managers.Data.SkillDic[skillId];
-            pc.InitSkill(projectileData);
+            switch (skillData.PrefabName)
+            {
+                case "EnergyBolt":
+                    yield return coolTimeWait;
 
-            Vector3 moveDirection = _indicator.up;
-            pc.SetMoveDirection(moveDirection);
+                    int ebProjectileNum = skillData.ProjectileNum;
+                    float ebSpreadAngle = 30f;
 
-            yield return wait;
+                    for (int i = 0; i < ebProjectileNum; i++)
+                    {
+                        EnergyBoltController ebc =
+                            Managers.Object.Spawn<EnergyBoltController>(transform.position, skillId);
+                        ebc.InitSkill(skillId);
+
+                        float angle;
+                        if (ebProjectileNum == 1)
+                            angle = 0f;
+                        else
+                        {
+                            float offsetAngle = (i - (ebProjectileNum - 1) * 0.5f) * (ebSpreadAngle / (ebProjectileNum - 1));
+                            angle = offsetAngle * Mathf.Deg2Rad;
+                        }
+
+                        Vector3 moveDirection = Quaternion.Euler(0f, 0f, angle * Mathf.Rad2Deg) * _indicator.up;
+                        ebc.SetMoveDirection(moveDirection);
+                    }
+                    break;
+                
+                case "IceArrow":
+                    yield return coolTimeWait;
+
+                    int iaProjectileNum = skillData.ProjectileNum;
+                    
+                    // 플레이어 주변의 몬스터들을 탐색하여 거리 순으로 정렬
+                    List<MonsterController> nearbyMonsters = new List<MonsterController>();
+                    Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 10f); // 탐색 반경은 적절히 조정
+                    foreach (Collider2D collider in colliders)
+                    {
+                        MonsterController monster = collider.GetComponent<MonsterController>();
+                        if (monster != null)
+                            nearbyMonsters.Add(monster);
+                    }
+                    nearbyMonsters.Sort((a, b) => Vector3.Distance(transform.position, a.transform.position)
+                        .CompareTo(Vector3.Distance(transform.position, b.transform.position)));
+                    
+                    // 프로젝타일 개수만큼 가장 가까운 몬스터들을 선택
+                    List<MonsterController> targetMonsters = nearbyMonsters.Take(iaProjectileNum).ToList();
+
+                    for (int i = 0; i < targetMonsters.Count; i++)
+                    {
+                        MonsterController targetMonster = targetMonsters[i];
+                    
+                        IceArrowController iac = Managers.Object.Spawn<IceArrowController>(transform.position, skillId);
+                        iac.InitSkill(skillId);
+                    
+                        // 몬스터의 위치를 기준으로 발사 방향 계산
+                        Vector3 direction = (targetMonster.transform.position - transform.position).normalized;
+                        iac.SetMoveDirection(direction);
+                    }
+                    
+                    break;
+            }
         }
+    }
+
+    public void AddSkill(int addSkillId, int slotNum)
+    {
+        PlayerSkillList[slotNum] = addSkillId;
     }
 
     #endregion
