@@ -77,6 +77,45 @@
       "LifeTime": 1.0,
       "Speed": 10.0,
       "ProjectileNum": 3
+    },
+    {
+      "SkillId": 21,
+      "NextId": 22,
+      "PrefabName": "ElectronicField",
+      "Name": "일렉트로닉 필드",
+      "Description": "주변 적에게 자기장 데미지를 입힌다.",
+      "IconName": "ElectronicField_icon.sprite",
+      "CoolTime": 1,
+      "Damage": 30,
+      "LifeTime": 150.0,
+      "Speed": 10.0,
+      "ProjectileNum": 1
+    },
+    {
+      "SkillId": 22,
+      "NextId": 23,
+      "PrefabName": "ElectronicField",
+      "Name": "일렉트로닉 필드",
+      "Description": "주변 적에게 자기장 데미지를 입힌다.",
+      "IconName": "ElectronicField_icon.sprite",
+      "CoolTime": 1,
+      "Damage": 50,
+      "LifeTime": 150.0,
+      "Speed": 10.0,
+      "ProjectileNum": 1
+    },
+    {
+      "SkillId": 23,
+      "NextId": 24,
+      "PrefabName": "ElectronicField",
+      "Name": "일렉트로닉 필드",
+      "Description": "주변 적에게 자기장 데미지를 입힌다.",
+      "IconName": "ElectronicField_icon.sprite",
+      "CoolTime": 1,
+      "Damage": 80,
+      "LifeTime": 150.0,
+      "Speed": 10.0,
+      "ProjectileNum": 1
     }
   ]
 }
