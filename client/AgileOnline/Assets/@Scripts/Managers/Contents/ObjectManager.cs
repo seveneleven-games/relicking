@@ -54,8 +54,10 @@ public class ObjectManager
     {
         string dataType = typeof(T).Name.Replace("Controller", "Data");
 
+        Debug.Log("이거 템플릿아이디임" + templateId);
         string prefabName = Managers.Data.GetData<T>(dataType, templateId);
 
+        Debug.Log("이거 프리팹 이름" + prefabName);
         GameObject go = Managers.Resource.Instantiate(prefabName, pooling: true);
         go.name = prefabName;
         go.transform.position = position;

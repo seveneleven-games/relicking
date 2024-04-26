@@ -50,6 +50,8 @@ public class DataManager
                 return Managers.Data.GoldDic[templateId].PrefabName;
             case "EnergyBoltData":
                 return Managers.Data.SkillDic[templateId].PrefabName;
+            case "IceArrowData":
+                return Managers.Data.SkillDic[templateId].PrefabName;
             default:
                 return null;
         }
