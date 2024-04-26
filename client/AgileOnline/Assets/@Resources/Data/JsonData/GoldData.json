@@ -5,6 +5,18 @@
       "PrefabName": "Gold",
       "Name": "작은 골드 주머니",
       "DropGold" : 1
+    },
+    {
+      "GoldId": 2,
+      "PrefabName": "Gold",
+      "Name": "중간 골드 주머니",
+      "DropGold" : 3
+    },
+    {
+      "GoldId": 3,
+      "PrefabName": "Gold",
+      "Name": "큰 골드 주머니",
+      "DropGold" : 5
     }
   ]
 }

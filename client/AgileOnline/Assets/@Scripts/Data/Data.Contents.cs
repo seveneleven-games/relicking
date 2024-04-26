@@ -83,6 +83,7 @@ namespace Data
         public int StageId;
         public string PrefabName;
         public string Name;
+        public string ThumbnailName;
         public List<int> NormalMonsterList;
         public List<int> EliteMonsterList;
         public List<int> BossMonsterList;
@@ -167,4 +168,5 @@ namespace Data
     }
 
     #endregion
+
 }

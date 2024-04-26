@@ -50,7 +50,8 @@ public static class Define
     public enum ESkillType
     {
         None,
-        EnergyBolt
+        EnergyBolt,
+        IceArrow
     }
 
     public enum EJoystickState
