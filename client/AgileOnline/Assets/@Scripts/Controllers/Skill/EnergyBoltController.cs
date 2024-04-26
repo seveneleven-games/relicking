@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Data;
 using UnityEngine;
 
 public class EnergyBoltController : SkillController
@@ -15,21 +17,24 @@ public class EnergyBoltController : SkillController
     public string IconName { get; private set; }
     public float CoolTime { get; private set; }
     public int Damage { get; private set; }
-    public float LifeTime { get; private set; }
+    public float LifeTime { get; private set; } = 10;
     public float Speed { get; private set; }
+    public int ProjectileNum { get; private set; }
 
     public override bool Init()
     {
-        base.Init();
-        ObjectType = Define.EObjectType.EnergyBolt;
+        if (base.Init() == false)
+            return false;
         
-        StartDestroy(LifeTime);
+        SkillType = Define.ESkillType.EnergyBolt;
 
         return true;
     }
 
-    public void InitSkill(Data.SkillData data)
+    public void InitSkill(int templateId)
     {
+        SkillData data = Managers.Data.SkillDic[templateId];
+        
         SkillId = data.SkillId;
         NextId = data.NextId;
         PrefabName = data.PrefabName;
@@ -40,6 +45,9 @@ public class EnergyBoltController : SkillController
         Damage = data.Damage;
         LifeTime = data.LifeTime;
         Speed = data.Speed;
+        ProjectileNum = data.ProjectileNum;
+        
+        StartDestroy(LifeTime);
     }
 
     public override void UpdateController()
@@ -56,17 +64,17 @@ public class EnergyBoltController : SkillController
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (this.IsValid() == false)
+            return;
+
         MonsterController monster = collision.gameObject.GetComponent<MonsterController>();
 
         if (monster.IsValid() == false)
             return;
-        if (this.IsValid() == false)
-            return;
         
         monster.OnDamaged(_owner, Damage);
         
-        StopDestroy();
-        
         Managers.Object.Despawn(this);
     }
+
 }

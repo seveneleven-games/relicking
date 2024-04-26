@@ -35,10 +35,8 @@ public class GameScene : BaseScene
         map.transform.position = Vector3.zero;
         map.name = "@BaseMap";
         
-        PlayerData playerData = Managers.Data.PlayerDic[playerId];
-
-        PlayerController pc = Managers.Object.Spawn<PlayerController>(Vector3.zero, playerData.PrefabName);
-        pc.InitPlayer(playerData);
+        PlayerController pc = Managers.Object.Spawn<PlayerController>(Vector3.zero, playerId);
+        pc.InitPlayer(playerId);
 
         CameraController camera = Camera.main.GetOrAddComponent<CameraController>();
         camera.Target = pc;
@@ -82,11 +80,9 @@ public class GameScene : BaseScene
     
                 int randomIndex = Random.Range(0, monsterIds.Count);
                 int randomMonsterId = monsterIds[randomIndex];
-                string randomMonsterPrefabName = Managers.Data.MonsterDic[randomMonsterId].PrefabName;
     
-                MonsterController mc = Managers.Object.Spawn<MonsterController>(randomPosition, randomMonsterPrefabName);
-                MonsterData monsterData = Managers.Data.MonsterDic[1];
-                mc.InitMonster(monsterData);
+                MonsterController mc = Managers.Object.Spawn<MonsterController>(randomPosition, randomMonsterId);
+                mc.InitMonster(randomMonsterId);
             }
 
             yield return new WaitForSeconds(MONSTER_SPAWN_INTERVAL);

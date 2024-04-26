@@ -33,16 +33,10 @@ public static class Define
     public enum EObjectType
     {
         None,
-        Creature,
-        EnergyBolt,
-        Env,
-    }
-
-    public enum ECreatureType
-    {
-        None,
         Player,
-        Monster
+        Monster,
+        Skill,
+        Env,
     }
 
     public enum ECreatureState
@@ -55,9 +49,9 @@ public static class Define
 
     public enum ESkillType
     {
-        Projectile,
-        Melee,
-        Field
+        None,
+        EnergyBolt,
+        IceArrow
     }
 
     public enum EJoystickState

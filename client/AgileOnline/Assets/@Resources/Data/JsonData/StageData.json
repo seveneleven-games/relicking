@@ -2,8 +2,9 @@
   "stages": [
     {
       "StageId": 1,
-      "PrefabName": "Map1",
-      "Name": "firstStage",
+      "PrefabName": "Stage1NodeMap_01",
+      "Name": "Stage1",
+      "ThumbnailName": "Stage1_Thumbnail.sprite",
       "NormalMonsterList": [
         1
       ],

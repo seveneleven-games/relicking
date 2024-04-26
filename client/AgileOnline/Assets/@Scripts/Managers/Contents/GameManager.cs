@@ -67,7 +67,7 @@ public class GameManager
     #endregion
     
     #region Player
-
+    public PlayerController Player { get; set; }
     private Vector2 _moveDir;
     public Vector2 MoveDir
     {

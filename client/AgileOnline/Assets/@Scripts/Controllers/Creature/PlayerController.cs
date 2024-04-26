@@ -17,12 +17,12 @@ public class PlayerController : CreatureController
     public float CoolDown { get; private set; }
 
     public int PlayerGold { get; private set; }
-    
+
     public List<int> PlayerSkillList { get; private set; }
     public List<int> PlayerRelicList { get; private set; }
 
     private Transform _indicator;
-    
+
     private List<Coroutine> _skillCoroutines = new List<Coroutine>();
 
     public override bool Init()
@@ -30,18 +30,20 @@ public class PlayerController : CreatureController
         if (base.Init() == false)
             return false;
 
-        CreatureType = ECreatureType.Player;
+        ObjectType = EObjectType.Player;
         CreatureState = ECreatureState.Idle;
 
         Managers.Game.OnMoveDirChanged -= HandleOnMoveDirChanged;
         Managers.Game.OnMoveDirChanged += HandleOnMoveDirChanged;
         Managers.Game.OnJoystickStateChanged -= HandleOnJoystickStateChanged;
         Managers.Game.OnJoystickStateChanged += HandleOnJoystickStateChanged;
-        
-        PlayerSkillList = new List<int>(new int[6]);
-        PlayerSkillList = new List<int>(new int[6]);
 
-        AddSkill(1, 0);
+        PlayerSkillList = new List<int>(new int[6]);
+        PlayerRelicList = new List<int>(new int[6]);
+
+        // AddSkill(3, 0);
+        // AddSkill(1, 1);
+        AddSkill(2, 2);
 
         // 보는 방향 정해주는 더미 오브젝트
         GameObject indicatorObject = new GameObject("Indicator");
@@ -49,15 +51,17 @@ public class PlayerController : CreatureController
         indicatorObject.transform.localPosition = Vector3.zero;
         indicatorObject.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         _indicator = indicatorObject.transform;
-        
+
         StartSkills();
 
         return true;
     }
 
     // TODO: InitPlayer시 RelicList도 같이 받아야함
-    public void InitPlayer(PlayerData data)
+    public void InitPlayer(int templateId)
     {
+        PlayerData data = Managers.Data.PlayerDic[templateId];
+
         PlayerId = data.PlayerId;
         Name = data.Name;
         MaxHp = data.MaxHp;
@@ -67,6 +71,9 @@ public class PlayerController : CreatureController
         CritRate = data.CritRate;
         CritDmgRate = data.CritDmgRate;
         CoolDown = data.CoolDown;
+
+        PlayerSkillList = new List<int>(new int[6]);
+        PlayerRelicList = new List<int>(new int[6]);
     }
 
     private void Update()
@@ -143,6 +150,7 @@ public class PlayerController : CreatureController
         CreatureState = ECreatureState.Dead;
 
         // TODO: Game 종료 씬으로~
+        Managers.Scene.LoadScene(EScene.LobbyScene);
     }
 
     #region Skill
@@ -168,25 +176,48 @@ public class PlayerController : CreatureController
             if (coroutine != null)
                 StopCoroutine(coroutine);
         }
+
         _skillCoroutines.Clear();
     }
 
     IEnumerator CoStartSkill(int skillId)
     {
         SkillData skillData = Managers.Data.SkillDic[skillId];
-        WaitForSeconds wait = new WaitForSeconds(skillData.CoolTime);
+        WaitForSeconds coolTimeWait = new WaitForSeconds(skillData.CoolTime);
 
         while (true)
         {
-            string skillDataPrefabName = skillData.PrefabName;
-            EnergyBoltController ec = Managers.Object.Spawn<EnergyBoltController>(transform.position, skillDataPrefabName);
-            SkillData energyBoltData = Managers.Data.SkillDic[skillId];
-            ec.InitSkill(energyBoltData);
+            switch (skillData.PrefabName)
+            {
+                case "EnergyBolt":
+                    yield return coolTimeWait;
 
-            Vector3 moveDirection = _indicator.up;
-            ec.SetMoveDirection(moveDirection);
+                    int projectileNum = skillData.ProjectileNum;
+                    float spreadAngle = 30f;
 
-            yield return wait;
+                    for (int i = 0; i < projectileNum; i++)
+                    {
+                        EnergyBoltController ebc =
+                            Managers.Object.Spawn<EnergyBoltController>(transform.position, skillId);
+                        ebc.InitSkill(skillId);
+
+                        float angle;
+                        if (projectileNum == 1)
+                            angle = 0f;
+                        else
+                        {
+                            float offsetAngle = (i - (projectileNum - 1) * 0.5f) * (spreadAngle / (projectileNum - 1));
+                            angle = offsetAngle * Mathf.Deg2Rad;
+                        }
+
+                        Vector3 moveDirection = Quaternion.Euler(0f, 0f, angle * Mathf.Rad2Deg) * _indicator.up;
+                        ebc.SetMoveDirection(moveDirection);
+                    }
+                    break;
+                
+                case "IceArrow":
+                    break;
+            }
         }
     }
 

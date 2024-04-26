@@ -15,6 +15,7 @@ public class DataManager
     public Dictionary<int, MonsterData> MonsterDic { get; private set; } = new Dictionary<int, MonsterData>();
     public Dictionary<int, StageData> StageDic { get; private set; } = new Dictionary<int, StageData>();
     public Dictionary<int, SkillData> SkillDic { get; private set; } = new Dictionary<int, SkillData>();
+    public Dictionary<int, GoldData> GoldDic { get; private set; } = new Dictionary<int, GoldData>();
 
     public void Init()
     {
@@ -22,6 +23,7 @@ public class DataManager
         MonsterDic = LoadJson<MonsterDataLoader, int, MonsterData>("MonsterData").MakeDict();
         StageDic = LoadJson<StageDataLoader, int, StageData>("StageData").MakeDict();
         SkillDic = LoadJson<SkillDataLoader, int, SkillData>("SkillData").MakeDict();
+        GoldDic = LoadJson<GoldDataLoader, int, GoldData>("GoldData").MakeDict();
     }
 
     private Loader LoadJson<Loader, Key, Value>(string path) where Loader : ILoader<Key, Value>
@@ -33,5 +35,23 @@ public class DataManager
             return default(Loader);
         }
         return JsonConvert.DeserializeObject<Loader>(textAsset.text);
+    }
+    
+    
+    public string GetData<T>(string dataType, int templateId) where T : class
+    {
+        switch (dataType)
+        {
+            case "PlayerData":
+                return Managers.Data.PlayerDic[templateId].PrefabName;
+            case "MonsterData":
+                return Managers.Data.MonsterDic[templateId].PrefabName;
+            case "GoldData":
+                return Managers.Data.GoldDic[templateId].PrefabName;
+            case "EnergyBoltData":
+                return Managers.Data.SkillDic[templateId].PrefabName;
+            default:
+                return null;
+        }
     }
 }

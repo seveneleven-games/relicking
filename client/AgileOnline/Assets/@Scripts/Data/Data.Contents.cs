@@ -83,6 +83,7 @@ namespace Data
         public int StageId;
         public string PrefabName;
         public string Name;
+        public string ThumbnailName;
         public List<int> NormalMonsterList;
         public List<int> EliteMonsterList;
         public List<int> BossMonsterList;
@@ -120,6 +121,7 @@ namespace Data
         public int Damage;
         public float LifeTime;
         public float Speed;
+        public int ProjectileNum;
     }
     
     [Serializable]
@@ -138,4 +140,33 @@ namespace Data
     }
 
     #endregion
+
+    #region GoldData
+
+    [Serializable]
+    public class GoldData
+    {
+        public int GoldId;
+        public string PrefabName;
+        public string Name;
+        public int DropGold;
+    }
+    
+    [Serializable]
+    public class GoldDataLoader : ILoader<int, GoldData>
+    {
+        public List<GoldData> golds = new List<GoldData>();
+
+        public Dictionary<int, GoldData> MakeDict()
+        {
+            Dictionary<int, GoldData> dict = new Dictionary<int, GoldData>();
+            foreach (GoldData gold in golds)
+                dict.Add(gold.GoldId, gold);
+
+            return dict;
+        }
+    }
+
+    #endregion
+
 }
