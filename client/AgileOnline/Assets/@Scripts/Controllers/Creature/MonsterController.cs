@@ -26,7 +26,6 @@ public class MonsterController : CreatureController
 
         ObjectType = EObjectType.Monster;
         CreatureState = ECreatureState.Idle;
-        Speed = 1.5f;
 
         return true;
     }

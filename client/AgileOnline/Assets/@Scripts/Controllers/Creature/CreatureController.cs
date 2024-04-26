@@ -35,6 +35,7 @@ public class CreatureController : BaseController
 
     public virtual void OnDamaged(BaseController attacker, int damage)
     {
+        Debug.Log(attacker + " " + damage);
         Hp -= damage;
         if (Hp <= 0)
         {

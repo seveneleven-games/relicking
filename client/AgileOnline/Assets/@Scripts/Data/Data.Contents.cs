@@ -120,6 +120,7 @@ namespace Data
         public int Damage;
         public float LifeTime;
         public float Speed;
+        public int ProjectileNum;
     }
     
     [Serializable]

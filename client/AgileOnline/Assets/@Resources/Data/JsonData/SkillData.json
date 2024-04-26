@@ -8,9 +8,10 @@
       "Description": "바라보는 방향으로 에너지 볼트를 발사한다",
       "IconName": "EnergyBolt_icon.sprite",
       "CoolTime": 1,
-      "Damage": 1,
+      "Damage": 10,
       "LifeTime": 1.0,
-      "Speed": 10.0
+      "Speed": 10.0,
+      "ProjectileNum": 1
     },
     {
       "SkillId": 2,
@@ -20,9 +21,10 @@
       "Description": "바라보는 방향으로 에너지 볼트를 발사한다",
       "IconName": "EnergyBolt_icon.sprite",
       "CoolTime": 1,
-      "Damage": 2,
+      "Damage": 20,
       "LifeTime": 1.0,
-      "Speed": 10.0
+      "Speed": 10.0,
+      "ProjectileNum": 2
     },
     {
       "SkillId": 3,
@@ -32,9 +34,10 @@
       "Description": "바라보는 방향으로 에너지 볼트를 발사한다",
       "IconName": "EnergyBolt_icon.sprite",
       "CoolTime": 1,
-      "Damage": 3,
+      "Damage": 30,
       "LifeTime": 1.0,
-      "Speed": 10.0
+      "Speed": 10.0,
+      "ProjectileNum": 3
     }
   ]
 }

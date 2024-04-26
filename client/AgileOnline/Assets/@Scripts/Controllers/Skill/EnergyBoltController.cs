@@ -19,6 +19,7 @@ public class EnergyBoltController : SkillController
     public int Damage { get; private set; }
     public float LifeTime { get; private set; } = 10;
     public float Speed { get; private set; }
+    public int ProjectileNum { get; private set; }
 
     public override bool Init()
     {
@@ -44,6 +45,7 @@ public class EnergyBoltController : SkillController
         Damage = data.Damage;
         LifeTime = data.LifeTime;
         Speed = data.Speed;
+        ProjectileNum = data.ProjectileNum;
         
         StartDestroy(LifeTime);
     }

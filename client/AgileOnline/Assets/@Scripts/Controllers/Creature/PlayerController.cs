@@ -41,7 +41,7 @@ public class PlayerController : CreatureController
         PlayerSkillList = new List<int>(new int[6]);
         PlayerRelicList = new List<int>(new int[6]);
 
-        AddSkill(2, 0);
+        AddSkill(3, 0);
 
         // 보는 방향 정해주는 더미 오브젝트
         GameObject indicatorObject = new GameObject("Indicator");
@@ -185,11 +185,29 @@ public class PlayerController : CreatureController
         while (true)
         {
             yield return coolTimeWait;
-            
-            EnergyBoltController ebc = Managers.Object.Spawn<EnergyBoltController>(transform.position, skillId);
-            ebc.InitSkill(skillId);
-            Vector3 moveDirection = _indicator.up;
-            ebc.SetMoveDirection(moveDirection);
+
+            int projectileNum = skillData.ProjectileNum;
+            float spreadAngle = 30f;
+
+            for (int i = 0; i < projectileNum; i++)
+            {
+                EnergyBoltController ebc = Managers.Object.Spawn<EnergyBoltController>(transform.position, skillId);
+                ebc.InitSkill(skillId);
+
+                float angle;
+                if (projectileNum == 1)
+                {
+                    angle = 0f;
+                }
+                else
+                {
+                    float offsetAngle = (i - (projectileNum - 1) * 0.5f) * (spreadAngle / (projectileNum - 1));
+                    angle = offsetAngle * Mathf.Deg2Rad;
+                }
+
+                Vector3 moveDirection = Quaternion.Euler(0f, 0f, angle * Mathf.Rad2Deg) * _indicator.up;
+                ebc.SetMoveDirection(moveDirection);
+            }
         }
     }
 
