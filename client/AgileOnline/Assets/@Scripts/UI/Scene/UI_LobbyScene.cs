@@ -73,6 +73,7 @@ public class UI_LobbyScene : UI_Scene
     
     UI_BattlePopup _battlePopupUI;
     UI_GachaPopup _gachaPopupUI;
+    UI_InvenPopup _invenPopupUI;
     
     
     public void OnDestroy()
@@ -105,6 +106,7 @@ public class UI_LobbyScene : UI_Scene
         
         _battlePopupUI = Managers.UI.ShowPopupUI<UI_BattlePopup>();
         _gachaPopupUI = Managers.UI.ShowPopupUI<UI_GachaPopup>();
+        _invenPopupUI = Managers.UI.ShowPopupUI<UI_InvenPopup>();
         
         TogglesInit();
         
@@ -138,6 +140,7 @@ public class UI_LobbyScene : UI_Scene
         // 팝업 초기화
         _battlePopupUI.gameObject.SetActive(false);
         _gachaPopupUI.gameObject.SetActive(false);
+        _invenPopupUI.gameObject.SetActive(false);
         
         // 선택여부 초기화
         _isSelectedInventory = false;
@@ -189,7 +192,12 @@ public class UI_LobbyScene : UI_Scene
             return;
         
         // ShowUI
-        _isSelectedGacha = true;
+        ShowUI(_invenPopupUI.gameObject,
+            GetToggle((int)EToggles.InventoryToggle),
+            GetText((int)ETexts.InventoryToggleText),
+            GetObject((int)EGameObjects.CheckInventoryBgImage),
+            GetObject((int)EGameObjects.CheckInventoryImage));
+        _isSelectedInventory = true;
     }
     void OnClickGachaToggle()
     {

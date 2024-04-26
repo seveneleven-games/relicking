@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Data;
 using UnityEngine;
 using static Define;
@@ -43,7 +44,8 @@ public class PlayerController : CreatureController
 
         // AddSkill(3, 0);
         // AddSkill(1, 1);
-        AddSkill(2, 2);
+        AddSkill(3, 0);
+        AddSkill(13, 1);
 
         // 보는 방향 정해주는 더미 오브젝트
         GameObject indicatorObject = new GameObject("Indicator");
@@ -192,21 +194,21 @@ public class PlayerController : CreatureController
                 case "EnergyBolt":
                     yield return coolTimeWait;
 
-                    int projectileNum = skillData.ProjectileNum;
-                    float spreadAngle = 30f;
+                    int ebProjectileNum = skillData.ProjectileNum;
+                    float ebSpreadAngle = 30f;
 
-                    for (int i = 0; i < projectileNum; i++)
+                    for (int i = 0; i < ebProjectileNum; i++)
                     {
                         EnergyBoltController ebc =
                             Managers.Object.Spawn<EnergyBoltController>(transform.position, skillId);
                         ebc.InitSkill(skillId);
 
                         float angle;
-                        if (projectileNum == 1)
+                        if (ebProjectileNum == 1)
                             angle = 0f;
                         else
                         {
-                            float offsetAngle = (i - (projectileNum - 1) * 0.5f) * (spreadAngle / (projectileNum - 1));
+                            float offsetAngle = (i - (ebProjectileNum - 1) * 0.5f) * (ebSpreadAngle / (ebProjectileNum - 1));
                             angle = offsetAngle * Mathf.Deg2Rad;
                         }
 
@@ -216,6 +218,37 @@ public class PlayerController : CreatureController
                     break;
                 
                 case "IceArrow":
+                    yield return coolTimeWait;
+
+                    int iaProjectileNum = skillData.ProjectileNum;
+                    
+                    // 플레이어 주변의 몬스터들을 탐색하여 거리 순으로 정렬
+                    List<MonsterController> nearbyMonsters = new List<MonsterController>();
+                    Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 10f); // 탐색 반경은 적절히 조정
+                    foreach (Collider2D collider in colliders)
+                    {
+                        MonsterController monster = collider.GetComponent<MonsterController>();
+                        if (monster != null)
+                            nearbyMonsters.Add(monster);
+                    }
+                    nearbyMonsters.Sort((a, b) => Vector3.Distance(transform.position, a.transform.position)
+                        .CompareTo(Vector3.Distance(transform.position, b.transform.position)));
+                    
+                    // 프로젝타일 개수만큼 가장 가까운 몬스터들을 선택
+                    List<MonsterController> targetMonsters = nearbyMonsters.Take(iaProjectileNum).ToList();
+
+                    for (int i = 0; i < targetMonsters.Count; i++)
+                    {
+                        MonsterController targetMonster = targetMonsters[i];
+                    
+                        IceArrowController iac = Managers.Object.Spawn<IceArrowController>(transform.position, skillId);
+                        iac.InitSkill(skillId);
+                    
+                        // 몬스터의 위치를 기준으로 발사 방향 계산
+                        Vector3 direction = (targetMonster.transform.position - transform.position).normalized;
+                        iac.SetMoveDirection(direction);
+                    }
+                    
                     break;
             }
         }

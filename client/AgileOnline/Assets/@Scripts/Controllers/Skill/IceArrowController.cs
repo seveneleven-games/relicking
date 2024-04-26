@@ -59,6 +59,8 @@ public class IceArrowController : SkillController
     public void SetMoveDirection(Vector3 direction)
     {
         _moveDir = direction.normalized;
+        float angle = Mathf.Atan2(_moveDir.y, _moveDir.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0f, 0f, angle - 90);
     }
     
     private void OnTriggerEnter2D(Collider2D collision)
