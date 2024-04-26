@@ -10,6 +10,7 @@ public class ObjectManager
     public HashSet<MonsterController> Monsters { get; } = new HashSet<MonsterController>();
     public HashSet<GoldController> Golds { get; } = new HashSet<GoldController>();
     public HashSet<EnergyBoltController> EnergyBolts { get; } = new HashSet<EnergyBoltController>();
+    public HashSet<IceArrowController> IceArrows { get; } = new HashSet<IceArrowController>();
 
     #region Roots
 
@@ -40,6 +41,11 @@ public class ObjectManager
     public Transform EnergyBoltRoot
     {
         get { return GetRootTransform("@EnergyBolt"); }
+    }
+
+    public Transform IceArrowRoot
+    {
+        get { return GetRootTransform("@IceArrow"); }
     }
 
     #endregion
@@ -88,6 +94,13 @@ public class ObjectManager
                     EnergyBolts.Add(ebc);
                     ebc.InitSkill(templateId);
                     break;
+                
+                case ESkillType.IceArrow:
+                    sc.transform.parent = IceArrowRoot;
+                    IceArrowController iac = sc.GetComponent<IceArrowController>();
+                    IceArrows.Add(iac);
+                    iac.InitSkill(templateId);
+                    break;
             }
         }
 
@@ -118,6 +131,11 @@ public class ObjectManager
                 case ESkillType.EnergyBolt:
                     EnergyBoltController ebc = sc as EnergyBoltController;
                     EnergyBolts.Remove(ebc);
+                    break;
+                
+                case ESkillType.IceArrow:
+                    IceArrowController iac = sc as IceArrowController;
+                    IceArrows.Remove(iac);
                     break;
             }
         }

@@ -6,7 +6,10 @@ using UnityEngine;
 public class GoldController : BaseController
 {
     public int GoldValue { get; private set; }
-    
+    public string PrefabName { get; private set; }
+    public string Name { get; private set; }
+    public int DropGold { get; private set; }
+
     public override bool Init()
     {
         if (base.Init() == false)
@@ -16,11 +19,14 @@ public class GoldController : BaseController
 
         return true;
     }
-    
+
     public void InitGold(int templateId)
     {
-        MonsterData data = Managers.Data.MonsterDic[templateId];
+        GoldData data = Managers.Data.GoldDic[Managers.Data.MonsterDic[templateId].DropGold];
         
         GoldValue = data.DropGold;
+        PrefabName = data.PrefabName;
+        Name = data.Name;
+        DropGold = data.DropGold;
     }
 }

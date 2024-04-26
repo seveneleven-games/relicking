@@ -17,12 +17,12 @@ public class PlayerController : CreatureController
     public float CoolDown { get; private set; }
 
     public int PlayerGold { get; private set; }
-    
+
     public List<int> PlayerSkillList { get; private set; }
     public List<int> PlayerRelicList { get; private set; }
 
     private Transform _indicator;
-    
+
     private List<Coroutine> _skillCoroutines = new List<Coroutine>();
 
     public override bool Init()
@@ -37,11 +37,13 @@ public class PlayerController : CreatureController
         Managers.Game.OnMoveDirChanged += HandleOnMoveDirChanged;
         Managers.Game.OnJoystickStateChanged -= HandleOnJoystickStateChanged;
         Managers.Game.OnJoystickStateChanged += HandleOnJoystickStateChanged;
-        
+
         PlayerSkillList = new List<int>(new int[6]);
         PlayerRelicList = new List<int>(new int[6]);
 
-        AddSkill(3, 0);
+        // AddSkill(3, 0);
+        // AddSkill(1, 1);
+        AddSkill(2, 2);
 
         // 보는 방향 정해주는 더미 오브젝트
         GameObject indicatorObject = new GameObject("Indicator");
@@ -49,8 +51,8 @@ public class PlayerController : CreatureController
         indicatorObject.transform.localPosition = Vector3.zero;
         indicatorObject.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         _indicator = indicatorObject.transform;
-        
-        StartSkills();  
+
+        StartSkills();
 
         return true;
     }
@@ -69,7 +71,7 @@ public class PlayerController : CreatureController
         CritRate = data.CritRate;
         CritDmgRate = data.CritDmgRate;
         CoolDown = data.CoolDown;
-        
+
         PlayerSkillList = new List<int>(new int[6]);
         PlayerRelicList = new List<int>(new int[6]);
     }
@@ -174,6 +176,7 @@ public class PlayerController : CreatureController
             if (coroutine != null)
                 StopCoroutine(coroutine);
         }
+
         _skillCoroutines.Clear();
     }
 
@@ -184,29 +187,36 @@ public class PlayerController : CreatureController
 
         while (true)
         {
-            yield return coolTimeWait;
-
-            int projectileNum = skillData.ProjectileNum;
-            float spreadAngle = 30f;
-
-            for (int i = 0; i < projectileNum; i++)
+            switch (skillData.PrefabName)
             {
-                EnergyBoltController ebc = Managers.Object.Spawn<EnergyBoltController>(transform.position, skillId);
-                ebc.InitSkill(skillId);
+                case "EnergyBolt":
+                    yield return coolTimeWait;
 
-                float angle;
-                if (projectileNum == 1)
-                {
-                    angle = 0f;
-                }
-                else
-                {
-                    float offsetAngle = (i - (projectileNum - 1) * 0.5f) * (spreadAngle / (projectileNum - 1));
-                    angle = offsetAngle * Mathf.Deg2Rad;
-                }
+                    int projectileNum = skillData.ProjectileNum;
+                    float spreadAngle = 30f;
 
-                Vector3 moveDirection = Quaternion.Euler(0f, 0f, angle * Mathf.Rad2Deg) * _indicator.up;
-                ebc.SetMoveDirection(moveDirection);
+                    for (int i = 0; i < projectileNum; i++)
+                    {
+                        EnergyBoltController ebc =
+                            Managers.Object.Spawn<EnergyBoltController>(transform.position, skillId);
+                        ebc.InitSkill(skillId);
+
+                        float angle;
+                        if (projectileNum == 1)
+                            angle = 0f;
+                        else
+                        {
+                            float offsetAngle = (i - (projectileNum - 1) * 0.5f) * (spreadAngle / (projectileNum - 1));
+                            angle = offsetAngle * Mathf.Deg2Rad;
+                        }
+
+                        Vector3 moveDirection = Quaternion.Euler(0f, 0f, angle * Mathf.Rad2Deg) * _indicator.up;
+                        ebc.SetMoveDirection(moveDirection);
+                    }
+                    break;
+                
+                case "IceArrow":
+                    break;
             }
         }
     }
