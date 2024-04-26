@@ -66,7 +66,15 @@ public static class Define
         PointerUp,
         Drag
     }
-    
+
+
+    #region UI_NodeMapScene
+
+    public static int STAGE_NO = 1;
+    public static string STAGE_BG_NAME = "Stage1BG";
+
+    #endregion
+
 }
 
 
