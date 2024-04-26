@@ -8,7 +8,7 @@ public class LobbyScene : BaseScene
     {
         if (base.Init() == false)
             return false;
-
+        
         SceneType = Define.EScene.LobbyScene;
 
         // UI

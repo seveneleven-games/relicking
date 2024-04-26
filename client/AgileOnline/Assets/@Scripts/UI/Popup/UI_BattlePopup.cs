@@ -221,6 +221,9 @@ public class UI_BattlePopup : UI_Popup
         
     }
 
+    // 왼쪽 버튼 클릭 함수
+    // 오른쪽 버튼 클릭 함수
+    
     void OnClickStartButton()
     {
         Managers.Game.CurrentStageData = _stageData;
