@@ -28,7 +28,9 @@ public class UI_TitleScene : UI_Scene
         GetObject((int)EGameObjects.StartImage).BindEvent(() =>
         {
             Debug.Log("ChangeScene");
-            Managers.Scene.LoadScene(EScene.LobbyScene);
+            
+            //todo : 노드맵 테스트, 푸시 전에 EScene.LobbyScene으로 원복하기
+            Managers.Scene.LoadScene(EScene.TestNodeMapScene);
         });
         
         GetObject((int)EGameObjects.StartImage).gameObject.SetActive(false);
