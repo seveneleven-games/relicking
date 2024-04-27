@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static Define;
 
-public class UI_NodeMapScene : UI_Scene
+public class UI_NodeMapPopup : UI_Popup
 {
     enum GameObjects
     {
@@ -39,6 +39,8 @@ public class UI_NodeMapScene : UI_Scene
         BindImage(typeof(Images));
 
         DataInit();
+        
+        GetButton((int)Buttons.BackButton).gameObject.BindEvent(OnBackButtonClick);
         
         Debug.Log("UI_NodeMapScene initialized.");
 
@@ -78,4 +80,13 @@ public class UI_NodeMapScene : UI_Scene
         _nodeMap.transform.localScale = new Vector3(0.8f,0.8f,0.8f);
         _nodes.GetComponent<ScrollRect>().content = _nodeMap.GetComponent<RectTransform>();
     }
+
+    void OnBackButtonClick()
+    {
+        //todo : 뒤로가기 버튼 확인 모달 띄우는게 좋지 않을까? ex) 스테이지를 포기하고 로비로 나가시겠습니까?
+        
+        Managers.Scene.LoadScene(EScene.LobbyScene);
+        
+    }
+    
 }
