@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "Test", description = "더미 사용자 정보 제공하는 API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/test")
+@RequestMapping("/api/test")
 public class TestController {
 
 	private final TestService testService;
