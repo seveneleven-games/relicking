@@ -55,7 +55,8 @@ public class UI_BattlePopup : UI_Popup
     // 객체 관련 두는 곳
     StageData _stageData;
     HorizontalScrollSnap _scrollSnap;
-    
+
+    public TemplateData _templateData;
     
     // 초기 세팅
     public override bool Init()
@@ -95,11 +96,14 @@ public class UI_BattlePopup : UI_Popup
         _scrollSnap.StartingScreen = Managers.Game.CurrentStageData.StageId - 1;
         
         
-        
         // 임시
+        _templateData = Resources.Load<TemplateData>("GameTemplateData");
+        Debug.Log("templateData is :" + _templateData);
         GetObject((int)EGameObjects.StageSelectScrollView).BindEvent(() =>
         {
             Debug.Log("go Game");
+            // 백엔드에서 통신해서 받아온 데이터랑 현재 선택한 스테이지 데이터를 넣어서 줘야됨
+            _templateData.TemplateIds = new int[] {1, 1};
             Managers.Scene.LoadScene(Define.EScene.GameScene);
         });
         

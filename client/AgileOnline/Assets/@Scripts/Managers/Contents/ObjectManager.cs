@@ -11,6 +11,7 @@ public class ObjectManager
     public HashSet<GoldController> Golds { get; } = new HashSet<GoldController>();
     public HashSet<EnergyBoltController> EnergyBolts { get; } = new HashSet<EnergyBoltController>();
     public HashSet<IceArrowController> IceArrows { get; } = new HashSet<IceArrowController>();
+    public HashSet<ElectronicFieldController> ElectronicFields { get; } = new HashSet<ElectronicFieldController>();
 
     #region Roots
 
@@ -48,16 +49,19 @@ public class ObjectManager
         get { return GetRootTransform("@IceArrow"); }
     }
 
+    public Transform ElectronicFieldRoot
+    {
+        get { return GetRootTransform("@ElectronicField"); }
+    }
+
     #endregion
 
     public T Spawn<T>(Vector3 position, int templateId) where T : BaseController
     {
         string dataType = typeof(T).Name.Replace("Controller", "Data");
-
-        Debug.Log("이거 템플릿아이디임" + templateId);
+        Debug.Log(dataType + " " + templateId);
         string prefabName = Managers.Data.GetData<T>(dataType, templateId);
 
-        Debug.Log("이거 프리팹 이름" + prefabName);
         GameObject go = Managers.Resource.Instantiate(prefabName, pooling: true);
         go.name = prefabName;
         go.transform.position = position;
@@ -67,9 +71,8 @@ public class ObjectManager
         if (obj.ObjectType == EObjectType.Player)
         {
             obj.transform.parent = PlayerRoot;
-            PlayerController pc = go.GetComponent<PlayerController>();
-            Player = pc;
-            pc.InitPlayer(templateId);
+            Player = go.GetComponent<PlayerController>();
+            Player.InitPlayer(templateId);
         }
         else if (obj.ObjectType == EObjectType.Monster)
         {
@@ -102,6 +105,13 @@ public class ObjectManager
                     IceArrowController iac = sc.GetComponent<IceArrowController>();
                     IceArrows.Add(iac);
                     iac.InitSkill(templateId);
+                    break;
+                
+                case ESkillType.ElectronicField:
+                    sc.transform.parent = ElectronicFieldRoot;
+                    ElectronicFieldController efc = sc.GetComponent<ElectronicFieldController>();
+                    ElectronicFields.Add(efc);
+                    efc.InitSkill(templateId);
                     break;
             }
         }
@@ -138,6 +148,11 @@ public class ObjectManager
                 case ESkillType.IceArrow:
                     IceArrowController iac = sc as IceArrowController;
                     IceArrows.Remove(iac);
+                    break;
+                
+                case ESkillType.ElectronicField:
+                    ElectronicFieldController efc = sc as ElectronicFieldController;
+                    ElectronicFields.Remove(efc);
                     break;
             }
         }

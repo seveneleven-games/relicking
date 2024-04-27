@@ -14,6 +14,8 @@ public class GameScene : BaseScene
     private const int ELITE_MONSTER = 1;
     private const int BOSS_MONSTER = 2;
 
+    public TemplateData _templateData;
+
     public override bool Init()
     {
         if (base.Init() == false)
@@ -21,22 +23,25 @@ public class GameScene : BaseScene
 
         SceneType = EScene.GameScene;
         
-        // TODO: 상점 UI에서 StartGame을 시작하도록 변경해야함
-        StartGame(1, 1, 0);
+        _templateData = Resources.Load<TemplateData>("GameTemplateData");
+        int stageId = _templateData.TemplateIds[0];
+        int classId = _templateData.TemplateIds[1];
+        
+        PlayerController pc = Managers.Object.Spawn<PlayerController>(Vector3.zero, classId);
+        
+        // TODO: 노드맵 UI에서 게임을 시작해야 한다. 
+        StartGame(stageId, pc, 0);
 
         return true;
     }
 
-    public void StartGame(int stageId, int playerId, int nodeType)
+    public void StartGame(int stageId, PlayerController pc, int nodeType)
     {
         StageData stageData = Managers.Data.StageDic[stageId];
         
         GameObject map = Managers.Resource.Instantiate(stageData.PrefabName);
         map.transform.position = Vector3.zero;
         map.name = "@BaseMap";
-        
-        PlayerController pc = Managers.Object.Spawn<PlayerController>(Vector3.zero, playerId);
-        pc.InitPlayer(playerId);
 
         CameraController camera = Camera.main.GetOrAddComponent<CameraController>();
         camera.Target = pc;
