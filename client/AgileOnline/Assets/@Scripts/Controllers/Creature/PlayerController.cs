@@ -43,9 +43,9 @@ public class PlayerController : CreatureController
         PlayerRelicList = new List<int>(new int[6]);
 
         AddSkill(3, 0);
-        AddSkill(13, 1);
-        AddSkill(22, 2);
-        AddSkill(33, 3);
+        // AddSkill(13, 1);
+        // AddSkill(22, 2);
+        // AddSkill(33, 3);
 
         // 보는 방향 정해주는 더미 오브젝트
         GameObject indicatorObject = new GameObject("Indicator");
@@ -185,14 +185,16 @@ public class PlayerController : CreatureController
     IEnumerator CoStartSkill(int skillId)
     {
         SkillData skillData = Managers.Data.SkillDic[skillId];
+        float coolTime = skillData.CoolTime;
         WaitForSeconds coolTimeWait = new WaitForSeconds(skillData.CoolTime);
-
+        Debug.Log($"CoolTime: {coolTime} seconds");
         while (true)
         {
+
+            yield return coolTimeWait;
             switch (skillData.PrefabName)
             {
                 case "EnergyBolt":
-                    yield return coolTimeWait;
 
                     int ebProjectileNum = skillData.ProjectileNum;
                     float ebSpreadAngle = 30f;
@@ -219,8 +221,6 @@ public class PlayerController : CreatureController
                     break;
 
                 case "IceArrow":
-                    yield return coolTimeWait;
-
                     int iaProjectileNum = skillData.ProjectileNum;
 
                     List<MonsterController> nearbyMonsters = new List<MonsterController>();
@@ -256,7 +256,6 @@ public class PlayerController : CreatureController
                     yield break;
 
                 case "PoisonField":
-                    yield return coolTimeWait;
 
                     int pfProjectileNum = skillData.ProjectileNum;
                     List<Vector3> installedPositions = new List<Vector3>();

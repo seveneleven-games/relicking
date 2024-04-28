@@ -53,7 +53,8 @@ public static class Define
         EnergyBolt,
         IceArrow,
         ElectronicField,
-        PoisonField
+        PoisonField,
+        EliteMonsterProjectile
     }
 
     public enum EJoystickState

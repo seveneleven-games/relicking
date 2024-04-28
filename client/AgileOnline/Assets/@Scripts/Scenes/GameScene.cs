@@ -30,7 +30,7 @@ public class GameScene : BaseScene
         PlayerController pc = Managers.Object.Spawn<PlayerController>(Vector3.zero, classId);
         
         // TODO: 노드맵 UI에서 게임을 시작해야 한다. 
-        StartGame(stageId, pc, 0);
+        StartGame(stageId, pc, 1);
 
         return true;
     }
@@ -60,7 +60,7 @@ public class GameScene : BaseScene
                 StartCoroutine(SpawnNormalMonsters(normalList));
                 break;
             case 1:
-                StartCoroutine(SpawnNormalMonsters(eliteList));
+                StartCoroutine(SpawnEliteMonsters(normalList, eliteList));
                 break;
             case 2:
                 StartCoroutine(SpawnNormalMonsters(bossList));
@@ -90,6 +90,34 @@ public class GameScene : BaseScene
                 mc.InitMonster(randomMonsterId);
             }
 
+            yield return new WaitForSeconds(MONSTER_SPAWN_INTERVAL);
+        }
+    }
+
+    private IEnumerator SpawnEliteMonsters(List<int> normalMonsterIds, List<int> eliteMonsterIds)
+    {
+        Vector3 eliteSpawn = new Vector3(0, -4, 0);
+        Managers.Object.Spawn<MonsterController>(eliteSpawn, eliteMonsterIds[0]);
+        while (true)
+        {
+            for (int i = 0; i < PER_SEC_MOSTER_GENERATION; i++)
+            {
+                Vector3 randomPosition = GetRandomPositionOutsidePlayerRadius();
+                GameObject target = Managers.Resource.Load<GameObject>("Target");
+                target = Managers.Pool.Pop(target);
+                target.transform.position = randomPosition;
+
+                yield return new WaitForSeconds(TARGET_SPAWN_TIME);
+                
+                Managers.Pool.Push(target);
+                
+                int randomIndex = Random.Range(0, normalMonsterIds.Count);
+                int randomMonsterId = normalMonsterIds[randomIndex];
+                
+                MonsterController mc = Managers.Object.Spawn<MonsterController>(randomPosition, randomMonsterId);
+                mc.InitMonster(randomMonsterId);
+            }
+            
             yield return new WaitForSeconds(MONSTER_SPAWN_INTERVAL);
         }
     }
