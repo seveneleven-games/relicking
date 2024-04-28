@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class UI_NodeMapBase : UI_Base
 {
-    public int ClearedDepth { get; protected set; } = 0;
+    public int ClearedDepth { get; protected set; } = -1;
     public int BossDepth { get; protected set; }
     public bool[] ClearedNodes { get; protected set; }
     
     public virtual void DataSync()
+    {
+        
+    }
+
+    public virtual void LineSync()
     {
         
     }

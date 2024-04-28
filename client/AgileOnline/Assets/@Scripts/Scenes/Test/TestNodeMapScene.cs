@@ -5,7 +5,7 @@ using UnityEngine;
 public class TestNodeMapScene : BaseScene
 {
     private UI_NodeMapPopup _nodeMap;
-    private int _nodeNo = 0;
+    private int _nodeNo;
     public override bool Init()
     {
         if (base.Init() == false)

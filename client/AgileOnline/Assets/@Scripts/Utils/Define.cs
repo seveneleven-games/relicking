@@ -11,7 +11,7 @@ public static class Define
         LobbyScene,
         GameScene,
         
-        //todo : 머지 전에 test씬 삭제하기
+        //todo(전지환) : 머지 전에 test씬 삭제하기
         TestNodeMapScene
     }
 
