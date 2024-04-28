@@ -4,12 +4,12 @@ using Data;
 using UnityEngine;
 using static Define;
 
-public class ElectronicFieldController : SkillController
+public class PoisonFieldController : SkillController
 {
     private CreatureController _owner;
     private float _damageInterval = 0.5f;
     private float _lastDamageTime;
-    private Vector3 _moveDir;
+    // private Vector3 _moveDir;
     
     public int SkillId { get; private set; }
     public int NextId { get; private set; }
@@ -33,11 +33,10 @@ public class ElectronicFieldController : SkillController
         if (base.Init() == false)
             return false;
         
-        SkillType = ESkillType.ElectronicField;
+        SkillType = ESkillType.PoisonField;
 
         return true;
     }
-
     public void InitSkill(int templateId)
     {
         SkillData data = Managers.Data.SkillDic[templateId];
@@ -59,10 +58,10 @@ public class ElectronicFieldController : SkillController
     
     private void Update()
     {
-        if (_owner != null)
-        {
-            transform.position = _owner.transform.position;
-        }
+        // if (_owner != null)
+        // {
+        //     transform.position = _owner.transform.position;
+        // }
         
         if (Time.time - _lastDamageTime >= _damageInterval)
         {

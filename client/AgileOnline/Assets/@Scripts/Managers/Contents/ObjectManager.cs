@@ -12,7 +12,8 @@ public class ObjectManager
     public HashSet<EnergyBoltController> EnergyBolts { get; } = new HashSet<EnergyBoltController>();
     public HashSet<IceArrowController> IceArrows { get; } = new HashSet<IceArrowController>();
     public HashSet<ElectronicFieldController> ElectronicFields { get; } = new HashSet<ElectronicFieldController>();
-
+    public HashSet<PoisonFieldController> PoisonFields { get; } = new HashSet<PoisonFieldController>();
+    
     #region Roots
 
     public Transform GetRootTransform(string name)
@@ -52,6 +53,11 @@ public class ObjectManager
     public Transform ElectronicFieldRoot
     {
         get { return GetRootTransform("@ElectronicField"); }
+    }
+    
+    public Transform PoisonFieldRoot
+    {
+        get { return GetRootTransform("@PoisonFieldRoot"); }
     }
 
     #endregion
@@ -113,6 +119,13 @@ public class ObjectManager
                     ElectronicFields.Add(efc);
                     efc.InitSkill(templateId);
                     break;
+                
+                case ESkillType.PoisonField:
+                    sc.transform.parent = PoisonFieldRoot;
+                    PoisonFieldController pfc = sc.GetComponent<PoisonFieldController>();
+                    PoisonFields.Add(pfc);
+                    pfc.InitSkill(templateId);
+                    break;
             }
         }
 
@@ -153,6 +166,11 @@ public class ObjectManager
                 case ESkillType.ElectronicField:
                     ElectronicFieldController efc = sc as ElectronicFieldController;
                     ElectronicFields.Remove(efc);
+                    break;
+                
+                case ESkillType.PoisonField:
+                    PoisonFieldController pfc = sc as PoisonFieldController;
+                    PoisonFields.Remove(pfc);
                     break;
             }
         }
