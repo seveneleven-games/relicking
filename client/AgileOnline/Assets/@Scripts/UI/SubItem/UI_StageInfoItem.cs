@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Data;
@@ -46,6 +47,11 @@ public class UI_StageInfoItem : UI_Base
     
     // 객체 관련 두는 곳
     StageData _stageData;
+
+    private void Awake()
+    {
+        Init();
+    }
 
     // 초기 세팅
     public override bool Init()
