@@ -161,7 +161,7 @@ GameObject:
   - component: {fileID: 3850659935796522725}
   - component: {fileID: 2093033998482598081}
   - component: {fileID: 4165827418608804333}
-  - component: {fileID: 7179841504473849575}
+  - component: {fileID: 8442361608010861002}
   m_Layer: 5
   m_Name: UI_Stage1NodeMap_01
   m_TagString: Untagged
@@ -235,7 +235,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7179841504473849575
+--- !u!114 &8442361608010861002
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
