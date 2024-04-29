@@ -56,18 +56,14 @@ public class UI_BattlePopup : UI_Popup
     // 객체 관련 두는 곳
     StageData _currentStageData; // Data.Contents
     HorizontalScrollSnap _scrollSnap;
-
-    public TemplateData _templateData;
     
-    // 이거의 역할은?
-    private void Awake()
-    {
-        Init();
-    }
+    public TemplateData _templateData;
     
     // 초기 세팅
     public override bool Init()
     {
+        
+        
         if (base.Init() == false)
             return false;
 
@@ -91,7 +87,14 @@ public class UI_BattlePopup : UI_Popup
         // 오른쪽 버튼
         // GetButton((int)EButtons.RArrowButton).gameObject.BindEvent(onClickRArrowButton);
         GetButton((int)EButtons.RArrowButton).GetOrAddComponent<UI_ButtonAnimation>();
-
+        
+        
+        if (Managers.Game.CurrentStageData.StageId == 0)
+        {
+            Managers.Game.CurrentStageData = Managers.Data.StageDic[1];
+            _currentStageData = Managers.Game.CurrentStageData;
+        }
+        
         // 스크롤 관련 (스테이지)
         // HorizontalScrollSnap라는 유형의 컴포넌트를 찾아 변수 할당 (하위 자식 포함)
         _scrollSnap = Util.FindChild<HorizontalScrollSnap>(gameObject, recursive: true);
@@ -99,7 +102,6 @@ public class UI_BattlePopup : UI_Popup
         _scrollSnap.OnSelectionPageChangedEvent.AddListener(OnChangeStage);
         // 첫 스테이지 상태
         _scrollSnap.StartingScreen = Managers.Game.CurrentStageData.StageId - 1;
-        
         
         // 임시
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
@@ -129,6 +131,7 @@ public class UI_BattlePopup : UI_Popup
     }
 
     
+    // 시작버튼 누를 때 값 갱신 해줄것?
     public void SetInfo(StageData stageData)
     {
         _currentStageData = stageData;
@@ -145,16 +148,6 @@ public class UI_BattlePopup : UI_Popup
         if (_currentStageData == null)
             return;
         
-        #region 현재 스테이지 관련
-
-        // 만약에 처음이라면 
-        if (Managers.Game.CurrentStageData == null)
-        {
-            Managers.Game.CurrentStageData = Managers.Data.StageDic[1];
-        }
-        
-        #endregion
-        
         #region 초기화
 
         #region 스테이지 리스트
@@ -170,6 +163,7 @@ public class UI_BattlePopup : UI_Popup
         {
             // StageInfoItem 달기
             UI_StageInfoItem item = Managers.UI.MakeSubItem<UI_StageInfoItem>(StageContainer.transform);
+            item.transform.position = new Vector3(0,0,0);
             item.SetInfo(stageData);
             _scrollSnap.ChildObjects[stageData.StageId - 1] = item.gameObject;
         }
