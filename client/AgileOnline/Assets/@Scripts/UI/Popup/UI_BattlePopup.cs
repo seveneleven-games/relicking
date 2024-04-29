@@ -142,6 +142,9 @@ public class UI_BattlePopup : UI_Popup
         if (_init == false)
             return;
 
+        if (_currentStageData == null)
+            return;
+        
         #region 현재 스테이지 관련
 
         // 만약에 처음이라면 
