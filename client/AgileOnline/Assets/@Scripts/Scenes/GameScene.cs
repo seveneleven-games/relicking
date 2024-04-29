@@ -15,6 +15,7 @@ public class GameScene : BaseScene
     private const int NORMAL_MONSTER = 0;
     private const int ELITE_MONSTER = 1;
     private const int BOSS_MONSTER = 2;
+    private UI_WorldSpace _worldSpaceUI;
 
     public TemplateData _templateData;
     private int _classId;
@@ -40,6 +41,7 @@ public class GameScene : BaseScene
         _classId = _templateData.TemplateIds[1];
 
         _player = Managers.Object.Spawn<PlayerController>(Vector3.zero, _classId);
+        _worldSpaceUI = Managers.UI.MakeWorldSpaceUI<UI_WorldSpace>();
 
         // TODO: 노드맵 UI에서 게임을 시작해야 한다. 
 
