@@ -10,7 +10,8 @@ public class TestTitleScene : BaseScene
             return false;
 
         SceneType = Define.EScene.TitleScene;
-
+        
+        
         return true;
     }
 

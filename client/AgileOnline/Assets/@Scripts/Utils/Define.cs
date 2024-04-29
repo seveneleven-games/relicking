@@ -10,6 +10,7 @@ public static class Define
         TitleScene,
         LobbyScene,
         GameScene,
+        LoginScene,
         
         //todo(전지환) : 머지 전에 test씬 삭제하기
         TestNodeMapScene
@@ -73,7 +74,8 @@ public static class Define
     public static int STAGE_NO = 1;
     public static string STAGE_NODEMAP_NAME = "UI_Stage1NodeMap_01";
     public static string STAGE_BG_NAME = "Stage1BG.sprite";
-
+    
+    public static string BASE_URI = "https://k10d211.p.ssafy.io/api/";
     #endregion
 
 }
