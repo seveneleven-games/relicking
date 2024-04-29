@@ -21,7 +21,7 @@
       "PrefabName": "Monster2",
       "MonsterType": 1,
       "Name": "뮻",
-      "MaxHp": 10,
+      "MaxHp": 5000,
       "Atk": 1,
       "Speed": 2.0,
       "DropGold": 2,

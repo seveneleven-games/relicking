@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TitleScene : BaseScene
+public class TestTitleScene : BaseScene
 {
     public override bool Init()
     {
@@ -10,7 +10,8 @@ public class TitleScene : BaseScene
             return false;
 
         SceneType = Define.EScene.TitleScene;
-
+        
+        
         return true;
     }
 

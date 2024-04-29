@@ -18,7 +18,13 @@ MonoBehaviour:
   m_GUID: 08adf38831f1177458b840a1d83d6dcb
   m_SerializeEntries:
   - m_GUID: a6c4ad0a711489b49aeb5546ba5a97ef
-    m_Address: Stage1NodeMap_01
+    m_Address: Map_01
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d51bf7b93ed7908409a18440ecbe1492
+    m_Address: UI_Stage1NodeMap_01
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad

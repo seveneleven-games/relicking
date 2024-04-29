@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Data;
@@ -22,7 +23,7 @@ public class UI_BattlePopup : UI_Popup
 
     enum EGameObjects
     {
-        ContentObject,
+        ContentObject, // 나중에 애니메이션 넣을 시에 필요
         StageSelectScrollView,
         StageScrollContentObject,
     }
@@ -53,10 +54,16 @@ public class UI_BattlePopup : UI_Popup
     #endregion
     
     // 객체 관련 두는 곳
-    StageData _stageData;
+    StageData _currentStageData; // Data.Contents
     HorizontalScrollSnap _scrollSnap;
 
     public TemplateData _templateData;
+    
+    // 이거의 역할은?
+    private void Awake()
+    {
+        Init();
+    }
     
     // 초기 세팅
     public override bool Init()
@@ -73,17 +80,15 @@ public class UI_BattlePopup : UI_Popup
         BindImage(typeof(EImages)); 
         
         // 시작 버튼
-        GetButton((int)EButtons.StartButton).gameObject.SetActive(false);
+        GetButton((int)EButtons.StartButton).gameObject.SetActive(true);
         GetButton((int)EButtons.StartButton).gameObject.BindEvent(OnClickStartButton);
         GetButton((int)EButtons.StartButton).GetOrAddComponent<UI_ButtonAnimation>();
         
         // 왼쪽 버튼
-        GetButton((int)EButtons.LArrowButton).gameObject.SetActive(false);
         // GetButton((int)EButtons.LArrowButton).gameObject.BindEvent(onClickLArrowButton);
         GetButton((int)EButtons.LArrowButton).GetOrAddComponent<UI_ButtonAnimation>();
         
         // 오른쪽 버튼
-        GetButton((int)EButtons.RArrowButton).gameObject.SetActive(false);
         // GetButton((int)EButtons.RArrowButton).gameObject.BindEvent(onClickRArrowButton);
         GetButton((int)EButtons.RArrowButton).GetOrAddComponent<UI_ButtonAnimation>();
 
@@ -105,13 +110,14 @@ public class UI_BattlePopup : UI_Popup
             // 백엔드에서 통신해서 받아온 데이터랑 현재 선택한 스테이지 데이터를 넣어서 줘야됨
             int stageId = 1;
             int playerId = 1;
+            int difficulty = 1;
             int relic1Id = 0;
             int relic2Id = 0;
             int relic3Id = 0;
             int relic4Id = 0;
             int relic5Id = 0;
             int relic6Id = 0;
-            _templateData.TemplateIds = new int[] {stageId, playerId, relic1Id,
+            _templateData.TemplateIds = new int[] {stageId, playerId, difficulty, relic1Id,
                 relic2Id, relic3Id, relic4Id, relic5Id, relic6Id};
             Managers.Scene.LoadScene(Define.EScene.GameScene);
         });
@@ -126,7 +132,7 @@ public class UI_BattlePopup : UI_Popup
     
     public void SetInfo(StageData stageData)
     {
-        _stageData = stageData;
+        _currentStageData = stageData;
         Refresh();
     }
     
@@ -136,9 +142,19 @@ public class UI_BattlePopup : UI_Popup
 
         if (_init == false)
             return;
-        
-        if (_stageData == null)
+
+        if (_currentStageData == null)
             return;
+        
+        #region 현재 스테이지 관련
+
+        // 만약에 처음이라면 
+        if (Managers.Game.CurrentStageData == null)
+        {
+            Managers.Game.CurrentStageData = Managers.Data.StageDic[1];
+        }
+        
+        #endregion
         
         #region 초기화
 
@@ -147,11 +163,13 @@ public class UI_BattlePopup : UI_Popup
         // 다 날리고
         GameObject StageContainer = GetObject((int)EGameObjects.StageScrollContentObject);
         StageContainer.DestroyChilds();
-
+        
         // 다시 받아오기
+        // 스테이지 갯수만큼 만들기
         _scrollSnap.ChildObjects = new GameObject[Managers.Data.StageDic.Count];
         foreach (StageData stageData in Managers.Data.StageDic.Values)
         {
+            // StageInfoItem 달기
             UI_StageInfoItem item = Managers.UI.MakeSubItem<UI_StageInfoItem>(StageContainer.transform);
             item.SetInfo(stageData);
             _scrollSnap.ChildObjects[stageData.StageId - 1] = item.gameObject;
@@ -182,24 +200,24 @@ public class UI_BattlePopup : UI_Popup
         // 기본 상태
         GetButton((int)EButtons.LArrowButton).gameObject.SetActive(true);
         GetButton((int)EButtons.RArrowButton).gameObject.SetActive(true);
-        GetButton((int)EButtons.StartButton).gameObject.SetActive(true);
+        GetButton((int)EButtons.StartButton).gameObject.SetActive(false);
         
         
         #region 스테이지 화살표 활성화 관련 
 
         // (스테이지 갯수에 따라 다르게 설정해주기) - 이건 하드코딩 말고도 가능할 텐데..
         
-        if (_stageData.StageId == 1)
+        if (_currentStageData.StageId == 1)
         {
             GetButton((int)EButtons.LArrowButton).gameObject.SetActive(false);
             GetButton((int)EButtons.RArrowButton).gameObject.SetActive(true);
         }
-        else if (_stageData.StageId >= 2 && _stageData.StageId < 3)
+        else if (_currentStageData.StageId >= 2 && _currentStageData.StageId < 3)
         {
             GetButton((int)EButtons.LArrowButton).gameObject.SetActive(true);
             GetButton((int)EButtons.RArrowButton).gameObject.SetActive(true);
         }
-        else if (_stageData.StageId == 3) // Todo 스테이지 갯수만큼 
+        else if (_currentStageData.StageId == 3) // Todo 스테이지 갯수만큼 
         {
             GetButton((int)EButtons.LArrowButton).gameObject.SetActive(true);
             GetButton((int)EButtons.RArrowButton).gameObject.SetActive(false);
@@ -210,7 +228,7 @@ public class UI_BattlePopup : UI_Popup
         
         #region 스테이지 시작 버튼
 
-        if (Managers.Game.DicStageClearInfo.TryGetValue(_stageData.StageId, out StageClearInfo info) == false)
+        if (Managers.Game.DicStageClearInfo.TryGetValue(_currentStageData.StageId, out StageClearInfo info) == false)
             return;
         
         // 게임 처음 시작하고 스테이지창을 오픈 한 경우
@@ -219,35 +237,56 @@ public class UI_BattlePopup : UI_Popup
             GetButton((int)EButtons.StartButton).gameObject.SetActive(true);   
         }
         // 스테이지 진행중
-        if (info.StageId <= _stageData.StageId)
+        if (info.StageId <= _currentStageData.StageId)
+        {
             GetButton((int)EButtons.StartButton).gameObject.SetActive(true);
+        }
         
         // 새로운 스테이지
-        if (Managers.Game.DicStageClearInfo.TryGetValue(_stageData.StageId - 1, out StageClearInfo PrevInfo) == false)
+        if (Managers.Game.DicStageClearInfo.TryGetValue(_currentStageData.StageId - 1, out StageClearInfo PrevInfo) == false)
+        {
             return;
+        }
+
         if (PrevInfo.isClear == true)
+        {
             GetButton((int)EButtons.StartButton).gameObject.SetActive(true);
+        }
         else
+        {
             GetButton((int)EButtons.StartButton).gameObject.SetActive(false);
+        }
         
         #endregion
         
     }
 
+    // 왼쪽 버튼 클릭 함수
+    // 오른쪽 버튼 클릭 함수
+    
     void OnClickStartButton()
     {
-        Managers.Game.CurrentStageData = _stageData;
+        Managers.Game.CurrentStageData = _currentStageData;
+        // 임시??
+        // 스테이지 저장 관련해서 처리 한 후에 최신 스테이지 불러오게 처리 필요.
+        // 현재는 임시로 1스테이지 불러오게 해놨음
+        SetInfo(Managers.Game.CurrentStageData);
+        
         // 현재 난이도도 나중에 줘야 됨.
         // 여기서 게임씬으로 가는 것도 나중에 추가하기!!!
+        Managers.Scene.LoadScene(Define.EScene.GameScene);
     }
 
     void OnChangeStage(int index)
     {
         // 현재 스테이지 설정
-        _stageData = Managers.Data.StageDic[index + 1];
+        _currentStageData = Managers.Data.StageDic[index + 1];
         
         UIRefresh();
     }
     
 
 }
+
+
+// currentStage setinfo를 게임 시작할 때 할 것이고 처음에는 0일테니깐 처음일 때에 대한 조건 처리를 해주자!!
