@@ -74,6 +74,7 @@ public class UI_LobbyScene : UI_Scene
     UI_BattlePopup _battlePopupUI;
     UI_GachaPopup _gachaPopupUI;
     UI_InvenPopup _invenPopupUI;
+    UI_RankingPopup _rankingPopupUI;
     
     
     public void OnDestroy()
@@ -107,6 +108,7 @@ public class UI_LobbyScene : UI_Scene
         _battlePopupUI = Managers.UI.ShowPopupUI<UI_BattlePopup>();
         _gachaPopupUI = Managers.UI.ShowPopupUI<UI_GachaPopup>();
         _invenPopupUI = Managers.UI.ShowPopupUI<UI_InvenPopup>();
+        _rankingPopupUI = Managers.UI.ShowPopupUI<UI_RankingPopup>();
         
         TogglesInit();
         
@@ -141,6 +143,7 @@ public class UI_LobbyScene : UI_Scene
         _battlePopupUI.gameObject.SetActive(false);
         _gachaPopupUI.gameObject.SetActive(false);
         _invenPopupUI.gameObject.SetActive(false);
+        _rankingPopupUI.gameObject.SetActive(false);
         
         // 선택여부 초기화
         _isSelectedInventory = false;
@@ -240,7 +243,12 @@ public class UI_LobbyScene : UI_Scene
             return;
         
         // ShowUI
-        _isSelectedGacha = true;
+        ShowUI(_rankingPopupUI.gameObject,
+            GetToggle((int)EToggles.RankingToggle),
+            GetText((int)ETexts.CheckRankingToggleText),
+            GetObject((int)EGameObjects.CheckRankingBgImage),
+            GetObject((int)EGameObjects.CheckRankingImage));
+        _isSelectedRanking = true;
     }
     
     

@@ -62,7 +62,7 @@ public class UI_InvenClassSelectPopup : UI_Popup
 
     void OnClickCloseButton()
     {
-        Debug.Log("CloseGachaInfo");
+        Debug.Log("CloseClassSelect");
         Managers.UI.ClosePopupUI(this);
     }
 }

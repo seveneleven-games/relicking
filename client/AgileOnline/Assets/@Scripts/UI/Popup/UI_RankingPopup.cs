@@ -2,31 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UI_InvenRelicInfoPopup : UI_Popup
+public class UI_RankingPopup : UI_Popup
 {
     #region Enum
+
     enum EGameObjects
     {
-        ContentObjet,
+        ContentObject,
+        RankingList
     }
 
     enum EButtons
     {
-        ButtonBG,
-        ButtonEquip,
-        ButtonCancel,
+        StageSelectButton,
+        MyRankingButton,
     }
 
     enum ETexts
     {
-        LevelText,
-        RelicNameText,
-        RelicDescriptionText,
-    }
-
-    enum EImages
-    {
-        RelicImage
+        StageText,
+        MyRank,
+        MyNickName,
+        MyClass,
+        MyDifficulty,
     }
 
     #endregion
@@ -37,7 +35,6 @@ public class UI_InvenRelicInfoPopup : UI_Popup
             Managers.Game.OnResourcesChanged -= Refresh;
     }
 
-    // 초기 세팅
     public override bool Init()
     {
         if (base.Init() == false)
@@ -48,11 +45,9 @@ public class UI_InvenRelicInfoPopup : UI_Popup
         BindObject(typeof(EGameObjects));
         BindButton(typeof(EButtons));
         BindText(typeof(ETexts));
-        BindImage(typeof(EImages));
 
-        GetButton((int)EButtons.ButtonBG).gameObject.BindEvent(OnClickCloseButton);
-        GetButton((int)EButtons.ButtonCancel).gameObject.BindEvent(OnClickCloseButton);
-
+        GetButton((int)EButtons.StageSelectButton).gameObject.BindEvent(OnClickStageSelectButton);
+        GetButton((int)EButtons.MyRankingButton).gameObject.BindEvent(OnClickRankingDetailButton);
 
         #endregion
 
@@ -62,15 +57,19 @@ public class UI_InvenRelicInfoPopup : UI_Popup
         return true;
     }
 
-    // 갱신
     void Refresh()
     {
 
     }
 
-    void OnClickCloseButton()
+    void OnClickStageSelectButton()
     {
-        Debug.Log("CloseRelicDetail");
-        Managers.UI.ClosePopupUI(this);
+        Debug.Log("StageSelect");
+    }
+
+    void OnClickRankingDetailButton()
+    {
+        Debug.Log("RankingDetail");
+        Managers.UI.ShowPopupUI<UI_RankingDetailPopup>();
     }
 }
