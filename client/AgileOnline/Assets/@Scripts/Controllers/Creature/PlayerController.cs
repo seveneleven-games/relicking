@@ -42,10 +42,10 @@ public class PlayerController : CreatureController
         PlayerSkillList = new List<int>(new int[6]);
         PlayerRelicList = new List<int>(new int[6]);
 
-        // AddSkill(3, 0);
-        // AddSkill(1, 1);
         AddSkill(3, 0);
-        AddSkill(13, 1);
+        // AddSkill(13, 1);
+        // AddSkill(22, 2);
+        // AddSkill(33, 3);
 
         // 보는 방향 정해주는 더미 오브젝트
         GameObject indicatorObject = new GameObject("Indicator");
@@ -185,14 +185,16 @@ public class PlayerController : CreatureController
     IEnumerator CoStartSkill(int skillId)
     {
         SkillData skillData = Managers.Data.SkillDic[skillId];
+        float coolTime = skillData.CoolTime;
         WaitForSeconds coolTimeWait = new WaitForSeconds(skillData.CoolTime);
-
+        Debug.Log($"CoolTime: {coolTime} seconds");
         while (true)
         {
+
+            yield return coolTimeWait;
             switch (skillData.PrefabName)
             {
                 case "EnergyBolt":
-                    yield return coolTimeWait;
 
                     int ebProjectileNum = skillData.ProjectileNum;
                     float ebSpreadAngle = 30f;
@@ -201,57 +203,93 @@ public class PlayerController : CreatureController
                     {
                         EnergyBoltController ebc =
                             Managers.Object.Spawn<EnergyBoltController>(transform.position, skillId);
-                        ebc.InitSkill(skillId);
 
                         float angle;
                         if (ebProjectileNum == 1)
                             angle = 0f;
                         else
                         {
-                            float offsetAngle = (i - (ebProjectileNum - 1) * 0.5f) * (ebSpreadAngle / (ebProjectileNum - 1));
+                            float offsetAngle = (i - (ebProjectileNum - 1) * 0.5f) *
+                                                (ebSpreadAngle / (ebProjectileNum - 1));
                             angle = offsetAngle * Mathf.Deg2Rad;
                         }
 
                         Vector3 moveDirection = Quaternion.Euler(0f, 0f, angle * Mathf.Rad2Deg) * _indicator.up;
                         ebc.SetMoveDirection(moveDirection);
                     }
-                    break;
-                
-                case "IceArrow":
-                    yield return coolTimeWait;
 
+                    break;
+
+                case "IceArrow":
                     int iaProjectileNum = skillData.ProjectileNum;
-                    
-                    // 플레이어 주변의 몬스터들을 탐색하여 거리 순으로 정렬
+
                     List<MonsterController> nearbyMonsters = new List<MonsterController>();
-                    Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 10f); // 탐색 반경은 적절히 조정
+                    Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 15f);
                     foreach (Collider2D collider in colliders)
                     {
                         MonsterController monster = collider.GetComponent<MonsterController>();
                         if (monster != null)
                             nearbyMonsters.Add(monster);
                     }
+
                     nearbyMonsters.Sort((a, b) => Vector3.Distance(transform.position, a.transform.position)
                         .CompareTo(Vector3.Distance(transform.position, b.transform.position)));
-                    
-                    // 프로젝타일 개수만큼 가장 가까운 몬스터들을 선택
+
                     List<MonsterController> targetMonsters = nearbyMonsters.Take(iaProjectileNum).ToList();
 
                     for (int i = 0; i < targetMonsters.Count; i++)
                     {
                         MonsterController targetMonster = targetMonsters[i];
-                    
+
                         IceArrowController iac = Managers.Object.Spawn<IceArrowController>(transform.position, skillId);
-                        iac.InitSkill(skillId);
-                    
-                        // 몬스터의 위치를 기준으로 발사 방향 계산
+
                         Vector3 direction = (targetMonster.transform.position - transform.position).normalized;
                         iac.SetMoveDirection(direction);
                     }
-                    
+
+                    break;
+
+                case "ElectronicField":
+                    ElectronicFieldController efc =
+                        Managers.Object.Spawn<ElectronicFieldController>(transform.position, skillId);
+                    efc.SetOwner(this);
+                    yield break;
+
+                case "PoisonField":
+
+                    int pfProjectileNum = skillData.ProjectileNum;
+                    List<Vector3> installedPositions = new List<Vector3>();
+
+                    for (int i = 0; i < pfProjectileNum; i++)
+                    {
+                        Vector3 randomPos;
+                        do
+                        {
+                            randomPos = GetRandomPositionAroundPlayer(1f, 4f);
+                        } while (installedPositions.Any(pos => Vector3.Distance(pos, randomPos) < 2f));
+
+                        PoisonFieldController pfc = Managers.Object.Spawn<PoisonFieldController>(randomPos, skillId);
+                        pfc.SetOwner(this);
+
+                        installedPositions.Add(randomPos);
+                    }
                     break;
             }
         }
+    }
+    
+    private Vector3 GetRandomPositionAroundPlayer(float minDistance, float maxDistance)
+    {
+        Vector3 randomPos;
+        do
+        {
+            float randomX = UnityEngine.Random.Range(-maxDistance, maxDistance);
+            float randomY = UnityEngine.Random.Range(-maxDistance, maxDistance);
+            randomPos = transform.position + new Vector3(randomX, randomY, 0f);
+        } while (Vector3.Distance(randomPos, transform.position) < minDistance ||
+                 Mathf.Abs(randomPos.x) > 6f || Mathf.Abs(randomPos.y) > 6f);
+
+        return randomPos;
     }
 
     public void AddSkill(int addSkillId, int slotNum)

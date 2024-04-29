@@ -57,12 +57,14 @@ public class UI_BattlePopup : UI_Popup
     StageData _stageData; // Data.Contents
     HorizontalScrollSnap _scrollSnap;
 
+    public TemplateData _templateData;
+    
     // 이거의 역할은?
     private void Awake()
     {
         Init();
     }
-
+    
     // 초기 세팅
     public override bool Init()
     {
@@ -99,6 +101,26 @@ public class UI_BattlePopup : UI_Popup
         _scrollSnap.StartingScreen = Managers.Game.CurrentStageData.StageId - 1;
         
         
+        // 임시
+        _templateData = Resources.Load<TemplateData>("GameTemplateData");
+        Debug.Log("templateData is :" + _templateData);
+        GetObject((int)EGameObjects.StageSelectScrollView).BindEvent(() =>
+        {
+            Debug.Log("go Game");
+            // 백엔드에서 통신해서 받아온 데이터랑 현재 선택한 스테이지 데이터를 넣어서 줘야됨
+            int stageId = 1;
+            int playerId = 1;
+            int relic1Id = 0;
+            int relic2Id = 0;
+            int relic3Id = 0;
+            int relic4Id = 0;
+            int relic5Id = 0;
+            int relic6Id = 0;
+            _templateData.TemplateIds = new int[] {stageId, playerId, relic1Id,
+                relic2Id, relic3Id, relic4Id, relic5Id, relic6Id};
+            Managers.Scene.LoadScene(Define.EScene.GameScene);
+        });
+        
         #endregion
         
         Refresh();
@@ -116,6 +138,7 @@ public class UI_BattlePopup : UI_Popup
     // 갱신
     void Refresh()
     {
+
         if (_init == false)
             return;
         
