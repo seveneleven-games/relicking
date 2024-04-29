@@ -2,31 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UI_InvenRelicInfoPopup : UI_Popup
+public class UI_RankingDetailPopup : UI_Popup
 {
     #region Enum
+
     enum EGameObjects
     {
         ContentObjet,
+        RelicListObject,
+        SkillListObject,
     }
 
     enum EButtons
     {
         ButtonBG,
-        ButtonEquip,
-        ButtonCancel,
+        CloseButton,
     }
 
     enum ETexts
     {
-        LevelText,
-        RelicNameText,
-        RelicDescriptionText,
+        TitleText,
+        PlayerName,
+        RecordDate,
+        DifficultyText,
+        EliteKillText,
+        KillText,
     }
 
     enum EImages
     {
-        RelicImage
+        ClassImage,
     }
 
     #endregion
@@ -48,10 +53,9 @@ public class UI_InvenRelicInfoPopup : UI_Popup
         BindObject(typeof(EGameObjects));
         BindButton(typeof(EButtons));
         BindText(typeof(ETexts));
-        BindImage(typeof(EImages));
 
         GetButton((int)EButtons.ButtonBG).gameObject.BindEvent(OnClickCloseButton);
-        GetButton((int)EButtons.ButtonCancel).gameObject.BindEvent(OnClickCloseButton);
+        GetButton((int)EButtons.CloseButton).gameObject.BindEvent(OnClickCloseButton);
 
 
         #endregion
@@ -70,7 +74,7 @@ public class UI_InvenRelicInfoPopup : UI_Popup
 
     void OnClickCloseButton()
     {
-        Debug.Log("CloseRelicDetail");
+        Debug.Log("CloseRankingDetail");
         Managers.UI.ClosePopupUI(this);
     }
 }
