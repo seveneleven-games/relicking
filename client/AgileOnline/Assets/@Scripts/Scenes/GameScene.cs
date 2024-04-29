@@ -132,7 +132,6 @@ public class GameScene : BaseScene
         while (timer > 0f)
         {
             // 타이머 UI 업데이트
-            timerText.text = Mathf.FloorToInt(timer).ToString();
 
             timer -= Time.deltaTime;
 
