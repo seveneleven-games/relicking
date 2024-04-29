@@ -10,31 +10,36 @@ public class UI_InvenPopup : UI_Popup
     {
         ContentObjet,
         ToggleGroup,
-        RelicObject,
-        StatObject,
+        RelicListObject,
+        StatListObject,
     }
 
     enum EButtons
     {
-        RelicClassButton,
-        StatClassButton,
+        ClassButton,
         RelicButton,
     }
 
     enum ETexts
     {
-        
+        MaxHealthText,
+        DamageText,
+        SpeedText,
+        CoinBonusText,
+        CriticalRateText,
+        CriticalDamageText,
+        CoolDownText,
     }
 
     enum EToggles
     {
-        EquipToggle,
+        RelicToggle,
         StatToggle,
     }
 
     enum EImages
     {
-        EquipToggleBGImage,
+        RelicToggleBGImage,
         StatToggleBGImage,
     }
 
@@ -65,14 +70,13 @@ public class UI_InvenPopup : UI_Popup
 
         #endregion
 
-        GetToggle((int)EToggles.EquipToggle).gameObject.BindEvent(OnClickEquipToggle);
+        GetToggle((int)EToggles.RelicToggle).gameObject.BindEvent(OnClickRelicToggle);
         GetToggle((int)EToggles.StatToggle).gameObject.BindEvent(OnClickStatToggle);
-        GetButton((int)EButtons.RelicClassButton).gameObject.BindEvent(OnClickClassSelectButton);
-        GetButton((int)EButtons.StatClassButton).gameObject.BindEvent(OnClickClassSelectButton);
+        GetButton((int)EButtons.ClassButton).gameObject.BindEvent(OnClickClassSelectButton);
         GetButton((int)EButtons.RelicButton).gameObject.BindEvent(OnClickRelicInfoButton);
 
         ToggleInit();
-        OnClickEquipToggle();
+        OnClickRelicToggle();
 
         Managers.Game.OnResourcesChanged += Refresh;
         Refresh();
@@ -93,21 +97,21 @@ public class UI_InvenPopup : UI_Popup
         _isSelectedStat = false;
 
         // 팝업버튼 초기화
-        GetObject((int)EGameObjects.RelicObject).SetActive(false);
-        GetObject((int)EGameObjects.StatObject).SetActive(false);
+        GetObject((int)EGameObjects.RelicListObject).SetActive(false);
+        GetObject((int)EGameObjects.StatListObject).SetActive(false);
 
-        GetImage((int)EImages.EquipToggleBGImage).color = Util.HexToColor("B9A691");
+        GetImage((int)EImages.RelicToggleBGImage).color = Util.HexToColor("B9A691");
         GetImage((int)EImages.StatToggleBGImage).color = Util.HexToColor("B9A691");
     }
 
-    void OnClickEquipToggle()
+    void OnClickRelicToggle()
     {
         ToggleInit();
-        GetImage((int)EImages.EquipToggleBGImage).color = Util.HexToColor("B38C61");
+        GetImage((int)EImages.RelicToggleBGImage).color = Util.HexToColor("B38C61");
         if (_isSelectedEquip == true)
             return;
 
-        GetObject((int)EGameObjects.RelicObject).SetActive(true);
+        GetObject((int)EGameObjects.RelicListObject).SetActive(true);
         _isSelectedEquip = true;
     }
 
@@ -118,7 +122,7 @@ public class UI_InvenPopup : UI_Popup
         if (_isSelectedStat == true)
             return;
 
-        GetObject((int)EGameObjects.StatObject).SetActive(true);
+        GetObject((int)EGameObjects.StatListObject).SetActive(true);
         _isSelectedStat= true;
     }
 

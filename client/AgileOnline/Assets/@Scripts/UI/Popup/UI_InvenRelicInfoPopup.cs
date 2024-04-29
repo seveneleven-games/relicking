@@ -26,7 +26,7 @@ public class UI_InvenRelicInfoPopup : UI_Popup
 
     enum EImages
     {
-
+        RelicImage
     }
 
     #endregion
