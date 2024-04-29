@@ -2,13 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using Data;
 using UnityEngine;
-using static Define;
 
-public class ElectronicFieldController : SkillController
+public class EliteMonsterProjectileController : SkillController
 {
     private CreatureController _owner;
-    private float _damageInterval = 0.5f;
-    private float _lastDamageTime;
     private Vector3 _moveDir;
     
     public int SkillId { get; private set; }
@@ -22,22 +19,17 @@ public class ElectronicFieldController : SkillController
     public float LifeTime { get; private set; } = 10;
     public float Speed { get; private set; }
     public int ProjectileNum { get; private set; }
-    
-    public void SetOwner(CreatureController owner)
-    {
-        _owner = owner;
-    }
 
     public override bool Init()
     {
         if (base.Init() == false)
             return false;
         
-        SkillType = ESkillType.ElectronicField;
+        SkillType = Define.ESkillType.EliteMonsterProjectile;
 
         return true;
     }
-
+    
     public void InitSkill(int templateId)
     {
         SkillData data = Managers.Data.SkillDic[templateId];
@@ -57,43 +49,32 @@ public class ElectronicFieldController : SkillController
         StartDestroy(LifeTime);
     }
     
-    private void Update()
+    public void SetMoveDirection(Vector3 direction)
     {
-        if (_owner != null)
-        {
-            transform.position = _owner.transform.position;
-        }
+        _moveDir = direction.normalized;
+        float angle = Mathf.Atan2(_moveDir.y, _moveDir.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0f, 0f, angle - 90);
+    }
+
+    public override void UpdateController()
+    {
+        base.UpdateController();
         
-        if (Time.time - _lastDamageTime >= _damageInterval)
-        {
-            _lastDamageTime = Time.time;
-            DealDamageToNearbyMonsters();
-        }
+        transform.position += _moveDir * Speed * Time.deltaTime;
     }
     
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (this.IsValid() == false)
             return;
 
-        MonsterController monster = collision.gameObject.GetComponent<MonsterController>();
+        PlayerController player = collision.gameObject.GetComponent<PlayerController>();
 
-        if (monster.IsValid() == false)
+        if (player.IsValid() == false)
             return;
-
-        monster.OnDamaged(_owner, Damage);
-    }
-    
-    private void DealDamageToNearbyMonsters()
-    {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, transform.localScale.x / 2f);
-        foreach (Collider2D collider in colliders)
-        {
-            MonsterController monster = collider.GetComponent<MonsterController>();
-            if (monster != null && monster.IsValid())
-            {
-                monster.OnDamaged(_owner, Damage);
-            }
-        }
+        
+        player.OnDamaged(_owner, Damage);
+        
+        Managers.Object.Despawn(this);
     }
 }

@@ -55,7 +55,9 @@ public static class Define
         None,
         EnergyBolt,
         IceArrow,
-        ElectronicField
+        ElectronicField,
+        PoisonField,
+        EliteMonsterProjectile
     }
 
     public enum EJoystickState

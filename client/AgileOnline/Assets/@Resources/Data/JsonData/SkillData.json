@@ -116,6 +116,58 @@
       "LifeTime": 150.0,
       "Speed": 10.0,
       "ProjectileNum": 1
+    },
+    {
+      "SkillId": 31,
+      "NextId": 32,
+      "PrefabName": "PoisonField",
+      "Name": "포이즌 필드",
+      "Description": "범위 내 적에게 중독 데미지를 입힌다.",
+      "IconName": "PoisonField_icon.sprite",
+      "CoolTime": 5,
+      "Damage": 5,
+      "LifeTime": 5.0,
+      "Speed": 10.0,
+      "ProjectileNum": 1
+    },
+    {
+      "SkillId": 32,
+      "NextId": 33,
+      "PrefabName": "PoisonField",
+      "Name": "포이즌 필드",
+      "Description": "범위 내 적에게 중독 데미지를 입힌다.",
+      "IconName": "PoisonField_icon.sprite",
+      "CoolTime": 5,
+      "Damage": 10,
+      "LifeTime": 5.0,
+      "Speed": 10.0,
+      "ProjectileNum": 2
+    },
+    {
+      "SkillId": 33,
+      "NextId": 34,
+      "PrefabName": "PoisonField",
+      "Name": "포이즌 필드",
+      "Description": "범위 내 적에게 중독 데미지를 입힌다.",
+      "IconName": "PoisonField_icon.sprite",
+      "CoolTime": 5,
+      "Damage": 15,
+      "LifeTime": 5.0,
+      "Speed": 10.0,
+      "ProjectileNum": 3
+    },
+    {
+      "SkillId": 1000,
+      "NextId": 1001,
+      "PrefabName": "EliteMonsterProjectile",
+      "Name": "엘리트 몬스터 공격 1",
+      "Description": "주변으로 투사체 발사",
+      "IconName": "EliteMonsterProjectile_icon.sprite",
+      "CoolTime": 3,
+      "Damage": 5,
+      "LifeTime": 5.0,
+      "Speed": 3.0,
+      "ProjectileNum": 10
     }
   ]
 }

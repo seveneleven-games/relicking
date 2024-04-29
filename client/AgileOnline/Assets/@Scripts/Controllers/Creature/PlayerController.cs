@@ -41,10 +41,11 @@ public class PlayerController : CreatureController
 
         PlayerSkillList = new List<int>(new int[6]);
         PlayerRelicList = new List<int>(new int[6]);
-        
+
         AddSkill(3, 0);
-        AddSkill(13, 1);
-        AddSkill(22, 2);
+        // AddSkill(13, 1);
+        // AddSkill(22, 2);
+        // AddSkill(33, 3);
 
         // 보는 방향 정해주는 더미 오브젝트
         GameObject indicatorObject = new GameObject("Indicator");
@@ -184,14 +185,16 @@ public class PlayerController : CreatureController
     IEnumerator CoStartSkill(int skillId)
     {
         SkillData skillData = Managers.Data.SkillDic[skillId];
+        float coolTime = skillData.CoolTime;
         WaitForSeconds coolTimeWait = new WaitForSeconds(skillData.CoolTime);
-
+        Debug.Log($"CoolTime: {coolTime} seconds");
         while (true)
         {
+
+            yield return coolTimeWait;
             switch (skillData.PrefabName)
             {
                 case "EnergyBolt":
-                    yield return coolTimeWait;
 
                     int ebProjectileNum = skillData.ProjectileNum;
                     float ebSpreadAngle = 30f;
@@ -218,8 +221,6 @@ public class PlayerController : CreatureController
                     break;
 
                 case "IceArrow":
-                    yield return coolTimeWait;
-
                     int iaProjectileNum = skillData.ProjectileNum;
 
                     List<MonsterController> nearbyMonsters = new List<MonsterController>();
@@ -249,11 +250,46 @@ public class PlayerController : CreatureController
                     break;
 
                 case "ElectronicField":
-                    ElectronicFieldController efc = Managers.Object.Spawn<ElectronicFieldController>(transform.position, skillId);
-                    efc.SetPlayerController(this);
+                    ElectronicFieldController efc =
+                        Managers.Object.Spawn<ElectronicFieldController>(transform.position, skillId);
+                    efc.SetOwner(this);
                     yield break;
+
+                case "PoisonField":
+
+                    int pfProjectileNum = skillData.ProjectileNum;
+                    List<Vector3> installedPositions = new List<Vector3>();
+
+                    for (int i = 0; i < pfProjectileNum; i++)
+                    {
+                        Vector3 randomPos;
+                        do
+                        {
+                            randomPos = GetRandomPositionAroundPlayer(1f, 4f);
+                        } while (installedPositions.Any(pos => Vector3.Distance(pos, randomPos) < 2f));
+
+                        PoisonFieldController pfc = Managers.Object.Spawn<PoisonFieldController>(randomPos, skillId);
+                        pfc.SetOwner(this);
+
+                        installedPositions.Add(randomPos);
+                    }
+                    break;
             }
         }
+    }
+    
+    private Vector3 GetRandomPositionAroundPlayer(float minDistance, float maxDistance)
+    {
+        Vector3 randomPos;
+        do
+        {
+            float randomX = UnityEngine.Random.Range(-maxDistance, maxDistance);
+            float randomY = UnityEngine.Random.Range(-maxDistance, maxDistance);
+            randomPos = transform.position + new Vector3(randomX, randomY, 0f);
+        } while (Vector3.Distance(randomPos, transform.position) < minDistance ||
+                 Mathf.Abs(randomPos.x) > 6f || Mathf.Abs(randomPos.y) > 6f);
+
+        return randomPos;
     }
 
     public void AddSkill(int addSkillId, int slotNum)

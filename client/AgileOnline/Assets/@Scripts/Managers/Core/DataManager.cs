@@ -54,6 +54,10 @@ public class DataManager
                 return Managers.Data.SkillDic[templateId].PrefabName;
             case "ElectronicFieldData":
                 return Managers.Data.SkillDic[templateId].PrefabName;
+            case "PoisonFieldData":
+                return Managers.Data.SkillDic[templateId].PrefabName;
+            case "EliteMonsterProjectileData":
+                return Managers.Data.SkillDic[templateId].PrefabName;
             default:
                 return null;
         }
