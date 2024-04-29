@@ -46,10 +46,6 @@ public class UI_TitleScene : UI_Scene
         // 아무곳이나 누르면 씬 변환하는 버튼 생성
         GetButton((int)EButtons.StartButton).gameObject.BindEvent(() =>
         {
-            Debug.Log("ChangeScene");
-            
-            //todo(전지환) : 노드맵 테스트, 머지 전에 EScene.LobbyScene으로 원복하기
-            Managers.Scene.LoadScene(EScene.LobbyScene);
             if (isPreload)
             {
 
