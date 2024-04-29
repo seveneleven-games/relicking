@@ -91,9 +91,9 @@ public class UI_NodeMapPopup : UI_Popup
         _nodeMap.LineSync();
     }
 
-    public event Action<int> OnEnterNode;
+    public event Action<int, bool> OnEnterNode;
     
-    public void EnterNode(int clickNode)
+    public void EnterNode(int clickNode, bool isBossNode)
     {
         // 팝업 닫기
         // 노드 정보 반영시키기
@@ -104,8 +104,8 @@ public class UI_NodeMapPopup : UI_Popup
          * 2. EnterNode 실행 시, 노드 번호를 가지고 GameScene의 게임 실행 함수 호출
          * 3. 팝업 닫기 함수 호출
          */
-        Debug.Log($"현재 클릭한 노드는 {clickNode}번!");
-        if (OnEnterNode != null) OnEnterNode.Invoke(clickNode);
+        Debug.Log($"현재 클릭한 노드는 {clickNode}번! 보스노드 여부! : {isBossNode}");
+        if (OnEnterNode != null) OnEnterNode.Invoke(clickNode, isBossNode);
     }
 
     void OnBackButtonClick()

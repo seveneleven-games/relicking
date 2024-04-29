@@ -35,6 +35,14 @@ public class GameScene : BaseScene
         return true;
     }
 
+    #region 노드 정보에 맞는 몬스터 스폰
+
+    /* 스테이지 정보와 노드맵 템플릿 아이디를 기반으로 노드 정보 배열 관리
+     * 1. 스테이지 정보(Lobby에서 제공)와 노드맵 템플릿 아이디(NodeMapPopup에서 제공)로 적합한 노드 배열 가져와서 보관
+     * 2. 노드 번호를 받아와서 노드 정보(스폰 몬스터 종류, 추가적으로 배경 이미지 정도) 반영 후 스폰
+     */
+
+    #endregion
     public void StartGame(int stageId, PlayerController pc, int nodeType)
     {
         StageData stageData = Managers.Data.StageDic[stageId];

@@ -17,7 +17,7 @@ public class TestNodeMapScene : BaseScene
         return true;
     }
 
-    void GameStart(int nodeNo)
+    void GameStart(int nodeNo, bool isBossNode)
     {
         // 여기에 팝업 닫는 함수 있어야 할 것.
         _nodeMap.ClosePopupUI();

@@ -23,7 +23,7 @@ public class UI_NodeMapBase : UI_Base
         gameObject.transform
             .parent.parent
             .GetComponent<UI_NodeMapPopup>()
-            .EnterNode(clickNode); // 호출 테스트 함수
+            .EnterNode(clickNode, clickNode == BossDepth); // 호출 테스트 함수
     }
     
     public void Refresh()
