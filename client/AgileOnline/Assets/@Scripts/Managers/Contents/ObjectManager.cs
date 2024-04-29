@@ -11,7 +11,12 @@ public class ObjectManager
     public HashSet<GoldController> Golds { get; } = new HashSet<GoldController>();
     public HashSet<EnergyBoltController> EnergyBolts { get; } = new HashSet<EnergyBoltController>();
     public HashSet<IceArrowController> IceArrows { get; } = new HashSet<IceArrowController>();
+    public HashSet<ElectronicFieldController> ElectronicFields { get; } = new HashSet<ElectronicFieldController>();
+    public HashSet<PoisonFieldController> PoisonFields { get; } = new HashSet<PoisonFieldController>();
 
+    public HashSet<EliteMonsterProjectileController> EliteMonsterProjectiles { get; } =
+        new HashSet<EliteMonsterProjectileController>();
+    
     #region Roots
 
     public Transform GetRootTransform(string name)
@@ -48,16 +53,28 @@ public class ObjectManager
         get { return GetRootTransform("@IceArrow"); }
     }
 
+    public Transform ElectronicFieldRoot
+    {
+        get { return GetRootTransform("@ElectronicField"); }
+    }
+    
+    public Transform PoisonFieldRoot
+    {
+        get { return GetRootTransform("@PoisonFieldRoot"); }
+    }
+
+    public Transform EliteMonsterProjectileRoot
+    {
+        get { return GetRootTransform("@EliteMonsterProjectileRoot"); }
+    }
+
     #endregion
 
     public T Spawn<T>(Vector3 position, int templateId) where T : BaseController
     {
         string dataType = typeof(T).Name.Replace("Controller", "Data");
-
-        Debug.Log("이거 템플릿아이디임" + templateId);
         string prefabName = Managers.Data.GetData<T>(dataType, templateId);
 
-        Debug.Log("이거 프리팹 이름" + prefabName);
         GameObject go = Managers.Resource.Instantiate(prefabName, pooling: true);
         go.name = prefabName;
         go.transform.position = position;
@@ -67,9 +84,8 @@ public class ObjectManager
         if (obj.ObjectType == EObjectType.Player)
         {
             obj.transform.parent = PlayerRoot;
-            PlayerController pc = go.GetComponent<PlayerController>();
-            Player = pc;
-            pc.InitPlayer(templateId);
+            Player = go.GetComponent<PlayerController>();
+            Player.InitPlayer(templateId);
         }
         else if (obj.ObjectType == EObjectType.Monster)
         {
@@ -102,6 +118,28 @@ public class ObjectManager
                     IceArrowController iac = sc.GetComponent<IceArrowController>();
                     IceArrows.Add(iac);
                     iac.InitSkill(templateId);
+                    break;
+                
+                case ESkillType.ElectronicField:
+                    sc.transform.parent = ElectronicFieldRoot;
+                    ElectronicFieldController efc = sc.GetComponent<ElectronicFieldController>();
+                    ElectronicFields.Add(efc);
+                    efc.InitSkill(templateId);
+                    break;
+                
+                case ESkillType.PoisonField:
+                    sc.transform.parent = PoisonFieldRoot;
+                    PoisonFieldController pfc = sc.GetComponent<PoisonFieldController>();
+                    PoisonFields.Add(pfc);
+                    pfc.InitSkill(templateId);
+                    break;
+                
+                case ESkillType.EliteMonsterProjectile:
+                    sc.transform.parent = EliteMonsterProjectileRoot;
+                    EliteMonsterProjectileController empc = sc.GetComponent<EliteMonsterProjectileController>();
+                    EliteMonsterProjectiles.Add(empc);
+                    empc.InitSkill(templateId);
+                    Debug.Log("끝!");
                     break;
             }
         }
@@ -138,6 +176,21 @@ public class ObjectManager
                 case ESkillType.IceArrow:
                     IceArrowController iac = sc as IceArrowController;
                     IceArrows.Remove(iac);
+                    break;
+                
+                case ESkillType.ElectronicField:
+                    ElectronicFieldController efc = sc as ElectronicFieldController;
+                    ElectronicFields.Remove(efc);
+                    break;
+                
+                case ESkillType.PoisonField:
+                    PoisonFieldController pfc = sc as PoisonFieldController;
+                    PoisonFields.Remove(pfc);
+                    break;
+                
+                case ESkillType.EliteMonsterProjectile:
+                    EliteMonsterProjectileController empc = sc as EliteMonsterProjectileController;
+                    EliteMonsterProjectiles.Remove(empc);
                     break;
             }
         }
