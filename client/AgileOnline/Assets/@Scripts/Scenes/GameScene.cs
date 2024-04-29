@@ -4,6 +4,7 @@ using Data;
 using Unity.VisualScripting;
 using UnityEditor.iOS;
 using UnityEngine;
+using UnityEngine.UI;
 using static Define;
 
 public class GameScene : BaseScene
@@ -21,6 +22,8 @@ public class GameScene : BaseScene
 
     // 노드 정보
     private UI_NodeMapPopup _nodeMap;
+
+    private Text timerText;
 
     public override bool Init()
     {
@@ -117,6 +120,33 @@ public class GameScene : BaseScene
                 StartCoroutine(SpawnBossMonsters(normalMonsters, eliteMonsters, bossMonsters));
                 break;
         }
+        
+        StartCoroutine(StartTimer(100f));
+    }
+    
+    
+    private IEnumerator StartTimer(float duration)
+    {
+        float timer = duration;
+
+        while (timer > 0f)
+        {
+            // 타이머 UI 업데이트
+            timerText.text = Mathf.FloorToInt(timer).ToString();
+
+            timer -= Time.deltaTime;
+
+            if (Mathf.FloorToInt(timer) != Mathf.FloorToInt(timer + Time.deltaTime))
+            {
+                // 1초마다 로그 출력
+                Debug.Log($"남은 시간: {Mathf.FloorToInt(timer)}초");
+            }
+
+            yield return null;
+        }
+
+        // 타이머 종료 시 게임 클리어 처리
+        // OnGameClear();
     }
 
     private IEnumerator SpawnNormalMonsters(List<int> monsterIds)

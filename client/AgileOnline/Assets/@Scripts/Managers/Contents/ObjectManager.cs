@@ -139,7 +139,6 @@ public class ObjectManager
                     EliteMonsterProjectileController empc = sc.GetComponent<EliteMonsterProjectileController>();
                     EliteMonsterProjectiles.Add(empc);
                     empc.InitSkill(templateId);
-                    Debug.Log("끝!");
                     break;
             }
         }
