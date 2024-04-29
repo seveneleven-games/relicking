@@ -15,7 +15,14 @@ public class GameScene : BaseScene
     private const int BOSS_MONSTER = 2;
 
     public TemplateData _templateData;
-
+    private int _stageId;
+    private int _classId;
+    private PlayerController _player;
+    
+    // 노드 정보
+    private UI_NodeMapPopup _nodeMap;
+    private int _nodeNo;
+    
     public override bool Init()
     {
         if (base.Init() == false)
@@ -23,49 +30,67 @@ public class GameScene : BaseScene
 
         SceneType = EScene.GameScene;
         
-        _templateData = Resources.Load<TemplateData>("GameTemplateData");
-        int stageId = _templateData.TemplateIds[0];
-        int classId = _templateData.TemplateIds[1];
+        _nodeMap = Managers.UI.ShowPopupUI<UI_NodeMapPopup>();
+        Debug.Log("GameScene Init이 여러번 도나??");
+        _nodeMap.OnEnterNode += StartGame;
         
-        PlayerController pc = Managers.Object.Spawn<PlayerController>(Vector3.zero, classId);
+        _templateData = Resources.Load<TemplateData>("GameTemplateData");
+        _stageId = _templateData.TemplateIds[0];
+        _classId = _templateData.TemplateIds[1];
+        
+        _player = Managers.Object.Spawn<PlayerController>(Vector3.zero, _classId);
         
         // TODO: 노드맵 UI에서 게임을 시작해야 한다. 
-        StartGame(stageId, pc, 1);
+        
 
         return true;
     }
+    
+    
 
-    public void StartGame(int stageId, PlayerController pc, int nodeType)
+    #region 노드 정보에 맞는 몬스터 스폰
+
+    /* 스테이지 정보와 노드맵 템플릿 아이디를 기반으로 노드 정보 배열 관리
+     * 1. 스테이지 정보(Lobby에서 제공)와 노드맵 템플릿 아이디(NodeMapPopup에서 제공)로 적합한 노드 배열 가져와서 보관
+     * 2. 노드 번호를 받아와서 노드 정보(스폰 몬스터 종류, 추가적으로 배경 이미지 정도) 반영 후 스폰
+     */
+
+    #endregion
+    public void StartGame(int nodeNo, bool isBossNode)
     {
-        StageData stageData = Managers.Data.StageDic[stageId];
+        StageData stageData = Managers.Data.StageDic[_stageId];
         
         GameObject map = Managers.Resource.Instantiate(stageData.PrefabName);
         map.transform.position = Vector3.zero;
         map.name = "@BaseMap";
 
         CameraController camera = Camera.main.GetOrAddComponent<CameraController>();
-        camera.Target = pc;
+        camera.Target = _player;
 
         GameObject joystickObject = Managers.Resource.Instantiate("UI_Joystick");
         joystickObject.name = "@UI_Joystick";
         
-        List<int> normalList = Managers.Data.StageDic[stageId].NormalMonsterList;
-        List<int> eliteList = Managers.Data.StageDic[stageId].EliteMonsterList;
-        List<int> bossList = Managers.Data.StageDic[stageId].BossMonsterList;
+        List<int> normalList = Managers.Data.StageDic[_stageId].NormalMonsterList;
+        List<int> eliteList = Managers.Data.StageDic[_stageId].EliteMonsterList;
+        List<int> bossList = Managers.Data.StageDic[_stageId].BossMonsterList;
 
+        // 여기에 팝업 닫는 함수 있어야 할 것.
+        _nodeMap.ClosePopupUI();
+        Debug.Log($"{nodeNo}번 노드 진입! 게임 시작!! 보스노드여부 : {isBossNode}");
+        
         // TODO: Elite 및 Boss 맵 몬스터 스폰 로직은 추후에 개발 예정입니다 ㅎㅎ
-        switch (nodeType)
-        {
-            case 0:
-                StartCoroutine(SpawnNormalMonsters(normalList));
-                break;
-            case 1:
-                StartCoroutine(SpawnEliteMonsters(normalList, eliteList));
-                break;
-            case 2:
-                StartCoroutine(SpawnNormalMonsters(bossList));
-                break;
-        }
+        // switch (nodeType)
+        // {
+        //     case 0:
+        //         StartCoroutine(SpawnNormalMonsters(normalList));
+        //         break;
+        //     case 1:
+        //         StartCoroutine(SpawnEliteMonsters(normalList, eliteList));
+        //         break;
+        //     case 2:
+        //         StartCoroutine(SpawnNormalMonsters(bossList));
+        //         break;
+        // }
     }
 
     private IEnumerator SpawnNormalMonsters(List<int> monsterIds)
