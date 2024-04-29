@@ -259,6 +259,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61f3ae01e62f9f44e951509afa0b1074, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _templateData: {fileID: 0}
+  timerText: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

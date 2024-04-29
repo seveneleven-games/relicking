@@ -110,13 +110,14 @@ public class UI_BattlePopup : UI_Popup
             // 백엔드에서 통신해서 받아온 데이터랑 현재 선택한 스테이지 데이터를 넣어서 줘야됨
             int stageId = 1;
             int playerId = 1;
+            int difficulty = 1;
             int relic1Id = 0;
             int relic2Id = 0;
             int relic3Id = 0;
             int relic4Id = 0;
             int relic5Id = 0;
             int relic6Id = 0;
-            _templateData.TemplateIds = new int[] {stageId, playerId, relic1Id,
+            _templateData.TemplateIds = new int[] {stageId, playerId, difficulty, relic1Id,
                 relic2Id, relic3Id, relic4Id, relic5Id, relic6Id};
             Managers.Scene.LoadScene(Define.EScene.GameScene);
         });

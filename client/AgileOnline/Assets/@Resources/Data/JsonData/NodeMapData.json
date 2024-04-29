@@ -1,0 +1,50 @@
+{
+  "nodeMaps": [
+    {
+      "NodeMapId": 0,
+      "PrefabName": "UI_Stage1NodeMap_01",
+      "BackgroundImage": "Stage1BG.sprite",
+      "NodeList": [
+        {
+          "NodeDepth": 1,
+          "MapPrefabName": "Map_01",
+          "MonsterList": [
+            1,
+            2
+          ]
+        },
+        {
+          "NodeDepth": 2,
+          "MapPrefabName": "Map_01",
+          "MonsterList": [
+            1
+          ]
+        },
+        {
+          "NodeDepth": 3,
+          "MapPrefabName": "Map_01",
+          "MonsterList": [
+            1,
+            2
+          ]
+        },
+        {
+          "NodeDepth": 4,
+          "MapPrefabName": "Map_01",
+          "MonsterList": [
+            1
+          ]
+        },
+        {
+          "NodeDepth": 5,
+          "MapPrefabName": "Map_01",
+          "MonsterList": [
+            1,
+            2,
+            3
+          ]
+        }
+      ]
+    }
+  ]
+}

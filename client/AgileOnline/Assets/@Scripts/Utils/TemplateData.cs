@@ -6,4 +6,5 @@ using UnityEngine;
 public class TemplateData : ScriptableObject
 {
     public int[] TemplateIds;
+    public int TempNodeNum = 0;
 }

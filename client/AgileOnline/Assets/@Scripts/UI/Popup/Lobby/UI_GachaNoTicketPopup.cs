@@ -55,7 +55,7 @@ public class UI_GachaNoTicketPopup : UI_Popup
 
     void OnClickCloseButton()
     {
-        Debug.Log("CloseGachaInfo");
+        Debug.Log("CloseGachaNoTicket");
         Managers.UI.ClosePopupUI(this);
     }
 }

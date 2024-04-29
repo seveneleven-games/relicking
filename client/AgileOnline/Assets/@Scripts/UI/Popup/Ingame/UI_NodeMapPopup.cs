@@ -1,12 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Data;
 using UnityEngine;
 using UnityEngine.UI;
 using static Define;
+using Random = UnityEngine.Random;
 
 public class UI_NodeMapPopup : UI_Popup
 {
+    public TemplateData _templateData;
+    
     enum GameObjects
     {
         Nodes
@@ -51,6 +55,7 @@ public class UI_NodeMapPopup : UI_Popup
     // 스테이지 정보
     private string _stageNo;
     private string _stageBG;
+    private int _nodeMapNo;
     private string _nodeMapName;
     
     // 노드 정보
@@ -62,10 +67,19 @@ public class UI_NodeMapPopup : UI_Popup
         // NodeMap 정보를 받아와서 노드맵에 반영한다
         // 반영 정보 : 배경화면, 스테이지 번호, 노드맵 종류(프리팹 이름)
         //todo(전지환) : 데이터 시트에서 스테이지 정보 긁어오기 (데이터 긁어오기 전에, 템플릿ID 랜덤으로 돌려서 노드맵 이름 요청해와야겠다)
+
+        _templateData = Resources.Load<TemplateData>("GameTemplateData");
+        int stageId = _templateData.TemplateIds[0];
+
+        _stageNo = _templateData.TemplateIds[0].ToString();
         
-        _stageNo = STAGE_NO.ToString();
-        _stageBG = STAGE_BG_NAME;
-        _nodeMapName = STAGE_NODEMAP_NAME;
+        StageData stageData = Managers.Data.StageDic[stageId];
+        int[] nodeMaps = stageData.NodeMaps;
+        _nodeMapNo = nodeMaps[Random.Range(0, nodeMaps.Length)];
+        _templateData.TempNodeNum = _nodeMapNo;
+        
+        _stageBG = Managers.Data.NodeMapDic[_nodeMapNo].BackgroundImage;
+        _nodeMapName = Managers.Data.NodeMapDic[_nodeMapNo].PrefabName;
         
         GetImage((int)Images.NodeMapBG).sprite = Managers.Resource.Load<Sprite>(_stageBG);
         GetText((int)Texts.StageNo).text = _stageNo;
@@ -114,5 +128,9 @@ public class UI_NodeMapPopup : UI_Popup
         
         Managers.Scene.LoadScene(EScene.LobbyScene);
     }
-    
+
+    public void DataSync(int stageId)
+    {
+        throw new NotImplementedException();
+    }
 }
