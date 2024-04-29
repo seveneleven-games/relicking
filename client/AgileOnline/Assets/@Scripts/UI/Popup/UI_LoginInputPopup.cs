@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static Define;
+using static Util;
 public class UI_LoginInputPopup : UI_Popup
 {
     #region UI 기능 리스트
@@ -109,6 +110,10 @@ public class UI_LoginInputPopup : UI_Popup
     void OnClickKakaoLoginButton()
     {
         Debug.Log("OnClickKakaoLoginButton");
+        
+        // 웹통신 테스트 -> 성공
+        StartCoroutine(GetRequest("test/login"));
+
     }
 
     void OnClickLoginButton()

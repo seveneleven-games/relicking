@@ -100,6 +100,11 @@ public class UI_SignupInputPopup : UI_Popup
         Debug.Log("OnClickCheckEmailButton");
         // 백으로 보내고 중복이 없다면 버튼 색깔 바꾸던가 하기
     }
+
+
+    
+    
+    
     
     void OnClickNextButton()
     {

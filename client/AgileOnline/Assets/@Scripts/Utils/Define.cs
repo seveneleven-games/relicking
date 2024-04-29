@@ -67,7 +67,7 @@ public static class Define
 
     public static int STAGE_NO = 1;
     public static string STAGE_BG_NAME = "Stage1BG";
-
+    public static string BASE_URI = "https://k10d211.p.ssafy.io/api/";
     #endregion
 
 }

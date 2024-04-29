@@ -54,7 +54,7 @@ public class UI_BattlePopup : UI_Popup
     #endregion
     
     // 객체 관련 두는 곳
-    StageData _stageData;
+    StageData _stageData; // Data.Contents
     HorizontalScrollSnap _scrollSnap;
 
     // 이거의 역할은?
@@ -99,14 +99,6 @@ public class UI_BattlePopup : UI_Popup
         _scrollSnap.StartingScreen = Managers.Game.CurrentStageData.StageId - 1;
         
         
-        
-        // 임시
-        // GetObject((int)EGameObjects.StageSelectScrollView).BindEvent(() =>
-        // {
-        //     Debug.Log("go Game");
-        //     Managers.Scene.LoadScene(Define.EScene.GameScene);
-        // });
-        
         #endregion
         
         Refresh();
@@ -114,7 +106,7 @@ public class UI_BattlePopup : UI_Popup
         return true;
     }
 
-    // 해당함수는 좀 더 연구가 필요.. 다른 부분에서 써야 될 수도?
+    
     public void SetInfo(StageData stageData)
     {
         _stageData = stageData;
@@ -127,10 +119,8 @@ public class UI_BattlePopup : UI_Popup
         if (_init == false)
             return;
         
-        // 여기서 리턴되어서 아무것도 안됨.....
         if (_stageData == null)
             return;
-        
         
         #region 초기화
 
@@ -139,11 +129,13 @@ public class UI_BattlePopup : UI_Popup
         // 다 날리고
         GameObject StageContainer = GetObject((int)EGameObjects.StageScrollContentObject);
         StageContainer.DestroyChilds();
-
+        
         // 다시 받아오기
+        // 스테이지 갯수만큼 만들기
         _scrollSnap.ChildObjects = new GameObject[Managers.Data.StageDic.Count];
         foreach (StageData stageData in Managers.Data.StageDic.Values)
         {
+            // StageInfoItem 달기
             UI_StageInfoItem item = Managers.UI.MakeSubItem<UI_StageInfoItem>(StageContainer.transform);
             item.SetInfo(stageData);
             _scrollSnap.ChildObjects[stageData.StageId - 1] = item.gameObject;
@@ -183,19 +175,16 @@ public class UI_BattlePopup : UI_Popup
         
         if (_stageData.StageId == 1)
         {
-            Debug.Log("들어왔니? (1)");
             GetButton((int)EButtons.LArrowButton).gameObject.SetActive(false);
             GetButton((int)EButtons.RArrowButton).gameObject.SetActive(true);
         }
         else if (_stageData.StageId >= 2 && _stageData.StageId < 3)
         {
-            Debug.Log("들어왔니? (2)");
             GetButton((int)EButtons.LArrowButton).gameObject.SetActive(true);
             GetButton((int)EButtons.RArrowButton).gameObject.SetActive(true);
         }
         else if (_stageData.StageId == 3) // Todo 스테이지 갯수만큼 
         {
-            Debug.Log("들어왔니? (3)");
             GetButton((int)EButtons.LArrowButton).gameObject.SetActive(true);
             GetButton((int)EButtons.RArrowButton).gameObject.SetActive(false);
         }
@@ -211,31 +200,26 @@ public class UI_BattlePopup : UI_Popup
         // 게임 처음 시작하고 스테이지창을 오픈 한 경우
         if (info.StageId == 1 && info.MaxDifficulty == 0)
         {
-            Debug.Log("들어왔니2? (4)");
             GetButton((int)EButtons.StartButton).gameObject.SetActive(true);   
         }
         // 스테이지 진행중
         if (info.StageId <= _stageData.StageId)
         {
-            Debug.Log("들어왔니2? (5)");
             GetButton((int)EButtons.StartButton).gameObject.SetActive(true);
         }
         
         // 새로운 스테이지
         if (Managers.Game.DicStageClearInfo.TryGetValue(_stageData.StageId - 1, out StageClearInfo PrevInfo) == false)
         {
-            Debug.Log("들어왔니2? (6)");
             return;
         }
 
         if (PrevInfo.isClear == true)
         {
-            Debug.Log("들어왔니2? (7)");
             GetButton((int)EButtons.StartButton).gameObject.SetActive(true);
         }
         else
         {
-            Debug.Log("들어왔니2? (8)");
             GetButton((int)EButtons.StartButton).gameObject.SetActive(false);
         }
         
@@ -269,3 +253,6 @@ public class UI_BattlePopup : UI_Popup
     
 
 }
+
+
+// currentStage setinfo를 게임 시작할 때 할 것이고 처음에는 0일테니깐 처음일 때에 대한 조건 처리를 해주자!!
