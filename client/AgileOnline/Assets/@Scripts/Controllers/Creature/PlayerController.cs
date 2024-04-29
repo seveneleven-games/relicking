@@ -43,9 +43,9 @@ public class PlayerController : CreatureController
         PlayerRelicList = new List<int>(new int[6]);
 
         AddSkill(3, 0);
-        // AddSkill(13, 1);
-        // AddSkill(22, 2);
-        // AddSkill(33, 3);
+        AddSkill(13, 1);
+        AddSkill(22, 2);
+        AddSkill(33, 3);
 
         // 보는 방향 정해주는 더미 오브젝트
         GameObject indicatorObject = new GameObject("Indicator");

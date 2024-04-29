@@ -1023,6 +1023,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NormalNodeDepth1
       objectReference: {fileID: 0}
+    - target: {fileID: 2525082996951310295, guid: 34e7e77341775d041a29f6162fc98640, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4118945517110554980, guid: 34e7e77341775d041a29f6162fc98640, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
