@@ -34,7 +34,6 @@ public class GameScene : BaseScene
         SceneType = EScene.GameScene;
 
         _nodeMap = Managers.UI.ShowPopupUI<UI_NodeMapPopup>();
-        Debug.Log("GameScene Init이 여러번 도나??");
         _nodeMap.OnEnterNode += StartGame;
 
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
@@ -42,6 +41,11 @@ public class GameScene : BaseScene
 
         _player = Managers.Object.Spawn<PlayerController>(Vector3.zero, _classId);
         _worldSpaceUI = Managers.UI.MakeWorldSpaceUI<UI_WorldSpace>();
+        _player.SetWorldSpaceUI(_worldSpaceUI);
+        _player.OnHealthChanged += (health, maxHealth) =>
+        {
+            _worldSpaceUI.UpdateHealthBar(health, maxHealth);
+        };
 
         // TODO: 노드맵 UI에서 게임을 시작해야 한다. 
 
@@ -170,6 +174,7 @@ public class GameScene : BaseScene
 
                 MonsterController mc = Managers.Object.Spawn<MonsterController>(randomPosition, randomMonsterId);
                 mc.InitMonster(randomMonsterId);
+                mc.SetWorldSpaceUI(_worldSpaceUI);
             }
 
             yield return new WaitForSeconds(MONSTER_SPAWN_INTERVAL);
@@ -179,7 +184,8 @@ public class GameScene : BaseScene
     private IEnumerator SpawnEliteMonsters(List<int> normalMonsterIds, List<int> eliteMonsterIds)
     {
         Vector3 eliteSpawn = new Vector3(0, -4, 0);
-        Managers.Object.Spawn<MonsterController>(eliteSpawn, eliteMonsterIds[0]);
+        MonsterController eliteMc = Managers.Object.Spawn<MonsterController>(eliteSpawn, eliteMonsterIds[0]);
+        eliteMc.SetWorldSpaceUI(_worldSpaceUI);
         while (true)
         {
             for (int i = 0; i < PER_SEC_MOSTER_GENERATION; i++)
@@ -198,6 +204,7 @@ public class GameScene : BaseScene
 
                 MonsterController mc = Managers.Object.Spawn<MonsterController>(randomPosition, randomMonsterId);
                 mc.InitMonster(randomMonsterId);
+                mc.SetWorldSpaceUI(_worldSpaceUI);
             }
 
             yield return new WaitForSeconds(MONSTER_SPAWN_INTERVAL);

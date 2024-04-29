@@ -22,6 +22,8 @@ public class MonsterController : CreatureController
     public List<int> MonsterSkillList { get; private set; }
     
     private List<Coroutine> _skillCoroutines = new List<Coroutine>();
+    
+    private UI_WorldSpace _worldSpaceUI;
 
     public override bool Init()
     {
