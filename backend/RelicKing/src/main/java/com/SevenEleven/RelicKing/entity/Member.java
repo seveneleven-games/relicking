@@ -70,16 +70,18 @@ public class Member {
 
 	private LocalDate lastLockDate;
 
+	@Builder.Default
 	@NotNull
-	private boolean withdrawalYn;
+	private boolean withdrawalYn = false;
 
 	@CreatedDate
 	@Column(updatable = false)
 	@NotNull
 	private LocalDate createdDate;
 
+	@Builder.Default
 	@NotNull
-	private boolean lockYn;
+	private boolean lockYn = false;
 
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<MemberRelic> memberRelics;
