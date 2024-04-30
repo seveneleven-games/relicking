@@ -18,4 +18,8 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
 	@EntityGraph(attributePaths = {"records"})
 	@Query("select m from Member m where m.memberId = :memberId")
 	Optional<Member> memberWithRecords(@Param("memberId") Integer memberId);
+
+	Boolean existsByEmail(String email);
+
+	Boolean existsByNickname(String nickname);
 }
