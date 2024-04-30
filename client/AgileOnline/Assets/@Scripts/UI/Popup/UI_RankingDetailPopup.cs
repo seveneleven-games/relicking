@@ -8,7 +8,7 @@ public class UI_RankingDetailPopup : UI_Popup
 
     enum EGameObjects
     {
-        ContentObjet,
+        ContentObject,
         RelicListObject,
         SkillListObject,
     }

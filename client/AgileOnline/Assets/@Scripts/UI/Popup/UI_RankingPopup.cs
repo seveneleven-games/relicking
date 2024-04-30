@@ -9,7 +9,6 @@ public class UI_RankingPopup : UI_Popup
     enum EGameObjects
     {
         ContentObject,
-        RankingList
     }
 
     enum EButtons
