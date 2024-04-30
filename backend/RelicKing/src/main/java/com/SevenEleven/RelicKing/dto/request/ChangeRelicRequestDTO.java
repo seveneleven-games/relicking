@@ -1,6 +1,7 @@
-package com.SevenEleven.RelicKing.dto.model;
+package com.SevenEleven.RelicKing.dto.request;
 
 import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,18 +12,15 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberRelicDTO {
+public class ChangeRelicRequestDTO {
 
-	@PositiveOrZero
-	private int relicNo;
-
-	@PositiveOrZero
-	private int level;
-
-	@PositiveOrZero
-	private int exp;
-
+	@NotNull
 	@PositiveOrZero
 	@Max(6)
 	private int slot;
+
+	@NotNull
+	@PositiveOrZero
+	private int relicNo;
+
 }
