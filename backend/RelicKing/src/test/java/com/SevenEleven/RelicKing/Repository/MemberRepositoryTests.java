@@ -47,11 +47,13 @@ public class MemberRepositoryTests {
 	@Test
 	public void readTest() {
 
-		Optional<Member> result = memberRepository.memberWithRecords(1);
+		Optional<Member> result = memberRepository.findByMemberId(1);
 		Member member = result.orElseThrow();
 
 		log.info("--------------------------------------------------------------");
-		log.info(member.getRecords().getFirst());
+		log.info(member);
+		log.info(member.getRecords());
+		log.info(member.getMemberRelics());
 		log.info("--------------------------------------------------------------");
 
 	}
