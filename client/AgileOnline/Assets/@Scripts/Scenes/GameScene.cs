@@ -22,6 +22,7 @@ public class GameScene : BaseScene
 
     // 노드 정보
     private UI_NodeMapPopup _nodeMap;
+    private UI_StorePopup _store;
 
     private Text timerText;
 
@@ -33,8 +34,9 @@ public class GameScene : BaseScene
         SceneType = EScene.GameScene;
 
         _nodeMap = Managers.UI.ShowPopupUI<UI_NodeMapPopup>();
-        Debug.Log("GameScene Init이 여러번 도나??");
         _nodeMap.OnEnterNode += StartGame;
+        _store = Managers.UI.ShowPopupUI<UI_StorePopup>();
+        _store.OnSkillCardClick += BuySkill;
 
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
         _classId = _templateData.TemplateIds[1];
@@ -123,7 +125,12 @@ public class GameScene : BaseScene
         
         StartCoroutine(StartTimer(100f));
     }
-    
+
+    public void BuySkill(int skillId)
+    {
+        //todo(전지환) : 슬롯 번호는 이후 플레이어 컨트롤러에서 관리할 수 있도록 변경
+        _player.AddSkill(skillId, 5);
+    }
     
     private IEnumerator StartTimer(float duration)
     {

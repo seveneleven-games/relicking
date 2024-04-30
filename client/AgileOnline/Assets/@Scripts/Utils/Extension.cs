@@ -51,4 +51,26 @@ public static class Extension
             (list[k], list[n]) = (list[n], list[k]); //swap
         }
     }
+
+    public static int[] RandomIntList(int min, int max, int length)
+    {
+        int[] result = new int[length];
+
+        List<int> numbers = new List<int>();
+        
+        for (int i = min; i < max; i++)
+        {
+            numbers.Add(i);
+        }
+        
+        for (int j = 0; j < length; j++)
+        {
+            
+            int index = UnityEngine.Random.Range(0, numbers.Count);
+            result[j] = numbers[index];
+            numbers.RemoveAt(index);
+        }
+        
+        return result;
+    }
 }
