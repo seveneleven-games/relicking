@@ -16,7 +16,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,52 +37,58 @@ public class Member {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int memberId;
 
-	@Column(unique = true)
-	@NotNull
+	@Column(unique = true, nullable = false)
 	@Email
 	@Size(min = 3, max = 255)
 	private String email;
 
-	@Column(unique = true)
-	@NotNull
+	@Column(unique = true, nullable = false)
 	@Size(max = 12)
 	private String nickname;
 
-	@NotNull
+	@Column(nullable = false)
 	private String password;
 
 	@Builder.Default
-	@NotNull
+	@Column(nullable = false)
 	private int gacha = 0;
 
 	@Builder.Default
-	@NotNull
+	@Column(nullable = false)
 	private int currentClassNo = 0;
 
 	@Builder.Default
-	@NotNull
+	@Column(nullable = false)
 	private int cumulativeLockTime = 0;
 
 	@Builder.Default
-	@NotNull
+	@Column(nullable = false)
 	private int continuousLockDate = 0;
 
 	private LocalDate lastLockDate;
 
-	@NotNull
+	@Column(nullable = false)
 	private boolean withdrawalYn;
 
 	@CreatedDate
-	@Column(updatable = false)
-	@NotNull
+	@Column(updatable = false, nullable = false)
 	private LocalDate createdDate;
 
-	@NotNull
+	@Column(nullable = false)
 	private boolean lockYn;
 
+	@Column(nullable = false)
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<MemberRelic> memberRelics;
 
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Record> records;
+
+	public void changeCurrentClassNo(int classNo) {
+		this.currentClassNo = classNo;
+	}
+
+	public void changeGacha(int gacha) {
+		this.gacha = gacha;
+	}
 }
