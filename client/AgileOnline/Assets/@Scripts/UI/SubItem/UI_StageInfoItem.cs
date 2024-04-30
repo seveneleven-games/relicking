@@ -76,7 +76,7 @@ public class UI_StageInfoItem : UI_Base
     public void SetInfo(StageData data)
     {
         _stageData = data;
-        // transform.localScale = Vector3.one;
+        transform.localScale = Vector3.one;
         Refresh();
     }
 

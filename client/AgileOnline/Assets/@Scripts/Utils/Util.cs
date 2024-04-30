@@ -73,9 +73,10 @@ public static class Util
         return parsedColor;
     }
     
-    // 통신 관련
+    
+    // 통신 관련 (json 형식으로 반환하는 함수)
     // Get
-    public static IEnumerator GetRequest(string uri)
+    public static IEnumerator GetRequest(string uri, Action<string> callback)
     {
         
         string finalUri = BASE_URI + uri;
@@ -92,9 +93,13 @@ public static class Util
             else
             {
                 Debug.Log(webRequest.downloadHandler.text);
+                string data = webRequest.downloadHandler.text;
+                callback(data);
             }
         }
     }
+    
+    
     // Post
     public static IEnumerator PostRequest(string uri, string postData)
     {
@@ -113,6 +118,62 @@ public static class Util
             else
             {
                 Debug.Log("Form upload complete!");
+            }
+            
+        }
+    }
+    
+    
+    
+    
+    // 통신 관련 (데이터로 바로 변환하는 함수)
+    //Get
+    public static IEnumerator GetRequest<T>(string uri, Action<T> callback)
+    {
+        
+        string finalUri = BASE_URI + uri;
+        
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(finalUri))
+        {
+            // 요청 보내기
+            yield return webRequest.SendWebRequest();
+            
+            if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError(webRequest.error);
+            }
+            else
+            {
+                T data = JsonUtility.FromJson<T>(webRequest.downloadHandler.text);
+                callback(data);
+            }
+        }
+    }
+    // Post
+    public static IEnumerator PostRequest<T>(string uri, T postData, Action<T> callback)
+    {
+        
+        string finalUri = BASE_URI + uri;
+        string jsonPostData = JsonUtility.ToJson(postData);
+        
+        using (UnityWebRequest webRequest = UnityWebRequest.PostWwwForm(finalUri, jsonPostData))
+        {
+            
+            // webRequest.SetRequestHeader("Content-Type", "application/json");
+            
+            // 요청 보내기
+            yield return webRequest.SendWebRequest();
+            
+            if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError(webRequest.error);
+            }
+            else
+            {
+                Debug.Log("Form upload complete!");
+                
+                T data = JsonUtility.FromJson<T>(webRequest.downloadHandler.text);
+                callback(data);
             }
             
         }

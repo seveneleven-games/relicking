@@ -163,7 +163,7 @@ public class UI_BattlePopup : UI_Popup
         {
             // StageInfoItem 달기
             UI_StageInfoItem item = Managers.UI.MakeSubItem<UI_StageInfoItem>(StageContainer.transform);
-            item.transform.position = new Vector3(0,0,0);
+            // item.transform.position = new Vector3(0,0,0);
             item.SetInfo(stageData);
             _scrollSnap.ChildObjects[stageData.StageId - 1] = item.gameObject;
         }

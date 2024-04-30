@@ -112,7 +112,10 @@ public class UI_LoginInputPopup : UI_Popup
         Debug.Log("OnClickKakaoLoginButton");
         
         // 웹통신 테스트 -> 성공
-        StartCoroutine(GetRequest("test/login"));
+        StartCoroutine(GetRequest("test/login", data =>
+        {
+            Debug.Log("test해봅시다!!! " + data);
+        }));
 
     }
 
