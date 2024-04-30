@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.SevenEleven.RelicKing.common.exception.CustomException;
+import com.SevenEleven.RelicKing.common.exception.ExceptionType;
 import com.SevenEleven.RelicKing.dto.model.MemberRelicDTO;
 import com.SevenEleven.RelicKing.dto.response.InventoryResponseDTO;
 import com.SevenEleven.RelicKing.dto.response.LoginResponseDTO;
@@ -33,7 +35,7 @@ public class TestService {
 
 	public LoginResponseDTO getLoginData(int memberId) {
 
-		Member member = memberRepository.findById(memberId).orElseThrow();
+		Member member = memberRepository.findById(memberId).orElseThrow(() -> new CustomException(ExceptionType.MEMBER_NOT_FOUND));
 
 		StageDifficultyDTO stageDifficultyDTO = getDifficulty(member);
 
@@ -68,7 +70,7 @@ public class TestService {
 
 	public InventoryResponseDTO getInventoryInfo(int memberId) {
 
-		Member member = memberRepository.findById(memberId).orElseThrow();
+		Member member = memberRepository.findById(memberId).orElseThrow(() -> new CustomException(ExceptionType.MEMBER_NOT_FOUND));
 
 		List<MemberRelic> memberRelicList = memberRelicRepository.findByMember(member);
 
