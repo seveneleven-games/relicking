@@ -63,10 +63,10 @@ public class RecordRepositoryTests {
 	@Transactional
 	@Test
 	public void readTest() {
-		Record record = recordRepository.findById(1).orElseThrow();
+		Record record = recordRepository.findByRecordId(1).orElseThrow();
 
 		log.info("--------------------------------------------------------------");
-		log.info(record.getRecordRelics());
+		log.info(record);
 		log.info(record.getRecordSkills());
 		log.info("--------------------------------------------------------------");
 	}

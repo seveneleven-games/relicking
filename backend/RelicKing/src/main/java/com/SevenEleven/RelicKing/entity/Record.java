@@ -1,8 +1,8 @@
 package com.SevenEleven.RelicKing.entity;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -62,15 +62,15 @@ public class Record {
 	@Builder.Default
 	private LocalDate updatedDate = LocalDate.now();
 
-	@ElementCollection(fetch = FetchType.EAGER)
+	@ElementCollection(fetch = FetchType.LAZY)
 	@CollectionTable(name = "record_relic", joinColumns = @JoinColumn(name = "record_id"))
 	@Builder.Default
-	private List<RecordRelic> recordRelics = new ArrayList<>(6);
+	private Set<RecordRelic> recordRelics = new HashSet<>(6);
 
-	@ElementCollection(fetch = FetchType.EAGER)
+	@ElementCollection(fetch = FetchType.LAZY)
 	@CollectionTable(name = "record_skill", joinColumns = @JoinColumn(name = "record_id"))
 	@Builder.Default
-	private List<RecordSkill> recordSkills = new ArrayList<>(6);
+	private Set<RecordSkill> recordSkills = new HashSet<>(6);
 
 	public void addRecordRelic(int relicNo, int level, int slot) {
 
