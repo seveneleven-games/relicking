@@ -18,6 +18,10 @@ public class MonsterController : CreatureController
     public float CritRate { get; private set; }
     public float CritDmgRate { get; private set; }
     public float CoolDown { get; private set; }
+    
+    public List<int> MonsterSkillList { get; private set; }
+    
+    private List<Coroutine> _skillCoroutines = new List<Coroutine>();
 
     public override bool Init()
     {
@@ -46,18 +50,34 @@ public class MonsterController : CreatureController
         CritRate = data.CritRate;
         CritDmgRate = data.CritDmgRate;
         CoolDown = data.CoolDown;
+        
+        MonsterSkillList = new List<int>(new int[3]);
+        if (MonsterType == 1)
+        {
+            MonsterSkillList[0] = 1000;
+        }
     }
 
     private void Start()
     {
         _player = Managers.Object.Player;
+        
+        if (MonsterType == 1)
+        {
+            StartSkills();
+        }
     }
 
     private void Update()
     {
         if (_player == null)
             return;
+        
+        ChasePlayer();
+    }
 
+    private void ChasePlayer()
+    {
         Vector3 dir = (_player.transform.position - transform.position).normalized;
         TranslateEx(dir * Time.deltaTime * Speed);
     }
@@ -121,5 +141,68 @@ public class MonsterController : CreatureController
         
         Managers.Object.Despawn(this);
     }
+
+    #region Skill
+
+    void StartSkills()
+    {
+        StopSkills();
+
+        foreach (int skillId in MonsterSkillList)
+        {
+            if (skillId > 0)
+            {
+                Coroutine skillCoroutine = StartCoroutine(CoStartSkill(skillId));
+                _skillCoroutines.Add(skillCoroutine);
+            }
+        }
+    }
+    
+    void StopSkills()
+    {
+        foreach (Coroutine coroutine in _skillCoroutines)
+        {
+            if (coroutine != null)
+                StopCoroutine(coroutine);
+        }
+
+        _skillCoroutines.Clear();
+    }
+    
+    IEnumerator CoStartSkill(int skillId)
+    {
+        SkillData skillData = Managers.Data.SkillDic[skillId];
+        WaitForSeconds coolTimeWait = new WaitForSeconds(skillData.CoolTime);
+        while (true)
+        {
+            yield return coolTimeWait;
+            switch (skillData.PrefabName)
+            {
+                case "EliteMonsterProjectile":
+                    int empProjectileNum = skillData.ProjectileNum;
+                    float angleStep = 360f / empProjectileNum;
+
+                    for (int i = 0; i < empProjectileNum; i++)
+                    {
+                        float angle = i * angleStep;
+                        Vector3 direction = Quaternion.Euler(0f, 0f, angle) * Vector3.up;
+                        Debug.Log("스킬타입: " + PrefabName);
+                        EliteMonsterProjectileController emp = Managers.Object.Spawn<EliteMonsterProjectileController>(transform.position, skillId);
+                        if (emp != null)
+                        {
+                            emp.SetMoveDirection(direction);
+                        }
+                        else
+                        {
+                            Debug.LogError("Failed to spawn or initialize EliteMonsterProjectileController");
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+    
+
+    #endregion
 
 }

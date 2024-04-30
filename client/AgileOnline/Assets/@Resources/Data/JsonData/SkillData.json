@@ -155,6 +155,19 @@
       "LifeTime": 5.0,
       "Speed": 10.0,
       "ProjectileNum": 3
+    },
+    {
+      "SkillId": 1000,
+      "NextId": 1001,
+      "PrefabName": "EliteMonsterProjectile",
+      "Name": "엘리트 몬스터 공격 1",
+      "Description": "주변으로 투사체 발사",
+      "IconName": "EliteMonsterProjectile_icon.sprite",
+      "CoolTime": 3,
+      "Damage": 5,
+      "LifeTime": 5.0,
+      "Speed": 3.0,
+      "ProjectileNum": 10
     }
   ]
 }

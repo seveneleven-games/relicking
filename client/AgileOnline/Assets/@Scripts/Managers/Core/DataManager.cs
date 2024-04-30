@@ -16,6 +16,7 @@ public class DataManager
     public Dictionary<int, StageData> StageDic { get; private set; } = new Dictionary<int, StageData>();
     public Dictionary<int, SkillData> SkillDic { get; private set; } = new Dictionary<int, SkillData>();
     public Dictionary<int, GoldData> GoldDic { get; private set; } = new Dictionary<int, GoldData>();
+    public Dictionary<int, NodeMapData> NodeMapDic { get; private set; } = new Dictionary<int, NodeMapData>();
 
     public void Init()
     {
@@ -24,6 +25,7 @@ public class DataManager
         StageDic = LoadJson<StageDataLoader, int, StageData>("StageData").MakeDict();
         SkillDic = LoadJson<SkillDataLoader, int, SkillData>("SkillData").MakeDict();
         GoldDic = LoadJson<GoldDataLoader, int, GoldData>("GoldData").MakeDict();
+        NodeMapDic = LoadJson<NodeMapDataLoader, int, NodeMapData>("NodeMapData").MakeDict();
     }
 
     private Loader LoadJson<Loader, Key, Value>(string path) where Loader : ILoader<Key, Value>
@@ -55,6 +57,8 @@ public class DataManager
             case "ElectronicFieldData":
                 return Managers.Data.SkillDic[templateId].PrefabName;
             case "PoisonFieldData":
+                return Managers.Data.SkillDic[templateId].PrefabName;
+            case "EliteMonsterProjectileData":
                 return Managers.Data.SkillDic[templateId].PrefabName;
             default:
                 return null;

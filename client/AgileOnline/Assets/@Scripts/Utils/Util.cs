@@ -2,10 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
+using static Define;
+
 
 
 public static class Util
 {
+    
+    
     public static T GetOrAddComponent<T>(GameObject go) where T : Component
     {
         T component = go.GetComponent<T>();
@@ -66,5 +71,50 @@ public static class Util
         ColorUtility.TryParseHtmlString("#"+color, out parsedColor);
 
         return parsedColor;
+    }
+    
+    // 통신 관련
+    // Get
+    public static IEnumerator GetRequest(string uri)
+    {
+        
+        string finalUri = BASE_URI + uri;
+        
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(finalUri))
+        {
+            // 요청 보내기
+            yield return webRequest.SendWebRequest();
+            
+            if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError(webRequest.error);
+            }
+            else
+            {
+                Debug.Log(webRequest.downloadHandler.text);
+            }
+        }
+    }
+    // Post
+    public static IEnumerator PostRequest(string uri, string postData)
+    {
+        
+        string finalUri = BASE_URI + uri;
+        
+        using (UnityWebRequest webRequest = UnityWebRequest.PostWwwForm(finalUri, postData))
+        {
+            // 요청 보내기
+            yield return webRequest.SendWebRequest();
+            
+            if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError(webRequest.error);
+            }
+            else
+            {
+                Debug.Log("Form upload complete!");
+            }
+            
+        }
     }
 }

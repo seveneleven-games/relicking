@@ -25,6 +25,9 @@ public class PlayerController : CreatureController
     private Transform _indicator;
 
     private List<Coroutine> _skillCoroutines = new List<Coroutine>();
+    
+    private bool isSkillsActive = false;
+    public bool IsSkillsActive => isSkillsActive;
 
     public override bool Init()
     {
@@ -73,9 +76,6 @@ public class PlayerController : CreatureController
         CritRate = data.CritRate;
         CritDmgRate = data.CritDmgRate;
         CoolDown = data.CoolDown;
-
-        PlayerSkillList = new List<int>(new int[6]);
-        PlayerRelicList = new List<int>(new int[6]);
     }
 
     private void Update()
@@ -157,8 +157,10 @@ public class PlayerController : CreatureController
 
     #region Skill
 
-    void StartSkills()
+    public void StartSkills()
     {
+        if (isSkillsActive) return;
+        
         StopSkills();
 
         foreach (int skillId in PlayerSkillList)
@@ -169,9 +171,11 @@ public class PlayerController : CreatureController
                 _skillCoroutines.Add(skillCoroutine);
             }
         }
+        
+        isSkillsActive = true;
     }
 
-    void StopSkills()
+    public void StopSkills()
     {
         foreach (Coroutine coroutine in _skillCoroutines)
         {
@@ -180,19 +184,22 @@ public class PlayerController : CreatureController
         }
 
         _skillCoroutines.Clear();
+        isSkillsActive = false;
     }
 
     IEnumerator CoStartSkill(int skillId)
     {
         SkillData skillData = Managers.Data.SkillDic[skillId];
+        float coolTime = skillData.CoolTime;
         WaitForSeconds coolTimeWait = new WaitForSeconds(skillData.CoolTime);
-
+        Debug.Log($"CoolTime: {coolTime} seconds");
         while (true)
         {
+
+            yield return coolTimeWait;
             switch (skillData.PrefabName)
             {
                 case "EnergyBolt":
-                    yield return coolTimeWait;
 
                     int ebProjectileNum = skillData.ProjectileNum;
                     float ebSpreadAngle = 30f;
@@ -219,8 +226,6 @@ public class PlayerController : CreatureController
                     break;
 
                 case "IceArrow":
-                    yield return coolTimeWait;
-
                     int iaProjectileNum = skillData.ProjectileNum;
 
                     List<MonsterController> nearbyMonsters = new List<MonsterController>();
@@ -256,7 +261,6 @@ public class PlayerController : CreatureController
                     yield break;
 
                 case "PoisonField":
-                    yield return coolTimeWait;
 
                     int pfProjectileNum = skillData.ProjectileNum;
                     List<Vector3> installedPositions = new List<Vector3>();
