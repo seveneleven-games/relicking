@@ -5,6 +5,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.SevenEleven.RelicKing.common.exception.CustomException;
+import com.SevenEleven.RelicKing.common.exception.ExceptionType;
 import com.SevenEleven.RelicKing.entity.Member;
 import com.SevenEleven.RelicKing.repository.MemberRepository;
 
@@ -25,6 +27,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 			return new CustomUserDetails(findMember);
 		}
 
-		return null;
+		throw new CustomException(ExceptionType.MEMBER_NOT_FOUND);
 	}
 }
