@@ -1,6 +1,7 @@
 package com.SevenEleven.RelicKing.common.security;
 
 import java.io.IOException;
+import java.util.Date;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,6 +13,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.SevenEleven.RelicKing.common.exception.CustomException;
 import com.SevenEleven.RelicKing.common.exception.ExceptionType;
 import com.SevenEleven.RelicKing.dto.request.LoginRequestDto;
+import com.SevenEleven.RelicKing.entity.RefreshToken;
+import com.SevenEleven.RelicKing.repository.RefreshTokenRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.FilterChain;
@@ -23,10 +26,12 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
 	private final AuthenticationManager authenticationManager;
 	private final JWTUtil jwtUtil;
+	private final RefreshTokenRepository refreshTokenRepository;
 
-	public CustomAuthenticationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
+	public CustomAuthenticationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil, RefreshTokenRepository refreshTokenRepository) {
 		this.authenticationManager = authenticationManager;
 		this.jwtUtil = jwtUtil;
+		this.refreshTokenRepository = refreshTokenRepository;
 
 		setFilterProcessesUrl("/api/members/login");
 	}
@@ -61,6 +66,14 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 		// 토큰 생성
 		String accessToken = jwtUtil.createJwt("access", email, 600000L);
 		String refreshToken = jwtUtil.createJwt("refresh", email, 86400000L);
+
+		// Refresh 토큰 저장
+		RefreshToken refreshTokenEntity = RefreshToken.builder()
+			.email(email)
+			.refreshToken(refreshToken)
+			.expiration(new Date(System.currentTimeMillis() + 86400000L).toString())
+			.build();
+		refreshTokenRepository.save(refreshTokenEntity);
 
 		// 응답 설정 TODO : body에 담는 식으로 바꾸기
 		response.setHeader("accessToken", accessToken);

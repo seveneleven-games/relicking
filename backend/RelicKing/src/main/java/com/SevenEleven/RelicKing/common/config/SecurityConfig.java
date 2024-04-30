@@ -16,6 +16,7 @@ import com.SevenEleven.RelicKing.common.security.CustomAuthenticationFilter;
 import com.SevenEleven.RelicKing.common.security.JWTFilter;
 import com.SevenEleven.RelicKing.common.security.JWTUtil;
 import com.SevenEleven.RelicKing.repository.MemberRepository;
+import com.SevenEleven.RelicKing.repository.RefreshTokenRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,9 +28,11 @@ public class SecurityConfig {
 	private final AuthenticationConfiguration authenticationConfiguration;
 	private final JWTUtil jwtUtil;
 	private final MemberRepository memberRepository;
+	private final RefreshTokenRepository refreshTokenRepository;
 
 	private final String[] whiteList = {
 		"/api/members/login",
+		"/api/members/reissue",
 		"/api/members/temp-password",
 		"/api/members/duplicate-email",
 		"/api/members/duplicate-nickname",
@@ -44,7 +47,7 @@ public class SecurityConfig {
 
 		http
 			.csrf(AbstractHttpConfigurer::disable)    // csrf disable
-			.formLogin(auth -> auth.loginPage("/api/members/login"))    // form 로그인 방식 disable
+			.formLogin(AbstractHttpConfigurer::disable)    // form 로그인 방식 disable
 			.httpBasic(AbstractHttpConfigurer::disable)    // http basic 인증 방식 disable
 
 			// 경로별 인가 작업
@@ -54,7 +57,7 @@ public class SecurityConfig {
 
 			// 필터 추가
 			.addFilterBefore(new JWTFilter(jwtUtil, memberRepository), CustomAuthenticationFilter.class)
-			.addFilterAt(new CustomAuthenticationFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class)
+			.addFilterAt(new CustomAuthenticationFilter(authenticationManager(authenticationConfiguration), jwtUtil, refreshTokenRepository), UsernamePasswordAuthenticationFilter.class)
 
 			// 세션 사용하지 않음
 			.sessionManagement(session ->
