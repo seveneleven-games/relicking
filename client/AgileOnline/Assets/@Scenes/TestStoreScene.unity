@@ -373,7 +373,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6848278484301984863, guid: ad99bafe4a8be3b45b9558660cdae557, type: 3}
       propertyPath: m_Name
-      value: UI_StoreScene
+      value: UI_StorePopup
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
