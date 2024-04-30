@@ -24,7 +24,7 @@ public class UI_GachaInfoPopup : UI_Popup
             Managers.Game.OnResourcesChanged -= Refresh;
     }
 
-    // ÃÊ±â ¼¼ÆÃ
+    // ì´ˆê¸° ì„¸íŒ…
     public override bool Init()
     {
         if (base.Init() == false)
@@ -46,7 +46,7 @@ public class UI_GachaInfoPopup : UI_Popup
         return true;
     }
 
-    // °»½Å
+    // ê°±ì‹ 
     void Refresh()
     {
 
