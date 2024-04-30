@@ -39,6 +39,11 @@ public class MemberService {
 			throw new CustomException(ExceptionType.EMAIL_ALREADY_EXISTS);
 		}
 
+		// 이미 존재하는 닉네임일 경우 예외 처리
+		if (memberRepository.existsByNickname(dto.getNickname())) {
+			throw new CustomException(ExceptionType.NICKNAME_ALREADY_EXISTS);
+		}
+
 		Member member = dto.toEntity(bCryptPasswordEncoder.encode(dto.getPassword()));
 
 		memberRepository.save(member);
@@ -95,7 +100,7 @@ public class MemberService {
 		refreshTokenRepository.save(refreshTokenEntity);
 
 		// response
-		response.setHeader("accessToken", newAccessToken);
+		response.setHeader("accessToken", JWTProperties.ACCESS_TOKEN_PREFIX + newAccessToken);
 		response.addCookie(createCookie("refreshToken", newRefreshToken));
 
 		return new ResponseEntity<>(HttpStatus.OK);

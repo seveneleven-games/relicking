@@ -18,6 +18,7 @@ public enum ExceptionType {
 
     // member
     EMAIL_ALREADY_EXISTS(HttpStatus.CONFLICT.value(), "이미 가입된 이메일입니다."),
+    NICKNAME_ALREADY_EXISTS(HttpStatus.CONFLICT.value(), "이미 존재하는 닉네임입니다."),
     ;
 
     private final int status;
