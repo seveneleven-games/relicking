@@ -29,8 +29,9 @@ public class MemberController {
 		return new Response(HttpStatus.OK.value(), "회원가입이 완료되었습니다.", true);
 	}
 
+	// TODO : 로직 변경 필요
 	@PostMapping("/reissue")
 	public ResponseEntity<?> reissue(HttpServletRequest request, HttpServletResponse response) {
 		return memberService.reissue(request, response);
 	}
-}
+}@AP

@@ -7,8 +7,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.SevenEleven.RelicKing.entity.Member;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+@Getter
 @RequiredArgsConstructor
 public class CustomUserDetails implements UserDetails {
 
