@@ -51,7 +51,7 @@ public class MemberRepositoryTests {
 		Member member = result.orElseThrow();
 
 		log.info("--------------------------------------------------------------");
-		log.info(member.getRecords().getFirst());
+		log.info(member.getRecords());
 		log.info("--------------------------------------------------------------");
 
 	}
