@@ -13,13 +13,6 @@ public class CreatureController : BaseController
     protected ECreatureState _creatureState = ECreatureState.None;
     
     public event Action<float, float> OnHealthChanged;
-    
-    private UI_WorldSpace _worldSpaceUI;
-    
-    public void SetWorldSpaceUI(UI_WorldSpace worldSpaceUI)
-    {
-        _worldSpaceUI = worldSpaceUI;
-    }
 
     public virtual ECreatureState CreatureState
     {
@@ -52,8 +45,6 @@ public class CreatureController : BaseController
             Hp = 0;
             OnDead();
         }
-        OnHealthChanged?.Invoke(Hp, MaxHp);
-        _worldSpaceUI.ShowDamage(transform.position, damage);
     }
 
     protected virtual void OnDead()
