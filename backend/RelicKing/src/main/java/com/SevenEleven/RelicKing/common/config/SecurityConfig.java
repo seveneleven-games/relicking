@@ -17,6 +17,7 @@ import com.SevenEleven.RelicKing.common.security.JWTFilter;
 import com.SevenEleven.RelicKing.common.security.JWTUtil;
 import com.SevenEleven.RelicKing.repository.MemberRepository;
 import com.SevenEleven.RelicKing.repository.RefreshTokenRepository;
+import com.SevenEleven.RelicKing.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,6 +30,7 @@ public class SecurityConfig {
 	private final JWTUtil jwtUtil;
 	private final MemberRepository memberRepository;
 	private final RefreshTokenRepository refreshTokenRepository;
+	private final MemberService memberService;
 
 	private final String[] whiteList = {
 		"/api/members/login",
@@ -57,18 +59,13 @@ public class SecurityConfig {
 
 			// 필터 추가
 			.addFilterBefore(new JWTFilter(jwtUtil, memberRepository), CustomAuthenticationFilter.class)
-			.addFilterAt(new CustomAuthenticationFilter(authenticationManager(authenticationConfiguration), jwtUtil, refreshTokenRepository), UsernamePasswordAuthenticationFilter.class)
+			.addFilterAt(new CustomAuthenticationFilter(authenticationManager(authenticationConfiguration), jwtUtil, refreshTokenRepository, memberService), UsernamePasswordAuthenticationFilter.class)
 
 			// 세션 사용하지 않음
 			.sessionManagement(session ->
 				session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
 		return http.build();
-	}
-
-	@Bean
-	public BCryptPasswordEncoder bCryptPasswordEncoder() {
-		return new BCryptPasswordEncoder();
 	}
 
 	@Bean

@@ -1,20 +1,27 @@
 package com.SevenEleven.RelicKing.service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.SevenEleven.RelicKing.common.Constant;
 import com.SevenEleven.RelicKing.common.exception.CustomException;
 import com.SevenEleven.RelicKing.common.exception.ExceptionType;
-import com.SevenEleven.RelicKing.common.security.JWTProperties;
 import com.SevenEleven.RelicKing.common.security.JWTUtil;
 import com.SevenEleven.RelicKing.dto.request.SignUpRequestDto;
+import com.SevenEleven.RelicKing.dto.response.LoginResponseDTO;
+import com.SevenEleven.RelicKing.dto.response.model.StageDifficultyDTO;
 import com.SevenEleven.RelicKing.entity.Member;
+import com.SevenEleven.RelicKing.entity.Record;
 import com.SevenEleven.RelicKing.entity.RefreshToken;
 import com.SevenEleven.RelicKing.repository.MemberRepository;
+import com.SevenEleven.RelicKing.repository.RecordRepository;
 import com.SevenEleven.RelicKing.repository.RefreshTokenRepository;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -31,6 +38,7 @@ public class MemberService {
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	private final JWTUtil jwtUtil;
 	private final RefreshTokenRepository refreshTokenRepository;
+	private final RecordRepository recordRepository;
 
 	public void signup(SignUpRequestDto dto) {
 
@@ -85,8 +93,8 @@ public class MemberService {
 
 		// JWT 생성
 		String email = jwtUtil.getEmail(refreshToken);
-		String newAccessToken = jwtUtil.createJwt("access", email, JWTProperties.ACCESS_TOKEN_EXPIRATION_TIME);
-		String newRefreshToken = jwtUtil.createJwt("refresh", email, JWTProperties.REFRESH_TOKEN_EXPIRATION_TIME);    // Refresh Token Rotation
+		String newAccessToken = jwtUtil.createJwt("access", email, Constant.ACCESS_TOKEN_EXPIRATION_TIME);
+		String newRefreshToken = jwtUtil.createJwt("refresh", email, Constant.REFRESH_TOKEN_EXPIRATION_TIME);    // Refresh Token Rotation
 
 		// 기존 Refresh 토큰 삭제
 		refreshTokenRepository.deleteByRefreshToken(refreshToken);
@@ -95,17 +103,18 @@ public class MemberService {
 		RefreshToken refreshTokenEntity = RefreshToken.builder()
 			.email(email)
 			.refreshToken(newRefreshToken)
-			.expiration(new Date(System.currentTimeMillis() + JWTProperties.REFRESH_TOKEN_EXPIRATION_TIME).toString())
+			.expiration(new Date(System.currentTimeMillis() + Constant.REFRESH_TOKEN_EXPIRATION_TIME).toString())
 			.build();
 		refreshTokenRepository.save(refreshTokenEntity);
 
 		// response
-		response.setHeader("accessToken", JWTProperties.ACCESS_TOKEN_PREFIX + newAccessToken);
+		response.setHeader("accessToken", Constant.ACCESS_TOKEN_PREFIX + newAccessToken);
 		response.addCookie(createCookie("refreshToken", newRefreshToken));
 
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+	// TODO : 없애기
 	private Cookie createCookie(String key, String value) {
 		Cookie cookie = new Cookie(key, value);
 		cookie.setMaxAge(24 * 60 * 60);
@@ -113,5 +122,42 @@ public class MemberService {
 		cookie.setHttpOnly(true);
 
 		return cookie;
+	}
+
+	public LoginResponseDTO getDataAfterLogin(String email, String accessToken, String refreshToken) {
+
+		Member member = memberRepository.findByEmail(email);
+
+		StageDifficultyDTO stageDifficultyDTO = getDifficulty(member);
+
+		return LoginResponseDTO.builder()
+			.accessToken(accessToken)
+			.refreshToken(refreshToken)
+			.memberId(member.getMemberId())
+			.nickname(member.getNickname())
+			.stageData(stageDifficultyDTO)
+			.build();
+	}
+
+	public StageDifficultyDTO getDifficulty(Member member) {
+
+		List<Integer> stage = new ArrayList<>(Constant.MAX_STAGE);
+
+		// FIXME : findByMemberAndStage 쿼리가 여러번 나가고 있다. member로 한 번에 조회할 수 있을 듯 하다.
+		for (int i = 1; i <= Constant.MAX_STAGE; i++) {
+			Optional<Record> record = recordRepository.findByMemberAndStage(member, i);
+			if (record.isPresent()) {
+				stage.add(record.get().getDifficulty());
+			} else {
+				stage.add(0);
+			}
+		}
+
+		return StageDifficultyDTO.builder()
+			.stage1(stage.get(0))
+			.stage2(stage.get(1))
+			.stage3(stage.get(2))
+			.build();
+
 	}
 }
