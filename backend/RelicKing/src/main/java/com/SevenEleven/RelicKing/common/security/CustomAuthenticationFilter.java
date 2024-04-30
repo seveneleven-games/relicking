@@ -64,14 +64,14 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 		String email = authentication.getName();
 
 		// 토큰 생성
-		String accessToken = jwtUtil.createJwt("access", email, 600000L);
-		String refreshToken = jwtUtil.createJwt("refresh", email, 86400000L);
+		String accessToken = jwtUtil.createJwt("access", email, JWTProperties.ACCESS_TOKEN_EXPIRATION_TIME);
+		String refreshToken = jwtUtil.createJwt("refresh", email, JWTProperties.REFRESH_TOKEN_EXPIRATION_TIME);
 
 		// Refresh 토큰 저장
 		RefreshToken refreshTokenEntity = RefreshToken.builder()
 			.email(email)
 			.refreshToken(refreshToken)
-			.expiration(new Date(System.currentTimeMillis() + 86400000L).toString())
+			.expiration(new Date(System.currentTimeMillis() + JWTProperties.REFRESH_TOKEN_EXPIRATION_TIME).toString())
 			.build();
 		refreshTokenRepository.save(refreshTokenEntity);
 

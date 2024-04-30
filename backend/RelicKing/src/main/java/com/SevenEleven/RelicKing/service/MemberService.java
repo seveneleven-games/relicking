@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.SevenEleven.RelicKing.common.exception.CustomException;
 import com.SevenEleven.RelicKing.common.exception.ExceptionType;
+import com.SevenEleven.RelicKing.common.security.JWTProperties;
 import com.SevenEleven.RelicKing.common.security.JWTUtil;
 import com.SevenEleven.RelicKing.dto.request.SignUpRequestDto;
 import com.SevenEleven.RelicKing.entity.Member;
@@ -79,8 +80,8 @@ public class MemberService {
 
 		// JWT 생성
 		String email = jwtUtil.getEmail(refreshToken);
-		String newAccessToken = jwtUtil.createJwt("access", email, 600000L);
-		String newRefreshToken = jwtUtil.createJwt("refresh", email, 86400000L);    // Refresh Token Rotation
+		String newAccessToken = jwtUtil.createJwt("access", email, JWTProperties.ACCESS_TOKEN_EXPIRATION_TIME);
+		String newRefreshToken = jwtUtil.createJwt("refresh", email, JWTProperties.REFRESH_TOKEN_EXPIRATION_TIME);    // Refresh Token Rotation
 
 		// 기존 Refresh 토큰 삭제
 		refreshTokenRepository.deleteByRefreshToken(refreshToken);
@@ -89,7 +90,7 @@ public class MemberService {
 		RefreshToken refreshTokenEntity = RefreshToken.builder()
 			.email(email)
 			.refreshToken(newRefreshToken)
-			.expiration(new Date(System.currentTimeMillis() + 86400000L).toString())
+			.expiration(new Date(System.currentTimeMillis() + JWTProperties.REFRESH_TOKEN_EXPIRATION_TIME).toString())
 			.build();
 		refreshTokenRepository.save(refreshTokenEntity);
 
