@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UI_InvenRelicInfoPopup : UI_Popup
+public class UI_InvenEquipPopup : UI_Popup
 {
     #region Enum
     enum EGameObjects
@@ -12,21 +12,13 @@ public class UI_InvenRelicInfoPopup : UI_Popup
 
     enum EButtons
     {
-        ButtonBG,
-        ButtonEquip,
         ButtonCancel,
-    }
-
-    enum ETexts
-    {
-        LevelText,
-        RelicNameText,
-        RelicDescriptionText,
-    }
-
-    enum EImages
-    {
-        RelicImage
+        EquipButton1,
+        EquipButton2,
+        EquipButton3,
+        EquipButton4,
+        EquipButton5,
+        EquipButton6,
     }
 
     #endregion
@@ -47,12 +39,14 @@ public class UI_InvenRelicInfoPopup : UI_Popup
 
         BindObject(typeof(EGameObjects));
         BindButton(typeof(EButtons));
-        BindText(typeof(ETexts));
-        BindImage(typeof(EImages));
 
-        GetButton((int)EButtons.ButtonBG).gameObject.BindEvent(OnClickCloseButton);
         GetButton((int)EButtons.ButtonCancel).gameObject.BindEvent(OnClickCloseButton);
-        GetButton((int)EButtons.ButtonEquip).gameObject.BindEvent(OnClickEquipButton);
+        GetButton((int)EButtons.EquipButton1).gameObject.BindEvent(() => OnClickEquipButton(1));
+        GetButton((int)EButtons.EquipButton2).gameObject.BindEvent(() => OnClickEquipButton(2));
+        GetButton((int)EButtons.EquipButton3).gameObject.BindEvent(() => OnClickEquipButton(3));
+        GetButton((int)EButtons.EquipButton4).gameObject.BindEvent(() => OnClickEquipButton(4));
+        GetButton((int)EButtons.EquipButton5).gameObject.BindEvent(() => OnClickEquipButton(5));
+        GetButton((int)EButtons.EquipButton6).gameObject.BindEvent(() => OnClickEquipButton(6));
 
         #endregion
 
@@ -70,14 +64,13 @@ public class UI_InvenRelicInfoPopup : UI_Popup
 
     void OnClickCloseButton()
     {
-        Debug.Log("CloseRelicDetail");
+        Debug.Log("CloseEquipPopup");
         Managers.UI.ClosePopupUI(this);
     }
 
-    void OnClickEquipButton()
+    void OnClickEquipButton(int number)
     {
-        Debug.Log("EquipClicked");
+        Debug.Log($"Button number {number}");
         Managers.UI.ClosePopupUI(this);
-        Managers.UI.ShowPopupUI<UI_InvenEquipPopup>();
     }
 }
