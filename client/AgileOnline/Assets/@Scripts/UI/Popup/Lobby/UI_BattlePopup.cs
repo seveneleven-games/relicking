@@ -102,7 +102,7 @@ public class UI_BattlePopup : UI_Popup
         
         
         // 임시
-        _templateData = Resources.Load<TemplateData>("GameTemplateData");
+        _templateData = Managers.Resource.Load<TemplateData>("GameTemplateData");
         Debug.Log("templateData is :" + _templateData);
         GetObject((int)EGameObjects.StageSelectScrollView).BindEvent(() =>
         {

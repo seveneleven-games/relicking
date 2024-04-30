@@ -201,5 +201,30 @@ namespace Data
     }
 
     #endregion
+    
+    #region DamageTextData
+
+    [Serializable]
+    public class DamageTextData
+    {
+        public int DamageTextId;
+    }
+    
+    [Serializable]
+    public class DamageTextDataLoader : ILoader<int, DamageTextData>
+    {
+        public List<DamageTextData> damageTexts = new List<DamageTextData>();
+
+        public Dictionary<int, DamageTextData> MakeDict()
+        {
+            Dictionary<int, DamageTextData> dict = new Dictionary<int, DamageTextData>();
+            foreach (DamageTextData damageText in damageTexts)
+                dict.Add(damageText.DamageTextId, damageText);
+
+            return dict;
+        }
+    }
+
+    #endregion
 
 }

@@ -41,6 +41,7 @@ public static class Define
         Monster,
         Skill,
         Env,
+        Damage
     }
 
     public enum ECreatureState

@@ -13,6 +13,7 @@ public class ObjectManager
     public HashSet<IceArrowController> IceArrows { get; } = new HashSet<IceArrowController>();
     public HashSet<ElectronicFieldController> ElectronicFields { get; } = new HashSet<ElectronicFieldController>();
     public HashSet<PoisonFieldController> PoisonFields { get; } = new HashSet<PoisonFieldController>();
+    public HashSet<DamageTextController> DamageTexts { get; } = new HashSet<DamageTextController>();
 
     public HashSet<EliteMonsterProjectileController> EliteMonsterProjectiles { get; } =
         new HashSet<EliteMonsterProjectileController>();
@@ -60,12 +61,17 @@ public class ObjectManager
     
     public Transform PoisonFieldRoot
     {
-        get { return GetRootTransform("@PoisonFieldRoot"); }
+        get { return GetRootTransform("@PoisonField"); }
     }
 
     public Transform EliteMonsterProjectileRoot
     {
-        get { return GetRootTransform("@EliteMonsterProjectileRoot"); }
+        get { return GetRootTransform("@EliteMonsterProjectile"); }
+    }
+
+    public Transform DamageTextRoot
+    {
+        get { return GetRootTransform("@DamageText"); }
     }
 
     #endregion
@@ -73,8 +79,9 @@ public class ObjectManager
     public T Spawn<T>(Vector3 position, int templateId) where T : BaseController
     {
         string dataType = typeof(T).Name.Replace("Controller", "Data");
+        Debug.Log(dataType);
         string prefabName = Managers.Data.GetData<T>(dataType, templateId);
-
+        Debug.Log(prefabName);
         GameObject go = Managers.Resource.Instantiate(prefabName, pooling: true);
         go.name = prefabName;
         go.transform.position = position;
@@ -100,6 +107,13 @@ public class ObjectManager
             GoldController gc = go.GetComponent<GoldController>();
             Golds.Add(gc);
             gc.InitGold(templateId);
+        }
+        else if (obj.ObjectType == EObjectType.Damage)
+        {
+            obj.transform.parent = DamageTextRoot;
+            DamageTextController dmc = go.GetComponent<DamageTextController>();
+            DamageTexts.Add(dmc);
+            dmc.InitDamage(templateId);
         }
         else if (obj.ObjectType == EObjectType.Skill)
         {

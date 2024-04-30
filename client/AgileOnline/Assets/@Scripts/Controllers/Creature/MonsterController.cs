@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Data;
+using TMPro;
 using UnityEngine;
 using static Define;
 
@@ -126,6 +127,13 @@ public class MonsterController : CreatureController
             target.OnDamaged(this, Atk);
             yield return new WaitForSeconds(0.1f);
         }
+    }
+
+    public override void OnDamaged(BaseController attacker, int damage)
+    {
+        base.OnDamaged(attacker, damage);
+        DamageTextController dtc = Managers.Object.Spawn<DamageTextController>(transform.position, 0);
+        dtc.ShowDamageText(transform.position, damage);
     }
     
     protected override void OnDead()
