@@ -148,8 +148,6 @@ public class UI_StorePopup : UI_Popup
         skill.Refresh(fixedSkillType*10 + nowLevel);
         _player = Managers.Object.Player;
         _player.UpdateRemainGoldText();
-        Debug.Log(skillId);
-        OnSkillCardClick?.Invoke(skillId);
     }
 
     
