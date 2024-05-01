@@ -31,6 +31,9 @@ public class UI_InGamePopup : UI_Popup
         timerText = GetText((int)GameObjects.TimerText).GetComponent<TextMeshProUGUI>();
         StartCoroutine(UpdateTimer());
 
+        PlayerController pc = Managers.Object.Player;
+        pc.UpdateRemainGoldText();
+
         return true;
     }
     
@@ -57,4 +60,5 @@ public class UI_InGamePopup : UI_Popup
 
         timerText.text = "0";
     }
+    
 }

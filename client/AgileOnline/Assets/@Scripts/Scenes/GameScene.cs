@@ -24,6 +24,7 @@ public class GameScene : BaseScene
     // 노드 정보
     private UI_NodeMapPopup _nodeMap;
     private UI_StorePopup _store;
+    private UI_InGamePopup _inGame;
 
     private Text timerText;
 
@@ -38,6 +39,7 @@ public class GameScene : BaseScene
         _nodeMap.OnEnterNode += StartGame;
         _store = Managers.UI.ShowPopupUI<UI_StorePopup>();
         _store.OnSkillCardClick += BuySkill;
+        // _inGame = Managers.UI.ShowPopupUI<UI_InGamePopup>();
 
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
         _classId = _templateData.TemplateIds[1];
@@ -69,7 +71,7 @@ public class GameScene : BaseScene
     {
         // TODO: 팝업 관리 리팩토링 예정
         _nodeMap.ClosePopupUI();
-        Managers.UI.ShowPopupUI<UI_InGamePopup>();
+        _inGame = Managers.UI.ShowPopupUI<UI_InGamePopup>();
         foreach (GameObject obj in FindObjectsOfType<GameObject>())
         {
             if (obj.name.StartsWith("Target"))
@@ -149,24 +151,15 @@ public class GameScene : BaseScene
 
         while (timer > 0f)
         {
-            // 타이머 UI 업데이트
-
             timer -= Time.deltaTime;
-
-            if (Mathf.FloorToInt(timer) != Mathf.FloorToInt(timer + Time.deltaTime))
-            {
-                // 1초마다 로그 출력
-                Debug.Log($"남은 시간: {Mathf.FloorToInt(timer)}초");
-            }
-
             yield return null;
         }
-        
         OnGameClear();
     }
 
     private void OnGameClear()
     {
+        _inGame.ClosePopupUI();
         _player.GetComponent<CircleCollider2D>().enabled = false;
         _nodeMap = Managers.UI.ShowPopupUI<UI_NodeMapPopup>();
         _nodeMap.OnEnterNode += StartGame;

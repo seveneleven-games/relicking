@@ -139,6 +139,12 @@ public class MonsterController : CreatureController
     //     TakeDamage(damage);
     // }
     
+    public override void OnDamaged(BaseController attacker, int damage)
+    {
+        base.OnDamaged(attacker, damage);
+        UI_World.Instance.ShowDamage(damage, transform.position + Vector3.up * 1f);
+    }
+    
     protected override void OnDead()
     {
         base.OnDead();
@@ -161,8 +167,8 @@ public class MonsterController : CreatureController
         Managers.Object.Despawn(this);
     }
 
-    public GameObject hudDamageText;
-    public Transform hudPos;
+    // public GameObject hudDamageText;
+    // public Transform hudPos;
 
     // private void TakeDamage(int damage)
     // {
