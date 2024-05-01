@@ -43,7 +43,7 @@ public class UI_InGamePopup : UI_Popup
 
     private IEnumerator UpdateTimer()
     {
-        while (remainingTime > 0f)
+        while (remainingTime > 1f)
         {
             timerText.text = Mathf.FloorToInt(remainingTime).ToString();
             remainingTime -= Time.deltaTime;

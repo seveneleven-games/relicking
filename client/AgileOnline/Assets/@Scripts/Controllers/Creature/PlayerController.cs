@@ -17,9 +17,9 @@ public class PlayerController : CreatureController
     public float CritDmgRate { get; private set; }
     public float CoolDown { get; private set; }
 
-    public int PlayerGold { get; private set; }
+    public int PlayerGold { get; set; }
 
-    public List<int> PlayerSkillList { get; private set; }
+    public List<int> PlayerSkillList { get; set; }
     public List<int> PlayerRelicList { get; private set; }
 
     private Transform _indicator;
