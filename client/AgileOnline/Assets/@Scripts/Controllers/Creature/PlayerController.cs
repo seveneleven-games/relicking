@@ -17,7 +17,17 @@ public class PlayerController : CreatureController
     public float CritDmgRate { get; private set; }
     public float CoolDown { get; private set; }
 
-    public int PlayerGold { get; set; }
+    private int playerGold = 100;
+
+    public int PlayerGold
+    {
+        get { return playerGold; }
+        set
+        {
+            playerGold = value;
+            UpdateRemainGoldText();
+        }
+    }
 
     public List<int> PlayerSkillList { get; set; }
     public List<int> PlayerRelicList { get; private set; }
@@ -130,10 +140,19 @@ public class PlayerController : CreatureController
 
             PlayerGold += goldValue;
 
+            UpdateRemainGoldText();
+
             Destroy(collision.gameObject);
 
             Debug.Log($"획득한 골드: {goldValue}, 현재 골드 량: {PlayerGold}");
         }
+    }
+    
+    public void UpdateRemainGoldText()
+    {
+        UI_InGamePopup popup = Managers.UI.GetPopupUI<UI_InGamePopup>();
+        if (popup != null)
+            popup.UpdateRemainGoldText(PlayerGold);
     }
 
     public override void OnDamaged(BaseController attacker, int damage)
@@ -286,20 +305,6 @@ public class PlayerController : CreatureController
                     break;
             }
         }
-    }
-    
-    private Vector3 GetRandomPositionAroundPlayer(float minDistance, float maxDistance)
-    {
-        Vector3 randomPos;
-        do
-        {
-            float randomX = UnityEngine.Random.Range(-maxDistance, maxDistance);
-            float randomY = UnityEngine.Random.Range(-maxDistance, maxDistance);
-            randomPos = transform.position + new Vector3(randomX, randomY, 0f);
-        } while (Vector3.Distance(randomPos, transform.position) < minDistance ||
-                 Mathf.Abs(randomPos.x) > 6f || Mathf.Abs(randomPos.y) > 6f);
-
-        return randomPos;
     }
 
     public void AddSkill(int addSkillId, int slotNum)

@@ -7,7 +7,8 @@ public class UI_InGamePopup : UI_Popup
 {
     enum GameObjects
     {
-        TimerText
+        TimerText,
+        RemainGold
     }
 
     enum Buttons
@@ -25,20 +26,24 @@ public class UI_InGamePopup : UI_Popup
 
         BindText(typeof(GameObjects));
         BindButton(typeof(Buttons));
-
         GetButton((int)Buttons.BackButton).gameObject.BindEvent(OnBackButtonClick);
-
+        
         timerText = GetText((int)GameObjects.TimerText).GetComponent<TextMeshProUGUI>();
-
         StartCoroutine(UpdateTimer());
 
         return true;
+    }
+    
+    public void UpdateRemainGoldText(int gold)
+    {
+        TextMeshProUGUI component = GetText((int)GameObjects.RemainGold).GetComponent<TextMeshProUGUI>();
+        component.text = gold.ToString();
     }
 
     void OnBackButtonClick()
     {
         Managers.Game.InitializeGameData();
-        Managers.Scene.LoadScene(Define.EScene.LobbyScene);
+        Managers.Scene.LoadScene(EScene.LobbyScene);
     }
 
     private IEnumerator UpdateTimer()

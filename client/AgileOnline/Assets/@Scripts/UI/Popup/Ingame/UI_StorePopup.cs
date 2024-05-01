@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 public class UI_StorePopup : UI_Popup
 {
     public TemplateData _templateData;
+    private PlayerController _player;
 
     enum GameObjects
     {
@@ -85,6 +86,8 @@ public class UI_StorePopup : UI_Popup
          * 3. 스킬 반영
          * 4. 반영된 스킬 정보 가져올 것
          */
+        _player = Managers.Object.Player;
+        _player.UpdateRemainGoldText();
         Debug.Log(skillId);
         OnSkillCardClick?.Invoke(skillId);
     }
