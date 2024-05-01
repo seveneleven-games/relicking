@@ -27,7 +27,10 @@ public class UI_StorePopup : UI_Popup
     }
 
     private GameObject _skillCardList;
-    private SkillCard[] _skillList = new SkillCard[3];
+    private SkillCard _skillCard1;
+    private SkillCard _skillCard2;
+    private SkillCard _skillCard3;
+    
     private int[] _skillTypes = new int[3];
     public override bool Init()
     {
@@ -52,14 +55,21 @@ public class UI_StorePopup : UI_Popup
         _skillCardList.gameObject.DestroyChilds();
         _skillTypes = Extension.RandomIntList(0, Define.TOTAL_PLAYER_SKILL_NUMBER, 3);
         
-        for (int i = 0; i < 3; i++)
-        {
-            _skillList[i] = Managers.Resource.Instantiate("SkillCard", _skillCardList.transform).GetComponent<SkillCard>();
-            _skillList[i].Init();
-            _skillList[i].SkillId = _skillTypes[i] * 10 + 1;
-            
-            _skillList[i].gameObject.BindEvent(()=>BuySkill(_skillList[i].SkillId));
-        }
+        _skillCard1 = Managers.Resource.Instantiate("SkillCard", _skillCardList.transform).GetComponent<SkillCard>();
+        _skillCard2 = Managers.Resource.Instantiate("SkillCard", _skillCardList.transform).GetComponent<SkillCard>();
+        _skillCard3 = Managers.Resource.Instantiate("SkillCard", _skillCardList.transform).GetComponent<SkillCard>();
+
+        _skillCard1.Init();
+        _skillCard1.SkillId = _skillTypes[0] * 10 + 1;
+        _skillCard1.gameObject.BindEvent(()=>BuySkill(_skillCard1.SkillId));
+        
+        _skillCard2.Init();
+        _skillCard2.SkillId = _skillTypes[1] * 10 + 1;
+        _skillCard2.gameObject.BindEvent(()=>BuySkill(_skillCard2.SkillId));
+
+        _skillCard3.Init();
+        _skillCard3.SkillId = _skillTypes[2] * 10 + 1;
+        _skillCard3.gameObject.BindEvent(()=>BuySkill(_skillCard3.SkillId));
         
         return true;
     }
@@ -69,6 +79,12 @@ public class UI_StorePopup : UI_Popup
     void BuySkill(int skillId)
     {
         //todo(전지환) : 스킬 구매 정보 반영 로직 필요
+        /*
+         * 1. 스킬 카드 리롤
+         * 2. 소지금액에서 가격을 제함 (소지금액이 더 작으면 구매 불가)
+         * 3. 스킬 반영
+         * 4. 반영된 스킬 정보 가져올 것
+         */
         Debug.Log(skillId);
         OnSkillCardClick?.Invoke(skillId);
     }
@@ -77,12 +93,12 @@ public class UI_StorePopup : UI_Popup
     {
         //todo(전지환) : 돈이 모자라면 안 돌아가게 만들어야 할 것.
         _skillTypes = Extension.RandomIntList(0, Define.TOTAL_PLAYER_SKILL_NUMBER, 3);
-
-        for (int i = 0; i < 3; i++)
-        {
-            // 구매 정보에 따라서 더해주는 값을 바꾸어 줘야 할 것.
-            _skillList[i].SkillId = _skillTypes[i] * 10 + Define.MY_SKILL_LEVEL + 1;
-        }
+        
+        // 스킬 정보에 따라서 더해주는 값을 바꾸어 줘야 할 것.
+        _skillCard1.SkillId = _skillTypes[0] * 10 + Define.MY_SKILL_LEVEL + 1;
+        _skillCard2.SkillId = _skillTypes[1] * 10 + Define.MY_SKILL_LEVEL + 1;
+        _skillCard3.SkillId = _skillTypes[2] * 10 + Define.MY_SKILL_LEVEL + 1;
+        
     }
 
     void ShowSettingPopup()

@@ -28,7 +28,6 @@ public class SkillCard : UI_Base
         get { return _skillId; }
         set
         {
-            Debug.Log(OnSkillIdChanged);
             OnSkillIdChanged?.Invoke(value);
             _skillId = value;
         }
