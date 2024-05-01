@@ -6,7 +6,7 @@ using static Define;
 
 public class ElectronicFieldController : SkillController
 {
-    private CreatureController _owner;
+    public CreatureController _owner;
     private float _damageInterval = 0.5f;
     private float _lastDamageTime;
     private Vector3 _moveDir;

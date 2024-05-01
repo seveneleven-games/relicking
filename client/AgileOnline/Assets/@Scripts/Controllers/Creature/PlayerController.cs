@@ -141,9 +141,6 @@ public class PlayerController : CreatureController
         base.OnDamaged(attacker, damage);
 
         Debug.Log($"OnDamaged ! {Hp}");
-
-        CreatureController cc = attacker as CreatureController;
-        cc?.OnDamaged(this, 10000);
     }
 
     protected override void OnDead()
@@ -177,6 +174,14 @@ public class PlayerController : CreatureController
 
     public void StopSkills()
     {
+        ElectronicFieldController[] electronicFields = FindObjectsOfType<ElectronicFieldController>();
+        foreach (ElectronicFieldController ef in electronicFields)
+        {
+            if (ef._owner == this)
+            {
+                Managers.Object.Despawn(ef);
+            }
+        }
         foreach (Coroutine coroutine in _skillCoroutines)
         {
             if (coroutine != null)
@@ -195,7 +200,6 @@ public class PlayerController : CreatureController
         Debug.Log($"CoolTime: {coolTime} seconds");
         while (true)
         {
-
             yield return coolTimeWait;
             switch (skillData.PrefabName)
             {
@@ -300,7 +304,26 @@ public class PlayerController : CreatureController
 
     public void AddSkill(int addSkillId, int slotNum)
     {
-        PlayerSkillList[slotNum] = addSkillId;
+        // 이전에 배운스킬 레벨업이면 해당 슬롯에 덮어씌움
+        for (int i = 0; i < PlayerSkillList.Count; i++)
+        {
+            if (PlayerSkillList[i] == addSkillId - 1)
+            {
+                PlayerSkillList[i] = addSkillId;
+                return;
+            }
+        }
+        // 배운적 없는 스킬이면 가장 처음으로 빈 슬롯에 넣어줌
+        for (int i = 0; i < PlayerSkillList.Count; i++)
+        {
+            if (PlayerSkillList[i] == 0)
+            {
+                PlayerSkillList[i] = addSkillId;
+                return;
+            }
+        }
+        // 이전에 배운스킬도 아닌데 빈슬롯도없으면 로그에러띄워줌
+        Debug.LogError("스킬 넣는게 잘못됐어요");
     }
 
     #endregion

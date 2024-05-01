@@ -4,6 +4,7 @@ using Data;
 using Unity.VisualScripting;
 using UnityEditor.iOS;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static Define;
 
@@ -42,7 +43,7 @@ public class GameScene : BaseScene
         _player.StopSkills();
         CameraController camera = Camera.main.GetOrAddComponent<CameraController>();
         camera.Target = _player;
-        
+
         GameObject joystickObject = Managers.Resource.Instantiate("UI_Joystick");
         joystickObject.name = "@UI_Joystick";
 
@@ -63,16 +64,19 @@ public class GameScene : BaseScene
 
     public void StartGame(int nodeNo, bool isBossNode)
     {
+        _nodeMap.ClosePopupUI();
+        Managers.UI.ShowPopupUI<UI_InGamePopup>();
         foreach (GameObject obj in FindObjectsOfType<GameObject>())
         {
-            if (obj.name.StartsWith("@Golds") || obj.name.StartsWith("Target"))
-                Managers.Resource.Destroy(obj);
+            if (obj.name.StartsWith("Target"))
+                Managers.Pool.Push(obj);
         }
+
         _player.GetComponent<CircleCollider2D>().enabled = true;
         _player.StartSkills();
         NodeMapData nodeMapData = Managers.Data.NodeMapDic[_templateData.TempNodeNum];
         NodeData node = nodeMapData.NodeList[nodeNo];
-        
+
         GameObject map = Managers.Resource.Instantiate(node.MapPrefabName);
         map.transform.position = Vector3.zero;
         map.name = "@BaseMap";
@@ -125,11 +129,11 @@ public class GameScene : BaseScene
                 StartCoroutine(SpawnBossMonsters(normalMonsters, eliteMonsters, bossMonsters));
                 break;
         }
-        
+
         StartCoroutine(StartTimer(10f));
     }
-    
-    
+
+
     private IEnumerator StartTimer(float duration)
     {
         float timer = duration;
@@ -148,7 +152,7 @@ public class GameScene : BaseScene
 
             yield return null;
         }
-        
+
         OnGameClear();
     }
 
@@ -157,25 +161,47 @@ public class GameScene : BaseScene
         _player.GetComponent<CircleCollider2D>().enabled = false;
         _nodeMap = Managers.UI.ShowPopupUI<UI_NodeMapPopup>();
         _nodeMap.OnEnterNode += StartGame;
-        
+
+        Debug.Log("몬스터 스폰 코루틴 중지합니다!");
         // 몬스터 스폰 코루틴 중지
         StopAllCoroutines();
-        
+        Debug.Log("플레이어 스킬 코루틴 중지합니다!");
         // 플레이어 스킬 중지
         _player.StopSkills();
-        
+        Debug.Log("디스폰절차를 밟습니다");
         foreach (GameObject obj in FindObjectsOfType<GameObject>())
         {
-            if (obj.name.StartsWith("@Monsters"))
-                Managers.Pool.Push(obj);
+            GameObject monsterPool = GameObject.Find("@Monsters");
+            if (monsterPool != null)
+            {
+                foreach (Transform child in monsterPool.transform)
+                {
+                    GameObject monsterObj = child.gameObject;
+                    MonsterController monsterController = monsterObj.GetComponent<MonsterController>();
+                    if (monsterController != null)
+                        Managers.Object.Despawn(monsterController);
+                }
+            }
+            
+            GameObject goldPool = GameObject.Find("@Golds");
+            if (monsterPool != null)
+            {
+                foreach (Transform child in goldPool.transform)
+                {
+                    GameObject goldObj = child.gameObject;
+                    GoldController goldController = goldObj.GetComponent<GoldController>();
+                    if (goldController != null)
+                        Managers.Object.Despawn(goldController);
+                }
+            }
         }
-        
+
         foreach (GameObject obj in FindObjectsOfType<GameObject>())
         {
             if (obj.name.StartsWith("@BaseMap"))
                 Managers.Resource.Destroy(obj);
         }
-        
+
         // 플레이어 위치 초기화
         _player.transform.position = Vector3.zero;
     }
@@ -200,7 +226,7 @@ public class GameScene : BaseScene
 
                 MonsterController mc = Managers.Object.Spawn<MonsterController>(randomPosition, randomMonsterId);
                 mc.InitMonster(randomMonsterId);
-                
+
                 if (gameObject == null)
                     yield break;
             }
@@ -231,7 +257,7 @@ public class GameScene : BaseScene
 
                 MonsterController mc = Managers.Object.Spawn<MonsterController>(randomPosition, randomMonsterId);
                 mc.InitMonster(randomMonsterId);
-                
+
                 if (gameObject == null)
                     yield break;
             }
@@ -265,7 +291,7 @@ public class GameScene : BaseScene
 
                 MonsterController mc = Managers.Object.Spawn<MonsterController>(randomPosition, randomMonsterId);
                 mc.InitMonster(randomMonsterId);
-                
+
                 if (gameObject == null)
                     yield break;
             }

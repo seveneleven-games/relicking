@@ -23,24 +23,35 @@ public class GameData
 {
     public int UserLevel = 1;
     public string UserName = "우주최강귀요미박설연";
-    
+
     public int Ticket = 0;
 
     public StageData CurrentStage = new StageData();
     public Dictionary<int, StageClearInfo> DicStageClearInfo = new Dictionary<int, StageClearInfo>();
-
 }
 
 public class GameManager
 {
+    public void InitializeGameData()
+    {
+        // 게임 데이터 초기화 로직 구현
+        _gameData = new GameData();
+        _gameData.UserLevel = 1;
+        _gameData.UserName = "우주최강귀요미박설연";
+        _gameData.Ticket = 0;
+        _gameData.CurrentStage = new StageData();
+        _gameData.DicStageClearInfo = new Dictionary<int, StageClearInfo>();
+    }
+
     #region GameData
+
     public GameData _gameData = new GameData();
-    
+
     public int Ticket
     {
         get { return _gameData.Ticket; }
-        set 
-        { 
+        set
+        {
             _gameData.Ticket = value;
             // SaveGame();
             OnResourcesChanged?.Invoke();
@@ -62,13 +73,14 @@ public class GameManager
         get { return _gameData.CurrentStage; }
         set { _gameData.CurrentStage = value; }
     }
-    
-    
+
     #endregion
-    
+
     #region Player
+
     public PlayerController Player { get; set; }
     private Vector2 _moveDir;
+
     public Vector2 MoveDir
     {
         get { return _moveDir; }
@@ -92,13 +104,12 @@ public class GameManager
     }
 
     #endregion
-    
+
     #region Action
 
     public event Action<Vector2> OnMoveDirChanged;
     public event Action<EJoystickState> OnJoystickStateChanged;
     public event Action OnResourcesChanged;
-    
+
     #endregion
-    
 }
