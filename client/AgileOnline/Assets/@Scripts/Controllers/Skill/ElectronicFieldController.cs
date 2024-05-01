@@ -71,18 +71,18 @@ public class ElectronicFieldController : SkillController
         }
     }
     
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (this.IsValid() == false)
-            return;
-
-        MonsterController monster = collision.gameObject.GetComponent<MonsterController>();
-
-        if (monster.IsValid() == false)
-            return;
-
-        monster.OnDamaged(_owner, Damage);
-    }
+    // private void OnTriggerStay2D(Collider2D collision)
+    // {
+    //     if (this.IsValid() == false)
+    //         return;
+    //
+    //     MonsterController monster = collision.gameObject.GetComponent<MonsterController>();
+    //
+    //     if (monster.IsValid() == false)
+    //         return;
+    //
+    //     monster.OnDamaged(_owner, Damage);
+    // }
     
     private void DealDamageToNearbyMonsters()
     {

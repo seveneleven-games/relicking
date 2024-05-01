@@ -17,8 +17,7 @@ public class DataManager
     public Dictionary<int, SkillData> SkillDic { get; private set; } = new Dictionary<int, SkillData>();
     public Dictionary<int, GoldData> GoldDic { get; private set; } = new Dictionary<int, GoldData>();
     public Dictionary<int, NodeMapData> NodeMapDic { get; private set; } = new Dictionary<int, NodeMapData>();
-    public Dictionary<int, DamageTextData> DamageTextDic { get; private set; } = new Dictionary<int, DamageTextData>();
-
+    
     public void Init()
     {
         PlayerDic = LoadJson<PlayerDataLoader, int, PlayerData>("PlayerData").MakeDict();
@@ -27,7 +26,6 @@ public class DataManager
         SkillDic = LoadJson<SkillDataLoader, int, SkillData>("SkillData").MakeDict();
         GoldDic = LoadJson<GoldDataLoader, int, GoldData>("GoldData").MakeDict();
         NodeMapDic = LoadJson<NodeMapDataLoader, int, NodeMapData>("NodeMapData").MakeDict();
-        DamageTextDic = LoadJson<DamageTextDataLoader, int, DamageTextData>("DamageTextData").MakeDict();
     }
 
     private Loader LoadJson<Loader, Key, Value>(string path) where Loader : ILoader<Key, Value>
@@ -52,8 +50,6 @@ public class DataManager
                 return Managers.Data.MonsterDic[templateId].PrefabName;
             case "GoldData":
                 return Managers.Data.GoldDic[templateId].PrefabName;
-            case "DamageTextData":
-                return Managers.Data.SkillDic[templateId].PrefabName;
             case "EnergyBoltData":
                 return Managers.Data.SkillDic[templateId].PrefabName;
             case "IceArrowData":

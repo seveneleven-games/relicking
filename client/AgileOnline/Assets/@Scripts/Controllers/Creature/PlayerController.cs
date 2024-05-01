@@ -261,7 +261,6 @@ public class PlayerController : CreatureController
                     yield break;
 
                 case "PoisonField":
-
                     int pfProjectileNum = skillData.ProjectileNum;
                     List<Vector3> installedPositions = new List<Vector3>();
 
@@ -270,7 +269,9 @@ public class PlayerController : CreatureController
                         Vector3 randomPos;
                         do
                         {
-                            randomPos = GetRandomPositionAroundPlayer(1f, 4f);
+                            float randomX = UnityEngine.Random.Range(-6f, 6f);
+                            float randomY = UnityEngine.Random.Range(-6f, 6f);
+                            randomPos = new Vector3(randomX, randomY, 0f);
                         } while (installedPositions.Any(pos => Vector3.Distance(pos, randomPos) < 2f));
 
                         PoisonFieldController pfc = Managers.Object.Spawn<PoisonFieldController>(randomPos, skillId);

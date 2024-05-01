@@ -39,7 +39,7 @@ public class GameScene : BaseScene
         _classId = _templateData.TemplateIds[1];
 
         _player = Managers.Object.Spawn<PlayerController>(Vector3.zero, _classId);
-
+        _player.StopSkills();
         CameraController camera = Camera.main.GetOrAddComponent<CameraController>();
         camera.Target = _player;
         
@@ -68,6 +68,7 @@ public class GameScene : BaseScene
             if (obj.name.StartsWith("@Golds") || obj.name.StartsWith("Target"))
                 Managers.Resource.Destroy(obj);
         }
+        _player.GetComponent<CircleCollider2D>().enabled = true;
         _player.StartSkills();
         NodeMapData nodeMapData = Managers.Data.NodeMapDic[_templateData.TempNodeNum];
         NodeData node = nodeMapData.NodeList[nodeNo];
@@ -153,6 +154,7 @@ public class GameScene : BaseScene
 
     private void OnGameClear()
     {
+        _player.GetComponent<CircleCollider2D>().enabled = false;
         _nodeMap = Managers.UI.ShowPopupUI<UI_NodeMapPopup>();
         _nodeMap.OnEnterNode += StartGame;
         
