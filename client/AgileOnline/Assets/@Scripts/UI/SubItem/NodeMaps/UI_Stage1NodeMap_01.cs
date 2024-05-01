@@ -93,7 +93,6 @@ public class UI_Stage1NodeMap_01 : UI_NodeMapBase
                 Util.FindChild(GetObject(index), "CircleDottedLine").SetActive(false);
             }
             
-            // Debug.Log("잘 돌고 있니? 추우니까 몸 조심하렴.");
         }
     }
     

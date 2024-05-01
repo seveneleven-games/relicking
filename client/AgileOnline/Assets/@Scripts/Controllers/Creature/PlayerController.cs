@@ -29,7 +29,18 @@ public class PlayerController : CreatureController
         }
     }
 
-    public List<int> PlayerSkillList { get; set; }
+    public event Action<List<int>> OnPlayerSkillAdded;
+    public List<int> _playerSkillList;
+    
+    public List<int> PlayerSkillList
+    {
+        get { return _playerSkillList; }
+        set
+        {
+            OnPlayerSkillAdded?.Invoke(_playerSkillList);
+            _playerSkillList = value;
+        }
+    }
     public List<int> PlayerRelicList { get; private set; }
 
     private Transform _indicator;
