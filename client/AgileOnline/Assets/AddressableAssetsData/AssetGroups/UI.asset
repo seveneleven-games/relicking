@@ -119,8 +119,8 @@ MonoBehaviour:
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0f1f181f2aca8ee47b657dab41293c31
-    m_Address: UI_InGamePopup
+  - m_GUID: 30240672571ba834a84e35f1e27deb6c
+    m_Address: UI_GachaResultPopup
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
