@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_World : MonoBehaviour
 {
@@ -8,6 +10,7 @@ public class UI_World : MonoBehaviour
 
     private Canvas _canvas;
     private RectTransform _canvasRectTransform;
+    private Slider _playerHealthSlider;
     
     public TMP_FontAsset damageTextFont;
 
@@ -16,6 +19,25 @@ public class UI_World : MonoBehaviour
         Instance = this;
         _canvas = GetComponent<Canvas>();
         _canvasRectTransform = _canvas.GetComponent<RectTransform>();
+        _playerHealthSlider = GetComponentInChildren<Slider>();
+    }
+    
+    public void UpdatePlayerHealth(float currentHealth, float maxHealth)
+    {
+        _playerHealthSlider.value = currentHealth / maxHealth;
+    }
+
+    private void LateUpdate()
+    {
+        if (Managers.Object.Player != null)
+        {
+            Vector3 playerPosition = Managers.Object.Player.transform.position;
+            Vector3 healthBarPosition = playerPosition + Vector3.up * 1f;
+            Vector2 screenPosition = Camera.main.WorldToScreenPoint(healthBarPosition);
+            Vector2 canvasPosition;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(_canvasRectTransform, screenPosition, _canvas.worldCamera, out canvasPosition);
+            _playerHealthSlider.GetComponent<RectTransform>().anchoredPosition = canvasPosition;
+        }
     }
 
     public void ShowDamage(int damage, Vector3 position)

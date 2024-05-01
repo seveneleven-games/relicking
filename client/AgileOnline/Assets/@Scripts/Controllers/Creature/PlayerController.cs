@@ -158,7 +158,7 @@ public class PlayerController : CreatureController
     public override void OnDamaged(BaseController attacker, int damage)
     {
         base.OnDamaged(attacker, damage);
-
+        UI_World.Instance.UpdatePlayerHealth(Hp, MaxHp);
         Debug.Log($"OnDamaged ! {Hp}");
     }
 
