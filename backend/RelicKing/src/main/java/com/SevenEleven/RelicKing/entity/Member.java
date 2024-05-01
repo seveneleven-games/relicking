@@ -30,7 +30,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString(exclude = {"memberRelics", "records"})
 @EntityListeners(AuditingEntityListener.class)
-public class Member {
+public class Member { // Todo 엔티티 빌더 빼고 생성자 만들기, 멤버 생성시 자동으로 멤버 렐릭 0짜리 슬롯 6개 채우기
 
 	@Id
 	@Column(name = "member_id")
