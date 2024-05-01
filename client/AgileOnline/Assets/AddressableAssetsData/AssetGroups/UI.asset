@@ -113,8 +113,14 @@ MonoBehaviour:
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ad99bafe4a8be3b45b9558660cdae557
-    m_Address: UI_StorePopup
+  - m_GUID: 82b978d9ec5cd3d4e96fee5a8e1c5022
+    m_Address: UI_InvenEquipPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 30240672571ba834a84e35f1e27deb6c
+    m_Address: UI_GachaResultPopup
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
