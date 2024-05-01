@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 using static Define;
@@ -74,8 +75,7 @@ public static class Util
     }
     
     
-    // 통신 관련 (json 형식으로 반환하는 함수)
-    // Get
+    // Get (json 형식으로)
     public static IEnumerator GetRequest(string uri, Action<string> callback)
     {
         
@@ -100,82 +100,58 @@ public static class Util
     }
     
     
-    // Post
-    public static IEnumerator PostRequest(string uri, string postData)
+    // POST 요청 (json 형식으로)
+    public static IEnumerator PostRequest(string uri, string jsonData, Action<string> callback)
     {
-        
         string finalUri = BASE_URI + uri;
-        
-        using (UnityWebRequest webRequest = UnityWebRequest.PostWwwForm(finalUri, postData))
+        using (UnityWebRequest webRequest = new UnityWebRequest(finalUri, "POST"))
         {
+            byte[] jsonToSend = new UTF8Encoding().GetBytes(jsonData);
+            webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
+            webRequest.downloadHandler = new DownloadHandlerBuffer();
+            webRequest.SetRequestHeader("Content-Type", "application/json");
+
             // 요청 보내기
             yield return webRequest.SendWebRequest();
-            
+
             if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
             {
                 Debug.LogError(webRequest.error);
+                // callback(null);
             }
             else
             {
-                Debug.Log("Form upload complete!");
+                Debug.Log("Received: " + webRequest.downloadHandler.text);
+                callback(webRequest.downloadHandler.text);
             }
-            
         }
     }
     
-    
-    
-    
-    // 통신 관련 (데이터로 바로 변환하는 함수)
-    //Get
-    public static IEnumerator GetRequest<T>(string uri, Action<T> callback)
+    // PATCH 요청
+    public static IEnumerator PatchRequest(string uri, string jsonData, Action<string> callback)
     {
-        
         string finalUri = BASE_URI + uri;
-        
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(finalUri))
+        using (UnityWebRequest webRequest = new UnityWebRequest(finalUri, "PATCH"))
         {
+            byte[] jsonToSend = new UTF8Encoding().GetBytes(jsonData);
+            webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
+            webRequest.downloadHandler = new DownloadHandlerBuffer();
+            webRequest.SetRequestHeader("Content-Type", "application/json");
+
             // 요청 보내기
             yield return webRequest.SendWebRequest();
-            
+
             if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
             {
                 Debug.LogError(webRequest.error);
+                // callback(null); // 오류 시 콜백을 null로 호출할 경우 주석을 해제
             }
             else
             {
-                T data = JsonUtility.FromJson<T>(webRequest.downloadHandler.text);
-                callback(data);
+                Debug.Log("Received: " + webRequest.downloadHandler.text);
+                callback(webRequest.downloadHandler.text);
             }
         }
     }
-    // Post
-    public static IEnumerator PostRequest<T>(string uri, T postData, Action<T> callback)
-    {
-        
-        string finalUri = BASE_URI + uri;
-        string jsonPostData = JsonUtility.ToJson(postData);
-        
-        using (UnityWebRequest webRequest = UnityWebRequest.PostWwwForm(finalUri, jsonPostData))
-        {
-            
-            // webRequest.SetRequestHeader("Content-Type", "application/json");
-            
-            // 요청 보내기
-            yield return webRequest.SendWebRequest();
-            
-            if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
-            {
-                Debug.LogError(webRequest.error);
-            }
-            else
-            {
-                Debug.Log("Form upload complete!");
-                
-                T data = JsonUtility.FromJson<T>(webRequest.downloadHandler.text);
-                callback(data);
-            }
-            
-        }
-    }
+    
 }

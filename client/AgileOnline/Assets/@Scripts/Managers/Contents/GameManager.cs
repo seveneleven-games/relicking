@@ -26,6 +26,7 @@ public class GameData
     
     public int Ticket = 0;
 
+    // 유저의 현재 스테이지 정보
     public StageData CurrentStage = new StageData();
     public Dictionary<int, StageClearInfo> DicStageClearInfo = new Dictionary<int, StageClearInfo>();
 
@@ -100,5 +101,14 @@ public class GameManager
     public event Action OnResourcesChanged;
     
     #endregion
+
+    // 초기 세팅
+    public void Init()
+    {
+        // 나중에 유저 정보 값으로 바꿔주기!!!
+        // CurrentStageData = Managers.Data.StageDic[2];
+        CurrentStageData = Managers.Data.StageDic[1];
+    }
+    
     
 }
