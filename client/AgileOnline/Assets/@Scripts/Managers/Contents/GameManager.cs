@@ -34,7 +34,7 @@ public class GameManager
 {
     public void InitializeGameData()
     {
-        // 게임 데이터 초기화 로직 구현
+        // TODO: 게임 데이터 초기화 로직 구현
         _gameData = new GameData();
         _gameData.UserLevel = 1;
         _gameData.UserName = "우주최강귀요미박설연";
