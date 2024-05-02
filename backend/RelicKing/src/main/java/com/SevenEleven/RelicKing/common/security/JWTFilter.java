@@ -2,14 +2,14 @@ package com.SevenEleven.RelicKing.common.security;
 
 import java.io.IOException;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.SevenEleven.RelicKing.common.Constant;
-import com.SevenEleven.RelicKing.common.response.Response;
+import com.SevenEleven.RelicKing.common.exception.CustomException;
+import com.SevenEleven.RelicKing.common.exception.ExceptionType;
 import com.SevenEleven.RelicKing.entity.Member;
 import com.SevenEleven.RelicKing.repository.MemberRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,16 +48,14 @@ public class JWTFilter extends OncePerRequestFilter {
 		try {
 			jwtUtil.isExpired(accessToken); // 만료되었으면 예외가 발생한다.
 		} catch (ExpiredJwtException e) {
-			toJsonResponse(response, new Response(HttpStatus.UNAUTHORIZED.value(), "access token이 만료되었습니다.", false));
-			return;
+			throw new CustomException(ExceptionType.ACCESS_TOKEN_EXPIRED);
 		}
 
 		// 토큰이 access인지 확인 (발급시 페이로드에 명시), 다음 필터로 넘기지 않음
 		String category = jwtUtil.getCategory(accessToken);
 
 		if (!category.equals("access")) {
-			toJsonResponse(response, new Response(HttpStatus.UNAUTHORIZED.value(), "유효하지 않은 access token입니다.", false));
-			return;
+			throw new CustomException(ExceptionType.INVALID_ACCESS_TOKEN);
 		}
 
 		String email = jwtUtil.getEmail(accessToken);    // accessToken에서 email 값 추출
@@ -70,16 +68,5 @@ public class JWTFilter extends OncePerRequestFilter {
 		SecurityContextHolder.getContext().setAuthentication(authToken);
 
 		filterChain.doFilter(request, response);
-	}
-
-	// TODO : toJSonResponse를 통해 에러 반환하는 코드들 throw를 통해 에러 반환하도록 변경하기
-	private void toJsonResponse(HttpServletResponse response, Response customResponse) throws IOException {
-		// content type
-		response.setContentType("application/json");
-		response.setCharacterEncoding("utf-8");
-
-		String result = objectMapper.writeValueAsString(customResponse);
-
-		response.getWriter().write(result);
 	}
 }

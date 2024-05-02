@@ -93,11 +93,9 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
 	@Override
 	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {
-		log.info("로그인에 실패하였습니다.");
-		toJsonResponse(response, new Response(HttpStatus.UNAUTHORIZED.value(), "로그인에 실패하였습니다.", false));
+		throw new CustomException(ExceptionType.AUTHENTICATION_FAILED);
 	}
 
-	// TODO : toJSonResponse를 통해 에러 반환하는 코드들 throw를 통해 에러 반환하도록 변경하기
 	private void toJsonResponse(HttpServletResponse response, Response customResponse) throws IOException {
 		// content type
 		response.setContentType("application/json");
