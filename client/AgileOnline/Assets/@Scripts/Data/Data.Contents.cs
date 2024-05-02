@@ -210,7 +210,7 @@ namespace Data
         public int RelicId;
         public string PrefabName;
         public string Name;
-        public int ThumbnailName;
+        public string ThumbnailName;
         public int Description;
         public int Rarity;
         public int Atk;
