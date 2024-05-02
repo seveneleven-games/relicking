@@ -82,17 +82,19 @@ public class UI_DifficultySelectPopup : UI_Popup
         int startLevel = Mathf.Max(1, currentDifficulty - 5);  // 1 이하로 내려가지 않도록 제한
         int endLevel = currentDifficulty + 5;
 
+        
         for (int i = endLevel; i >= startLevel; i--)
         {
+            int level = i;
             GameObject newDifficultyButton = Instantiate(UI_DifficultyButton,
                 GetObject((int)EGameObjects.DifficultySelectContent).transform);
             newDifficultyButton.GetComponentInChildren<TMP_Text>().text = "Level " + i;
-        
+            
             // 현재 난이도라면 색깔 변화
             if (i == currentDifficulty)
                 newDifficultyButton.GetComponentInChildren<TMP_Text>().color = Util.HexToColor("4C2627");
-        
-            newDifficultyButton.GetComponent<Button>().onClick.AddListener(() => SelectDifficulty(i));
+            
+            newDifficultyButton.GetComponent<Button>().onClick.AddListener(() => SelectDifficulty(level));
         }
     }
 

@@ -267,8 +267,6 @@ public class UI_BattlePopup : UI_Popup
     // 왼쪽 버튼 클릭 함수
     void onClickLArrowButton()
     {
-        Debug.Log("왜 얘는 클릭이 안되는걸까?");
-        
         if (_scrollSnap.CurrentPage > 0)
         {
             _scrollSnap.GoToScreen(_scrollSnap.CurrentPage - 1);
