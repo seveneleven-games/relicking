@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -5,6 +6,24 @@ using UnityEngine;
 using UnityEngine.UI;
 using static Define;
 using static Util;
+
+
+[Serializable]
+public class LoginDataReq
+{
+    public string email;
+    public string password;
+}
+
+[Serializable]
+public class LoginDataRes
+{
+    public int status;
+    public string message;
+    public bool data;
+}
+
+
 public class UI_LoginInputPopup : UI_Popup
 {
     #region UI 기능 리스트
@@ -52,11 +71,7 @@ public class UI_LoginInputPopup : UI_Popup
     
     // 객체 관련 두는 곳
     
-    // Test를 위한 사용자 변수
-    private string email = "user1@ssafy.com";
-    private string password = "1234";
     
-
     private void Awake()
     {
         Init();
@@ -112,26 +127,44 @@ public class UI_LoginInputPopup : UI_Popup
         Debug.Log("OnClickKakaoLoginButton");
         
         // 웹통신 테스트 -> 성공
-        StartCoroutine(GetRequest("test/login"));
+        StartCoroutine(GetRequest("test/login", data =>
+        {
+            Debug.Log("test해봅시다!!! " + data);
+        }));
 
     }
 
     void OnClickLoginButton()
     {
-        // CT에서 로그인 되는지 Test하기 -> 성공!!!
-        // if (GetInputField((int)EInputFields.EmailInputField).text == email && GetInputField((int)EInputFields.PasswordInputField).text == password)
-        // {
-        //     Debug.Log("로그인 성공");
-        // }
-        // else
-        // {
-        //     Debug.Log("로그인 실패");
-        // }
+        
+        // 로그인 객체 만들기
+        LoginDataReq loginDataReq = new LoginDataReq
+        {
+            email = GetInputField((int)EInputFields.EmailInputField).text,
+            password = GetInputField((int)EInputFields.PasswordInputField).text,
+        };
+        
+        // 객체 -> Json 변환
+        string loginJsonData = JsonUtility.ToJson(loginDataReq);
         
         // 백으로 요청 보내기
+        StartCoroutine(PostRequest("members/login", loginJsonData, res =>
+        {
+
+            // json -> 객체로 변환
+            LoginDataRes loginDataRes = JsonUtility.FromJson<LoginDataRes>(res);
+            
+            // 성공시 로비로 가기
+            if (loginDataRes.data)
+            {
+                Managers.Scene.LoadScene(EScene.LobbyScene);
+            }
+            
+        }));
         
-        // 성공시 로비로 가기
+        // 임시 성공하든 안하든 로비로
         Managers.Scene.LoadScene(EScene.LobbyScene);
+        
     }
     
 

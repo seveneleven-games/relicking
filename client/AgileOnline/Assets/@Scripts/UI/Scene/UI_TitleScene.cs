@@ -85,6 +85,7 @@ public class UI_TitleScene : UI_Scene
             {
                 isPreload = true;
                 Managers.Data.Init();
+                Managers.Game.Init();
                 
                 GetButton((int)EButtons.StartButton).gameObject.SetActive(true);
                 GetText((int)ETexts.StartText).text = "터치하여 시작하기";
