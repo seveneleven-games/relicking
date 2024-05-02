@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Data;
+using TMPro;
 using UnityEngine;
 using static Define;
 
@@ -66,6 +67,10 @@ public class MonsterController : CreatureController
         {
             StartSkills();
         }
+        // GameObject hudPosObject = new GameObject("HUDPos");
+        // hudPosObject.transform.SetParent(transform);
+        // hudPosObject.transform.localPosition = Vector3.up * 1.5f;
+        // hudPos = hudPosObject.transform;
     }
 
     private void Update()
@@ -127,6 +132,18 @@ public class MonsterController : CreatureController
             yield return new WaitForSeconds(0.1f);
         }
     }
+
+    // public override void OnDamaged(BaseController attacker, int damage)
+    // {
+    //     base.OnDamaged(attacker, damage);
+    //     TakeDamage(damage);
+    // }
+    
+    public override void OnDamaged(BaseController attacker, int damage)
+    {
+        base.OnDamaged(attacker, damage);
+        UI_World.Instance.ShowDamage(damage, transform.position + Vector3.up * 1f);
+    }
     
     protected override void OnDead()
     {
@@ -135,12 +152,38 @@ public class MonsterController : CreatureController
         if (_coDotDamage != null)
             StopCoroutine(_coDotDamage);
         _coDotDamage = null;
+        
+        // if (hudPos != null && hudPos.childCount > 0)
+        // {
+        //     for (int i = 0; i < hudPos.childCount; i++)
+        //     {
+        //         Destroy(hudPos.GetChild(i).gameObject);
+        //     }
+        // }
 
         GoldController gc = Managers.Object.Spawn<GoldController>(transform.position, MonsterId);
         gc.InitGold(MonsterId);
         
         Managers.Object.Despawn(this);
     }
+
+    // public GameObject hudDamageText;
+    // public Transform hudPos;
+
+    // private void TakeDamage(int damage)
+    // {
+    //     if (hudPos != null && hudPos.childCount > 0)
+    //     {
+    //         for (int i = 0; i < hudPos.childCount; i++)
+    //         {
+    //             Managers.Pool.Push(hudPos.GetChild(i).gameObject);
+    //         }
+    //     }
+    //     
+    //     GameObject hudText = Managers.Pool.Pop(hudDamageText);
+    //     hudText.transform.position = hudPos.position;
+    //     hudText.GetComponent<Damage>().damage = damage;
+    // }
 
     #region Skill
 

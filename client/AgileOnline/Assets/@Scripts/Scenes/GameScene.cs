@@ -4,6 +4,7 @@ using Data;
 using Unity.VisualScripting;
 using UnityEditor.iOS;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static Define;
 
@@ -22,6 +23,8 @@ public class GameScene : BaseScene
 
     // 노드 정보
     private UI_NodeMapPopup _nodeMap;
+    private UI_StorePopup _store;
+    private UI_InGamePopup _inGame;
 
     private Text timerText;
 
@@ -34,14 +37,21 @@ public class GameScene : BaseScene
 
         _nodeMap = Managers.UI.ShowPopupUI<UI_NodeMapPopup>();
         _nodeMap.OnEnterNode += StartGame;
+        _store = Managers.UI.ShowPopupUI<UI_StorePopup>();
+        _store.OnSkillCardClick += BuySkill;
+        // _inGame = Managers.UI.ShowPopupUI<UI_InGamePopup>();
 
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
         _classId = _templateData.TemplateIds[1];
 
         _player = Managers.Object.Spawn<PlayerController>(Vector3.zero, _classId);
-
+        _player.StopSkills();
         CameraController camera = Camera.main.GetOrAddComponent<CameraController>();
         camera.Target = _player;
+        
+        //스킬 정보 보내주는거 추가
+        _store.DataSync(_player.PlayerSkillList);
+        _player.OnPlayerSkillAdded += _store.DataSync;
         
         GameObject joystickObject = Managers.Resource.Instantiate("UI_Joystick");
         joystickObject.name = "@UI_Joystick";
@@ -63,11 +73,16 @@ public class GameScene : BaseScene
 
     public void StartGame(int nodeNo, bool isBossNode)
     {
+        // TODO: 팝업 관리 리팩토링 예정
+        _nodeMap.ClosePopupUI();
+        _inGame = Managers.UI.ShowPopupUI<UI_InGamePopup>();
         foreach (GameObject obj in FindObjectsOfType<GameObject>())
         {
-            if (obj.name.StartsWith("@Golds") || obj.name.StartsWith("Target"))
-                Managers.Resource.Destroy(obj);
+            if (obj.name.StartsWith("Target"))
+                Managers.Pool.Push(obj);
         }
+
+        _player.GetComponent<CircleCollider2D>().enabled = true;
         _player.StartSkills();
         NodeMapData nodeMapData = Managers.Data.NodeMapDic[_templateData.TempNodeNum];
         NodeData node = nodeMapData.NodeList[nodeNo];
@@ -127,7 +142,12 @@ public class GameScene : BaseScene
         
         StartCoroutine(StartTimer(10f));
     }
-    
+
+    public void BuySkill(int skillId)
+    {
+        //todo(전지환) : 슬롯 번호는 이후 플레이어 컨트롤러에서 관리할 수 있도록 변경
+        _player.AddSkill(skillId, 5);
+    }
     
     private IEnumerator StartTimer(float duration)
     {
@@ -135,24 +155,16 @@ public class GameScene : BaseScene
 
         while (timer > 0f)
         {
-            // 타이머 UI 업데이트
-
             timer -= Time.deltaTime;
-
-            if (Mathf.FloorToInt(timer) != Mathf.FloorToInt(timer + Time.deltaTime))
-            {
-                // 1초마다 로그 출력
-                Debug.Log($"남은 시간: {Mathf.FloorToInt(timer)}초");
-            }
-
             yield return null;
         }
-        
         OnGameClear();
     }
 
     private void OnGameClear()
     {
+        _inGame.ClosePopupUI();
+        _player.GetComponent<CircleCollider2D>().enabled = false;
         _nodeMap = Managers.UI.ShowPopupUI<UI_NodeMapPopup>();
         _nodeMap.OnEnterNode += StartGame;
         
@@ -164,8 +176,29 @@ public class GameScene : BaseScene
         
         foreach (GameObject obj in FindObjectsOfType<GameObject>())
         {
-            if (obj.name.StartsWith("@Monsters"))
-                Managers.Pool.Push(obj);
+            GameObject monsterPool = GameObject.Find("@Monsters");
+            if (monsterPool != null)
+            {
+                foreach (Transform child in monsterPool.transform)
+                {
+                    GameObject monsterObj = child.gameObject;
+                    MonsterController monsterController = monsterObj.GetComponent<MonsterController>();
+                    if (monsterController != null)
+                        Managers.Object.Despawn(monsterController);
+                }
+            }
+            
+            GameObject goldPool = GameObject.Find("@Golds");
+            if (monsterPool != null)
+            {
+                foreach (Transform child in goldPool.transform)
+                {
+                    GameObject goldObj = child.gameObject;
+                    GoldController goldController = goldObj.GetComponent<GoldController>();
+                    if (goldController != null)
+                        Managers.Object.Despawn(goldController);
+                }
+            }
         }
         
         foreach (GameObject obj in FindObjectsOfType<GameObject>())

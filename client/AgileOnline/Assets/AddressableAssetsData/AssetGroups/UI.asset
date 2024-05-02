@@ -29,12 +29,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 303b12f0d330fd74bb8fd1003bb01b1f
-    m_Address: UI_BattlePopup
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - PreLoad
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 499dd7f76ba9ee74da2597393cca6aae
     m_Address: UI_GachaPopup
     m_ReadOnly: 0
@@ -101,12 +95,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8450533394917d34f97644a6aaeac50b
-    m_Address: UI_SignupInputPopup
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - PreLoad
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 959097849af5de94faf8495d14174cdc
     m_Address: UI_NicknamePopup
     m_ReadOnly: 0
@@ -121,6 +109,42 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 30240672571ba834a84e35f1e27deb6c
     m_Address: UI_GachaResultPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ad99bafe4a8be3b45b9558660cdae557
+    m_Address: UI_StorePopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1b213e1eb63697248b115a5f7018206e
+    m_Address: UI_InGamePopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 93e3491ca6565d74781d78fff8b9d46c
+    m_Address: UI_World
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 36068c33391dbee409bfe2b50a8af371
+    m_Address: UI_SignupInputPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 65416964a1212094fae46b3e4f90ba6c
+    m_Address: UI_BattlePopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d26c1f865c636d9468eff8ff0337332c
+    m_Address: UI_DifficultySelectPopup
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad

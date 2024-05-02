@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 using static Define;
@@ -73,9 +74,9 @@ public static class Util
         return parsedColor;
     }
     
-    // 통신 관련
-    // Get
-    public static IEnumerator GetRequest(string uri)
+    
+    // Get (json 형식으로)
+    public static IEnumerator GetRequest(string uri, Action<string> callback)
     {
         
         string finalUri = BASE_URI + uri;
@@ -92,29 +93,65 @@ public static class Util
             else
             {
                 Debug.Log(webRequest.downloadHandler.text);
+                string data = webRequest.downloadHandler.text;
+                callback(data);
             }
         }
     }
-    // Post
-    public static IEnumerator PostRequest(string uri, string postData)
+    
+    
+    // POST 요청 (json 형식으로)
+    public static IEnumerator PostRequest(string uri, string jsonData, Action<string> callback)
     {
-        
         string finalUri = BASE_URI + uri;
-        
-        using (UnityWebRequest webRequest = UnityWebRequest.PostWwwForm(finalUri, postData))
+        using (UnityWebRequest webRequest = new UnityWebRequest(finalUri, "POST"))
         {
+            byte[] jsonToSend = new UTF8Encoding().GetBytes(jsonData);
+            webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
+            webRequest.downloadHandler = new DownloadHandlerBuffer();
+            webRequest.SetRequestHeader("Content-Type", "application/json");
+
             // 요청 보내기
             yield return webRequest.SendWebRequest();
-            
+
             if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
             {
                 Debug.LogError(webRequest.error);
+                // callback(null);
             }
             else
             {
-                Debug.Log("Form upload complete!");
+                Debug.Log("Received: " + webRequest.downloadHandler.text);
+                callback(webRequest.downloadHandler.text);
             }
-            
         }
     }
+    
+    // PATCH 요청
+    public static IEnumerator PatchRequest(string uri, string jsonData, Action<string> callback)
+    {
+        string finalUri = BASE_URI + uri;
+        using (UnityWebRequest webRequest = new UnityWebRequest(finalUri, "PATCH"))
+        {
+            byte[] jsonToSend = new UTF8Encoding().GetBytes(jsonData);
+            webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
+            webRequest.downloadHandler = new DownloadHandlerBuffer();
+            webRequest.SetRequestHeader("Content-Type", "application/json");
+
+            // 요청 보내기
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError(webRequest.error);
+                // callback(null); // 오류 시 콜백을 null로 호출할 경우 주석을 해제
+            }
+            else
+            {
+                Debug.Log("Received: " + webRequest.downloadHandler.text);
+                callback(webRequest.downloadHandler.text);
+            }
+        }
+    }
+    
 }

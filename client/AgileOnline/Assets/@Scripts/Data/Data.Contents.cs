@@ -202,4 +202,37 @@ namespace Data
 
     #endregion
 
+    #region RelicData
+
+    [Serializable]
+    public class RelicData
+    {
+        public int RelicId;
+        public string PrefabName;
+        public string Name;
+        public string ThumbnailName;
+        public string Description;
+        public int Rarity;
+        public int Atk;
+        public int MaxHp;
+        public int CoolTime;
+        public int Speed;
+    }
+
+    [Serializable]
+    public class RelicDataLoader : ILoader<int, RelicData>
+    {
+        public List<RelicData> relics = new List<RelicData>();
+
+        public Dictionary<int, RelicData> MakeDict()
+        {
+            Dictionary<int, RelicData> dict = new Dictionary<int, RelicData>();
+            foreach (RelicData relic in relics)
+                dict.Add(relic.RelicId, relic);
+
+            return dict;
+        }
+    }
+
+    #endregion
 }

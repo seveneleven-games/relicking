@@ -548,7 +548,7 @@ GameObject:
   - component: {fileID: 1418270767245377400}
   - component: {fileID: 5445053773771211679}
   m_Layer: 5
-  m_Name: RerollCost
+  m_Name: RemainGold
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -635,7 +635,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -701,7 +701,6 @@ RectTransform:
   - {fileID: 4005970087645136679}
   - {fileID: 6529074142702416617}
   - {fileID: 1129696726120452342}
-  - {fileID: 7891996198432117568}
   m_Father: {fileID: 2709987485432223559}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -744,6 +743,7 @@ RectTransform:
   - {fileID: 7710201184740836902}
   - {fileID: 5499054745601189151}
   - {fileID: 6552284231162472694}
+  - {fileID: 7891996198432117568}
   - {fileID: 3869637421137210037}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -827,6 +827,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba5162d1ef02f064f9fe7847b05fb4bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _templateData: {fileID: 0}
 --- !u!1 &7190492388139840480
 GameObject:
   m_ObjectHideFlags: 0
@@ -894,7 +895,7 @@ RectTransform:
   - {fileID: 5758285227752476361}
   - {fileID: 4720572639947585149}
   - {fileID: 957803385165849431}
-  m_Father: {fileID: 3869637421137210037}
+  m_Father: {fileID: 2709987485432223559}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}

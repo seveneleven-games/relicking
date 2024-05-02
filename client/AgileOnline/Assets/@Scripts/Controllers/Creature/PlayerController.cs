@@ -17,9 +17,30 @@ public class PlayerController : CreatureController
     public float CritDmgRate { get; private set; }
     public float CoolDown { get; private set; }
 
-    public int PlayerGold { get; private set; }
+    private int playerGold = 100;
 
-    public List<int> PlayerSkillList { get; private set; }
+    public int PlayerGold
+    {
+        get { return playerGold; }
+        set
+        {
+            playerGold = value;
+            UpdateRemainGoldText();
+        }
+    }
+
+    public event Action<List<int>> OnPlayerSkillAdded;
+    public List<int> _playerSkillList;
+    
+    public List<int> PlayerSkillList
+    {
+        get { return _playerSkillList; }
+        set
+        {
+            OnPlayerSkillAdded?.Invoke(_playerSkillList);
+            _playerSkillList = value;
+        }
+    }
     public List<int> PlayerRelicList { get; private set; }
 
     private Transform _indicator;
@@ -130,20 +151,26 @@ public class PlayerController : CreatureController
 
             PlayerGold += goldValue;
 
+            UpdateRemainGoldText();
+
             Destroy(collision.gameObject);
 
             Debug.Log($"획득한 골드: {goldValue}, 현재 골드 량: {PlayerGold}");
         }
     }
+    
+    public void UpdateRemainGoldText()
+    {
+        UI_InGamePopup popup = Managers.UI.GetPopupUI<UI_InGamePopup>();
+        if (popup != null)
+            popup.UpdateRemainGoldText(PlayerGold);
+    }
 
     public override void OnDamaged(BaseController attacker, int damage)
     {
         base.OnDamaged(attacker, damage);
-
+        UI_World.Instance.UpdatePlayerHealth(Hp, MaxHp);
         Debug.Log($"OnDamaged ! {Hp}");
-
-        CreatureController cc = attacker as CreatureController;
-        cc?.OnDamaged(this, 10000);
     }
 
     protected override void OnDead()
@@ -177,6 +204,14 @@ public class PlayerController : CreatureController
 
     public void StopSkills()
     {
+        ElectronicFieldController[] electronicFields = FindObjectsOfType<ElectronicFieldController>();
+        foreach (ElectronicFieldController ef in electronicFields)
+        {
+            if (ef._owner == this)
+            {
+                Managers.Object.Despawn(ef);
+            }
+        }
         foreach (Coroutine coroutine in _skillCoroutines)
         {
             if (coroutine != null)
@@ -195,7 +230,6 @@ public class PlayerController : CreatureController
         Debug.Log($"CoolTime: {coolTime} seconds");
         while (true)
         {
-
             yield return coolTimeWait;
             switch (skillData.PrefabName)
             {
@@ -261,7 +295,6 @@ public class PlayerController : CreatureController
                     yield break;
 
                 case "PoisonField":
-
                     int pfProjectileNum = skillData.ProjectileNum;
                     List<Vector3> installedPositions = new List<Vector3>();
 
@@ -270,7 +303,9 @@ public class PlayerController : CreatureController
                         Vector3 randomPos;
                         do
                         {
-                            randomPos = GetRandomPositionAroundPlayer(1f, 4f);
+                            float randomX = UnityEngine.Random.Range(-6f, 6f);
+                            float randomY = UnityEngine.Random.Range(-6f, 6f);
+                            randomPos = new Vector3(randomX, randomY, 0f);
                         } while (installedPositions.Any(pos => Vector3.Distance(pos, randomPos) < 2f));
 
                         PoisonFieldController pfc = Managers.Object.Spawn<PoisonFieldController>(randomPos, skillId);
@@ -282,24 +317,29 @@ public class PlayerController : CreatureController
             }
         }
     }
-    
-    private Vector3 GetRandomPositionAroundPlayer(float minDistance, float maxDistance)
-    {
-        Vector3 randomPos;
-        do
-        {
-            float randomX = UnityEngine.Random.Range(-maxDistance, maxDistance);
-            float randomY = UnityEngine.Random.Range(-maxDistance, maxDistance);
-            randomPos = transform.position + new Vector3(randomX, randomY, 0f);
-        } while (Vector3.Distance(randomPos, transform.position) < minDistance ||
-                 Mathf.Abs(randomPos.x) > 6f || Mathf.Abs(randomPos.y) > 6f);
-
-        return randomPos;
-    }
 
     public void AddSkill(int addSkillId, int slotNum)
     {
-        PlayerSkillList[slotNum] = addSkillId;
+        // 이전에 배운스킬 레벨업이면 해당 슬롯에 덮어씌움
+        for (int i = 0; i < PlayerSkillList.Count; i++)
+        {
+            if (PlayerSkillList[i] == addSkillId - 1)
+            {
+                PlayerSkillList[i] = addSkillId;
+                return;
+            }
+        }
+        // 배운적 없는 스킬이면 가장 처음으로 빈 슬롯에 넣어줌
+        for (int i = 0; i < PlayerSkillList.Count; i++)
+        {
+            if (PlayerSkillList[i] == 0)
+            {
+                PlayerSkillList[i] = addSkillId;
+                return;
+            }
+        }
+        // 이전에 배운스킬도 아닌데 빈슬롯도없으면 로그에러띄워줌
+        Debug.LogError("스킬 넣는게 잘못됐어요");
     }
 
     #endregion

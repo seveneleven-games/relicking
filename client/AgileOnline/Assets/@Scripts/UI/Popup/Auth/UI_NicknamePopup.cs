@@ -1,6 +1,23 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Util;
+
+[Serializable]
+public class NicknameDataReq
+{
+    public string nickname;
+    
+}
+
+[Serializable]
+public class NicknameDataRes
+{
+    public int status;
+    public string message;
+    public bool data;
+}
 
 public class UI_NicknamePopup : UI_Popup
 {
@@ -85,11 +102,25 @@ public class UI_NicknamePopup : UI_Popup
     void Refresh()
     {
         // Field 입력내용들 다 날리기
-        GetInputField((int)EInputFields.NicknameInputField).text = "우주최강귀요미박설연";
+        GetInputField((int)EInputFields.NicknameInputField).text = "";
     }
 
     void OnClickConfirmButton()
     {
+        
+        // 닉네임 객체 만들기
+        NicknameDataReq nicknameDataReq = new NicknameDataReq
+        {
+            nickname = GetInputField((int)EInputFields.NicknameInputField).text,
+        };
+        
+        // 객체 -> Json 변환
+        string nicknameJsonData = JsonUtility.ToJson(nicknameDataReq);
+        
+        // 백으로 요청 보내기
+        
+        
+        
         Managers.UI.ClosePopupUI(this);
         Managers.UI.ShowPopupUI<UI_LoginInputPopup>();
     }

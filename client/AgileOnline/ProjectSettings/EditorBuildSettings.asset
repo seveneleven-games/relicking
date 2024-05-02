@@ -17,6 +17,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/@Scenes/TestNodeMapScene.unity
     guid: 9f3f1659a924f6e44987596450da020f
+  - enabled: 1
+    path: Assets/@Scenes/TestStoreTitleScene.unity
+    guid: f6e910c01bd5dd44cbfac747bc712777
+  - enabled: 1
+    path: Assets/@Scenes/TestStoreScene.unity
+    guid: 98a415f10f1bb474f8d52e1ef34a3154
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: e832e73ddbb2b434cb26072090206eed, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 5faf6261ff46ad4499b0e8ecfe1447b7, type: 2}

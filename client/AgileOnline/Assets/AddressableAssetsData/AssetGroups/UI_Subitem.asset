@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: UI_Subitem
+  m_EditorClassIdentifier: 
+  m_GroupName: UI_Subitem
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 6de53b2a0b1aca4449a58a6b2466cdd7
+  m_SerializeEntries:
+  - m_GUID: c48708c31e42e5f4395635e6b42d5531
+    m_Address: UI_StageInfoItem
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 565f4545bfa07c34589afd80bf8e97ac
+    m_Address: SkillCard
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 5172e12bf4a124f4e9826e7812874449, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 2be60d404a716d0479bd1f99fd574b36, type: 2}
+    - {fileID: 11400000, guid: b258f51add450344c9e182653b73da40, type: 2}

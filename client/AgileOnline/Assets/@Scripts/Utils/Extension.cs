@@ -51,4 +51,47 @@ public static class Extension
             (list[k], list[n]) = (list[n], list[k]); //swap
         }
     }
+
+    public static int[] RandomIntList(int length, int min, int max)
+    {
+        int[] result = new int[length];
+        
+        List<int> rangePool = new();
+        
+        for (int i = min; i < max; i++)
+        {
+            rangePool.Add(i);
+        }
+        
+        for (int j = 0; j < length; j++)
+        {
+            int index = UnityEngine.Random.Range(0, rangePool.Count);
+            result[j] = rangePool[index];
+            rangePool.RemoveAt(index);
+        }
+        
+        return result;
+    }
+
+    public static int[] RandomSkillList(int length, List<int> skillList)
+    {
+        
+        int[] result = new int[length];
+
+        // 딥카피 부분
+        List<int> rangePool = new();
+        foreach (int skillId  in skillList)
+        {
+            rangePool.Add(skillId / 10);
+        }
+        
+        for (int j = 0; j < length; j++)
+        {
+            int index = UnityEngine.Random.Range(0, rangePool.Count);
+            result[j] = rangePool[index];
+            rangePool.RemoveAt(index);
+        }
+        
+        return result;
+    }
 }

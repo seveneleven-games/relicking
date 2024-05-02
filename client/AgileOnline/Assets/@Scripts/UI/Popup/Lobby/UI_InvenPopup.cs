@@ -10,8 +10,8 @@ public class UI_InvenPopup : UI_Popup
     {
         ContentObjet,
         ToggleGroup,
-        RelicListObject,
-        StatListObject,
+        StatToggleObject,
+        RelicToggleObject,
     }
 
     enum EButtons
@@ -97,8 +97,8 @@ public class UI_InvenPopup : UI_Popup
         _isSelectedStat = false;
 
         // 팝업버튼 초기화
-        GetObject((int)EGameObjects.RelicListObject).SetActive(false);
-        GetObject((int)EGameObjects.StatListObject).SetActive(false);
+        GetObject((int)EGameObjects.RelicToggleObject).SetActive(false);
+        GetObject((int)EGameObjects.StatToggleObject).SetActive(false);
 
         GetImage((int)EImages.RelicToggleBGImage).color = Util.HexToColor("B9A691");
         GetImage((int)EImages.StatToggleBGImage).color = Util.HexToColor("B9A691");
@@ -111,7 +111,7 @@ public class UI_InvenPopup : UI_Popup
         if (_isSelectedEquip == true)
             return;
 
-        GetObject((int)EGameObjects.RelicListObject).SetActive(true);
+        GetObject((int)EGameObjects.RelicToggleObject).SetActive(true);
         _isSelectedEquip = true;
     }
 
@@ -122,7 +122,7 @@ public class UI_InvenPopup : UI_Popup
         if (_isSelectedStat == true)
             return;
 
-        GetObject((int)EGameObjects.StatListObject).SetActive(true);
+        GetObject((int)EGameObjects.StatToggleObject).SetActive(true);
         _isSelectedStat= true;
     }
 
