@@ -36,6 +36,7 @@ public class MemberController {
 	public ResponseEntity<?> reissue(HttpServletRequest request, HttpServletResponse response) {
 		return memberService.reissue(request, response);
 	}
+
 	@GetMapping("/duplicate-email")
 	public Response checkEmailForDuplicates(@RequestParam(value = "email") String email) {
 		return memberService.checkEmailForDuplicates(email);

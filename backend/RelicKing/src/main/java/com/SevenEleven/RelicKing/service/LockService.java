@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,9 +17,11 @@ import com.SevenEleven.RelicKing.entity.Member;
 import com.SevenEleven.RelicKing.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class LockService {
 
 	private final MemberRepository memberRepository;
@@ -86,10 +90,23 @@ public class LockService {
 
 	@Transactional(readOnly = true)
 	public GetLockInfoResponseDto getLockInfo(Member member) {
+
 		return GetLockInfoResponseDto.builder()
 			.totalLockTime(member.getTotalLockTime())
 			.continuousLockDate(member.getContinuousLockDate())
 			.todayLockTime(member.getTodayLockTime())
 			.build();
+	}
+
+	@Async
+	@Transactional
+	@Scheduled(cron = "0 0 0 * * ?")
+	public void updateLockInfo() {
+
+		log.info("스케줄러가 실행됩니다.");
+
+		memberRepository.updateLockInfo();
+
+		log.info("스케줄러가 실행 완료되었습니다.");
 	}
 }
