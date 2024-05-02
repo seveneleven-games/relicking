@@ -29,7 +29,7 @@ MonoBehaviour:
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 303b12f0d330fd74bb8fd1003bb01b1f
+  - m_GUID: e20e01f0da30b794b9f6fc7c04b6ab23
     m_Address: UI_BattlePopup
     m_ReadOnly: 0
     m_SerializedLabels:
@@ -101,12 +101,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8450533394917d34f97644a6aaeac50b
-    m_Address: UI_SignupInputPopup
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - PreLoad
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 959097849af5de94faf8495d14174cdc
     m_Address: UI_NicknamePopup
     m_ReadOnly: 0
@@ -139,6 +133,18 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 93e3491ca6565d74781d78fff8b9d46c
     m_Address: UI_World
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 420603fbc8c0aef4982f0229e37a3d88
+    m_Address: UI_SignupInputPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d26c1f865c636d9468eff8ff0337332c
+    m_Address: UI_DifficultySelectPopup
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad

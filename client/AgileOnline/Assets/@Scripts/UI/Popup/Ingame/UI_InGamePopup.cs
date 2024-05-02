@@ -45,7 +45,7 @@ public class UI_InGamePopup : UI_Popup
 
     void OnBackButtonClick()
     {
-        Managers.Game.InitializeGameData();
+        // Managers.Game.InitializeGameData();
         Managers.Scene.LoadScene(EScene.LobbyScene);
     }
 
