@@ -32,6 +32,7 @@ public class SecurityConfig {
 	private final MemberService memberService;
 
 	private final String[] whiteList = {
+		// members
 		"/api/members/login",
 		"/api/members/reissue",
 		"/api/members/temp-password",
@@ -41,6 +42,10 @@ public class SecurityConfig {
 		"/api/members/email-authenticate",
 		"/api/members/signup",
 		"/api/members/kakao-login",
+
+		// swagger
+		"/api/swagger-ui/**",
+		"/api/docs/**",
 	};
 
 	@Bean
