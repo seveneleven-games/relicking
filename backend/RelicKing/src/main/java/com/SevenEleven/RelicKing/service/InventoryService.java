@@ -3,6 +3,7 @@ package com.SevenEleven.RelicKing.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.SevenEleven.RelicKing.dto.model.MemberRelicDTO;
 import com.SevenEleven.RelicKing.dto.request.RelicChangeRequestDTO;
@@ -24,6 +25,7 @@ public class InventoryService {
 
 	private final MemberRelicRepository memberRelicRepository;
 
+	@Transactional(readOnly = true)
 	public InventoryResponseDTO getInventoryInfo() {
 		Member member = memberRepository.findByMemberId(1).orElseThrow(); // Todo 로그인한 멤버로 변경
 		List<MemberRelic> memberRelicList = memberRelicRepository.findByMember(member);
@@ -35,12 +37,14 @@ public class InventoryService {
 			.build();
 	}
 
+	@Transactional
 	public void changeClass(int classNo) {
 		Member member = memberRepository.findByMemberId(1).orElseThrow(); // Todo 로그인한 멤버로 변경
 		member.changeCurrentClassNo(classNo);
 		memberRepository.save(member);
 	}
 
+	@Transactional
 	public void changeRelic(RelicChangeRequestDTO relicChangeRequestDTO) {
 		Member member = memberRepository.findByMemberId(1).orElseThrow(); // Todo 로그인한 멤버로 변경
 		member.getMemberRelics().forEach(memberRelic -> {

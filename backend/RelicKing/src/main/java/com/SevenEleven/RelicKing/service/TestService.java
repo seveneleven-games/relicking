@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.SevenEleven.RelicKing.common.exception.CustomException;
 import com.SevenEleven.RelicKing.common.exception.ExceptionType;
@@ -33,6 +34,7 @@ public class TestService {
 
 	private final RecordRepository recordRepository;
 
+	@Transactional(readOnly = true)
 	public LoginResponseDTO getLoginData(int memberId) {
 
 		Member member = memberRepository.findById(memberId).orElseThrow(() -> new CustomException(ExceptionType.MEMBER_NOT_FOUND));
@@ -47,6 +49,7 @@ public class TestService {
 
 	}
 
+	@Transactional(readOnly = true)
 	public StageDifficultyDTO getDifficulty(Member member) {
 
 		List<Integer> stage = new ArrayList<>(3);
@@ -68,6 +71,7 @@ public class TestService {
 
 	}
 
+	@Transactional(readOnly = true)
 	public InventoryResponseDTO getInventoryInfo(int memberId) {
 
 		Member member = memberRepository.findById(memberId).orElseThrow(() -> new CustomException(ExceptionType.MEMBER_NOT_FOUND));

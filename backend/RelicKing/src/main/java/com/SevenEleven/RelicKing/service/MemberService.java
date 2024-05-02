@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.SevenEleven.RelicKing.common.Constant;
 import com.SevenEleven.RelicKing.common.exception.CustomException;
@@ -41,6 +42,7 @@ public class MemberService {
 	private final RefreshTokenRepository refreshTokenRepository;
 	private final RecordRepository recordRepository;
 
+	@Transactional
 	public void signup(SignUpRequestDto dto) {
 
 		// 이미 존재하는 이메일일 경우 예외 처리
@@ -58,6 +60,7 @@ public class MemberService {
 		memberRepository.save(member);
 	}
 
+	@Transactional
 	public ResponseEntity<?> reissue(HttpServletRequest request, HttpServletResponse response) {
 		// get refresh token
 		String refreshToken = null;
@@ -125,6 +128,7 @@ public class MemberService {
 		return cookie;
 	}
 
+	@Transactional(readOnly = true)
 	public LoginResponseDTO getDataAfterLogin(String email, String accessToken, String refreshToken) {
 
 		Member member = memberRepository.findByEmail(email);
@@ -140,6 +144,7 @@ public class MemberService {
 			.build();
 	}
 
+	@Transactional(readOnly = true)
 	public StageDifficultyDTO getDifficulty(Member member) {
 
 		List<Integer> stage = new ArrayList<>(Constant.MAX_STAGE);
@@ -162,6 +167,7 @@ public class MemberService {
 
 	}
 
+	@Transactional(readOnly = true)
 	public Response checkEmailForDuplicates(String email) {
 		boolean isDuplicate = memberRepository.existsByEmail(email);
 
@@ -172,6 +178,7 @@ public class MemberService {
 		}
 	}
 
+	@Transactional(readOnly = true)
 	public Response checkNicknameForDuplicates(String nickname) {
 		boolean isDuplicate = memberRepository.existsByNickname(nickname);
 
