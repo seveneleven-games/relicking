@@ -211,7 +211,7 @@ namespace Data
         public string PrefabName;
         public string Name;
         public string ThumbnailName;
-        public int Description;
+        public string Description;
         public int Rarity;
         public int Atk;
         public int MaxHp;
