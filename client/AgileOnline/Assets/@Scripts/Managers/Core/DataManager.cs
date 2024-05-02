@@ -17,6 +17,7 @@ public class DataManager
     public Dictionary<int, SkillData> SkillDic { get; private set; } = new Dictionary<int, SkillData>();
     public Dictionary<int, GoldData> GoldDic { get; private set; } = new Dictionary<int, GoldData>();
     public Dictionary<int, NodeMapData> NodeMapDic { get; private set; } = new Dictionary<int, NodeMapData>();
+    public Dictionary<int, RelicData> RelicDic { get; private set; } = new Dictionary<int, RelicData>();
     
     public void Init()
     {
@@ -26,6 +27,7 @@ public class DataManager
         SkillDic = LoadJson<SkillDataLoader, int, SkillData>("SkillData").MakeDict();
         GoldDic = LoadJson<GoldDataLoader, int, GoldData>("GoldData").MakeDict();
         NodeMapDic = LoadJson<NodeMapDataLoader, int, NodeMapData>("NodeMapData").MakeDict();
+        RelicDic = LoadJson<RelicDataLoader, int, RelicData>("RelicData").MakeDict();
     }
 
     private Loader LoadJson<Loader, Key, Value>(string path) where Loader : ILoader<Key, Value>
