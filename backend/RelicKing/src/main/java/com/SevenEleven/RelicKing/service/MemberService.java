@@ -34,6 +34,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class MemberService {
 
 	private final MemberRepository memberRepository;

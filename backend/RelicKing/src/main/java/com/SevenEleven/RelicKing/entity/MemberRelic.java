@@ -1,5 +1,8 @@
 package com.SevenEleven.RelicKing.entity;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.SevenEleven.RelicKing.dto.model.MemberRelicDTO;
 
 import jakarta.persistence.Column;
@@ -33,7 +36,7 @@ public class MemberRelic {
 	private Member member;
 
 	@Builder.Default
-	@Column(nullable = false)
+	@Column(nullable = false, updatable = false)
 	private int relicNo = 0;
 
 	@Builder.Default
@@ -61,7 +64,22 @@ public class MemberRelic {
 		this.slot = slot;
 	}
 
-	public void changeRelicNo(int relicNo) {
-		this.relicNo = relicNo;
+	public void plusExp(int exp) {
+		if (this.level != 10){
+			this.exp += exp;
+			setLevel();
+		}
+	}
+
+	private void setLevel() {
+		List<Integer> levelUpExp = Arrays.asList(1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000, 256000, 512000);
+		if (this.level < 10) {
+			for (int i = 0; i < 10; i++) {
+				if (this.exp < levelUpExp.get(i)) {
+					this.level = i + 1;
+					break;
+				}
+			}
+		}
 	}
 }

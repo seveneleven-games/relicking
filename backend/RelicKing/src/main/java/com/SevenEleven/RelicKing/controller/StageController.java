@@ -7,11 +7,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.SevenEleven.RelicKing.common.response.Response;
 import com.SevenEleven.RelicKing.common.security.CustomUserDetails;
+import com.SevenEleven.RelicKing.dto.request.StageRequestDTO;
 import com.SevenEleven.RelicKing.service.StageService;
 
 @RestController
@@ -30,8 +32,8 @@ public class StageController {
 	}
 
 	@PatchMapping()
-	public Response clearStage(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
-		stageService.patchRecord(customUserDetails.getMember());
+	public Response clearStage(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody StageRequestDTO stageRequestDTO) {
+		stageService.patchRelicAndRecord(customUserDetails.getMember(), stageRequestDTO);
 		return new Response(HttpStatus.OK.value(), "게임이 클리어 되었습니다.", true);
 	}
 
