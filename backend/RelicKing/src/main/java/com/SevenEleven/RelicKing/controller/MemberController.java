@@ -13,11 +13,17 @@ import com.SevenEleven.RelicKing.common.response.Response;
 import com.SevenEleven.RelicKing.dto.request.SignUpRequestDto;
 import com.SevenEleven.RelicKing.service.MemberService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+@Tag(name = "Member", description = "사용자 관련 API")
 @RestController
 @RequestMapping("/api/members")
 @RequiredArgsConstructor
@@ -25,6 +31,14 @@ public class MemberController {
 
 	private final MemberService memberService;
 
+	@Operation(
+		summary = "회원 가입",
+		description = "닉네임 : 영문, 숫자, 특수문자로 12자 이내 / 비밀번호 : 영문, 숫자, 특수문자 각각 하나 이상 포함하여 8~16자"
+	)
+	@ApiResponse(
+		responseCode = "200", description = "회원 가입 완료",
+		content = @Content(schema = @Schema(implementation = boolean.class))
+	)
 	@PostMapping("/signup")
 	public Response signup(@RequestBody @Valid SignUpRequestDto dto) {
 		memberService.signup(dto);
@@ -32,16 +46,37 @@ public class MemberController {
 	}
 
 	// TODO : 로직 변경 필요
+	@Operation(
+		summary = "access token 재발급",
+		description = "refresh token을 활용하여 access token 및 refresh token을 재발급 받습니다."
+	)
+	@ApiResponse(responseCode = "200", description = "access token 및 refresh token 재발급 성공")
 	@PostMapping("/reissue")
 	public ResponseEntity<?> reissue(HttpServletRequest request, HttpServletResponse response) {
 		return memberService.reissue(request, response);
 	}
 
+	@Operation(
+		summary = "이메일 중복 체크",
+		description = "해당 이메일이 이미 사용 중인지 검사합니다."
+	)
+	@ApiResponse(
+		responseCode = "200", description = "이메일 사용 가능",
+		content = @Content(schema = @Schema(implementation = boolean.class))
+	)
 	@GetMapping("/duplicate-email")
 	public Response checkEmailForDuplicates(@RequestParam(value = "email") String email) {
 		return memberService.checkEmailForDuplicates(email);
 	}
 
+	@Operation(
+		summary = "닉네임 중복 체크",
+		description = "해당 닉네임이 이미 사용 중인지 검사합니다."
+	)
+	@ApiResponse(
+		responseCode = "200", description = "닉네임 사용 가능",
+		content = @Content(schema = @Schema(implementation = boolean.class))
+	)
 	@GetMapping("/duplicate-nickname")
 	public Response checkNicknameForDuplicates(@RequestParam(value = "nickname") String nickname) {
 		return memberService.checkNicknameForDuplicates(nickname);
