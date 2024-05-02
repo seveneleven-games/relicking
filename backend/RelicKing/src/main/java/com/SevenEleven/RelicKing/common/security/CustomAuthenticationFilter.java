@@ -97,6 +97,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 		toJsonResponse(response, new Response(HttpStatus.UNAUTHORIZED.value(), "로그인에 실패하였습니다.", false));
 	}
 
+	// TODO : toJSonResponse를 통해 에러 반환하는 코드들 throw를 통해 에러 반환하도록 변경하기
 	private void toJsonResponse(HttpServletResponse response, Response customResponse) throws IOException {
 		// content type
 		response.setContentType("application/json");
