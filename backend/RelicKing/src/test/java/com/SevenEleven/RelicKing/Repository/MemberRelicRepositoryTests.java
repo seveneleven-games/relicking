@@ -33,11 +33,11 @@ public class MemberRelicRepositoryTests {
 	@Test
 	public void insertTest() {
 		Member member = memberRepository.findById(1).orElseThrow();
-		for (int i = 12; i <= 12; i++ ) {
+		for (int i = 1; i <= 6; i++ ) {
 			MemberRelic memberRelic = MemberRelic.builder()
 				.member(member)
 				.relicNo(i)
-				.slot(0)
+				.slot(i)
 				.build();
 
 			memberRelicRepository.save(memberRelic);

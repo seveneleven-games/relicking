@@ -63,6 +63,18 @@ public class UIManager
 	{
 		return _sceneUI as T;
 	}
+	
+	public T GetPopupUI<T>() where T : UI_Popup
+	{
+		if (_popupStack.Count == 0)
+			return null;
+
+		UI_Popup popup = _popupStack.Peek();
+		if (popup is T popupUI)
+			return popupUI;
+
+		return null;
+	}
 
 	public T MakeWorldSpaceUI<T>(Transform parent = null, string name = null) where T : UI_Base
 	{

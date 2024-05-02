@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using Data;
 using Unity.VisualScripting;
+using UnityEditor.iOS;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using static Define;
 
 public class GameScene : BaseScene
@@ -15,38 +18,49 @@ public class GameScene : BaseScene
     private const int BOSS_MONSTER = 2;
 
     public TemplateData _templateData;
-    private int _stageId;
     private int _classId;
     private PlayerController _player;
-    
+
     // 노드 정보
     private UI_NodeMapPopup _nodeMap;
-    private int _nodeNo;
-    
+    private UI_StorePopup _store;
+    private UI_InGamePopup _inGame;
+
+    private Text timerText;
+
     public override bool Init()
     {
         if (base.Init() == false)
             return false;
 
         SceneType = EScene.GameScene;
-        
+
         _nodeMap = Managers.UI.ShowPopupUI<UI_NodeMapPopup>();
-        Debug.Log("GameScene Init이 여러번 도나??");
         _nodeMap.OnEnterNode += StartGame;
-        
+        _store = Managers.UI.ShowPopupUI<UI_StorePopup>();
+        _store.OnSkillCardClick += BuySkill;
+        // _inGame = Managers.UI.ShowPopupUI<UI_InGamePopup>();
+
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
-        _stageId = _templateData.TemplateIds[0];
         _classId = _templateData.TemplateIds[1];
-        
+
         _player = Managers.Object.Spawn<PlayerController>(Vector3.zero, _classId);
+        _player.StopSkills();
+        CameraController camera = Camera.main.GetOrAddComponent<CameraController>();
+        camera.Target = _player;
         
+        //스킬 정보 보내주는거 추가
+        _store.DataSync(_player.PlayerSkillList);
+        _player.OnPlayerSkillAdded += _store.DataSync;
+        
+        GameObject joystickObject = Managers.Resource.Instantiate("UI_Joystick");
+        joystickObject.name = "@UI_Joystick";
+
         // TODO: 노드맵 UI에서 게임을 시작해야 한다. 
-        
+
 
         return true;
     }
-    
-    
 
     #region 노드 정보에 맞는 몬스터 스폰
 
@@ -56,41 +70,145 @@ public class GameScene : BaseScene
      */
 
     #endregion
+
     public void StartGame(int nodeNo, bool isBossNode)
     {
-        StageData stageData = Managers.Data.StageDic[_stageId];
+        // TODO: 팝업 관리 리팩토링 예정
+        _nodeMap.ClosePopupUI();
+        _inGame = Managers.UI.ShowPopupUI<UI_InGamePopup>();
+        foreach (GameObject obj in FindObjectsOfType<GameObject>())
+        {
+            if (obj.name.StartsWith("Target"))
+                Managers.Pool.Push(obj);
+        }
+
+        _player.GetComponent<CircleCollider2D>().enabled = true;
+        _player.StartSkills();
+        NodeMapData nodeMapData = Managers.Data.NodeMapDic[_templateData.TempNodeNum];
+        NodeData node = nodeMapData.NodeList[nodeNo];
         
-        GameObject map = Managers.Resource.Instantiate(stageData.PrefabName);
+        GameObject map = Managers.Resource.Instantiate(node.MapPrefabName);
         map.transform.position = Vector3.zero;
         map.name = "@BaseMap";
-
-        CameraController camera = Camera.main.GetOrAddComponent<CameraController>();
-        camera.Target = _player;
-
-        GameObject joystickObject = Managers.Resource.Instantiate("UI_Joystick");
-        joystickObject.name = "@UI_Joystick";
-        
-        List<int> normalList = Managers.Data.StageDic[_stageId].NormalMonsterList;
-        List<int> eliteList = Managers.Data.StageDic[_stageId].EliteMonsterList;
-        List<int> bossList = Managers.Data.StageDic[_stageId].BossMonsterList;
 
         // 여기에 팝업 닫는 함수 있어야 할 것.
         _nodeMap.ClosePopupUI();
         Debug.Log($"{nodeNo}번 노드 진입! 게임 시작!! 보스노드여부 : {isBossNode}");
+
+        int nodeType = 0;
+        List<int> normalMonsters = new List<int>();
+        List<int> eliteMonsters = new List<int>();
+        List<int> bossMonsters = new List<int>();
+
+        foreach (int monsterId in node.MonsterList)
+        {
+            MonsterData monsterData = Managers.Data.MonsterDic[monsterId];
+
+            switch (monsterData.MonsterType)
+            {
+                case 0:
+                    normalMonsters.Add(monsterId);
+                    break;
+                case 1:
+                    eliteMonsters.Add(monsterId);
+                    break;
+                case 2:
+                    bossMonsters.Add(monsterId);
+                    break;
+            }
+        }
+
+        if (bossMonsters.Count > 0)
+        {
+            nodeType = 2;
+        }
+        else if (eliteMonsters.Count > 0)
+        {
+            nodeType = 1;
+        }
+
+        switch (nodeType)
+        {
+            case 0:
+                StartCoroutine(SpawnNormalMonsters(normalMonsters));
+                break;
+            case 1:
+                StartCoroutine(SpawnEliteMonsters(normalMonsters, eliteMonsters));
+                break;
+            case 2:
+                StartCoroutine(SpawnBossMonsters(normalMonsters, eliteMonsters, bossMonsters));
+                break;
+        }
         
-        // TODO: Elite 및 Boss 맵 몬스터 스폰 로직은 추후에 개발 예정입니다 ㅎㅎ
-        // switch (nodeType)
-        // {
-        //     case 0:
-        //         StartCoroutine(SpawnNormalMonsters(normalList));
-        //         break;
-        //     case 1:
-        //         StartCoroutine(SpawnEliteMonsters(normalList, eliteList));
-        //         break;
-        //     case 2:
-        //         StartCoroutine(SpawnNormalMonsters(bossList));
-        //         break;
-        // }
+        StartCoroutine(StartTimer(10f));
+    }
+
+    public void BuySkill(int skillId)
+    {
+        //todo(전지환) : 슬롯 번호는 이후 플레이어 컨트롤러에서 관리할 수 있도록 변경
+        _player.AddSkill(skillId, 5);
+    }
+    
+    private IEnumerator StartTimer(float duration)
+    {
+        float timer = duration;
+
+        while (timer > 0f)
+        {
+            timer -= Time.deltaTime;
+            yield return null;
+        }
+        OnGameClear();
+    }
+
+    private void OnGameClear()
+    {
+        _inGame.ClosePopupUI();
+        _player.GetComponent<CircleCollider2D>().enabled = false;
+        _nodeMap = Managers.UI.ShowPopupUI<UI_NodeMapPopup>();
+        _nodeMap.OnEnterNode += StartGame;
+        
+        // 몬스터 스폰 코루틴 중지
+        StopAllCoroutines();
+        
+        // 플레이어 스킬 중지
+        _player.StopSkills();
+        
+        foreach (GameObject obj in FindObjectsOfType<GameObject>())
+        {
+            GameObject monsterPool = GameObject.Find("@Monsters");
+            if (monsterPool != null)
+            {
+                foreach (Transform child in monsterPool.transform)
+                {
+                    GameObject monsterObj = child.gameObject;
+                    MonsterController monsterController = monsterObj.GetComponent<MonsterController>();
+                    if (monsterController != null)
+                        Managers.Object.Despawn(monsterController);
+                }
+            }
+            
+            GameObject goldPool = GameObject.Find("@Golds");
+            if (monsterPool != null)
+            {
+                foreach (Transform child in goldPool.transform)
+                {
+                    GameObject goldObj = child.gameObject;
+                    GoldController goldController = goldObj.GetComponent<GoldController>();
+                    if (goldController != null)
+                        Managers.Object.Despawn(goldController);
+                }
+            }
+        }
+        
+        foreach (GameObject obj in FindObjectsOfType<GameObject>())
+        {
+            if (obj.name.StartsWith("@BaseMap"))
+                Managers.Resource.Destroy(obj);
+        }
+        
+        // 플레이어 위치 초기화
+        _player.transform.position = Vector3.zero;
     }
 
     private IEnumerator SpawnNormalMonsters(List<int> monsterIds)
@@ -107,12 +225,15 @@ public class GameScene : BaseScene
                 yield return new WaitForSeconds(TARGET_SPAWN_TIME);
 
                 Managers.Pool.Push(target);
-    
+
                 int randomIndex = Random.Range(0, monsterIds.Count);
                 int randomMonsterId = monsterIds[randomIndex];
-    
+
                 MonsterController mc = Managers.Object.Spawn<MonsterController>(randomPosition, randomMonsterId);
                 mc.InitMonster(randomMonsterId);
+                
+                if (gameObject == null)
+                    yield break;
             }
 
             yield return new WaitForSeconds(MONSTER_SPAWN_INTERVAL);
@@ -121,6 +242,40 @@ public class GameScene : BaseScene
 
     private IEnumerator SpawnEliteMonsters(List<int> normalMonsterIds, List<int> eliteMonsterIds)
     {
+        Vector3 eliteSpawn = new Vector3(0, -4, 0);
+        MonsterController eliteMc = Managers.Object.Spawn<MonsterController>(eliteSpawn, eliteMonsterIds[0]);
+        while (true)
+        {
+            for (int i = 0; i < PER_SEC_MOSTER_GENERATION; i++)
+            {
+                Vector3 randomPosition = GetRandomPositionOutsidePlayerRadius();
+                GameObject target = Managers.Resource.Load<GameObject>("Target");
+                target = Managers.Pool.Pop(target);
+                target.transform.position = randomPosition;
+
+                yield return new WaitForSeconds(TARGET_SPAWN_TIME);
+
+                Managers.Pool.Push(target);
+
+                int randomIndex = Random.Range(0, normalMonsterIds.Count);
+                int randomMonsterId = normalMonsterIds[randomIndex];
+
+                MonsterController mc = Managers.Object.Spawn<MonsterController>(randomPosition, randomMonsterId);
+                mc.InitMonster(randomMonsterId);
+                
+                if (gameObject == null)
+                    yield break;
+            }
+
+            yield return new WaitForSeconds(MONSTER_SPAWN_INTERVAL);
+        }
+    }
+
+    private IEnumerator SpawnBossMonsters(List<int> normalMonsterIds, List<int> eliteMonsterIds,
+        List<int> boosMonsterIds)
+    {
+        Vector3 bossSpawn = new Vector3(0, 4, 0);
+        Managers.Object.Spawn<MonsterController>(bossSpawn, boosMonsterIds[0]);
         Vector3 eliteSpawn = new Vector3(0, -4, 0);
         Managers.Object.Spawn<MonsterController>(eliteSpawn, eliteMonsterIds[0]);
         while (true)
@@ -133,16 +288,19 @@ public class GameScene : BaseScene
                 target.transform.position = randomPosition;
 
                 yield return new WaitForSeconds(TARGET_SPAWN_TIME);
-                
+
                 Managers.Pool.Push(target);
-                
+
                 int randomIndex = Random.Range(0, normalMonsterIds.Count);
                 int randomMonsterId = normalMonsterIds[randomIndex];
-                
+
                 MonsterController mc = Managers.Object.Spawn<MonsterController>(randomPosition, randomMonsterId);
                 mc.InitMonster(randomMonsterId);
+                
+                if (gameObject == null)
+                    yield break;
             }
-            
+
             yield return new WaitForSeconds(MONSTER_SPAWN_INTERVAL);
         }
     }

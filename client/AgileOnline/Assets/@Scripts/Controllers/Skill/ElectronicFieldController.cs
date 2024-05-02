@@ -6,7 +6,7 @@ using static Define;
 
 public class ElectronicFieldController : SkillController
 {
-    private CreatureController _owner;
+    public CreatureController _owner;
     private float _damageInterval = 0.5f;
     private float _lastDamageTime;
     private Vector3 _moveDir;
@@ -71,18 +71,18 @@ public class ElectronicFieldController : SkillController
         }
     }
     
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (this.IsValid() == false)
-            return;
-
-        MonsterController monster = collision.gameObject.GetComponent<MonsterController>();
-
-        if (monster.IsValid() == false)
-            return;
-
-        monster.OnDamaged(_owner, Damage);
-    }
+    // private void OnTriggerStay2D(Collider2D collision)
+    // {
+    //     if (this.IsValid() == false)
+    //         return;
+    //
+    //     MonsterController monster = collision.gameObject.GetComponent<MonsterController>();
+    //
+    //     if (monster.IsValid() == false)
+    //         return;
+    //
+    //     monster.OnDamaged(_owner, Damage);
+    // }
     
     private void DealDamageToNearbyMonsters()
     {

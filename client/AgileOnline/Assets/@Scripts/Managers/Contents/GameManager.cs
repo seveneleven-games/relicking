@@ -34,6 +34,17 @@ public class GameData
 
 public class GameManager
 {
+    // public void InitializeGameData()
+    // {
+    //     // TODO: 게임 데이터 초기화 로직 구현
+    //     _gameData = new GameData();
+    //     _gameData.UserLevel = 1;
+    //     _gameData.UserName = "우주최강귀요미박설연";
+    //     _gameData.Ticket = 0;
+    //     _gameData.CurrentStage = new StageData();
+    //     _gameData.DicStageClearInfo = new Dictionary<int, StageClearInfo>();
+    // }
+
     #region GameData
     public GameData _gameData = new GameData();
     
