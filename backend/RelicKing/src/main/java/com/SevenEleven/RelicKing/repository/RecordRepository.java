@@ -11,6 +11,7 @@ import com.SevenEleven.RelicKing.entity.Record;
 
 public interface RecordRepository extends JpaRepository<Record, Integer> {
 
+	@EntityGraph(attributePaths = {"recordRelics", "recordSkills"}, type = EntityGraph.EntityGraphType.FETCH)
 	Optional<Record> findByMemberAndStage(Member member, int stage);
 
 	@EntityGraph(attributePaths = {"recordRelics", "recordSkills"}, type = EntityGraph.EntityGraphType.FETCH)

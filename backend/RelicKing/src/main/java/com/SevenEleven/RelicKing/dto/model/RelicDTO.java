@@ -1,4 +1,4 @@
-package com.SevenEleven.RelicKing.dto.response.model;
+package com.SevenEleven.RelicKing.dto.model;
 
 import com.SevenEleven.RelicKing.entity.MemberRelic;
 
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RelicResponseDTO {
+public class RelicDTO {
 
 	@PositiveOrZero
 	@Builder.Default
@@ -27,8 +27,8 @@ public class RelicResponseDTO {
 	@Max(6)
 	private int slot;
 
-	public static RelicResponseDTO entityToDTO(MemberRelic memberRelic) {
-		return RelicResponseDTO.builder()
+	public static RelicDTO entityToDTO(MemberRelic memberRelic) {
+		return RelicDTO.builder()
 			.relicNo(memberRelic.getRelicNo())
 			.level(memberRelic.getLevel())
 			.slot(memberRelic.getSlot())

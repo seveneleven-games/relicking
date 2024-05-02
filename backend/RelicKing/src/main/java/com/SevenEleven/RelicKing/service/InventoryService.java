@@ -3,6 +3,7 @@ package com.SevenEleven.RelicKing.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.SevenEleven.RelicKing.dto.model.MemberRelicDTO;
 import com.SevenEleven.RelicKing.dto.request.RelicChangeRequestDTO;
@@ -18,6 +19,7 @@ import lombok.extern.log4j.Log4j2;
 @Service
 @RequiredArgsConstructor
 @Log4j2
+@Transactional
 public class InventoryService {
 
 	private final MemberRepository memberRepository;
@@ -45,7 +47,12 @@ public class InventoryService {
 		Member member = memberRepository.findByMemberId(1).orElseThrow(); // Todo 로그인한 멤버로 변경
 		member.getMemberRelics().forEach(memberRelic -> {
 			if (memberRelic.getSlot() == relicChangeRequestDTO.getSlot()) {
-				memberRelic.changeRelicNo(relicChangeRequestDTO.getRelicNo());
+				memberRelic.changeSlot(0);
+				memberRelicRepository.save(memberRelic);
+			}
+
+			if (memberRelic.getRelicNo() == relicChangeRequestDTO.getRelicNo()) {
+				memberRelic.changeSlot(relicChangeRequestDTO.getSlot());
 				memberRelicRepository.save(memberRelic);
 			}
 		});
