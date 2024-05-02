@@ -7,6 +7,36 @@
       "NodeMaps": [
         0
       ]
+    },
+    {
+      "StageId": 2,
+      "PrefabName": "Stage1NodeMap_02",
+      "Name": "Stage2",
+      "ThumbnailName": "Stage2_Thumbnail.sprite",
+      "NormalMonsterList": [
+        1
+      ],
+      "EliteMonsterList": [
+        2
+      ],
+      "BossMonsterList": [
+        3
+      ]
+    },
+    {
+      "StageId": 3,
+      "PrefabName": "Stage1NodeMap_03",
+      "Name": "Stage3",
+      "ThumbnailName": "Stage3_Thumbnail.sprite",
+      "NormalMonsterList": [
+        1
+      ],
+      "EliteMonsterList": [
+        2
+      ],
+      "BossMonsterList": [
+        3
+      ]
     }
   ]
 }

@@ -48,6 +48,7 @@ public class UI_StageInfoItem : UI_Base
     // 객체 관련 두는 곳
     StageData _stageData;
 
+    // 이거 죽이면 에러 뜸.
     private void Awake()
     {
         Init();
@@ -76,7 +77,7 @@ public class UI_StageInfoItem : UI_Base
     public void SetInfo(StageData data)
     {
         _stageData = data;
-        // transform.localScale = Vector3.one;
+        transform.localScale = Vector3.one;
         Refresh();
     }
 
