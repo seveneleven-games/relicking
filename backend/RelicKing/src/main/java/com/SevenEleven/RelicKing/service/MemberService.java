@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.SevenEleven.RelicKing.common.Constant;
 import com.SevenEleven.RelicKing.common.exception.CustomException;
 import com.SevenEleven.RelicKing.common.exception.ExceptionType;
+import com.SevenEleven.RelicKing.common.response.Response;
 import com.SevenEleven.RelicKing.common.security.JWTUtil;
 import com.SevenEleven.RelicKing.dto.request.SignUpRequestDto;
 import com.SevenEleven.RelicKing.dto.response.LoginResponseDTO;
@@ -160,4 +161,25 @@ public class MemberService {
 			.build();
 
 	}
+
+	public Response checkEmailForDuplicates(String email) {
+		boolean isDuplicate = memberRepository.existsByEmail(email);
+
+		if (isDuplicate) {
+			return new Response(HttpStatus.CONFLICT.value(), "사용 불가능한 이메일입니다.", false);
+		} else {
+			return new Response(HttpStatus.OK.value(), "사용 가능한 이메일입니다.", true);
+		}
+	}
+
+	public Response checkNicknameForDuplicates(String nickname) {
+		boolean isDuplicate = memberRepository.existsByNickname(nickname);
+
+		if (isDuplicate) {
+			return new Response(HttpStatus.CONFLICT.value(), "사용 불가능한 닉네임 입니다.", false);
+		} else {
+			return new Response(HttpStatus.OK.value(), "사용 가능한 닉네임 입니다.", true);
+		}
+	}
+
 }

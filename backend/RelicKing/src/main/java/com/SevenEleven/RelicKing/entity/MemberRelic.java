@@ -56,4 +56,12 @@ public class MemberRelic {
 			.slot(memberRelic.getSlot())
 			.build();
 	}
+
+	public void changeSlot(int slot) {
+		this.slot = slot;
+	}
+
+	public void changeRelicNo(int relicNo) {
+		this.relicNo = relicNo;
+	}
 }

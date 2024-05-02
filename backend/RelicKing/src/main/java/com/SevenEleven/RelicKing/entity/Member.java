@@ -1,7 +1,7 @@
 package com.SevenEleven.RelicKing.entity;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -38,54 +38,58 @@ public class Member {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int memberId;
 
-	@Column(unique = true)
-	@NotNull
+	@Column(unique = true, nullable = false)
 	@Email
 	@Size(min = 3, max = 255)
 	private String email;
 
-	@Column(unique = true)
-	@NotNull
+	@Column(unique = true, nullable = false)
 	@Size(max = 12)
 	private String nickname;
 
-	@NotNull
+	@Column(nullable = false)
 	private String password;
 
 	@Builder.Default
-	@NotNull
+	@Column(nullable = false)
 	private int gacha = 0;
 
 	@Builder.Default
-	@NotNull
+	@Column(nullable = false)
 	private int currentClassNo = 0;
 
 	@Builder.Default
-	@NotNull
+	@Column(nullable = false)
 	private int cumulativeLockTime = 0;
 
 	@Builder.Default
-	@NotNull
+	@Column(nullable = false)
 	private int continuousLockDate = 0;
 
 	private LocalDate lastLockDate;
 
-	@Builder.Default
-	@NotNull
-	private boolean withdrawalYn = false;
+	@Column(nullable = false)
+	private boolean withdrawalYn;
 
 	@CreatedDate
-	@Column(updatable = false)
-	@NotNull
+	@Column(updatable = false, nullable = false)
 	private LocalDate createdDate;
 
-	@Builder.Default
-	@NotNull
-	private boolean lockYn = false;
+	@Column(nullable = false)
+	private boolean lockYn;
 
-	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<MemberRelic> memberRelics;
+	@Column(nullable = false)
+	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<MemberRelic> memberRelics;
 
-	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<Record> records;
+	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Record> records;
+
+	public void changeCurrentClassNo(int classNo) {
+		this.currentClassNo = classNo;
+	}
+
+	public void changeGacha(int gacha) {
+		this.gacha = gacha;
+	}
 }
