@@ -17,6 +17,7 @@ public class ObjectManager
         new HashSet<EliteMonsterProjectileController>();
 
     public HashSet<WindCutterController> WindCutters { get; } = new HashSet<WindCutterController>();
+    public HashSet<FrozenHeartController> FrozenHearts { get; } = new HashSet<FrozenHeartController>();
     
     #region Roots
 
@@ -72,6 +73,11 @@ public class ObjectManager
     public Transform WindCutterRoot
     {
         get { return GetRootTransform("@WindCutter"); }
+    }
+
+    public Transform FrozenHeartRoot
+    {
+        get { return GetRootTransform("@FrozenHeart"); }
     }
 
     #endregion
@@ -154,6 +160,12 @@ public class ObjectManager
                     WindCutters.Add(wcc);
                     wcc.InitSkill(templateId);
                     break;
+                
+                case ESkillType.FrozenHeart:
+                    sc.transform.parent = FrozenHeartRoot;
+                    FrozenHeartController fhc = sc.GetComponent<FrozenHeartController>();
+                    FrozenHearts.Add(fhc);
+                    break;
             }
         }
 
@@ -209,6 +221,11 @@ public class ObjectManager
                 case ESkillType.WindCutter:
                     WindCutterController wcc = sc as WindCutterController;
                     WindCutters.Remove(wcc);
+                    break;
+                
+                case ESkillType.FrozenHeart:
+                    FrozenHeartController fhc = sc as FrozenHeartController;
+                    FrozenHearts.Remove(fhc);
                     break;
             }
         }
