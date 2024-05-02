@@ -9,14 +9,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.SevenEleven.RelicKing.common.Constant;
 import com.SevenEleven.RelicKing.dto.request.SaveLockRequestDto;
+import com.SevenEleven.RelicKing.dto.response.GetLockInfoResponseDto;
 import com.SevenEleven.RelicKing.dto.response.SaveLockResponseDto;
 import com.SevenEleven.RelicKing.entity.Member;
+import com.SevenEleven.RelicKing.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class LockService {
+
+	private final MemberRepository memberRepository;
 
 	@Transactional
 	public SaveLockResponseDto saveLock(Member member, SaveLockRequestDto saveLockRequestDto) {
@@ -72,9 +76,20 @@ public class LockService {
 		int gachaAfterLock = member.getGacha() + earnedGacha;
 		member.changeGacha(gachaAfterLock);
 
+		memberRepository.save(member);
+
 		return SaveLockResponseDto.builder()
 			.earnedGacha(earnedGacha)
 			.gachaAfterLock(gachaAfterLock)
+			.build();
+	}
+
+	@Transactional(readOnly = true)
+	public GetLockInfoResponseDto getLockInfo(Member member) {
+		return GetLockInfoResponseDto.builder()
+			.totalLockTime(member.getTotalLockTime())
+			.continuousLockDate(member.getContinuousLockDate())
+			.todayLockTime(member.getTodayLockTime())
 			.build();
 	}
 }
