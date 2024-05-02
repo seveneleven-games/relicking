@@ -24,7 +24,7 @@ public class InventoryController {
 
 	private final InventoryService inventoryService;
 
-	@GetMapping("/inventories")
+	@GetMapping("/inventories") // Todo 유물 비어있을 때 번호 0짜리 새 유물 객체 넘기기
 	public Response getInventory() {
 		InventoryResponseDTO inventoryResponseDTO = inventoryService.getInventoryInfo();
 		return new Response(HttpStatus.OK.value(), "인벤토리 정보 조회에 성공했습니다.", inventoryResponseDTO);
@@ -36,7 +36,7 @@ public class InventoryController {
 		return new Response(HttpStatus.OK.value(), "클래스가 변경되었습니다.", true);
 	}
 
-	@PostMapping("/relics")
+	@PostMapping("/relics") // Todo 유물 비어있을 때 바꾸는 로직
 	public Response changeRelic(@RequestBody RelicChangeRequestDTO relicChangeRequestDTO) {
 		inventoryService.changeRelic(relicChangeRequestDTO);
 		return new Response(HttpStatus.OK.value(), "유물이 변경되었습니다.", true);

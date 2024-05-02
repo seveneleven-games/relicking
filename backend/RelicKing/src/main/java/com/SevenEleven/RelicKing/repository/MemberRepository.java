@@ -14,9 +14,11 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
 	@Query("select m from Member m where m.memberId = :memberId")
 	Optional<Member> findByMemberId(int memberId);
 
+	@EntityGraph(attributePaths = {"memberRelics", "records"}, type = EntityGraph.EntityGraphType.FETCH)
+	@Query("select m from Member m where m.email = :email")
+	Member findByEmail(String email);
+
 	Boolean existsByEmail(String email);
 
 	Boolean existsByNickname(String nickname);
-
-	Member findByEmail(String email);
 }

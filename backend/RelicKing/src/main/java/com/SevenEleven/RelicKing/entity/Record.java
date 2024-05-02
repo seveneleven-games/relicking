@@ -1,7 +1,7 @@
 package com.SevenEleven.RelicKing.entity;
 
 import java.time.LocalDate;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.springframework.data.annotation.LastModifiedDate;
@@ -65,12 +65,12 @@ public class Record {
 	@ElementCollection(fetch = FetchType.LAZY)
 	@CollectionTable(name = "record_relic", joinColumns = @JoinColumn(name = "record_id"))
 	@Builder.Default
-	private Set<RecordRelic> recordRelics = new HashSet<>(6);
+	private Set<RecordRelic> recordRelics = new LinkedHashSet<>(6);
 
 	@ElementCollection(fetch = FetchType.LAZY)
 	@CollectionTable(name = "record_skill", joinColumns = @JoinColumn(name = "record_id"))
 	@Builder.Default
-	private Set<RecordSkill> recordSkills = new HashSet<>(6);
+	private Set<RecordSkill> recordSkills = new LinkedHashSet<>(6);
 
 	public void addRecordRelic(int relicNo, int level, int slot) {
 
