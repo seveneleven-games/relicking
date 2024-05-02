@@ -27,7 +27,7 @@ public class UI_InGamePopup : UI_Popup
         BindText(typeof(GameObjects));
         BindButton(typeof(Buttons));
         GetButton((int)Buttons.BackButton).gameObject.BindEvent(OnBackButtonClick);
-        
+
         timerText = GetText((int)GameObjects.TimerText).GetComponent<TextMeshProUGUI>();
         StartCoroutine(UpdateTimer());
 
@@ -36,7 +36,7 @@ public class UI_InGamePopup : UI_Popup
 
         return true;
     }
-    
+
     public void UpdateRemainGoldText(int gold)
     {
         TextMeshProUGUI component = GetText((int)GameObjects.RemainGold).GetComponent<TextMeshProUGUI>();
@@ -45,7 +45,11 @@ public class UI_InGamePopup : UI_Popup
 
     void OnBackButtonClick()
     {
-        // Managers.Game.InitializeGameData();
+        // 게임 상태 초기화
+        InitializeGameState();
+
+        // 리소스 정리
+        CleanupResources();
         Managers.Scene.LoadScene(EScene.LobbyScene);
     }
 
@@ -60,5 +64,53 @@ public class UI_InGamePopup : UI_Popup
 
         timerText.text = "0";
     }
-    
+
+    private void InitializeGameState()
+    {
+        // 코루틴 중지
+        StopAllCoroutines();
+    }
+
+    private void CleanupResources()
+    {
+        // 몬스터와 골드 오브젝트 despawn
+        DespawnObjects<MonsterController>("@Monsters");
+        DespawnObjects<GoldController>("@Golds");
+
+        // 맵 오브젝트 파괴
+        DestroyObjects("@BaseMap");
+
+        // 오브젝트 풀 정리
+        Managers.Pool.Clear();
+
+        // 사용하지 않는 에셋 언로드
+        Resources.UnloadUnusedAssets();
+    }
+
+    private void DespawnObjects<T>(string parentName) where T : MonoBehaviour
+    {
+        GameObject parentObject = GameObject.Find(parentName);
+        if (parentObject != null)
+        {
+            foreach (Transform child in parentObject.transform)
+            {
+                T component = child.gameObject.GetComponent<T>();
+                if (component != null)
+                {
+                    BaseController baseController = component as BaseController;
+                    if (baseController != null)
+                        Managers.Object.Despawn(baseController);
+                }
+            }
+        }
+    }
+
+    private void DestroyObjects(string name)
+    {
+        GameObject obj = GameObject.Find(name);
+        if (obj != null)
+        {
+            Managers.Resource.Destroy(obj);
+        }
+    }
 }

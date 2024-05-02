@@ -18,7 +18,7 @@ public class PlayerController : CreatureController
     public float CritDmgRate { get; private set; }
     public float CoolDown { get; private set; }
 
-    private int playerGold = 100;
+    private int playerGold = INITIAL_GOLD;
 
     public int PlayerGold
     {
@@ -73,6 +73,7 @@ public class PlayerController : CreatureController
         AddSkill(22, 2);
         AddSkill(33, 3);
         AddSkill(42, 4);
+        AddSkill(52, 5);
 
         // 보는 방향 정해주는 더미 오브젝트
         GameObject indicatorObject = new GameObject("Indicator");
@@ -215,6 +216,15 @@ public class PlayerController : CreatureController
                 Managers.Object.Despawn(ef);
             }
         }
+        
+        FrozenHeartController[] frozenHearts = FindObjectsOfType<FrozenHeartController>();
+        foreach (FrozenHeartController fh in frozenHearts)
+        {
+            if (fh._owner == this)
+            {
+                Managers.Object.Despawn(fh);
+            }
+        }
 
         foreach (Coroutine coroutine in _skillCoroutines)
         {
@@ -344,6 +354,19 @@ public class PlayerController : CreatureController
                     }
 
                     break;
+                
+                case "FrozenHeart":
+                    int fzProjectileNum = skillData.ProjectileNum;
+                    float fzDistance = 2f;
+                    for (int i = 0; i < fzProjectileNum; i++)
+                    {
+                        float degree = 360f / fzProjectileNum * i;
+                        Vector3 spawnPos = transform.position;
+                        FrozenHeartController fhc = Managers.Object.Spawn<FrozenHeartController>(spawnPos, skillId);
+                        fhc.SetOwner(this);
+                        fhc.InitSkill(skillId, fzDistance, degree);
+                    }
+                    yield break;
             }
         }
     }

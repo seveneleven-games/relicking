@@ -64,6 +64,8 @@ public class DataManager
                 return Managers.Data.SkillDic[templateId].PrefabName;
             case "WindCutterData":
                 return Managers.Data.SkillDic[templateId].PrefabName;
+            case "FrozenHeartData":
+                return Managers.Data.SkillDic[templateId].PrefabName;
             default:
                 return null;
         }

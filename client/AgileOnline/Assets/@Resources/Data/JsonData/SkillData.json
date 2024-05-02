@@ -196,6 +196,45 @@
       "ProjectileNum": 7
     },
     {
+      "SkillId": 51,
+      "NextId": 52,
+      "PrefabName": "FrozenHeart",
+      "Name": "프로즌 하트",
+      "Description": "얼음 빙글빙글",
+      "IconName": "FrozenHeart_icon.sprite",
+      "CoolTime": 1,
+      "Damage": 10,
+      "LifeTime": 150.0,
+      "Speed": 4.0,
+      "ProjectileNum": 3
+    },
+    {
+      "SkillId": 52,
+      "NextId": 53,
+      "PrefabName": "FrozenHeart",
+      "Name": "프로즌 하트",
+      "Description": "얼음 빙글빙글",
+      "IconName": "FrozenHeart_icon.sprite",
+      "CoolTime": 1,
+      "Damage": 10,
+      "LifeTime": 150.0,
+      "Speed": 4.0,
+      "ProjectileNum": 5
+    },
+    {
+      "SkillId": 53,
+      "NextId": 54,
+      "PrefabName": "FrozenHeart",
+      "Name": "프로즌 하트",
+      "Description": "얼음 빙글빙글",
+      "IconName": "FrozenHeart_icon.sprite",
+      "CoolTime": 1,
+      "Damage": 10,
+      "LifeTime": 150.0,
+      "Speed": 4.0,
+      "ProjectileNum": 7
+    },
+    {
       "SkillId": 1000,
       "NextId": 1001,
       "PrefabName": "EliteMonsterProjectile",
