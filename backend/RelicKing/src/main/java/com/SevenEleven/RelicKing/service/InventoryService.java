@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.SevenEleven.RelicKing.dto.model.MemberRelicDTO;
-import com.SevenEleven.RelicKing.dto.request.ChangeRelicRequestDTO;
+import com.SevenEleven.RelicKing.dto.request.RelicChangeRequestDTO;
 import com.SevenEleven.RelicKing.dto.response.InventoryResponseDTO;
 import com.SevenEleven.RelicKing.entity.Member;
 import com.SevenEleven.RelicKing.entity.MemberRelic;
@@ -41,11 +41,11 @@ public class InventoryService {
 		memberRepository.save(member);
 	}
 
-	public void changeRelic(ChangeRelicRequestDTO changeRelicRequestDTO) {
+	public void changeRelic(RelicChangeRequestDTO relicChangeRequestDTO) {
 		Member member = memberRepository.findByMemberId(1).orElseThrow(); // Todo 로그인한 멤버로 변경
 		member.getMemberRelics().forEach(memberRelic -> {
-			if (memberRelic.getSlot() == changeRelicRequestDTO.getSlot()) {
-				memberRelic.changeRelicNo(changeRelicRequestDTO.getRelicNo());
+			if (memberRelic.getSlot() == relicChangeRequestDTO.getSlot()) {
+				memberRelic.changeRelicNo(relicChangeRequestDTO.getRelicNo());
 				memberRelicRepository.save(memberRelic);
 			}
 		});

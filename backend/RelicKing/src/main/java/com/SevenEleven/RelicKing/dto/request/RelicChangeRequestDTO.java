@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ChangeRelicRequestDTO {
+public class RelicChangeRequestDTO {
 
 	@NotNull
 	@PositiveOrZero

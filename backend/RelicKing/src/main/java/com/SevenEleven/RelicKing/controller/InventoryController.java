@@ -1,5 +1,6 @@
 package com.SevenEleven.RelicKing.controller;
 
+import com.SevenEleven.RelicKing.dto.request.ClassChangeRequestDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.SevenEleven.RelicKing.common.response.Response;
-import com.SevenEleven.RelicKing.dto.request.ChangeRelicRequestDTO;
+import com.SevenEleven.RelicKing.dto.request.RelicChangeRequestDTO;
 import com.SevenEleven.RelicKing.dto.response.InventoryResponseDTO;
 import com.SevenEleven.RelicKing.service.InventoryService;
 
@@ -30,14 +31,14 @@ public class InventoryController {
 	}
 
 	@PostMapping("/classes")
-	public Response changeClass(@RequestBody int classNo) {
-		inventoryService.changeClass(classNo);
+	public Response changeClass(@RequestBody ClassChangeRequestDTO classChangeRequestDTO) {
+		inventoryService.changeClass(classChangeRequestDTO.getClassNo());
 		return new Response(HttpStatus.OK.value(), "클래스가 변경되었습니다.", true);
 	}
 
 	@PostMapping("/relics")
-	public Response changeRelic(@RequestBody ChangeRelicRequestDTO changeRelicRequestDTO) {
-		inventoryService.changeRelic(changeRelicRequestDTO);
+	public Response changeRelic(@RequestBody RelicChangeRequestDTO relicChangeRequestDTO) {
+		inventoryService.changeRelic(relicChangeRequestDTO);
 		return new Response(HttpStatus.OK.value(), "유물이 변경되었습니다.", true);
 	}
 
