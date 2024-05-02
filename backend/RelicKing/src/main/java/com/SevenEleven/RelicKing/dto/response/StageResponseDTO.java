@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+import com.SevenEleven.RelicKing.dto.response.model.RelicResponseDTO;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -15,6 +17,6 @@ public class StageResponseDTO {
 
     private int currentClassNo;
 
-    private List<?> relicList;
+    private List<RelicResponseDTO> relicList;
 
 }

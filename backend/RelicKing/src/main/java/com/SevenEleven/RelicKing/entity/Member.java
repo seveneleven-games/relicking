@@ -1,6 +1,7 @@
 package com.SevenEleven.RelicKing.entity;
 
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -16,7 +17,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -80,10 +80,12 @@ public class Member { // Todo 엔티티 빌더 빼고 생성자 만들기, 멤�
 
 	@Column(nullable = false)
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<MemberRelic> memberRelics;
+	@Builder.Default
+	private Set<MemberRelic> memberRelics = new LinkedHashSet<>();
 
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<Record> records;
+	@Builder.Default
+	private Set<Record> records = new LinkedHashSet<>();
 
 	public void changeCurrentClassNo(int classNo) {
 		this.currentClassNo = classNo;
