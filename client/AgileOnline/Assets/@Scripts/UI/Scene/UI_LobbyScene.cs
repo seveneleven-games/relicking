@@ -80,6 +80,7 @@ public class UI_LobbyScene : UI_Scene
     
     public void OnDestroy()
     {
+        StopAllCoroutines();
         if(Managers.Game != null)
             Managers.Game.OnResourcesChanged -= Refresh;
     }

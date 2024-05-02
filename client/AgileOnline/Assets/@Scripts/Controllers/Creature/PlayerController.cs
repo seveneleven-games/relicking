@@ -18,7 +18,7 @@ public class PlayerController : CreatureController
     public float CritDmgRate { get; private set; }
     public float CoolDown { get; private set; }
 
-    private int playerGold = 100;
+    private int playerGold = INITIAL_GOLD;
 
     public int PlayerGold
     {
