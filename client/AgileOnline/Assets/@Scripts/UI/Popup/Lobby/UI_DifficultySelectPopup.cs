@@ -42,8 +42,7 @@ public class UI_DifficultySelectPopup : UI_Popup
     
     // 객체 관련 두는 곳
     
-    // 임시 -> 테스트를 위해
-    int currentDifficulty = 10; 
+    private int _maxDifficulty;
     
     private void Awake()
     {
@@ -64,10 +63,6 @@ public class UI_DifficultySelectPopup : UI_Popup
         BindText(typeof(ETexts));
         BindToggle(typeof(EToggles));
         BindImage(typeof(EImages));
-
-
-        GenerateDifficultyButtons(currentDifficulty);
-        
         
         Refresh();
         
@@ -76,12 +71,21 @@ public class UI_DifficultySelectPopup : UI_Popup
         return true;
     }
 
-    void GenerateDifficultyButtons(int currentDifficulty)
+    // BattlePopup으로 부터 정보 가져오기
+    public void SetMaxDifficulty(int value)
+    {
+        _maxDifficulty = value;
+        Debug.Log(_maxDifficulty);
+        GenerateDifficultyButtons(_maxDifficulty);
+    }
+    
+    
+    
+    void GenerateDifficultyButtons(int maxDifficulty)
     {
         // 현재 난이도가 5보다 작을 경우 대비
-        int startLevel = Mathf.Max(1, currentDifficulty - 5);  // 1 이하로 내려가지 않도록 제한
-        int endLevel = currentDifficulty + 5;
-
+        int startLevel = Mathf.Max(1, maxDifficulty - 5);  // 1 이하로 내려가지 않도록 제한
+        int endLevel = maxDifficulty + 5;
         
         for (int i = endLevel; i >= startLevel; i--)
         {
@@ -91,7 +95,7 @@ public class UI_DifficultySelectPopup : UI_Popup
             newDifficultyButton.GetComponentInChildren<TMP_Text>().text = "Level " + i;
             
             // 현재 난이도라면 색깔 변화
-            if (i == currentDifficulty)
+            if (i == maxDifficulty)
                 newDifficultyButton.GetComponentInChildren<TMP_Text>().color = Util.HexToColor("4C2627");
             
             newDifficultyButton.GetComponent<Button>().onClick.AddListener(() => SelectDifficulty(level));

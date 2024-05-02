@@ -15,14 +15,36 @@ public class LoginDataReq
     public string password;
 }
 
+#region LoginDataRes
+
 [Serializable]
 public class LoginDataRes
 {
     public int status;
     public string message;
-    public bool data;
+    public UserRes data;
 }
 
+[Serializable]
+public class UserRes
+{
+    public string accessToken;
+    public string refreshToken;
+    public int memberId;
+    public string nickname;
+    public StageRes stageRes;
+}
+
+[Serializable]
+public class StageRes
+{
+    public int stage1;
+    public int stage2;
+    public int stage3;
+}
+
+
+#endregion
 
 public class UI_LoginInputPopup : UI_Popup
 {
@@ -154,8 +176,9 @@ public class UI_LoginInputPopup : UI_Popup
             // json -> 객체로 변환
             LoginDataRes loginDataRes = JsonUtility.FromJson<LoginDataRes>(res);
             
+            
             // 성공시 로비로 가기
-            if (loginDataRes.data)
+            if (loginDataRes.data != null && loginDataRes.data.accessToken != null)
             {
                 Managers.Scene.LoadScene(EScene.LobbyScene);
             }

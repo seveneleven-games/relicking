@@ -13,21 +13,6 @@ public class CheckEmailRes
     public bool data;
 }
 
-[Serializable]
-public class SignupDataReq
-{
-    public string email;
-    public string password;
-}
-
-[Serializable]
-public class SignupDataRes
-{
-    public int status;
-    public string message;
-    public bool data;
-}
-
 
 public class UI_SignupInputPopup : UI_Popup
 {
@@ -53,7 +38,9 @@ public class UI_SignupInputPopup : UI_Popup
     
     enum ETexts
     {
-        
+        EmailForm,
+        PasswordForm,
+        CheckPasswordForm,
     }
     
     enum EToggles
@@ -76,6 +63,9 @@ public class UI_SignupInputPopup : UI_Popup
     #endregion
     
     // 객체 관련 두는 곳
+    public string email = "";
+
+    public string password = "";
     
     bool isValidatePassword = false;
 
@@ -119,6 +109,11 @@ public class UI_SignupInputPopup : UI_Popup
         GetInputField((int)EInputFields.PasswordInputField).onValueChanged.AddListener(OnChangePassword);
         GetInputField((int)EInputFields.CheckPasswordInputField).onValueChanged.AddListener(OnChangeCheckPassword);
         
+        
+        // 형식 경고 관련 텍스트
+        GetText((int)ETexts.EmailForm).gameObject.SetActive(false);
+        GetText((int)ETexts.PasswordForm).gameObject.SetActive(false);
+        GetText((int)ETexts.CheckPasswordForm).gameObject.SetActive(false);
         
         #endregion
 
@@ -173,11 +168,17 @@ public class UI_SignupInputPopup : UI_Popup
     
     void OnChangeEmail(string value)
     {
+        // 이메일이 유효하지 않다면
         if (!ValidateEmail(value))
         {
             isValidateEmail = false;
             GetImage((int)EImages.CheckImage).color = Util.HexToColor("525252"); // 체크 버튼 색깔 변경.
-            
+            GetText((int)ETexts.EmailForm).gameObject.SetActive(true);
+        }
+        
+        else
+        {
+            GetText((int)ETexts.EmailForm).gameObject.SetActive(false);
         }
         
         CheckMatch();
@@ -194,6 +195,18 @@ public class UI_SignupInputPopup : UI_Popup
     void OnChangePassword(string value)
     {
         isValidatePassword = ValidatePassword(value);
+
+        // 비밀번호 유효하다면
+        if (isValidatePassword)
+        {
+            GetText((int)ETexts.PasswordForm).gameObject.SetActive(false);
+        }
+        
+        else
+        {
+            GetText((int)ETexts.PasswordForm).gameObject.SetActive(true);
+        }
+        
         CheckMatch();
     }
     
@@ -238,55 +251,28 @@ public class UI_SignupInputPopup : UI_Popup
     {
         string password = GetInputField((int)EInputFields.PasswordInputField).text;
         string confirmPassword = GetInputField((int)EInputFields.CheckPasswordInputField).text;
+        bool passwordsMatch = password == confirmPassword;
 
-        if (password == confirmPassword && isValidatePassword && isValidateEmail)
-        {
-            // 조건 모두 충족 시
-            GetButton((int)EButtons.NextButton).gameObject.SetActive(true);
-            GetButton((int)EButtons.NoNextButton).gameObject.SetActive(false);
-        }
-        else
-        {
-            // 조건 불 충분 시
-            GetButton((int)EButtons.NextButton).gameObject.SetActive(false);
-            GetButton((int)EButtons.NoNextButton).gameObject.SetActive(true);
-        }
+        // 비밀번호 일치 여부에 따른 UI 업데이트
+        GetText((int)ETexts.CheckPasswordForm).gameObject.SetActive(!passwordsMatch);
+
+        // 모든 조건이 충족되는지 확인
+        bool canProceed = passwordsMatch && isValidatePassword && isValidateEmail;
+        GetButton((int)EButtons.NextButton).gameObject.SetActive(canProceed);
+        GetButton((int)EButtons.NoNextButton).gameObject.SetActive(!canProceed);
     }
     
     void OnClickNextButton()
     {
+        email = GetInputField((int)EInputFields.EmailInputField).text;
+        password = GetInputField((int)EInputFields.PasswordInputField).text;
         
-        // 회원가입 객체 만들기
-        SignupDataReq signupData = new SignupDataReq
-        {
-            email = GetInputField((int)EInputFields.EmailInputField).text,
-            password = GetInputField((int)EInputFields.PasswordInputField).text,
-        };
-
-        // 객체 -> Json으로 변환
-        string signupJsonData = JsonUtility.ToJson(signupData);
-
-        // 회원가입 요청 보내기
-        StartCoroutine(PostRequest("members/signup", signupJsonData, res =>
-        {
-           
-            // json -> 객체로 변환
-            SignupDataRes signupDataRes = JsonUtility.FromJson<SignupDataRes>(res);
-            
-            // true면 
-            if (signupDataRes.data)
-            {
-                Managers.UI.ClosePopupUI(this);
-                Managers.UI.ShowPopupUI<UI_NicknamePopup>();
-            }
-            
-        }));
-        
-        // 임시 일단은 맞든 틀리든 가도록 되어있음. -> 생각해보니깐 닉네임까지 다 받고 보내줘야 되나? -> 몰라!!!
-        // 개인적으로 따로 보내는 것이 재사용성 입장에서 좋은 듯
-        // 근데 만약에 닉네임을 안하고 나가버린다면? ->
         Managers.UI.ClosePopupUI(this);
-        Managers.UI.ShowPopupUI<UI_NicknamePopup>();
+        
+        var nicknamePopup = Managers.UI.ShowPopupUI<UI_NicknamePopup>();
+        nicknamePopup.SetInfo(email, password);  // 닉네임 팝업으로 데이터 전달
+        
+        
     }
 }
 

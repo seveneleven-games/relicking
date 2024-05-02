@@ -45,11 +45,11 @@ public class UI_InGamePopup : UI_Popup
 
     void OnBackButtonClick()
     {
-        // 게임 상태 초기화
+        // Managers.Game.InitializeGameData();
         InitializeGameState();
-
         // 리소스 정리
         CleanupResources();
+        
         Managers.Scene.LoadScene(EScene.LobbyScene);
     }
 
