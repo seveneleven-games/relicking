@@ -72,6 +72,7 @@ public class JWTFilter extends OncePerRequestFilter {
 		filterChain.doFilter(request, response);
 	}
 
+	// TODO : toJSonResponse를 통해 에러 반환하는 코드들 throw를 통해 에러 반환하도록 변경하기
 	private void toJsonResponse(HttpServletResponse response, Response customResponse) throws IOException {
 		// content type
 		response.setContentType("application/json");

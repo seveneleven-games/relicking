@@ -60,11 +60,23 @@ public class Member { // Todo 엔티티 빌더 빼고 생성자 만들기, 멤�
 
 	@Builder.Default
 	@Column(nullable = false)
-	private int cumulativeLockTime = 0;
+	private int todayLockTime = 0;
+
+	@Builder.Default
+	@Column(nullable = false)
+	private int yesterdayLockTime = 0;
+
+	@Builder.Default
+	@Column(nullable = false)
+	private int totalLockTime = 0;
 
 	@Builder.Default
 	@Column(nullable = false)
 	private int continuousLockDate = 0;
+
+	@Builder.Default
+	@Column(nullable = false)
+	private int continuousLockDatePrev = 0;
 
 	private LocalDate lastLockDate;
 
@@ -93,5 +105,25 @@ public class Member { // Todo 엔티티 빌더 빼고 생성자 만들기, 멤�
 
 	public void changeGacha(int gacha) {
 		this.gacha = gacha;
+	}
+
+	public void updateTodayLockTime(int todayLockTimeAfterLock) {
+		this.todayLockTime = todayLockTimeAfterLock;
+	}
+
+	public void updateYesterdayLockTime(int yesterdayLockTimeAfterLock) {
+		this.yesterdayLockTime = yesterdayLockTimeAfterLock;
+	}
+
+	public void updateTotalLockTimeAfterLock(int totalLockTimeAfterLock) {
+		this.totalLockTime = totalLockTimeAfterLock;
+	}
+
+	public void updateLastLockDate() {
+		this.lastLockDate = LocalDate.now();
+	}
+
+	public void addContinuousLockDate() {
+		this.continuousLockDate = this.continuousLockDatePrev + 1;
 	}
 }
