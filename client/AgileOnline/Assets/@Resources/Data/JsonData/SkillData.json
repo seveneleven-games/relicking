@@ -157,6 +157,45 @@
       "ProjectileNum": 3
     },
     {
+      "SkillId": 41,
+      "NextId": 42,
+      "PrefabName": "WindCutter",
+      "Name": "윈드 커터",
+      "Description": "바라보는 방향으로 날아갔다가 다시 되돌아오는 투사체를 발사한다",
+      "IconName": "WindCutter_icon.sprite",
+      "CoolTime": 5,
+      "Damage": 10,
+      "LifeTime": 3.0,
+      "Speed": 10.0,
+      "ProjectileNum": 3
+    },
+    {
+      "SkillId": 42,
+      "NextId": 43,
+      "PrefabName": "WindCutter",
+      "Name": "윈드 커터",
+      "Description": "바라보는 방향으로 날아갔다가 다시 되돌아오는 투사체를 발사한다",
+      "IconName": "WindCutter_icon.sprite",
+      "CoolTime": 5,
+      "Damage": 10,
+      "LifeTime": 3.0,
+      "Speed": 10.0,
+      "ProjectileNum": 5
+    },
+    {
+      "SkillId": 43,
+      "NextId": 44,
+      "PrefabName": "WindCutter",
+      "Name": "윈드 커터",
+      "Description": "바라보는 방향으로 날아갔다가 다시 되돌아오는 투사체를 발사한다",
+      "IconName": "WindCutter_icon.sprite",
+      "CoolTime": 5,
+      "Damage": 10,
+      "LifeTime": 3.0,
+      "Speed": 10.0,
+      "ProjectileNum": 7
+    },
+    {
       "SkillId": 1000,
       "NextId": 1001,
       "PrefabName": "EliteMonsterProjectile",

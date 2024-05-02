@@ -60,7 +60,8 @@ public static class Define
         IceArrow,
         ElectronicField,
         PoisonField,
-        EliteMonsterProjectile
+        EliteMonsterProjectile,
+        WindCutter
     }
 
     public enum EJoystickState

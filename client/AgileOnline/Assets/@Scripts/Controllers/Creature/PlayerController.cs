@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Data;
+using Unity.VisualScripting;
 using UnityEngine;
 using static Define;
 
@@ -31,7 +32,7 @@ public class PlayerController : CreatureController
 
     public event Action<List<int>> OnPlayerSkillAdded;
     public List<int> _playerSkillList;
-    
+
     public List<int> PlayerSkillList
     {
         get { return _playerSkillList; }
@@ -41,12 +42,13 @@ public class PlayerController : CreatureController
             _playerSkillList = value;
         }
     }
+
     public List<int> PlayerRelicList { get; private set; }
 
     private Transform _indicator;
 
     private List<Coroutine> _skillCoroutines = new List<Coroutine>();
-    
+
     private bool isSkillsActive = false;
     public bool IsSkillsActive => isSkillsActive;
 
@@ -70,6 +72,7 @@ public class PlayerController : CreatureController
         AddSkill(13, 1);
         AddSkill(22, 2);
         AddSkill(33, 3);
+        AddSkill(42, 4);
 
         // 보는 방향 정해주는 더미 오브젝트
         GameObject indicatorObject = new GameObject("Indicator");
@@ -158,7 +161,7 @@ public class PlayerController : CreatureController
             Debug.Log($"획득한 골드: {goldValue}, 현재 골드 량: {PlayerGold}");
         }
     }
-    
+
     public void UpdateRemainGoldText()
     {
         UI_InGamePopup popup = Managers.UI.GetPopupUI<UI_InGamePopup>();
@@ -187,7 +190,7 @@ public class PlayerController : CreatureController
     public void StartSkills()
     {
         if (isSkillsActive) return;
-        
+
         StopSkills();
 
         foreach (int skillId in PlayerSkillList)
@@ -198,7 +201,7 @@ public class PlayerController : CreatureController
                 _skillCoroutines.Add(skillCoroutine);
             }
         }
-        
+
         isSkillsActive = true;
     }
 
@@ -212,6 +215,7 @@ public class PlayerController : CreatureController
                 Managers.Object.Despawn(ef);
             }
         }
+
         foreach (Coroutine coroutine in _skillCoroutines)
         {
             if (coroutine != null)
@@ -227,7 +231,6 @@ public class PlayerController : CreatureController
         SkillData skillData = Managers.Data.SkillDic[skillId];
         float coolTime = skillData.CoolTime;
         WaitForSeconds coolTimeWait = new WaitForSeconds(skillData.CoolTime);
-        Debug.Log($"CoolTime: {coolTime} seconds");
         while (true)
         {
             yield return coolTimeWait;
@@ -313,6 +316,33 @@ public class PlayerController : CreatureController
 
                         installedPositions.Add(randomPos);
                     }
+
+                    break;
+
+                case "WindCutter":
+
+                    int wcProjectileNum = skillData.ProjectileNum;
+                    float wcSpreadAngle = 30f;
+
+                    for (int i = 0; i < wcProjectileNum; i++)
+                    {
+                        WindCutterController wcc =
+                            Managers.Object.Spawn<WindCutterController>(transform.position, skillId);
+
+                        float angle;
+                        if (wcProjectileNum == 1)
+                            angle = 0f;
+                        else
+                        {
+                            float offsetAngle = (i - (wcProjectileNum - 1) * 0.5f) *
+                                                (wcSpreadAngle / (wcProjectileNum - 1));
+                            angle = offsetAngle * Mathf.Deg2Rad;
+                        }
+
+                        Vector3 moveDirection = Quaternion.Euler(0f, 0f, angle * Mathf.Rad2Deg) * _indicator.up;
+                        wcc.SetMoveDirection(moveDirection);
+                    }
+
                     break;
             }
         }
@@ -329,6 +359,7 @@ public class PlayerController : CreatureController
                 return;
             }
         }
+
         // 배운적 없는 스킬이면 가장 처음으로 빈 슬롯에 넣어줌
         for (int i = 0; i < PlayerSkillList.Count; i++)
         {
@@ -338,6 +369,7 @@ public class PlayerController : CreatureController
                 return;
             }
         }
+
         // 이전에 배운스킬도 아닌데 빈슬롯도없으면 로그에러띄워줌
         Debug.LogError("스킬 넣는게 잘못됐어요");
     }

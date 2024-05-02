@@ -62,6 +62,8 @@ public class DataManager
                 return Managers.Data.SkillDic[templateId].PrefabName;
             case "EliteMonsterProjectileData":
                 return Managers.Data.SkillDic[templateId].PrefabName;
+            case "WindCutterData":
+                return Managers.Data.SkillDic[templateId].PrefabName;
             default:
                 return null;
         }

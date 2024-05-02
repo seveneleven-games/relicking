@@ -15,6 +15,8 @@ public class ObjectManager
     public HashSet<PoisonFieldController> PoisonFields { get; } = new HashSet<PoisonFieldController>();
     public HashSet<EliteMonsterProjectileController> EliteMonsterProjectiles { get; } =
         new HashSet<EliteMonsterProjectileController>();
+
+    public HashSet<WindCutterController> WindCutters { get; } = new HashSet<WindCutterController>();
     
     #region Roots
 
@@ -65,6 +67,11 @@ public class ObjectManager
     public Transform EliteMonsterProjectileRoot
     {
         get { return GetRootTransform("@EliteMonsterProjectile"); }
+    }
+
+    public Transform WindCutterRoot
+    {
+        get { return GetRootTransform("@WindCutter"); }
     }
 
     #endregion
@@ -140,6 +147,13 @@ public class ObjectManager
                     EliteMonsterProjectiles.Add(empc);
                     empc.InitSkill(templateId);
                     break;
+                
+                case ESkillType.WindCutter:
+                    sc.transform.parent = WindCutterRoot;
+                    WindCutterController wcc = sc.GetComponent<WindCutterController>();
+                    WindCutters.Add(wcc);
+                    wcc.InitSkill(templateId);
+                    break;
             }
         }
 
@@ -190,6 +204,11 @@ public class ObjectManager
                 case ESkillType.EliteMonsterProjectile:
                     EliteMonsterProjectileController empc = sc as EliteMonsterProjectileController;
                     EliteMonsterProjectiles.Remove(empc);
+                    break;
+                
+                case ESkillType.WindCutter:
+                    WindCutterController wcc = sc as WindCutterController;
+                    WindCutters.Remove(wcc);
                     break;
             }
         }
