@@ -163,13 +163,12 @@ public class GameScene : BaseScene
 
     private void OnGameClear()
     {
+        StopAllCoroutines();
+        
         _inGame.ClosePopupUI();
         _player.GetComponent<CircleCollider2D>().enabled = false;
         _nodeMap = Managers.UI.ShowPopupUI<UI_NodeMapPopup>();
         _nodeMap.OnEnterNode += StartGame;
-        
-        // 몬스터 스폰 코루틴 중지
-        StopAllCoroutines();
         
         // 플레이어 스킬 중지
         _player.StopSkills();

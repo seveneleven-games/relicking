@@ -2,13 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using Data;
 using UnityEngine;
-using static Define;
 
-public class ElectronicFieldController : SkillController
+public class WindCutterController : SkillController
 {
-    public CreatureController _owner;
-    private float _damageInterval = 0.5f;
-    private float _lastDamageTime;
+    private CreatureController _owner;
     private Vector3 _moveDir;
     
     public int SkillId { get; private set; }
@@ -23,17 +20,12 @@ public class ElectronicFieldController : SkillController
     public float Speed { get; private set; }
     public int ProjectileNum { get; private set; }
     
-    public void SetOwner(CreatureController owner)
-    {
-        _owner = owner;
-    }
-
     public override bool Init()
     {
         if (base.Init() == false)
             return false;
         
-        SkillType = ESkillType.ElectronicField;
+        SkillType = Define.ESkillType.WindCutter;
 
         return true;
     }
@@ -57,30 +49,38 @@ public class ElectronicFieldController : SkillController
         StartDestroy(LifeTime);
     }
     
-    private void Update()
+    public override void UpdateController()
     {
-        if (_owner != null)
-        {
-            transform.position = _owner.transform.position;
-        }
-        
-        if (Time.time - _lastDamageTime >= _damageInterval)
-        {
-            _lastDamageTime = Time.time;
-            DealDamageToNearbyMonsters();
-        }
+        base.UpdateController();
+
+        transform.position += _moveDir * Speed * Time.deltaTime;
     }
     
-    private void DealDamageToNearbyMonsters()
+    public void SetMoveDirection(Vector3 direction)
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, transform.localScale.x / 2f);
-        foreach (Collider2D collider in colliders)
-        {
-            MonsterController monster = collider.GetComponent<MonsterController>();
-            if (monster != null && monster.IsValid())
-            {
-                monster.OnDamaged(_owner, Damage);
-            }
-        }
+        _moveDir = direction.normalized;
+        StartCoroutine(ReverseDirection(1.5f));
+    }
+    
+    private IEnumerator ReverseDirection(float delay)
+    {
+        yield return new WaitForSeconds(delay); // 1.5초 대기
+        _moveDir = -_moveDir; // 방향 반전
+        StartCoroutine(ReverseDirection(1.5f)); // 1.5초 후 다시 방향 반전
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (this.IsValid() == false)
+            return;
+
+        MonsterController monster = collision.gameObject.GetComponent<MonsterController>();
+
+        if (monster.IsValid() == false)
+            return;
+        
+        monster.OnDamaged(_owner, Damage);
+        
+        // Managers.Object.Despawn(this);
     }
 }

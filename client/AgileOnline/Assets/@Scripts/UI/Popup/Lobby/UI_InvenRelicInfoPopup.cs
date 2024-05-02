@@ -8,6 +8,7 @@ public class UI_InvenRelicInfoPopup : UI_Popup
     enum EGameObjects
     {
         ContentObjet,
+        RelicExpSliderObject,
     }
 
     enum EButtons
@@ -28,6 +29,8 @@ public class UI_InvenRelicInfoPopup : UI_Popup
     {
         RelicImage
     }
+
+    TemplateData _templateData;
 
     #endregion
 
@@ -53,6 +56,12 @@ public class UI_InvenRelicInfoPopup : UI_Popup
         GetButton((int)EButtons.ButtonBG).gameObject.BindEvent(OnClickCloseButton);
         GetButton((int)EButtons.ButtonCancel).gameObject.BindEvent(OnClickCloseButton);
         GetButton((int)EButtons.ButtonEquip).gameObject.BindEvent(OnClickEquipButton);
+
+
+        _templateData = Resources.Load<TemplateData>("GameTemplateData");
+        
+        GetText((int)ETexts.RelicNameText).text = Managers.Data.RelicDic[_templateData.SelectedRelicId].Name;
+        GetText((int)ETexts.RelicDescriptionText).text = Managers.Data.RelicDic[_templateData.SelectedRelicId].Description;
 
         #endregion
 

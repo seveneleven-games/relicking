@@ -75,10 +75,12 @@ public class UI_LobbyScene : UI_Scene
     UI_GachaPopup _gachaPopupUI;
     UI_InvenPopup _invenPopupUI;
     UI_RankingPopup _rankingPopupUI;
+    UI_GrowthPopup _growthPopupUI;
     
     
     public void OnDestroy()
     {
+        StopAllCoroutines();
         if(Managers.Game != null)
             Managers.Game.OnResourcesChanged -= Refresh;
     }
@@ -109,6 +111,7 @@ public class UI_LobbyScene : UI_Scene
         _gachaPopupUI = Managers.UI.ShowPopupUI<UI_GachaPopup>();
         _invenPopupUI = Managers.UI.ShowPopupUI<UI_InvenPopup>();
         _rankingPopupUI = Managers.UI.ShowPopupUI<UI_RankingPopup>();
+        _growthPopupUI = Managers.UI.ShowPopupUI<UI_GrowthPopup>();
         
         TogglesInit();
         
@@ -144,6 +147,7 @@ public class UI_LobbyScene : UI_Scene
         _gachaPopupUI.gameObject.SetActive(false);
         _invenPopupUI.gameObject.SetActive(false);
         _rankingPopupUI.gameObject.SetActive(false);
+        _growthPopupUI.gameObject.SetActive(false);
         
         // 선택여부 초기화
         _isSelectedInventory = false;
@@ -229,12 +233,17 @@ public class UI_LobbyScene : UI_Scene
     }
     void OnClickGrowthToggle()
     {
-        GetImage((int)EImages.Backgroundimage).color = Util.HexToColor("525DAD"); // 배경 색상 변경 (변화필요)
+        GetImage((int)EImages.Backgroundimage).color = Util.HexToColor("C48152"); // 배경 색상 변경 
         if (_isSelectedGrowth == true) // 활성화 후 토글 클릭 방지
             return;
         
         // ShowUI
-        _isSelectedGacha = true;
+        ShowUI(_growthPopupUI.gameObject,
+            GetToggle((int)EToggles.GrowthToggle),
+            GetText((int)ETexts.CheckGrowthToggleText),
+            GetObject((int)EGameObjects.CheckGrowthBgImage),
+            GetObject((int)EGameObjects.CheckGrowthImage));
+        _isSelectedGrowth = true;
     }
     void OnClickRankingToggle()
     {
