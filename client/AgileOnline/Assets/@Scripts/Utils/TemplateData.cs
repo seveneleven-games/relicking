@@ -7,7 +7,10 @@ using UnityEngine;
 public class TemplateData : ScriptableObject
 {
     public int[] TemplateIds;
+    public int[] RelicIds;
+    public int StageId;
     public int TempNodeNum = 0;
+    public int playerId = 0;
 
     public event Action<int> OnSelectedClassIdChanged;
     private int selectedClassId = 1;
