@@ -79,6 +79,9 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 		String accessToken = jwtUtil.createJwt("access", email, Constant.ACCESS_TOKEN_EXPIRATION_TIME);
 		String refreshToken = jwtUtil.createJwt("refresh", email, Constant.REFRESH_TOKEN_EXPIRATION_TIME);
 
+		// DB에 저장되어 있는 refresh token 모두 삭제
+		refreshTokenRepository.deleteByEmail(email);
+
 		// Refresh 토큰 저장
 		RefreshToken refreshTokenEntity = RefreshToken.builder()
 			.email(email)
