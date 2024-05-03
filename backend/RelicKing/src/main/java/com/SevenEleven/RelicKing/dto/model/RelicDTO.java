@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RelicDTO {
+public class RelicDTO implements Comparable<RelicDTO> {
 
 	@PositiveOrZero
 	@Builder.Default
@@ -35,4 +35,19 @@ public class RelicDTO {
 			.build();
 	}
 
+	public void changeRelic(int relicNo, int level, int slot) {
+		this.relicNo = relicNo;
+		this.level = level;
+		this.slot = slot;
+	}
+
+	@Override
+	public int compareTo(RelicDTO relicDTO) {
+		if (relicDTO.getSlot() < slot) {
+			return 1;
+		} else if (relicDTO.getSlot() > slot) {
+			return -1;
+		}
+		return 0;
+	}
 }

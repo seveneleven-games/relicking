@@ -32,7 +32,7 @@ public class MemberRelicRepositoryTests {
 
 	@Test
 	public void insertTest() {
-		Member member = memberRepository.findById(1).orElseThrow();
+		Member member = memberRepository.findByMemberId(1).orElseThrow();
 		for (int i = 1; i <= 6; i++ ) {
 			MemberRelic memberRelic = MemberRelic.builder()
 				.member(member)

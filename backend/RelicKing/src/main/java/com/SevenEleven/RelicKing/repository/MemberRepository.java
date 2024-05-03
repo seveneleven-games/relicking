@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.SevenEleven.RelicKing.entity.Member;
 
@@ -13,11 +14,11 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
 
 	@EntityGraph(attributePaths = {"memberRelics", "records"}, type = EntityGraph.EntityGraphType.FETCH)
 	@Query("select m from Member m where m.memberId = :memberId")
-	Optional<Member> findByMemberId(int memberId);
+	Optional<Member> findByMemberId(@Param("memberId") int memberId);
 
 	@EntityGraph(attributePaths = {"memberRelics", "records"}, type = EntityGraph.EntityGraphType.FETCH)
 	@Query("select m from Member m where m.email = :email")
-	Member findByEmail(String email);
+	Member findByEmail(@Param("email") String email);
 
 	Boolean existsByEmail(String email);
 

@@ -14,7 +14,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class RecordRelic {
+public class RecordRelic implements Comparable<RecordRelic> {
 
 	@Column(nullable = false)
 	private int relicNo;
@@ -24,4 +24,20 @@ public class RecordRelic {
 
 	@Column(nullable = false)
 	private int slot;
+
+	public void changeRelic(int relicNo, int level, int slot) {
+		this.relicNo = relicNo;
+		this.level = level;
+		this.slot = slot;
+	}
+
+	@Override
+	public int compareTo(RecordRelic recordRelic) {
+		if (recordRelic.getSlot() < slot) {
+			return 1;
+		} else if (recordRelic.getSlot() > slot) {
+			return -1;
+		}
+		return 0;
+	}
 }
