@@ -73,16 +73,21 @@ public static class Extension
         return result;
     }
 
-    public static int[] RandomSkillList(int length, List<int> skillList)
+    public static int[] RandomSkillList(int length, List<int> skillList, HashSet<int> maxSkillTypes)
     {
         
         int[] result = new int[length];
+        Array.Fill(result, -1);
 
+        int skillType = 0;
+        
         // 딥카피 부분
         List<int> rangePool = new();
         foreach (int skillId  in skillList)
         {
-            rangePool.Add(skillId / 10);
+            skillType = skillId / 10;
+            if(maxSkillTypes.Contains(skillType)) continue;
+            rangePool.Add(skillType);
         }
         
         for (int j = 0; j < length; j++)

@@ -6,8 +6,7 @@ using Random = UnityEngine.Random;
 
 public class UI_StorePopup : UI_Popup
 {
-    public TemplateData _templateData;
-    private PlayerController _player;
+    private PlayerController _player = Managers.Object.Player;
 
     enum GameObjects
     {
@@ -27,15 +26,45 @@ public class UI_StorePopup : UI_Popup
         RerollButton
     }
 
-    private GameObject _skillCardList;
+    // 스킬 카드 관련 변수
+    private GameObject _skillCardParent;
     private SkillCard _skillCard1;
     private SkillCard _skillCard2;
     private SkillCard _skillCard3;
     private List<SkillCard> _skillCards = new();
     
+    private int _skillCardSlot;
+
+    // 스킬 관련 변수
     private int[] _skillTypes = new int[3];
-    private List<int> _skillList;
+    private List<int> _skillList; // GameScene에서 연결해줌 변경될 때 마다 싱크 맞춰줌
     private bool _isSkillPoolFixed = false;
+    
+    private HashSet<int> _maxSkillTypes = new(); 
+    
+    // 골드 관련 변수
+    private int _gold;
+    private int _rerollCost;
+
+    public int Gold
+    {
+        get { return _gold;}
+        set
+        {
+            _gold = value;
+            GetText((int)Texts.RemainGold).text = _gold.ToString();
+        }
+    }
+
+    public int RerollCost
+    {
+        get { return _rerollCost; }
+        set
+        {
+            _rerollCost = value;
+            GetText((int)Texts.RerollCost).text = _rerollCost.ToString();
+        }
+    }
     
     public override bool Init()
     {
@@ -47,35 +76,36 @@ public class UI_StorePopup : UI_Popup
         BindButton(typeof(Buttons));
 
         // 초기 비용 설정
-        GetText((int)Texts.RemainGold).text = Define.INITIAL_GOLD.ToString();
-        GetText((int)Texts.RerollCost).text = Define.INITIAL_REROLL_COST.ToString();
+        Gold = _player.PlayerGold;
+        RerollCost = Define.INITIAL_REROLL_COST;
         
         // 버튼 함수 바인딩
         GetButton((int)Buttons.RerollButton).gameObject.BindEvent(Reroll);
         GetButton((int)Buttons.SettingButton).gameObject.BindEvent(ShowSettingPopup);
         GetButton((int)Buttons.ExitButton).gameObject.BindEvent(Exit);
 
-
-        _skillCardList = GetObject((int)GameObjects.StoreSkillCardList);
-        _skillCardList.gameObject.DestroyChilds();
-        _skillTypes = Extension.RandomIntList(3, 0, Define.TOTAL_PLAYER_SKILL_NUMBER);
+        // 현재 플레이어의 스킬 정보 가져오기
+        DataSync(_player.PlayerSkillList);
         
-        _skillCard1 = Managers.Resource.Instantiate("SkillCard", _skillCardList.transform).GetComponent<SkillCard>();
-        _skillCard2 = Managers.Resource.Instantiate("SkillCard", _skillCardList.transform).GetComponent<SkillCard>();
-        _skillCard3 = Managers.Resource.Instantiate("SkillCard", _skillCardList.transform).GetComponent<SkillCard>();
+        // 슬롯 개수 적용 : 일단 보류
+        
+        _skillCardParent = GetObject((int)GameObjects.StoreSkillCardList);
+        _skillCardParent.gameObject.DestroyChilds();
+        
+        _skillCard1 = Managers.Resource.Instantiate("SkillCard", _skillCardParent.transform).GetComponent<SkillCard>();
+        _skillCard2 = Managers.Resource.Instantiate("SkillCard", _skillCardParent.transform).GetComponent<SkillCard>();
+        _skillCard3 = Managers.Resource.Instantiate("SkillCard", _skillCardParent.transform).GetComponent<SkillCard>();
         _skillCards.Add(_skillCard1);
         _skillCards.Add(_skillCard2);
         _skillCards.Add(_skillCard3);
-
-        for (int i = 0; i < 3; i++)
-        {
-            _skillCards[i].Init();
-            _skillCards[i].SkillId = _skillTypes[i] * 10 + 1;
-        }
         
         _skillCard1.gameObject.BindEvent(()=>BuySkill(_skillCard1));
         _skillCard2.gameObject.BindEvent(()=>BuySkill(_skillCard2));
         _skillCard3.gameObject.BindEvent(()=>BuySkill(_skillCard3));
+        
+        for (int i = 0; i < 3; i++) _skillCards[i].Init();
+        
+        Reroll();
         
         return true;
     }
@@ -85,7 +115,7 @@ public class UI_StorePopup : UI_Popup
     int[] GetRandomSkillIdList(int length)
     {
         return _isSkillPoolFixed ? 
-            Extension.RandomSkillList(length, _skillList) : 
+            Extension.RandomSkillList(length, _skillList, _maxSkillTypes) : 
             Extension.RandomIntList(length, 0, Define.TOTAL_PLAYER_SKILL_NUMBER);
     }
     
@@ -94,12 +124,18 @@ public class UI_StorePopup : UI_Popup
         //todo(전지환) : 스킬 구매 정보 반영 로직 필요
         /*
          * 1. 스킬 카드 리롤 (이건 스킬카드 클래스에서)
-         *  : 단 현재 상품 탭에 떠있는 스킬이 떠서는 안 됨
-         * 2. 소지금액에서 가격을 제함 (소지금액이 더 작으면 구매 불가)
-         * 3. 스킬 반영
-         * 4. 반영된 스킬 정보 가져올 것
+         *  : 단 현재 상품 탭에 떠있는 스킬이 떠서는 안 됨 [O]
+         *  : 스킬을 3개 미만으로 받아와야 하는 상황에는 스킬 카드를 디폴트로 랜더링 할 수 있도록 함
+         *      (그리고 클릭 이벤트는 모두 비활성화)
          */
-        Debug.Log($"{skill.SkillId}, {_skillCards.IndexOf(skill)}");
+        Debug.Log($"구매 스킬 : {Managers.Data.SkillDic[skill.SkillId].Name} {Managers.Data.SkillDic[skill.SkillId].SkillId % 10}Lv, " +
+                  $"구매 클릭 슬롯 번호 : {_skillCards.IndexOf(skill) + 1}번");
+
+        if (Gold < Define.TEST_SKILL_COST)
+        {
+            Debug.Log("소유한 골드가 적어 구매할 수 없어요!");
+            return;
+        }
 
         int selectedCardIdx = _skillCards.IndexOf(skill);
         
@@ -133,35 +169,68 @@ public class UI_StorePopup : UI_Popup
             };
         }
         
-        //step2. 스킬 레벨 받아오기
+        //todo(전지환) : 최대 레벨이면 스킬풀에서 제거하는 로직 필요!
+        //분기처리. 만약 스킬 타입이 -1(더 이상 반환할 수 있는 스킬이 없음)이라면..?
+        if (fixedSkillType == -1)
+        {
+            skill.RefreshNull();
+        }
+        else // 아니라면 리롤 진행
+        {
+            int nowLevel = GetNowLevel(fixedSkillType);
+            skill.Refresh(fixedSkillType*10 + nowLevel + 1);
+        }
+        
+        //step2. 스킬 레벨 받아오기 -> 함수화 (여러번 씀)
+        
+
+        //todo(전지환) : 스킬 데이터에 맞는 코스트로 빼주기
+        _player.PlayerGold -= Define.TEST_SKILL_COST;
+        Gold -= Define.TEST_SKILL_COST;
+        
+        
+    }
+
+    int GetNowLevel(int skillType)
+    {
         int nowLevel = 0;
+        
         foreach (int skillId in _skillList)
         {
-            if (skillId != 0 && skillId / 10 == fixedSkillType)
+            if (skillId != 0 && skillId / 10 == skillType)
             {
                 nowLevel = skillId % 10;
                 break;
             }
         }
-        
-        //todo(전지환) : 지금은 스킬 데이터 문제로 현재 레벨 반환, +1 필요
-        skill.Refresh(fixedSkillType*10 + nowLevel);
-        _player = Managers.Object.Player;
-        _player.UpdateRemainGoldText();
-    }
 
+        return nowLevel;
+    }
+    
     
     void Reroll()
     {
         //todo(전지환) : 돈이 모자라면 안 돌아가게 만들어야 할 것.
+        if (Gold < RerollCost)
+        {
+            Debug.Log("소유한 골드가 적어 리롤 칠 수가 없어요!");
+            return;
+        }
 
         _skillTypes = GetRandomSkillIdList(3);
         
         // 스킬 정보에 따라서 더해주는 값을 바꾸어 줘야 할 것.
-        _skillCard1.SkillId = _skillTypes[0] * 10 + Define.MY_SKILL_LEVEL + 1;
-        _skillCard2.SkillId = _skillTypes[1] * 10 + Define.MY_SKILL_LEVEL + 1;
-        _skillCard3.SkillId = _skillTypes[2] * 10 + Define.MY_SKILL_LEVEL + 1;
-        
+        for (int i = 0; i < 3; i++)
+        {
+            if (_skillTypes[i] == -1)
+                _skillCards[i].RefreshNull();
+            else
+                _skillCards[i].SkillId = _skillTypes[i] * 10 + GetNowLevel(_skillTypes[i]) + 1;
+
+        }
+
+        Gold -= RerollCost;
+        RerollCost += 5;
     }
 
     void ShowSettingPopup()
@@ -180,11 +249,26 @@ public class UI_StorePopup : UI_Popup
     public void DataSync(List<int> skillList)
     {
         _skillList = skillList;
+        int count = 0;
+        
+        // 빈 스킬 슬롯 확인
+        foreach (int skillId in _skillList)
+        {
+            if (skillId != 0) count++;
+        }
         
         // skillPool 관리
-        if (!_isSkillPoolFixed && skillList.Count >= 6)
+        if (!_isSkillPoolFixed && count >= 6)
         {
             _isSkillPoolFixed = true;
+            Debug.Log($"여섯개 꽉 참!! 굿 ㅋㅋ {_isSkillPoolFixed} <== 이거보셈 ㅋㅋㅋ");
+        }
+        
+        // max level 스킬 관리
+        foreach (int skillId in _skillList)
+        {
+            if (skillId != 0 && Managers.Data.SkillDic[skillId].NextId == -1)
+                _maxSkillTypes.Add(skillId / 10);
         }
         
     }

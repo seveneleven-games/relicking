@@ -6,9 +6,15 @@ using UnityEngine;
 
 public class SkillCard : UI_Base
 {
+    enum GameObjects
+    {
+        SkillLv,
+    }
+    
     enum Images
     {
         SkillImage,
+        SkillCostSymbol
     }
 
     enum Texts
@@ -38,9 +44,9 @@ public class SkillCard : UI_Base
         if (base.Init() == false)
             return false;
         
+        BindObject(typeof(GameObjects));
         BindText(typeof(Texts));
         BindImage(typeof(Images));
-
         OnSkillIdChanged += Refresh;
         
         return true;
@@ -57,5 +63,17 @@ public class SkillCard : UI_Base
         //todo(전지환) : 스킬 코스트를 각 스킬 별로 설정해주어야 할 것.
         GetText((int)Texts.SkillCost).text = Define.TEST_SKILL_COST.ToString();
         GetImage((int)Images.SkillImage).sprite = Managers.Resource.Load<Sprite>(data.IconName);
+    }
+
+    public void RefreshNull()
+    {
+        GetText((int)Texts.SkillName).gameObject.SetActive(false);
+        GetObject((int)GameObjects.SkillLv).gameObject.SetActive(false);
+        GetText((int)Texts.SkillInfo).text = "SOLD OUT!";
+        GetText((int)Texts.SkillInfo).color = new Color(0.7f, 0.1f, 0.0f, 1.0f);
+        
+        //todo(전지환) : 스킬 코스트를 각 스킬 별로 설정해주어야 할 것.
+        GetText((int)Texts.SkillCost).gameObject.SetActive(false);
+        GetImage((int)Images.SkillImage).gameObject.SetActive(false);
     }
 }

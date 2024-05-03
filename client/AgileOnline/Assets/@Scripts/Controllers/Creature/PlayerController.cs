@@ -18,7 +18,7 @@ public class PlayerController : CreatureController
     public float CritDmgRate { get; private set; }
     public float CoolDown { get; private set; }
 
-    private int playerGold = 100;
+    private int playerGold = Define.INITIAL_GOLD;
 
     public int PlayerGold
     {
@@ -68,12 +68,12 @@ public class PlayerController : CreatureController
         PlayerSkillList = new List<int>(new int[6]);
         PlayerRelicList = new List<int>(new int[6]);
 
-        AddSkill(3, 0);
-        AddSkill(13, 1);
-        AddSkill(22, 2);
-        AddSkill(33, 3);
-        AddSkill(42, 4);
-        AddSkill(52, 5);
+        // AddSkill(3, 0);
+        // AddSkill(13, 1);
+        // AddSkill(22, 2);
+        // AddSkill(33, 3);
+        // AddSkill(42, 4);
+        // AddSkill(52, 5);
 
         // 보는 방향 정해주는 더미 오브젝트
         GameObject indicatorObject = new GameObject("Indicator");

@@ -35,12 +35,6 @@ public class GameScene : BaseScene
 
         SceneType = EScene.GameScene;
 
-        _nodeMap = Managers.UI.ShowPopupUI<UI_NodeMapPopup>();
-        _nodeMap.OnEnterNode += StartGame;
-        _store = Managers.UI.ShowPopupUI<UI_StorePopup>();
-        _store.OnSkillCardClick += BuySkill;
-        // _inGame = Managers.UI.ShowPopupUI<UI_InGamePopup>();
-
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
         _classId = _templateData.TemplateIds[1];
 
@@ -49,9 +43,18 @@ public class GameScene : BaseScene
         CameraController camera = Camera.main.GetOrAddComponent<CameraController>();
         camera.Target = _player;
         
-        //스킬 정보 보내주는거 추가
+        _nodeMap = Managers.UI.ShowPopupUI<UI_NodeMapPopup>();
+        _nodeMap.OnEnterNode += StartGame;
+        
+        _store = Managers.UI.ShowPopupUI<UI_StorePopup>();
+        _store.OnSkillCardClick += BuySkill;
         _store.DataSync(_player.PlayerSkillList);
         _player.OnPlayerSkillAdded += _store.DataSync;
+        
+        // _inGame = Managers.UI.ShowPopupUI<UI_InGamePopup>();
+        
+        //스킬 정보 보내주는거 추가
+        
         
         GameObject joystickObject = Managers.Resource.Instantiate("UI_Joystick");
         joystickObject.name = "@UI_Joystick";
