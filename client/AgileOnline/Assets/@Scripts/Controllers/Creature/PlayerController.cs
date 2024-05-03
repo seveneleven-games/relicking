@@ -83,6 +83,8 @@ public class PlayerController : CreatureController
         _indicator = indicatorObject.transform;
 
         StartSkills();
+        
+        DontDestroyOnLoad(this);
 
         return true;
     }

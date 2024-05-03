@@ -42,9 +42,10 @@ public class GameScene : BaseScene
         // _inGame = Managers.UI.ShowPopupUI<UI_InGamePopup>();
 
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
-        _classId = _templateData.TemplateIds[1];
+        _classId = _templateData.playerId;
+        
+        _player = Managers.Object.CreatePlayer(_classId);
 
-        _player = Managers.Object.Spawn<PlayerController>(Vector3.zero, _classId);
         _player.StopSkills();
         CameraController camera = Camera.main.GetOrAddComponent<CameraController>();
         camera.Target = _player;

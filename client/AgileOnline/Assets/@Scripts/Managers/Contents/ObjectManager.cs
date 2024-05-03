@@ -81,13 +81,25 @@ public class ObjectManager
     }
 
     #endregion
+    
+    public PlayerController CreatePlayer(int templateId)
+    {
+        string prefabName = Managers.Data.PlayerDic[templateId].PrefabName;
+        GameObject go = Managers.Resource.Instantiate(prefabName);
+        go.name = prefabName;
+        go.transform.position = Vector3.zero;
+
+        PlayerController pc = go.GetComponent<PlayerController>();
+        Player = pc;
+        pc.InitPlayer(templateId);
+
+        return pc;
+    }
 
     public T Spawn<T>(Vector3 position, int templateId) where T : BaseController
     {
         string dataType = typeof(T).Name.Replace("Controller", "Data");
-        Debug.Log(dataType);
-        string prefabName = Managers.Data.GetData<T>(dataType, templateId);
-        Debug.Log(prefabName);
+        string prefabName = Managers.Data.GetData<T>(dataType, templateId); ;
         GameObject go = Managers.Resource.Instantiate(prefabName, pooling: true);
         go.name = prefabName;
         go.transform.position = position;
