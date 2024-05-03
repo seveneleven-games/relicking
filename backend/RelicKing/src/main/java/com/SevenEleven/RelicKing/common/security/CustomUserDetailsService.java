@@ -27,6 +27,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 			return new CustomUserDetails(findMember);
 		}
 
-		throw new CustomException(ExceptionType.MEMBER_NOT_FOUND);
+		throw new UsernameNotFoundException(ExceptionType.MEMBER_NOT_FOUND.getMessage());
 	}
 }
