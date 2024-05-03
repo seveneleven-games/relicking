@@ -166,6 +166,12 @@ public class MemberService {
 
 	}
 
+	@Transactional
+	public void logout(Member member) {
+
+		refreshTokenRepository.deleteByEmail(member.getEmail());
+	}
+
 	@Transactional(readOnly = true)
 	public Response checkEmailForDuplicates(String email) {
 		boolean isDuplicate = memberRepository.existsByEmail(email);
