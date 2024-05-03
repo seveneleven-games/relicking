@@ -6,11 +6,16 @@ using UnityEngine;
 using UnityEngine.Networking;
 using static Define;
 
-
+[Serializable]
+public class DataRes
+{
+    public int status;
+    public string message;
+    public bool data;
+}
 
 public static class Util
 {
-    
     
     public static T GetOrAddComponent<T>(GameObject go) where T : Component
     {
@@ -73,8 +78,9 @@ public static class Util
 
         return parsedColor;
     }
-    
-    
+
+    #region 일반 웹 통신
+
     // Get (json 형식으로)
     public static IEnumerator GetRequest(string uri, Action<string> callback)
     {
@@ -154,5 +160,127 @@ public static class Util
             }
         }
     }
+
+    #endregion
+
+    #region JWT 통신
+
+    
+
+    
+    // 토큰 재발급 요청
+    private static IEnumerator RequestNewToken()
+    {
+        string tokenUri = BASE_URI + "members/reissue";
+
+        string refreshToken = Managers.Game.RefreshToken;
+        
+        string jsonData = JsonUtility.ToJson(new { refreshToken = refreshToken });
+
+        using (UnityWebRequest webRequest = new UnityWebRequest(BASE_URI + tokenUri, "POST"))
+        {
+            byte[] jsonToSend = new UTF8Encoding().GetBytes(jsonData);
+            webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
+            webRequest.downloadHandler = new DownloadHandlerBuffer();
+            webRequest.SetRequestHeader("Content-Type", "application/json");
+
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.Success)
+            {
+                // 토큰 파싱
+                Managers.Game.AccessToken = webRequest.downloadHandler.text;
+            }
+            else
+            {
+                Debug.LogError("Token request failed: " + webRequest.error);
+            }
+        }
+    }
+
+    public static IEnumerator JWTGetRequest(string uri, Action<string> callback)
+    {
+        Debug.Log("여기 들어오니???1");
+
+        string finalUri = BASE_URI + uri;
+
+        string accessToken = Managers.Game.AccessToken;
+        
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(finalUri))
+        {
+            webRequest.SetRequestHeader("Authorization", "Bearer " + accessToken);
+            
+            Debug.Log("여기 들어오니???2");
+            
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.ConnectionError || 
+                webRequest.result == UnityWebRequest.Result.ProtocolError)
+            {
+                
+                
+                Debug.LogError(webRequest.error);
+                
+                // json -> 객체로 변환
+                DataRes dataRes = JsonUtility.FromJson<DataRes>(webRequest.downloadHandler.text);
+                
+                // 토큰이 만료되었다면?
+                if (dataRes.message == "JWT가 만료되었습니다.") 
+                {
+                    yield return RequestNewToken(); // 토큰 재발급 요청
+                    yield return JWTGetRequest(uri, callback); // 요청 재시도
+                }
+            }
+            else
+            {
+                Debug.Log(webRequest.downloadHandler.text);
+                callback(webRequest.downloadHandler.text);
+            }
+        }
+    }
+
+public static IEnumerator JWTPostRequest(string uri, string jsonData, Action<string> callback)
+{
+    string finalUri = BASE_URI + uri;
+    
+    string accessToken = Managers.Game.AccessToken;
+    
+    using (UnityWebRequest webRequest = new UnityWebRequest(finalUri, "POST"))
+    {
+        byte[] jsonToSend = new UTF8Encoding().GetBytes(jsonData);
+        webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
+        webRequest.downloadHandler = new DownloadHandlerBuffer();
+        webRequest.SetRequestHeader("Content-Type", "application/json");
+        webRequest.SetRequestHeader("Authorization", "Bearer " + accessToken);
+
+        yield return webRequest.SendWebRequest();
+
+        if (webRequest.result == UnityWebRequest.Result.ConnectionError || 
+            webRequest.result == UnityWebRequest.Result.ProtocolError)
+        {
+            Debug.LogError(webRequest.error);
+            Debug.LogError($"Server Response: {webRequest.downloadHandler.text}");
+            
+            // json -> 객체로 변환
+            DataRes dataRes = JsonUtility.FromJson<DataRes>(webRequest.downloadHandler.text);
+            
+            // 토큰이 완료되었다면?
+            if (dataRes.message == "JWT가 만료되었습니다.") 
+            {
+                yield return RequestNewToken(); // 토큰 재발급 요청
+                yield return JWTPostRequest(uri, jsonData, callback); // 요청 재시도
+            }
+        }
+        else
+        {
+            Debug.Log("Received: " + webRequest.downloadHandler.text);
+            callback(webRequest.downloadHandler.text);
+        }
+    }
+}
+
+    #endregion
+    
+    
     
 }
