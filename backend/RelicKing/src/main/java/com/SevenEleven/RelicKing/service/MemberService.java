@@ -172,6 +172,26 @@ public class MemberService {
 		refreshTokenRepository.deleteByEmail(member.getEmail());
 	}
 
+	@Transactional
+	public void updateNickname(Member member, String newNickname) {
+
+		// 이미 존재하는 닉네임일 경우 예외 처리
+		if (memberRepository.existsByNickname(newNickname)) {
+			throw new CustomException(ExceptionType.NICKNAME_ALREADY_EXISTS);
+		}
+
+		member.updateNickname(newNickname);
+		memberRepository.save(member);
+	}
+
+	@Transactional
+	public void updatePassword(Member member, String newPassword) {
+
+		String newEncryptedPassword = bCryptPasswordEncoder.encode(newPassword);
+		member.updatePassword(newEncryptedPassword);
+		memberRepository.save(member);
+	}
+
 	@Transactional(readOnly = true)
 	public Response checkEmailForDuplicates(String email) {
 		boolean isDuplicate = memberRepository.existsByEmail(email);
