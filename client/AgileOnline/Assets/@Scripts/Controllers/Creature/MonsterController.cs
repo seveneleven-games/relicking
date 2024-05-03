@@ -60,6 +60,7 @@ public class MonsterController : CreatureController
         else if (MonsterType == 2)
         {
             MonsterSkillList[0] = 1000;
+            transform.localScale = new Vector3(3, 3, 1);
         }
     }
 
@@ -84,6 +85,7 @@ public class MonsterController : CreatureController
     private void ChasePlayer()
     {
         Vector3 dir = (_player.transform.position - transform.position).normalized;
+        CreatureState = ECreatureState.Move;
         TranslateEx(dir * Time.deltaTime * Speed);
     }
 

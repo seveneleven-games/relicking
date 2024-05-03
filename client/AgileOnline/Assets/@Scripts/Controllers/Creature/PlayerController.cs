@@ -108,6 +108,7 @@ public class PlayerController : CreatureController
     private void Update()
     {
         Vector3 dir = _moveDir * Time.deltaTime * Speed;
+        
         transform.TranslateEx(dir);
 
         if (_moveDir != Vector2.zero)
@@ -241,7 +242,6 @@ public class PlayerController : CreatureController
     IEnumerator CoStartSkill(int skillId)
     {
         SkillData skillData = Managers.Data.SkillDic[skillId];
-        float coolTime = skillData.CoolTime;
         WaitForSeconds coolTimeWait = new WaitForSeconds(skillData.CoolTime);
         while (true)
         {

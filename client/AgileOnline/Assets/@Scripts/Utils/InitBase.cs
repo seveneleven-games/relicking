@@ -5,6 +5,7 @@ using UnityEngine;
 public class InitBase : MonoBehaviour
 {
     protected bool _init = false;
+    protected Vector3 _initialScale;
 
     public virtual bool Init()
     {
@@ -12,6 +13,7 @@ public class InitBase : MonoBehaviour
             return false;
 
         _init = true;
+        _initialScale = transform.localScale;
         return true;
     }
 
