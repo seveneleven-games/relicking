@@ -184,6 +184,14 @@ public class MemberService {
 		memberRepository.save(member);
 	}
 
+	@Transactional
+	public void updatePassword(Member member, String newPassword) {
+
+		String newEncryptedPassword = bCryptPasswordEncoder.encode(newPassword);
+		member.updatePassword(newEncryptedPassword);
+		memberRepository.save(member);
+	}
+
 	@Transactional(readOnly = true)
 	public Response checkEmailForDuplicates(String email) {
 		boolean isDuplicate = memberRepository.existsByEmail(email);

@@ -130,4 +130,8 @@ public class Member { // Todo 엔티티 빌더 빼고 생성자 만들기, 멤�
 	public void updateNickname(String newNickname) {
 		this.nickname = newNickname;
 	}
+
+	public void updatePassword(String newEncryptedPassword) {
+		this.password = newEncryptedPassword;
+	}
 }

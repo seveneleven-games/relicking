@@ -16,6 +16,7 @@ import com.SevenEleven.RelicKing.common.security.CustomUserDetails;
 import com.SevenEleven.RelicKing.dto.request.ReissueRequestDto;
 import com.SevenEleven.RelicKing.dto.request.SignUpRequestDto;
 import com.SevenEleven.RelicKing.dto.request.UpdateNicknameRequestDto;
+import com.SevenEleven.RelicKing.dto.request.UpdatePasswordRequestDto;
 import com.SevenEleven.RelicKing.dto.response.ReissueResponseDto;
 import com.SevenEleven.RelicKing.service.MemberService;
 
@@ -79,7 +80,7 @@ public class MemberController {
 
 	@Operation(
 		summary = "닉네임 변경",
-		description = "사용자의 닉네임을 변경합니다. 이미 사용 중인 닉네임으로는 변경할 수 없습니다."
+		description = "사용자의 닉네임을 변경합니다. 이미 사용 중인 닉네임으로는 변경할 수 없습니다. (영문, 숫자, 특수문자로 12자 이내)"
 	)
 	@ApiResponse(
 		responseCode = "200", description = "닉네임 변경 성공",
@@ -89,6 +90,20 @@ public class MemberController {
 	public Response updateNickname(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody @Valid UpdateNicknameRequestDto dto) {
 		memberService.updateNickname(customUserDetails.getMember(), dto.getNickname());
 		return new Response(HttpStatus.OK.value(), "닉네임이 변경되었습니다.", true);
+	}
+
+	@Operation(
+		summary = "비밀번호 변경",
+		description = "사용자의 비밀번호를 변경합니다. (영문, 숫자, 특수문자 각각 하나 이상 포함하여 8~16자)"
+	)
+	@ApiResponse(
+		responseCode = "200", description = "비밀번호 변경 성공",
+		content = @Content(schema = @Schema(implementation = boolean.class))
+	)
+	@PatchMapping("/password")
+	public Response updatePassword(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody @Valid UpdatePasswordRequestDto dto) {
+		memberService.updatePassword(customUserDetails.getMember(), dto.getPassword());
+		return new Response(HttpStatus.OK.value(), "비밀번호가 변경되었습니다.", true);
 	}
 
 	@Operation(
