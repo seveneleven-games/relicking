@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +17,7 @@ import com.SevenEleven.RelicKing.common.response.Response;
 import com.SevenEleven.RelicKing.common.security.JWTUtil;
 import com.SevenEleven.RelicKing.dto.request.SignUpRequestDto;
 import com.SevenEleven.RelicKing.dto.response.LoginResponseDTO;
+import com.SevenEleven.RelicKing.dto.response.ReissueResponseDto;
 import com.SevenEleven.RelicKing.dto.response.model.StageDifficultyDTO;
 import com.SevenEleven.RelicKing.entity.Member;
 import com.SevenEleven.RelicKing.entity.Record;
@@ -27,11 +27,13 @@ import com.SevenEleven.RelicKing.repository.RecordRepository;
 import com.SevenEleven.RelicKing.repository.RefreshTokenRepository;
 
 import io.jsonwebtoken.ExpiredJwtException;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.SecurityException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -62,38 +64,44 @@ public class MemberService {
 	}
 
 	@Transactional
-	public ResponseEntity<?> reissue(HttpServletRequest request, HttpServletResponse response) {
-		// get refresh token
-		String refreshToken = null;
-		Cookie[] cookies = request.getCookies();
-		for (Cookie cookie : cookies) {
-			if (cookie.getName().equals("refreshToken")) {
-				refreshToken = cookie.getValue();
-			}
-		}
+	public ReissueResponseDto reissue(String refreshToken) {
 
-		if (refreshToken == null) {
-			return new ResponseEntity<>("refresh token expired", HttpStatus.BAD_REQUEST);
-		}
-
-		// expired check
+		// 정상적인 토큰인지 확인과 함께 토큰 만료 여부 확인
 		try {
 			jwtUtil.isExpired(refreshToken);
+		} catch (SecurityException | MalformedJwtException e) {
+			ExceptionType exceptionType = ExceptionType.INVALID_JWT;
+			log.info(exceptionType.getMessage());
+			throw new CustomException(exceptionType);
+		} catch (UnsupportedJwtException e) {
+			ExceptionType exceptionType = ExceptionType.UNSUPPORTED_JWT;
+			log.info(exceptionType.getMessage());
+			throw new CustomException(exceptionType);
+		} catch (IllegalArgumentException e) {
+			ExceptionType exceptionType = ExceptionType.JWT_CLAIMS_IS_EMPTY;
+			log.info(exceptionType.getMessage());
+			throw new CustomException(exceptionType);
 		} catch (ExpiredJwtException e) {
-			return new ResponseEntity<>("refresh token expired", HttpStatus.BAD_REQUEST);
+			ExceptionType exceptionType = ExceptionType.EXPIRED_JWT;
+			log.info(exceptionType.getMessage());
+			throw new CustomException(exceptionType);
 		}
 
-		// 토큰의 category가 refresh인지 확인
+		// 토큰이 refresh인지 확인 (발급시 페이로드에 명시)
 		String category = jwtUtil.getCategory(refreshToken);
 
 		if (!category.equals("refresh")) {
-			return new ResponseEntity<>("invalid refresh token", HttpStatus.BAD_REQUEST);
+			ExceptionType exceptionType = ExceptionType.NOT_REFRESH_TOKEN;
+			log.info(exceptionType.getMessage());
+			throw new CustomException(exceptionType);
 		}
 
 		// DB에 저장되어 있는지 확인
 		Boolean isExist = refreshTokenRepository.existsByRefreshToken(refreshToken);
 		if (!isExist) {
-			return new ResponseEntity<>("invalid refresh token", HttpStatus.BAD_REQUEST);
+			ExceptionType exceptionType = ExceptionType.INVALID_JWT;
+			log.info(exceptionType.getMessage());
+			throw new CustomException(exceptionType);
 		}
 
 		// JWT 생성
@@ -101,8 +109,8 @@ public class MemberService {
 		String newAccessToken = jwtUtil.createJwt("access", email, Constant.ACCESS_TOKEN_EXPIRATION_TIME);
 		String newRefreshToken = jwtUtil.createJwt("refresh", email, Constant.REFRESH_TOKEN_EXPIRATION_TIME);    // Refresh Token Rotation
 
-		// 기존 Refresh 토큰 삭제
-		refreshTokenRepository.deleteByRefreshToken(refreshToken);
+		// DB에 저장되어 있는 refresh token 모두 삭제
+		refreshTokenRepository.deleteByEmail(email);
 
 		// 새 Refresh 토큰 저장
 		RefreshToken refreshTokenEntity = RefreshToken.builder()
@@ -113,20 +121,10 @@ public class MemberService {
 		refreshTokenRepository.save(refreshTokenEntity);
 
 		// response
-		response.setHeader("accessToken", Constant.ACCESS_TOKEN_PREFIX + newAccessToken);
-		response.addCookie(createCookie("refreshToken", newRefreshToken));
-
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
-
-	// TODO : 없애기
-	private Cookie createCookie(String key, String value) {
-		Cookie cookie = new Cookie(key, value);
-		cookie.setMaxAge(24 * 60 * 60);
-		cookie.setSecure(true);
-		cookie.setHttpOnly(true);
-
-		return cookie;
+		return ReissueResponseDto.builder()
+			.accessToken(newAccessToken)
+			.refreshToken(newRefreshToken)
+			.build();
 	}
 
 	@Transactional(readOnly = true)

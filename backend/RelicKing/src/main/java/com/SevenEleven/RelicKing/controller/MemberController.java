@@ -1,7 +1,6 @@
 package com.SevenEleven.RelicKing.controller;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.SevenEleven.RelicKing.common.response.Response;
+import com.SevenEleven.RelicKing.dto.request.ReissueRequestDto;
 import com.SevenEleven.RelicKing.dto.request.SignUpRequestDto;
+import com.SevenEleven.RelicKing.dto.response.ReissueResponseDto;
 import com.SevenEleven.RelicKing.service.MemberService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,8 +19,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -50,10 +49,14 @@ public class MemberController {
 		summary = "access token 재발급",
 		description = "refresh token을 활용하여 access token 및 refresh token을 재발급 받습니다."
 	)
-	@ApiResponse(responseCode = "200", description = "access token 및 refresh token 재발급 성공")
+	@ApiResponse(
+		responseCode = "200", description = "access token 및 refresh token 재발급 성공",
+		content = @Content(schema = @Schema(implementation = ReissueResponseDto.class))
+	)
 	@PostMapping("/reissue")
-	public ResponseEntity<?> reissue(HttpServletRequest request, HttpServletResponse response) {
-		return memberService.reissue(request, response);
+	public Response reissue(@RequestBody ReissueRequestDto dto) {
+		ReissueResponseDto reissueResponseDto = memberService.reissue(dto.getRefreshToken());
+		return new Response(HttpStatus.OK.value(), "access token과 refresh token이 재발급되었습니다.", reissueResponseDto);
 	}
 
 	@Operation(

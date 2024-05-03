@@ -28,6 +28,7 @@ public enum ExceptionType {
     JWT_CLAIMS_IS_EMPTY(HttpStatus.UNAUTHORIZED.value(), "잘못된 JWT입니다."),
     EXPIRED_JWT(HttpStatus.UNAUTHORIZED.value(), "JWT가 만료되었습니다."),
     NOT_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED.value(), "access token이 아닙니다."),
+    NOT_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED.value(), "refresh token이 아닙니다."),
     ;
 
     private final int status;
