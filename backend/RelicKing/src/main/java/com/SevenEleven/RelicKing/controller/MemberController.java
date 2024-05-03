@@ -1,6 +1,8 @@
 package com.SevenEleven.RelicKing.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.SevenEleven.RelicKing.common.response.Response;
+import com.SevenEleven.RelicKing.common.security.CustomUserDetails;
 import com.SevenEleven.RelicKing.dto.request.ReissueRequestDto;
 import com.SevenEleven.RelicKing.dto.request.SignUpRequestDto;
 import com.SevenEleven.RelicKing.dto.response.ReissueResponseDto;
@@ -44,7 +47,6 @@ public class MemberController {
 		return new Response(HttpStatus.OK.value(), "회원가입이 완료되었습니다.", true);
 	}
 
-	// TODO : 로직 변경 필요
 	@Operation(
 		summary = "access token 재발급",
 		description = "refresh token을 활용하여 access token 및 refresh token을 재발급 받습니다."
@@ -57,6 +59,20 @@ public class MemberController {
 	public Response reissue(@RequestBody ReissueRequestDto dto) {
 		ReissueResponseDto reissueResponseDto = memberService.reissue(dto.getRefreshToken());
 		return new Response(HttpStatus.OK.value(), "access token과 refresh token이 재발급되었습니다.", reissueResponseDto);
+	}
+
+	@Operation(
+		summary = "로그아웃",
+		description = "사용자의 모든 refresh token을 무효화합니다."
+	)
+	@ApiResponse(
+		responseCode = "200", description = "로그아웃 성공",
+		content = @Content(schema = @Schema(implementation = boolean.class))
+	)
+	@DeleteMapping("/logout")
+	public Response logout(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+		memberService.logout(customUserDetails.getMember());
+		return new Response(HttpStatus.OK.value(), "로그아웃 되었습니다.", true);
 	}
 
 	@Operation(
