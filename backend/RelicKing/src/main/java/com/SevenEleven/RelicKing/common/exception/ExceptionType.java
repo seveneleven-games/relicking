@@ -21,8 +21,13 @@ public enum ExceptionType {
     NICKNAME_ALREADY_EXISTS(HttpStatus.CONFLICT.value(), "이미 존재하는 닉네임입니다."),
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "사용자를 찾을 수 없습니다."),
     AUTHENTICATION_FAILED(HttpStatus.UNAUTHORIZED.value(), "로그인에 실패하였습니다."),
-    ACCESS_TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED.value(), "access token이 만료되었습니다."),
-    INVALID_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED.value(), "유효하지 않은 access token입니다."),
+
+    // JWT
+    INVALID_JWT(HttpStatus.UNAUTHORIZED.value(), "유효하지 않은 JWT입니다."),
+    UNSUPPORTED_JWT(HttpStatus.UNAUTHORIZED.value(), "지원되지 않는 JWT입니다."),
+    JWT_CLAIMS_IS_EMPTY(HttpStatus.UNAUTHORIZED.value(), "잘못된 JWT입니다."),
+    EXPIRED_JWT(HttpStatus.UNAUTHORIZED.value(), "JWT가 만료되었습니다."),
+    NOT_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED.value(), "access token이 아닙니다."),
     ;
 
     private final int status;

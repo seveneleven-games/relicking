@@ -14,6 +14,7 @@ import com.SevenEleven.RelicKing.common.Constant;
 import com.SevenEleven.RelicKing.common.exception.CustomException;
 import com.SevenEleven.RelicKing.common.exception.ExceptionType;
 import com.SevenEleven.RelicKing.common.response.Response;
+import com.SevenEleven.RelicKing.common.response.ResponseFail;
 import com.SevenEleven.RelicKing.dto.request.LoginRequestDto;
 import com.SevenEleven.RelicKing.dto.response.LoginResponseDTO;
 import com.SevenEleven.RelicKing.entity.RefreshToken;
@@ -88,15 +89,17 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
 		// 응답 설정
 		LoginResponseDTO loginResponseDTO = memberService.getDataAfterLogin(email, accessToken, refreshToken);
-		toJsonResponse(response, new Response(HttpStatus.OK.value(), "로그인 되었습니다.", loginResponseDTO));
+		setSuccessResponse(response, new Response(HttpStatus.OK.value(), "로그인 되었습니다.", loginResponseDTO));
 	}
 
 	@Override
 	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {
-		throw new CustomException(ExceptionType.AUTHENTICATION_FAILED);
+		ExceptionType exceptionType = ExceptionType.AUTHENTICATION_FAILED;
+		setErrorResponse(response, new CustomException(exceptionType));
+		log.info(exceptionType.getMessage());
 	}
 
-	private void toJsonResponse(HttpServletResponse response, Response customResponse) throws IOException {
+	private void setSuccessResponse(HttpServletResponse response, Response customResponse) throws IOException {
 		// content type
 		response.setContentType("application/json");
 		response.setCharacterEncoding("utf-8");
@@ -104,5 +107,21 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 		String result = objectMapper.writeValueAsString(customResponse);
 
 		response.getWriter().write(result);
+	}
+
+	/**
+	 * filter에서 발생하는 예외는 GlobalExceptionHandler로 처리할 수 없으므로 직접 처리해주어야 한다.
+	 */
+	private void setErrorResponse(HttpServletResponse response, CustomException e) throws IOException {
+
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		response.setStatus(e.getExceptionType().getStatus());
+		response.setContentType("application/json");
+		response.setCharacterEncoding("utf-8");
+
+		ResponseFail responseFail = new ResponseFail(e.getExceptionType().getStatus(), e.getExceptionType().getMessage());
+
+		response.getWriter().write(objectMapper.writeValueAsString(responseFail));
 	}
 }

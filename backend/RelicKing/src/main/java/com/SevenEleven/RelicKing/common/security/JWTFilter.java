@@ -10,24 +10,28 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.SevenEleven.RelicKing.common.Constant;
 import com.SevenEleven.RelicKing.common.exception.CustomException;
 import com.SevenEleven.RelicKing.common.exception.ExceptionType;
+import com.SevenEleven.RelicKing.common.response.ResponseFail;
 import com.SevenEleven.RelicKing.entity.Member;
 import com.SevenEleven.RelicKing.repository.MemberRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.SecurityException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 public class JWTFilter extends OncePerRequestFilter {
 
 	private final JWTUtil jwtUtil;
 	private final MemberRepository memberRepository;
-
-	private final ObjectMapper objectMapper = new ObjectMapper();
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -44,18 +48,40 @@ public class JWTFilter extends OncePerRequestFilter {
 		// prefix 떼내기
 		String accessToken = accessTokenWithPrefix.substring(Constant.ACCESS_TOKEN_PREFIX.length());
 
-		// 토큰 만료 여부 확인, 만료시 다음 필터로 넘기지 않음
+		// 정상적인 토큰인지 확인과 함께 토큰 만료 여부 확인
+		// 만료시 다음 필터로 넘기지 않음
 		try {
 			jwtUtil.isExpired(accessToken); // 만료되었으면 예외가 발생한다.
+		} catch (SecurityException | MalformedJwtException e) {
+			ExceptionType exceptionType = ExceptionType.INVALID_JWT;
+			setErrorResponse(response, new CustomException(exceptionType));
+			log.info(exceptionType.getMessage());
+			return;
+		} catch (UnsupportedJwtException e) {
+			ExceptionType exceptionType = ExceptionType.UNSUPPORTED_JWT;
+			setErrorResponse(response, new CustomException(exceptionType));
+			log.info(exceptionType.getMessage());
+			return;
+		} catch (IllegalArgumentException e) {
+			ExceptionType exceptionType = ExceptionType.JWT_CLAIMS_IS_EMPTY;
+			setErrorResponse(response, new CustomException(exceptionType));
+			log.info(exceptionType.getMessage());
+			return;
 		} catch (ExpiredJwtException e) {
-			throw new CustomException(ExceptionType.ACCESS_TOKEN_EXPIRED);
+			ExceptionType exceptionType = ExceptionType.EXPIRED_JWT;
+			setErrorResponse(response, new CustomException(exceptionType));
+			log.info(exceptionType.getMessage());
+			return;
 		}
 
 		// 토큰이 access인지 확인 (발급시 페이로드에 명시), 다음 필터로 넘기지 않음
 		String category = jwtUtil.getCategory(accessToken);
 
 		if (!category.equals("access")) {
-			throw new CustomException(ExceptionType.INVALID_ACCESS_TOKEN);
+			ExceptionType exceptionType = ExceptionType.NOT_ACCESS_TOKEN;
+			setErrorResponse(response, new CustomException(exceptionType));
+			log.info(exceptionType.getMessage());
+			return;
 		}
 
 		String email = jwtUtil.getEmail(accessToken);    // accessToken에서 email 값 추출
@@ -68,5 +94,21 @@ public class JWTFilter extends OncePerRequestFilter {
 		SecurityContextHolder.getContext().setAuthentication(authToken);
 
 		filterChain.doFilter(request, response);
+	}
+
+	/**
+	 * filter에서 발생하는 예외는 GlobalExceptionHandler로 처리할 수 없으므로 직접 처리해주어야 한다.
+	 */
+	private void setErrorResponse(HttpServletResponse response, CustomException e) throws IOException {
+
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		response.setStatus(e.getExceptionType().getStatus());
+		response.setContentType("application/json");
+		response.setCharacterEncoding("utf-8");
+
+		ResponseFail responseFail = new ResponseFail(e.getExceptionType().getStatus(), e.getExceptionType().getMessage());
+
+		response.getWriter().write(objectMapper.writeValueAsString(responseFail));
 	}
 }
