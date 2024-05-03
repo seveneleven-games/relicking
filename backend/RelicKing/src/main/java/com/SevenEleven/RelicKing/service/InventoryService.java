@@ -1,5 +1,7 @@
 package com.SevenEleven.RelicKing.service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -26,28 +28,35 @@ public class InventoryService {
 
 	private final MemberRelicRepository memberRelicRepository;
 
-	@Transactional(readOnly = true)
-	public InventoryResponseDTO getInventoryInfo() {
-		Member member = memberRepository.findByMemberId(1).orElseThrow(); // Todo 로그인한 멤버로 변경
+	@Transactional(readOnly = true) // Todo 없는 유물도 레벨 0으로 전부 보내기
+	public InventoryResponseDTO getInventoryInfo(Member member) {
 		List<MemberRelic> memberRelicList = memberRelicRepository.findByMember(member);
-		List<MemberRelicDTO> memberRelicDTOS = memberRelicList.stream().map(MemberRelic::entityToDTO).toList();
+		// List<MemberRelicDTO> myRelicList = memberRelicList.stream().map(MemberRelic::entityToDTO).toList();
+
+		MemberRelicDTO[] memberRelicDTOS = new MemberRelicDTO[memberRelicList.size()];
+		Arrays.setAll(memberRelicDTOS, i -> new MemberRelicDTO(0, 0, 0, i + 1));
+
+		memberRelicList.forEach(memberRelic -> {
+			if (memberRelic.getSlot() > 0) {
+				memberRelicDTOS[memberRelic.getSlot() - 1] = MemberRelic.entityToDTO(memberRelic);
+			}
+
+		});
+
+		List<MemberRelicDTO> myRelicList = new ArrayList<>(List.of(memberRelicDTOS));
 
 		return InventoryResponseDTO.builder()
 			.currentClassNo(member.getCurrentClassNo())
-			.myRelicList(memberRelicDTOS)
+			.myRelicList(myRelicList)
 			.build();
 	}
 
-	@Transactional
-	public void changeClass(int classNo) {
-		Member member = memberRepository.findByMemberId(1).orElseThrow(); // Todo 로그인한 멤버로 변경
+	public void changeClass(Member member, int classNo) {
 		member.changeCurrentClassNo(classNo);
 		memberRepository.save(member);
 	}
 
-	@Transactional
-	public void changeRelic(RelicChangeRequestDTO relicChangeRequestDTO) {
-		Member member = memberRepository.findByMemberId(1).orElseThrow(); // Todo 로그인한 멤버로 변경
+	public void changeRelic(Member member, RelicChangeRequestDTO relicChangeRequestDTO) {
 		member.getMemberRelics().forEach(memberRelic -> {
 			if (memberRelic.getSlot() == relicChangeRequestDTO.getSlot()) {
 				memberRelic.changeSlot(0);

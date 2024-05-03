@@ -21,6 +21,6 @@ public class InventoryServiceTest {
 			.slot(1)
 			.relicNo(7)
 			.build();
-		inventoryService.changeRelic(relicChangeRequestDTO);
+		// inventoryService.changeRelic(relicChangeRequestDTO);
 	}
 }

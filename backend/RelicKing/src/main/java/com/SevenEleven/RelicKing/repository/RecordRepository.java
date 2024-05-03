@@ -1,5 +1,6 @@
 package com.SevenEleven.RelicKing.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -17,4 +18,6 @@ public interface RecordRepository extends JpaRepository<Record, Integer> {
 	@EntityGraph(attributePaths = {"recordRelics", "recordSkills"}, type = EntityGraph.EntityGraphType.FETCH)
 	@Query("select r from Record r where r.recordId = :recordId")
 	Optional<Record> findByRecordId(@Param("recordId") int recordId);
+
+	List<Record> findByMember(Member member);
 }

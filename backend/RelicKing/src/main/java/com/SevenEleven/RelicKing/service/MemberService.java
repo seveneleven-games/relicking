@@ -1,9 +1,8 @@
 package com.SevenEleven.RelicKing.service;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -146,22 +145,19 @@ public class MemberService {
 	@Transactional(readOnly = true)
 	public StageDifficultyDTO getDifficulty(Member member) {
 
-		List<Integer> stage = new ArrayList<>(Constant.MAX_STAGE);
+		int[] array = new int[Constant.MAX_STAGE];
+		Arrays.fill(array, 0);
 
-		// FIXME : findByMemberAndStage 쿼리가 여러번 나가고 있다. member로 한 번에 조회할 수 있을 듯 하다.
-		for (int i = 1; i <= Constant.MAX_STAGE; i++) {
-			Optional<Record> record = recordRepository.findByMemberAndStage(member, i);
-			if (record.isPresent()) {
-				stage.add(record.get().getDifficulty());
-			} else {
-				stage.add(0);
-			}
-		}
+		List<Record> recordList = recordRepository.findByMember(member);
+		recordList.forEach(record -> {
+			array[record.getStage() - 1] = record.getDifficulty();
+		});
+
 
 		return StageDifficultyDTO.builder()
-			.stage1(stage.get(0))
-			.stage2(stage.get(1))
-			.stage3(stage.get(2))
+			.stage1(array[0])
+			.stage2(array[1])
+			.stage3(array[2])
 			.build();
 
 	}
