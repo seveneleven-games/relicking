@@ -83,6 +83,9 @@ public static class Extension
         
         // 딥카피 부분
         List<int> rangePool = new();
+        
+        Debug.Log("스킬 리스트 반환 함수 들어옴!");
+        
         foreach (int skillId  in skillList)
         {
             skillType = skillId / 10;

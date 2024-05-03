@@ -176,9 +176,10 @@ public class UI_StorePopup : UI_Popup
         {
             skill.RefreshNull();
         }
-        else // 아니라면 리롤 진행
+        else
         {
             int nowLevel = GetNowLevel(fixedSkillType);
+            // nowLevel 만렙이면 우짤래 
             skill.Refresh(fixedSkillType*10 + nowLevel + 1);
         }
         
