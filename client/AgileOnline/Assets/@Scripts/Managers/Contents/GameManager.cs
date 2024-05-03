@@ -13,7 +13,7 @@ public class StageClearInfo
 {
     public int StageId = 1;
     public int MaxDifficulty = 0;
-    // public bool isClear = false;
+    public int SelectedDifficulty = 0;
 }
 
 
@@ -23,6 +23,9 @@ public class GameData
 {
     
     public string UserName = "우주최강귀요미박설연";
+
+    public string accessToken = "";
+    public string refreshToken = "";
     
     public int Ticket = 0;
 
@@ -47,6 +50,24 @@ public class GameManager
             _gameData.Ticket = value;
             // SaveGame();
             OnResourcesChanged?.Invoke();
+        }
+    }
+    
+    public string AccessToken
+    {
+        get { return _gameData.accessToken; }
+        set
+        {
+            _gameData.accessToken = value;
+        }
+    }
+    
+    public string RefreshToken
+    {
+        get { return _gameData.refreshToken; }
+        set
+        {
+            _gameData.refreshToken = value;
         }
     }
     
@@ -116,6 +137,7 @@ public class GameManager
             {
                 StageId = stageData.StageId,
                 MaxDifficulty = 10, // test를 위해
+                SelectedDifficulty = 11, // test를 위해
             };
             _gameData.DicStageClearInfo.Add(stageData.StageId, info);
         }

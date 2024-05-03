@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
 using Random = UnityEngine.Random;
 
+// 내가 볼 때 여기서 오류가 뜨는 것은 Destroy를 통해 해결하면 될 듯!!
 
 // _StageData : 지금 여기서 쓰이는 객체
 // Managers.Game.CurrentSelectStage : 유저 정보 내의 객체
@@ -64,8 +65,8 @@ public class UI_BattlePopup : UI_Popup
     // 객체 관련 두는 곳
     StageData _stageData; // Data.Contents
     HorizontalScrollSnap _scrollSnap;
+    
     StageClearInfo _clearInfo;
-
     
     public TemplateData _templateData;
     
@@ -129,6 +130,30 @@ public class UI_BattlePopup : UI_Popup
         return true;
     }
 
+    #region 난이도 선택 시 감지를 위해서
+
+    private void OnEnable()
+    {
+        UI_DifficultySelectPopup.OnDifficultyChanged += HandleDifficultyChanged;
+    }
+
+    private void OnDisable()
+    {
+        UI_DifficultySelectPopup.OnDifficultyChanged -= HandleDifficultyChanged;
+    }
+
+    private void HandleDifficultyChanged(int level)
+    {
+        if (_clearInfo != null)
+        {
+            _clearInfo.SelectedDifficulty = level;
+            StageInfoRefresh(); // 스테이지 정보 갱신
+        }
+    }
+    
+    #endregion
+    
+    
     
     public void SetInfo(StageData stageData)
     {
@@ -147,9 +172,9 @@ public class UI_BattlePopup : UI_Popup
             return;
         
         #region 초기화
-
+        
         #region 스테이지 리스트
-
+        
         // 다 날리고
         GameObject StageContainer = GetObject((int)EGameObjects.StageScrollContentObject);
         StageContainer.DestroyChilds();
@@ -181,12 +206,15 @@ public class UI_BattlePopup : UI_Popup
         if (_stageData == null)
             return;
         
-        // 스테이지 ID를 사용하여 GameManager에서 MaxDifficulty 값을 가져옴
+        // 스테이지 ID를 사용하여 GameManager에서 SelectedDifficulty 값을 가져옴
         if (Managers.Game.DicStageClearInfo.TryGetValue(_stageData.StageId, out _clearInfo))
         {
-            int maxDifficulty = _clearInfo.MaxDifficulty;
-            Debug.Log("Current Max Difficulty: " + maxDifficulty);
-            GetText((int)ETexts.DifficultyText).text = "Level " + maxDifficulty;
+            int selectedDifficulty = _clearInfo.SelectedDifficulty;
+            Debug.Log("-----------------------------------------------");
+            Debug.Log("selectedDifficulty: " + selectedDifficulty);
+
+            
+            GetText((int)ETexts.DifficultyText).text = "Level " + selectedDifficulty;
         }
         else
         {
@@ -278,10 +306,12 @@ public class UI_BattlePopup : UI_Popup
         // 현재 스테이지 설정
         _stageData = Managers.Data.StageDic[index + 1];
         Debug.Log(_stageData.StageId);
-        
+
+        StageInfoRefresh();
         UIRefresh();
     }
 
+    // 난이도 선택 팝업 열기
     void onClickDifficultySelectButton()
     {
         UI_DifficultySelectPopup popup = Managers.UI.ShowPopupUI<UI_DifficultySelectPopup>();
@@ -289,7 +319,7 @@ public class UI_BattlePopup : UI_Popup
         // maxDifficulty를 UI_DifficultySelectPopup으로 전달
         if (_clearInfo != null)
         {
-            popup.SetMaxDifficulty(_clearInfo.MaxDifficulty);
+            popup.SetMaxDifficulty(_stageData.StageId, _clearInfo.MaxDifficulty);
         }
     }
     
