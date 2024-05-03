@@ -92,7 +92,10 @@ public static class Extension
         
         for (int j = 0; j < length; j++)
         {
+            if (rangePool.Count == 0) break;
+            
             int index = UnityEngine.Random.Range(0, rangePool.Count);
+            // 스킬 풀이 비어서 더 못 꺼내요 ㅋㅋ
             result[j] = rangePool[index];
             rangePool.RemoveAt(index);
         }

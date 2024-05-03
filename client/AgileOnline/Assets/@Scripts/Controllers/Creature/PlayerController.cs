@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using static Define;
 
+
 public class PlayerController : CreatureController
 {
     private Vector2 _moveDir = Vector2.zero;
@@ -31,16 +32,12 @@ public class PlayerController : CreatureController
     }
 
     public event Action<List<int>> OnPlayerSkillAdded;
-    public List<int> _playerSkillList;
+    private List<int> _playerSkillList;
 
     public List<int> PlayerSkillList
     {
         get { return _playerSkillList; }
-        set
-        {
-            OnPlayerSkillAdded?.Invoke(_playerSkillList);
-            _playerSkillList = value;
-        }
+        set { _playerSkillList = value; }
     }
 
     public List<int> PlayerRelicList { get; private set; }
@@ -379,6 +376,8 @@ public class PlayerController : CreatureController
             if (PlayerSkillList[i] == addSkillId - 1)
             {
                 PlayerSkillList[i] = addSkillId;
+                Debug.Log($"스킬 레벨 업!");
+                OnPlayerSkillAdded?.Invoke(_playerSkillList);
                 return;
             }
         }
@@ -389,6 +388,8 @@ public class PlayerController : CreatureController
             if (PlayerSkillList[i] == 0)
             {
                 PlayerSkillList[i] = addSkillId;
+                Debug.Log($"스킬 추가 !!");
+                OnPlayerSkillAdded?.Invoke(_playerSkillList);
                 return;
             }
         }

@@ -31,9 +31,10 @@ public class UI_StorePopup : UI_Popup
     private SkillCard _skillCard1;
     private SkillCard _skillCard2;
     private SkillCard _skillCard3;
+    
     private List<SkillCard> _skillCards = new();
     
-    private int _skillCardSlot;
+    
 
     // 스킬 관련 변수
     private int[] _skillTypes = new int[3];
@@ -268,7 +269,11 @@ public class UI_StorePopup : UI_Popup
         foreach (int skillId in _skillList)
         {
             if (skillId != 0 && Managers.Data.SkillDic[skillId].NextId == -1)
+            {
+                Debug.Log($"최고랩 달성! 달성 스킬 : {Managers.Data.SkillDic[skillId].Name}");
                 _maxSkillTypes.Add(skillId / 10);
+            }
+                
         }
         
     }

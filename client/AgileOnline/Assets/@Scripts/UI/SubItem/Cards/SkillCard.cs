@@ -54,6 +54,8 @@ public class SkillCard : UI_Base
 
     public void Refresh(int skillId)
     {
+        _skillId = skillId;
+        
         SkillData data = Managers.Data.SkillDic[skillId];
         
         GetText((int)Texts.SkillName).text = data.Name;
@@ -67,6 +69,8 @@ public class SkillCard : UI_Base
 
     public void RefreshNull()
     {
+        _skillId = -1;
+        
         GetText((int)Texts.SkillName).gameObject.SetActive(false);
         GetObject((int)GameObjects.SkillLv).gameObject.SetActive(false);
         GetText((int)Texts.SkillInfo).text = "SOLD OUT!";
