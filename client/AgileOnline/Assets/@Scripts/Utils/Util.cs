@@ -117,6 +117,7 @@ public static class Util
             if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
             {
                 Debug.LogError(webRequest.error);
+                Debug.LogError($"Server Response: {webRequest.downloadHandler.text}");  // 서버 응답 로깅
                 // callback(null);
             }
             else

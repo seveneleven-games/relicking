@@ -34,6 +34,7 @@ public class UI_SignupInputPopup : UI_Popup
         CheckEmailButton,
         NextButton,
         NoNextButton,
+        BackButton,
     }
     
     enum ETexts
@@ -92,6 +93,9 @@ public class UI_SignupInputPopup : UI_Popup
         BindImage(typeof(EImages)); 
         BindInputField(typeof(EInputFields));
         
+        // 뒤로가기 버튼
+        GetButton((int)EButtons.BackButton).gameObject.BindEvent(OnClickBackButton);
+        
         // EmailCheck 버튼
         GetButton((int)EButtons.CheckEmailButton).gameObject.BindEvent(OnClickCheckEmailButton);
         
@@ -131,6 +135,12 @@ public class UI_SignupInputPopup : UI_Popup
         GetInputField((int)EInputFields.CheckPasswordInputField).text = "";
     }
 
+    void OnClickBackButton()
+    {
+        Managers.UI.ClosePopupUI(this);
+        Managers.UI.ShowPopupUI<UI_LoginPopup>();
+    }
+    
     void OnClickCheckEmailButton()
     {
         Debug.Log("OnClickCheckEmailButton");

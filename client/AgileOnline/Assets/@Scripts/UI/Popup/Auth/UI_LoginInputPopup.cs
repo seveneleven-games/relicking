@@ -66,6 +66,7 @@ public class UI_LoginInputPopup : UI_Popup
     {
         KakaoLoginButton,
         LoginButton,
+        BackButton,
     }
     
     enum ETexts
@@ -115,6 +116,8 @@ public class UI_LoginInputPopup : UI_Popup
         BindImage(typeof(EImages)); 
         BindInputField(typeof(EInputFields));
         
+        // 뒤로가기 버튼
+        GetButton((int)EButtons.BackButton).gameObject.BindEvent(OnClickBackButton);
         
         // Kakao 로그인 버튼
         GetButton((int)EButtons.KakaoLoginButton).gameObject.BindEvent(OnClickKakaoLoginButton);
@@ -144,6 +147,12 @@ public class UI_LoginInputPopup : UI_Popup
         #endregion
     }
 
+    void OnClickBackButton()
+    {
+        Managers.UI.ClosePopupUI(this);
+        Managers.UI.ShowPopupUI<UI_LoginPopup>();
+    }
+    
     void OnClickKakaoLoginButton()
     {
         Debug.Log("OnClickKakaoLoginButton");
@@ -180,13 +189,17 @@ public class UI_LoginInputPopup : UI_Popup
             // 성공시 로비로 가기
             if (loginDataRes.data != null && loginDataRes.data.accessToken != null)
             {
+                // 토큰들 저장하기
+                Managers.Game._gameData.accessToken = loginDataRes.data.accessToken;
+                Managers.Game._gameData.refreshToken = loginDataRes.data.refreshToken;
+                
                 Managers.Scene.LoadScene(EScene.LobbyScene);
             }
             
         }));
         
         // 임시 성공하든 안하든 로비로
-        Managers.Scene.LoadScene(EScene.LobbyScene);
+        // Managers.Scene.LoadScene(EScene.LobbyScene);
         
     }
     
