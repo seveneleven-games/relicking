@@ -11,8 +11,6 @@ public class CreatureController : BaseController
     public int MaxHp { get; protected set; }
 
     protected ECreatureState _creatureState = ECreatureState.None;
-    
-    public event Action<float, float> OnHealthChanged;
 
     public virtual ECreatureState CreatureState
     {

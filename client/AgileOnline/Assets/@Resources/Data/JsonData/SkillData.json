@@ -246,6 +246,19 @@
       "LifeTime": 5.0,
       "Speed": 3.0,
       "ProjectileNum": 10
+    },
+    {
+      "SkillId": 1001,
+      "NextId": 1002,
+      "PrefabName": "BossMonsterCharge",
+      "Name": "보스 몬스터 차지",
+      "Description": "플레이어를 향해 돌격",
+      "IconName": "BossMonsterCharge_icon.sprite",
+      "CoolTime": 10,
+      "Damage": 30,
+      "LifeTime": 0,
+      "Speed": 20.0,
+      "ProjectileNum": 0
     }
   ]
 }

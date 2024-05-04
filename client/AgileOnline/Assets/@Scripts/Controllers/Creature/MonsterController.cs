@@ -199,16 +199,8 @@ public class MonsterController : CreatureController
                     {
                         float angle = i * angleStep;
                         Vector3 direction = Quaternion.Euler(0f, 0f, angle) * Vector3.up;
-                        Debug.Log("스킬타입: " + PrefabName);
                         EliteMonsterProjectileController emp = Managers.Object.Spawn<EliteMonsterProjectileController>(transform.position, skillId);
-                        if (emp != null)
-                        {
-                            emp.SetMoveDirection(direction);
-                        }
-                        else
-                        {
-                            Debug.LogError("Failed to spawn or initialize EliteMonsterProjectileController");
-                        }
+                        emp.SetMoveDirection(direction);
                     }
                     break;
             }

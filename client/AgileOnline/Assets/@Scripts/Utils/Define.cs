@@ -62,7 +62,8 @@ public static class Define
         PoisonField,
         EliteMonsterProjectile,
         WindCutter,
-        FrozenHeart
+        FrozenHeart,
+        BossMonsterCharge
     }
 
     public enum EJoystickState
