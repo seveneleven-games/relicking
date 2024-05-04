@@ -200,8 +200,6 @@ public static class Util
 
     public static IEnumerator JWTGetRequest(string uri, Action<string> callback)
     {
-        Debug.Log("여기 들어오니???1");
-
         string finalUri = BASE_URI + uri;
 
         string accessToken = Managers.Game.AccessToken;
@@ -210,14 +208,11 @@ public static class Util
         {
             webRequest.SetRequestHeader("Authorization", "Bearer " + accessToken);
             
-            Debug.Log("여기 들어오니???2");
-            
             yield return webRequest.SendWebRequest();
 
             if (webRequest.result == UnityWebRequest.Result.ConnectionError || 
                 webRequest.result == UnityWebRequest.Result.ProtocolError)
             {
-                
                 
                 Debug.LogError(webRequest.error);
                 

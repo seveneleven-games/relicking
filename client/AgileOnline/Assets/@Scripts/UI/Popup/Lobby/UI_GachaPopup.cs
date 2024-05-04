@@ -111,12 +111,12 @@ public class UI_GachaPopup : UI_Popup
         // 백엔드 통신이 정상적으로 완료되었을 시 티켓 타감하기
         
         // 티켓 조회 테스트
-        JWTGetRequest("gacha", res =>
+        StartCoroutine(JWTGetRequest("gacha", res =>
         {
             // json -> 객체로 변환
             TicketDataRes ticketDataRes = JsonUtility.FromJson<TicketDataRes>(res);
             _ticketNum = ticketDataRes.data.gacha;
-        });
+        }));
 
     }
 
