@@ -119,7 +119,7 @@ public class UI_NodeMapPopup : UI_Popup
          * 3. 팝업 닫기 함수 호출
          */
         Debug.Log($"현재 클릭한 노드는 {clickNode}번! 보스노드 여부! : {isBossNode}");
-        OnEnterNode?.Invoke(clickNode, isBossNode);
+        OnEnterNode?.Invoke(clickNode+4, isBossNode);
     }
 
     void OnBackButtonClick()
