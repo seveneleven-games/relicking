@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using static Define;
 
+
 public class PlayerController : CreatureController
 {
     private Vector2 _moveDir = Vector2.zero;
@@ -31,16 +32,12 @@ public class PlayerController : CreatureController
     }
 
     public event Action<List<int>> OnPlayerSkillAdded;
-    public List<int> _playerSkillList;
+    private List<int> _playerSkillList;
 
     public List<int> PlayerSkillList
     {
         get { return _playerSkillList; }
-        set
-        {
-            OnPlayerSkillAdded?.Invoke(_playerSkillList);
-            _playerSkillList = value;
-        }
+        set { _playerSkillList = value; }
     }
 
     public List<int> PlayerRelicList { get; private set; }
@@ -68,12 +65,12 @@ public class PlayerController : CreatureController
         PlayerSkillList = new List<int>(new int[6]);
         PlayerRelicList = new List<int>(new int[6]);
 
-        AddSkill(3, 0);
-        AddSkill(13, 1);
-        AddSkill(22, 2);
-        AddSkill(33, 3);
-        AddSkill(42, 4);
-        AddSkill(52, 5);
+        // AddSkill(3, 0);
+        // AddSkill(13, 1);
+        // AddSkill(22, 2);
+        // AddSkill(33, 3);
+        // AddSkill(42, 4);
+        // AddSkill(52, 5);
 
         // 보는 방향 정해주는 더미 오브젝트
         GameObject indicatorObject = new GameObject("Indicator");
@@ -373,7 +370,7 @@ public class PlayerController : CreatureController
         }
     }
 
-    public void AddSkill(int addSkillId, int slotNum)
+    public List<int> AddSkill(int addSkillId)
     {
         // 이전에 배운스킬 레벨업이면 해당 슬롯에 덮어씌움
         for (int i = 0; i < PlayerSkillList.Count; i++)
@@ -381,7 +378,8 @@ public class PlayerController : CreatureController
             if (PlayerSkillList[i] == addSkillId - 1)
             {
                 PlayerSkillList[i] = addSkillId;
-                return;
+                Debug.Log($"스킬 레벨 업!");
+                return PlayerSkillList;
             }
         }
 
@@ -391,12 +389,14 @@ public class PlayerController : CreatureController
             if (PlayerSkillList[i] == 0)
             {
                 PlayerSkillList[i] = addSkillId;
-                return;
+                Debug.Log($"스킬 추가 !!");
+                return PlayerSkillList;
             }
         }
 
         // 이전에 배운스킬도 아닌데 빈슬롯도없으면 로그에러띄워줌
         Debug.LogError("스킬 넣는게 잘못됐어요");
+        return PlayerSkillList;
     }
 
     #endregion

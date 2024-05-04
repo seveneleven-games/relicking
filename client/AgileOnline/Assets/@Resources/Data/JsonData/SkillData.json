@@ -28,7 +28,7 @@
     },
     {
       "SkillId": 3,
-      "NextId": 4,
+      "NextId": -1,
       "PrefabName": "EnergyBolt",
       "Name": "에너지 볼트",
       "Description": "바라보는 방향으로 에너지 볼트를 발사한다",
@@ -67,7 +67,7 @@
     },
     {
       "SkillId": 13,
-      "NextId": 14,
+      "NextId": -1,
       "PrefabName": "IceArrow",
       "Name": "아이스 에로우",
       "Description": "주변 적에게 아이스 에로우를 발사한다",
@@ -106,7 +106,7 @@
     },
     {
       "SkillId": 23,
-      "NextId": 24,
+      "NextId": -1,
       "PrefabName": "ElectronicField",
       "Name": "일렉트로닉 필드",
       "Description": "주변 적에게 자기장 데미지를 입힌다.",
@@ -145,7 +145,7 @@
     },
     {
       "SkillId": 33,
-      "NextId": 34,
+      "NextId": -1,
       "PrefabName": "PoisonField",
       "Name": "포이즌 필드",
       "Description": "범위 내 적에게 중독 데미지를 입힌다.",
@@ -184,7 +184,7 @@
     },
     {
       "SkillId": 43,
-      "NextId": 44,
+      "NextId": -1,
       "PrefabName": "WindCutter",
       "Name": "윈드 커터",
       "Description": "바라보는 방향으로 날아갔다가 다시 되돌아오는 투사체를 발사한다",
@@ -223,7 +223,7 @@
     },
     {
       "SkillId": 53,
-      "NextId": 54,
+      "NextId": -1,
       "PrefabName": "FrozenHeart",
       "Name": "프로즌 하트",
       "Description": "얼음 빙글빙글",
