@@ -1,8 +1,6 @@
 package com.SevenEleven.RelicKing.entity;
 
-import java.util.Arrays;
-import java.util.List;
-
+import com.SevenEleven.RelicKing.common.Constant;
 import com.SevenEleven.RelicKing.dto.model.MemberRelicDTO;
 
 import jakarta.persistence.Column;
@@ -72,10 +70,9 @@ public class MemberRelic {
 	}
 
 	private void setLevel() {
-		List<Integer> levelUpExp = Arrays.asList(1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000, 256000, 512000);
 		if (this.level < 10) {
 			for (int i = 0; i < 10; i++) {
-				if (this.exp < levelUpExp.get(i)) {
+				if (this.exp < Constant.LEVEL_EXP_TABLE.get(i)) {
 					this.level = i + 1;
 					break;
 				}
