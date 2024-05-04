@@ -49,7 +49,6 @@ public class CreatureController : BaseController
 
     protected virtual void OnDead()
     {
-        transform.localScale = new Vector3(1, 1, 1);
         CreatureState = ECreatureState.Dead;
     }
     

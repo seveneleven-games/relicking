@@ -894,6 +894,7 @@ GameObject:
   - component: {fileID: 1119324034891809288}
   - component: {fileID: 3293823455059212699}
   - component: {fileID: -7874979486369429946}
+  - component: {fileID: 1281197057268531922}
   m_Layer: 0
   m_Name: Monster3
   m_TagString: Untagged
@@ -963,7 +964,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab18dc8636e27634d8ad60147b592db5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hudDamageText: {fileID: 5658936821275081577, guid: c141a029a652ed945836239525f6e26f, type: 3}
 --- !u!50 &3293823455059212699
 Rigidbody2D:
   serializedVersion: 4
@@ -1026,6 +1026,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &1281197057268531922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099576153036892036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e113308944eb2c64fa5146f9c35bba9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2394491843481193407
 GameObject:
   m_ObjectHideFlags: 0
