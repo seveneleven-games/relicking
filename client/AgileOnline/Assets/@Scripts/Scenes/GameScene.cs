@@ -36,9 +36,10 @@ public class GameScene : BaseScene
         SceneType = EScene.GameScene;
 
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
-        _classId = _templateData.TemplateIds[1];
+        _classId = _templateData.playerId;
+        
+        _player = Managers.Object.CreatePlayer(_classId);
 
-        _player = Managers.Object.Spawn<PlayerController>(Vector3.zero, _classId);
         _player.StopSkills();
         CameraController camera = Camera.main.GetOrAddComponent<CameraController>();
         camera.Target = _player;
@@ -158,13 +159,12 @@ public class GameScene : BaseScene
 
     private void OnGameClear()
     {
+        StopAllCoroutines();
+        
         _inGame.ClosePopupUI();
         _player.GetComponent<CircleCollider2D>().enabled = false;
         _nodeMap = Managers.UI.ShowPopupUI<UI_NodeMapPopup>();
         _nodeMap.OnEnterNode += StartGame;
-        
-        // 몬스터 스폰 코루틴 중지
-        StopAllCoroutines();
         
         // 플레이어 스킬 중지
         _player.StopSkills();

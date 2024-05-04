@@ -1,3 +1,4 @@
+using Data;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,12 +13,12 @@ public class UI_InvenPopup : UI_Popup
         ToggleGroup,
         StatToggleObject,
         RelicToggleObject,
+        RelicListObject,
     }
 
     enum EButtons
     {
         ClassButton,
-        RelicButton,
     }
 
     enum ETexts
@@ -45,6 +46,8 @@ public class UI_InvenPopup : UI_Popup
 
     #endregion
 
+    public TemplateData _templateData;
+
     bool _isSelectedEquip = false;
     bool _isSelectedStat = false;
 
@@ -52,9 +55,12 @@ public class UI_InvenPopup : UI_Popup
     {
         if (Managers.Game != null)
             Managers.Game.OnResourcesChanged -= Refresh;
+
+        if (_templateData != null)
+            _templateData.OnSelectedClassIdChanged -= SetClassDetailStatus;
     }
 
-    // √ ±‚ ºº∆√
+    // Ï¥àÍ∏∞ ÏÑ∏ÌåÖ
     public override bool Init()
     {
         if (base.Init() == false)
@@ -68,23 +74,38 @@ public class UI_InvenPopup : UI_Popup
         BindToggle(typeof(EToggles));
         BindImage(typeof(EImages));
 
-        #endregion
-
         GetToggle((int)EToggles.RelicToggle).gameObject.BindEvent(OnClickRelicToggle);
         GetToggle((int)EToggles.StatToggle).gameObject.BindEvent(OnClickStatToggle);
         GetButton((int)EButtons.ClassButton).gameObject.BindEvent(OnClickClassSelectButton);
-        GetButton((int)EButtons.RelicButton).gameObject.BindEvent(OnClickRelicInfoButton);
+
+        _templateData = Resources.Load<TemplateData>("GameTemplateData");
+        _templateData.SelectedClassId = 1;
+        SetClassDetailStatus(_templateData.SelectedClassId);
+
+        foreach (var RelicData in Managers.Data.RelicDic)
+        {
+            if (RelicData.Key == 0)
+                continue;
+
+            int RelicId = RelicData.Key;
+            GameObject RelicObject = Managers.Resource.Instantiate("UI_RelicDetailObject", GetObject((int)EGameObjects.RelicListObject).transform);
+            RelicObject.name = $"RelicObject{RelicId}";
+            RelicObject.BindEvent(() => OnClickRelicInfoButton(RelicId));
+        }
+
+        #endregion
 
         ToggleInit();
         OnClickRelicToggle();
 
         Managers.Game.OnResourcesChanged += Refresh;
+        _templateData.OnSelectedClassIdChanged += SetClassDetailStatus;
         Refresh();
 
         return true;
     }
 
-    // ∞ªΩ≈
+    // Í∞±Ïã†
     void Refresh()
     {
 
@@ -92,11 +113,11 @@ public class UI_InvenPopup : UI_Popup
 
     void ToggleInit()
     {
-        // º±≈√ø©∫Œ √ ±‚»≠
+        // ÏÑ†ÌÉùÏó¨Î∂Ä Ï¥àÍ∏∞Ìôî
         _isSelectedEquip = false;
         _isSelectedStat = false;
 
-        // ∆Àæ˜πˆ∆∞ √ ±‚»≠
+        // ÌåùÏóÖÎ≤ÑÌäº Ï¥àÍ∏∞Ìôî
         GetObject((int)EGameObjects.RelicToggleObject).SetActive(false);
         GetObject((int)EGameObjects.StatToggleObject).SetActive(false);
 
@@ -131,8 +152,21 @@ public class UI_InvenPopup : UI_Popup
         Managers.UI.ShowPopupUI<UI_InvenClassSelectPopup>();
     }
 
-    void OnClickRelicInfoButton()
+    void OnClickRelicInfoButton(int num)
     {
+        Debug.Log(num);
+        _templateData.SelectedRelicId = num;
         Managers.UI.ShowPopupUI<UI_InvenRelicInfoPopup>();
+    }
+
+    void SetClassDetailStatus(int num)
+    {
+        GetText((int)ETexts.MaxHealthText).text = Managers.Data.PlayerDic[num].MaxHp.ToString();
+        GetText((int)ETexts.DamageText).text = Managers.Data.PlayerDic[num].Atk.ToString();
+        GetText((int)ETexts.SpeedText).text = Managers.Data.PlayerDic[num].Speed.ToString();
+        GetText((int)ETexts.CoinBonusText).text = "100";
+        GetText((int)ETexts.CriticalRateText).text = Managers.Data.PlayerDic[num].CritRate.ToString();
+        GetText((int)ETexts.CriticalDamageText).text = Managers.Data.PlayerDic[num].CritDmgRate.ToString();
+        GetText((int)ETexts.CoolDownText).text = Managers.Data.PlayerDic[num].CoolDown.ToString();
     }
 }

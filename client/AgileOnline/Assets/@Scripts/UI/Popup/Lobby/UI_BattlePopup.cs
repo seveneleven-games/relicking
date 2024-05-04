@@ -6,10 +6,12 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
+using Random = UnityEngine.Random;
 
+// 내가 볼 때 여기서 오류가 뜨는 것은 Destroy를 통해 해결하면 될 듯!!
 
 // _StageData : 지금 여기서 쓰이는 객체
-// Managers.Game.CurrentStageData : 유저 정보 내의 객체
+// Managers.Game.CurrentSelectStage : 유저 정보 내의 객체
 // Managers.Data.StageDic : json으로 부터 가져온 전체 스테이지 정보
 
 public class UI_BattlePopup : UI_Popup
@@ -64,6 +66,8 @@ public class UI_BattlePopup : UI_Popup
     StageData _stageData; // Data.Contents
     HorizontalScrollSnap _scrollSnap;
     
+    StageClearInfo _clearInfo;
+    
     public TemplateData _templateData;
     
     
@@ -89,7 +93,6 @@ public class UI_BattlePopup : UI_Popup
         BindImage(typeof(EImages)); 
         
         // 시작 버튼
-        GetButton((int)EButtons.StartButton).gameObject.SetActive(true);
         GetButton((int)EButtons.StartButton).gameObject.BindEvent(OnClickStartButton);
         GetButton((int)EButtons.StartButton).GetOrAddComponent<UI_ButtonAnimation>();
         
@@ -105,7 +108,7 @@ public class UI_BattlePopup : UI_Popup
         GetButton((int)EButtons.DifficultySelectButton).gameObject.BindEvent(onClickDifficultySelectButton);
         
         // 현재 스테이지 관련 -> 임시로 1로 되어있음 나중에 유저 정보 저장한다면 그 값으로 바꿔주기 (근데 3개 뿐이라 딱히 안 해도 될지도)
-        _stageData = Managers.Game.CurrentStageData;
+        _stageData = Managers.Game.CurrentSelectStage;
         
         // 스크롤 관련 (스테이지)
         // HorizontalScrollSnap라는 유형의 컴포넌트를 찾아 변수 할당 (하위 자식 포함)
@@ -113,29 +116,12 @@ public class UI_BattlePopup : UI_Popup
         // 스테이지가 변경될 때마다 OnChangeStage 호출
         _scrollSnap.OnSelectionPageChangedEvent.AddListener(OnChangeStage);
         // 첫 스테이지 상태
-        _scrollSnap.StartingScreen = Managers.Game.CurrentStageData.StageId - 1;
-        
-        
+        _scrollSnap.StartingScreen = Managers.Game.CurrentSelectStage.StageId - 1;
         
         // 임시
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
         Debug.Log("templateData is :" + _templateData);
-        GetObject((int)EGameObjects.StageSelectScrollView).BindEvent(() =>
-        {
-            Debug.Log("go Game");
-            // 백엔드에서 통신해서 받아온 데이터랑 현재 선택한 스테이지 데이터를 넣어서 줘야됨
-            int stageId = 1;
-            int playerId = 1;
-            int relic1Id = 0;
-            int relic2Id = 0;
-            int relic3Id = 0;
-            int relic4Id = 0;
-            int relic5Id = 0;
-            int relic6Id = 0;
-            _templateData.TemplateIds = new int[] {stageId, playerId, relic1Id,
-                relic2Id, relic3Id, relic4Id, relic5Id, relic6Id};
-            Managers.Scene.LoadScene(Define.EScene.GameScene);
-        });
+        
         
         #endregion
         
@@ -144,6 +130,30 @@ public class UI_BattlePopup : UI_Popup
         return true;
     }
 
+    #region 난이도 선택 시 감지를 위해서
+
+    private void OnEnable()
+    {
+        UI_DifficultySelectPopup.OnDifficultyChanged += HandleDifficultyChanged;
+    }
+
+    private void OnDisable()
+    {
+        UI_DifficultySelectPopup.OnDifficultyChanged -= HandleDifficultyChanged;
+    }
+
+    private void HandleDifficultyChanged(int level)
+    {
+        if (_clearInfo != null)
+        {
+            _clearInfo.SelectedDifficulty = level;
+            StageInfoRefresh(); // 스테이지 정보 갱신
+        }
+    }
+    
+    #endregion
+    
+    
     
     public void SetInfo(StageData stageData)
     {
@@ -162,9 +172,9 @@ public class UI_BattlePopup : UI_Popup
             return;
         
         #region 초기화
-
+        
         #region 스테이지 리스트
-
+        
         // 다 날리고
         GameObject StageContainer = GetObject((int)EGameObjects.StageScrollContentObject);
         StageContainer.DestroyChilds();
@@ -193,6 +203,24 @@ public class UI_BattlePopup : UI_Popup
     {
 
         #region 스테이지 정보
+        if (_stageData == null)
+            return;
+        
+        // 스테이지 ID를 사용하여 GameManager에서 SelectedDifficulty 값을 가져옴
+        if (Managers.Game.DicStageClearInfo.TryGetValue(_stageData.StageId, out _clearInfo))
+        {
+            int selectedDifficulty = _clearInfo.SelectedDifficulty;
+            Debug.Log("-----------------------------------------------");
+            Debug.Log("selectedDifficulty: " + selectedDifficulty);
+
+            
+            GetText((int)ETexts.DifficultyText).text = "Level " + selectedDifficulty;
+        }
+        else
+        {
+            Debug.LogError("Stage ID not found in DicStageClearInfo");
+        }
+        
         UIRefresh();
         #endregion
 
@@ -203,8 +231,6 @@ public class UI_BattlePopup : UI_Popup
         // 기본 상태
         GetButton((int)EButtons.LArrowButton).gameObject.SetActive(true);
         GetButton((int)EButtons.RArrowButton).gameObject.SetActive(true);
-        GetButton((int)EButtons.StartButton).gameObject.SetActive(false);
-        
         
         #region 스테이지 화살표 활성화 관련 
 
@@ -226,40 +252,6 @@ public class UI_BattlePopup : UI_Popup
             GetButton((int)EButtons.RArrowButton).gameObject.SetActive(false);
         }
 
-        #endregion
-        
-        
-        #region 스테이지 시작 버튼
-
-        if (Managers.Game.DicStageClearInfo.TryGetValue(_stageData.StageId, out StageClearInfo info) == false)
-            return;
-        
-        // 게임 처음 시작하고 스테이지창을 오픈 한 경우
-        if (info.StageId == 1 && info.MaxDifficulty == 0)
-        {
-            GetButton((int)EButtons.StartButton).gameObject.SetActive(true);   
-        }
-        // 스테이지 진행중
-        if (info.StageId <= _stageData.StageId)
-        {
-            GetButton((int)EButtons.StartButton).gameObject.SetActive(true);
-        }
-        
-        // 새로운 스테이지
-        if (Managers.Game.DicStageClearInfo.TryGetValue(_stageData.StageId - 1, out StageClearInfo PrevInfo) == false)
-        {
-            return;
-        }
-
-        if (PrevInfo.isClear == true)
-        {
-            GetButton((int)EButtons.StartButton).gameObject.SetActive(true);
-        }
-        else
-        {
-            GetButton((int)EButtons.StartButton).gameObject.SetActive(false);
-        }
-        
         #endregion
         
     }
@@ -285,11 +277,27 @@ public class UI_BattlePopup : UI_Popup
     void OnClickStartButton()
     {
         // 유저의 현재 스테이지 정보를 저장
-        Managers.Game.CurrentStageData = _stageData;
-        SetInfo(Managers.Game.CurrentStageData);
+        Managers.Game.CurrentSelectStage = _stageData;
+        SetInfo(Managers.Game.CurrentSelectStage);
         
         // 현재 난이도도 나중에 줘야 됨.
         // 여기서 게임씬으로 가는 것도 나중에 추가하기!!!
+        
+        // 임시
+        Debug.Log("go Game");
+        // 백엔드에서 통신해서 받아온 데이터랑 현재 선택한 스테이지 데이터를 넣어서 줘야됨
+        int stageId = 1;
+        int relic1Id = 0;
+        int relic2Id = 0;
+        int relic3Id = 0;
+        int relic4Id = 0;
+        int relic5Id = 0;
+        int relic6Id = 0;
+        _templateData.StageId = stageId;
+        _templateData.playerId = Random.Range(1, 3);
+        _templateData.RelicIds = new int[] {relic1Id,
+            relic2Id, relic3Id, relic4Id, relic5Id, relic6Id};
+        
         Managers.Scene.LoadScene(Define.EScene.GameScene);
     }
 
@@ -298,13 +306,21 @@ public class UI_BattlePopup : UI_Popup
         // 현재 스테이지 설정
         _stageData = Managers.Data.StageDic[index + 1];
         Debug.Log(_stageData.StageId);
-        
+
+        StageInfoRefresh();
         UIRefresh();
     }
 
+    // 난이도 선택 팝업 열기
     void onClickDifficultySelectButton()
     {
-        Managers.UI.ShowPopupUI<UI_DifficultySelectPopup>();
+        UI_DifficultySelectPopup popup = Managers.UI.ShowPopupUI<UI_DifficultySelectPopup>();
+        
+        // maxDifficulty를 UI_DifficultySelectPopup으로 전달
+        if (_clearInfo != null)
+        {
+            popup.SetMaxDifficulty(_stageData.StageId, _clearInfo.MaxDifficulty);
+        }
     }
     
 

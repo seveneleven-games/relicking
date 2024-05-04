@@ -19,7 +19,7 @@ public class PlayerController : CreatureController
     public float CritDmgRate { get; private set; }
     public float CoolDown { get; private set; }
 
-    private int playerGold = Define.INITIAL_GOLD;
+    private int playerGold = INITIAL_GOLD;
 
     public int PlayerGold
     {
@@ -80,6 +80,8 @@ public class PlayerController : CreatureController
         _indicator = indicatorObject.transform;
 
         StartSkills();
+        
+        DontDestroyOnLoad(this);
 
         return true;
     }
@@ -103,6 +105,7 @@ public class PlayerController : CreatureController
     private void Update()
     {
         Vector3 dir = _moveDir * Time.deltaTime * Speed;
+        
         transform.TranslateEx(dir);
 
         if (_moveDir != Vector2.zero)
@@ -236,7 +239,6 @@ public class PlayerController : CreatureController
     IEnumerator CoStartSkill(int skillId)
     {
         SkillData skillData = Managers.Data.SkillDic[skillId];
-        float coolTime = skillData.CoolTime;
         WaitForSeconds coolTimeWait = new WaitForSeconds(skillData.CoolTime);
         while (true)
         {
