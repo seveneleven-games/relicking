@@ -1,7 +1,9 @@
 package com.SevenEleven.RelicKing.controller;
 
+import com.SevenEleven.RelicKing.common.security.CustomUserDetails;
 import com.SevenEleven.RelicKing.dto.request.ClassChangeRequestDTO;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,9 +41,11 @@ public class InventoryController {
 		content = @Content(schema = @Schema(implementation = InventoryResponseDTO.class))
 	)
 	@GetMapping("/inventories") // Todo 유물 비어있을 때 번호 0짜리 새 유물 객체 넘기기
-	public Response getInventory() {
-		InventoryResponseDTO inventoryResponseDTO = inventoryService.getInventoryInfo();
-		return new Response(HttpStatus.OK.value(), "인벤토리 정보 조회에 성공했습니다.", inventoryResponseDTO);
+	public Response getInventory(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+		return new Response(
+			HttpStatus.OK.value(),
+			"인벤토리 정보 조회에 성공했습니다.",
+			inventoryService.getInventoryInfo(customUserDetails.getMember()));
 	}
 
 	@Operation(
@@ -53,8 +57,8 @@ public class InventoryController {
 		content = @Content(schema = @Schema(implementation = boolean.class))
 	)
 	@PostMapping("/classes")
-	public Response changeClass(@RequestBody ClassChangeRequestDTO classChangeRequestDTO) {
-		inventoryService.changeClass(classChangeRequestDTO.getClassNo());
+	public Response changeClass(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody ClassChangeRequestDTO classChangeRequestDTO) {
+		inventoryService.changeClass(customUserDetails.getMember(), classChangeRequestDTO.getClassNo());
 		return new Response(HttpStatus.OK.value(), "클래스가 변경되었습니다.", true);
 	}
 
@@ -67,8 +71,8 @@ public class InventoryController {
 		content = @Content(schema = @Schema(implementation = boolean.class))
 	)
 	@PostMapping("/relics") // Todo 유물 비어있을 때 바꾸는 로직
-	public Response changeRelic(@RequestBody RelicChangeRequestDTO relicChangeRequestDTO) {
-		inventoryService.changeRelic(relicChangeRequestDTO);
+	public Response changeRelic(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody RelicChangeRequestDTO relicChangeRequestDTO) {
+		inventoryService.changeRelic(customUserDetails.getMember(), relicChangeRequestDTO);
 		return new Response(HttpStatus.OK.value(), "유물이 변경되었습니다.", true);
 	}
 

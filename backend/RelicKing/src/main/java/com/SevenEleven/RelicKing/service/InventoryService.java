@@ -1,7 +1,10 @@
 package com.SevenEleven.RelicKing.service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import com.SevenEleven.RelicKing.common.Constant;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,27 +30,33 @@ public class InventoryService {
 	private final MemberRelicRepository memberRelicRepository;
 
 	@Transactional(readOnly = true)
-	public InventoryResponseDTO getInventoryInfo() {
-		Member member = memberRepository.findByMemberId(1).orElseThrow(); // Todo 로그인한 멤버로 변경
+	public InventoryResponseDTO getInventoryInfo(Member member) {
 		List<MemberRelic> memberRelicList = memberRelicRepository.findByMember(member);
-		List<MemberRelicDTO> memberRelicDTOS = memberRelicList.stream().map(MemberRelic::entityToDTO).toList();
+
+		MemberRelicDTO[] memberRelicDTOS = new MemberRelicDTO[Constant.THE_NUMBER_OF_RELICS];
+		Arrays.setAll(memberRelicDTOS, i -> new MemberRelicDTO(i + 1, 0, 0, 0));
+
+		memberRelicList.forEach(memberRelic -> {
+			memberRelicDTOS[memberRelic.getRelicNo() - 1] =
+					new MemberRelicDTO(
+							memberRelic.getRelicNo(),
+							memberRelic.getLevel(),
+							memberRelic.getExp(),
+							memberRelic.getSlot());
+		});
 
 		return InventoryResponseDTO.builder()
 			.currentClassNo(member.getCurrentClassNo())
-			.myRelicList(memberRelicDTOS)
+			.myRelicList(new ArrayList<>(List.of(memberRelicDTOS)))
 			.build();
 	}
 
-	@Transactional
-	public void changeClass(int classNo) {
-		Member member = memberRepository.findByMemberId(1).orElseThrow(); // Todo 로그인한 멤버로 변경
+	public void changeClass(Member member, int classNo) {
 		member.changeCurrentClassNo(classNo);
 		memberRepository.save(member);
 	}
 
-	@Transactional
-	public void changeRelic(RelicChangeRequestDTO relicChangeRequestDTO) {
-		Member member = memberRepository.findByMemberId(1).orElseThrow(); // Todo 로그인한 멤버로 변경
+	public void changeRelic(Member member, RelicChangeRequestDTO relicChangeRequestDTO) {
 		member.getMemberRelics().forEach(memberRelic -> {
 			if (memberRelic.getSlot() == relicChangeRequestDTO.getSlot()) {
 				memberRelic.changeSlot(0);

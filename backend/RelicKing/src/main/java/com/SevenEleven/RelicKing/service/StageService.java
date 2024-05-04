@@ -3,6 +3,7 @@ package com.SevenEleven.RelicKing.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -17,6 +18,7 @@ import com.SevenEleven.RelicKing.dto.model.RelicDTO;
 import com.SevenEleven.RelicKing.entity.Member;
 import com.SevenEleven.RelicKing.entity.MemberRelic;
 import com.SevenEleven.RelicKing.entity.Record;
+import com.SevenEleven.RelicKing.entity.RecordRelic;
 import com.SevenEleven.RelicKing.repository.MemberRelicRepository;
 import com.SevenEleven.RelicKing.repository.RecordRepository;
 
@@ -30,23 +32,23 @@ public class StageService {
 	private final RecordRepository recordRepository;
 
 	public StageResponseDTO getClassAndRelics(Member member) {
-		List<MemberRelic> RelicList = member.getMemberRelics().stream()
-			.filter(relic -> relic.getSlot() > 0)
-			.toList();
-
-		List<RelicDTO> result = new ArrayList<>(6);
-		int size = RelicList.size();
-		if (size < 6) {
-			for (int i = size + 1; i <= 6; i++) {
-				RelicDTO relicDTO = RelicDTO.builder()
-					.slot(i)
-					.build();
-				result.add(relicDTO);
-			}
+		List<RelicDTO> relicList = new ArrayList<>();
+		for (int i = 1; i <= 6; i++) {
+			relicList.add(new RelicDTO(0, 0, i));
 		}
 
+		relicList.forEach(relicDTO -> {
+			member.getMemberRelics().forEach(memberRelic -> {
+				if (relicDTO.getSlot() == memberRelic.getSlot()) {
+					relicDTO.changeRelic(memberRelic.getRelicNo(), memberRelic.getLevel(), memberRelic.getSlot());
+				}
+			});
+		});
+
+		relicList.sort(RelicDTO::compareTo);
+
 		return StageResponseDTO.builder()
-			.relicList(result)
+			.relicList(relicList)
 			.currentClassNo(member.getCurrentClassNo())
 			.build();
 	}
@@ -59,7 +61,6 @@ public class StageService {
 			stageRequestDTO.getDifficulty());
 		// 랭킹 최신화
 		patchRecord(member, stageRequestDTO);
-
 	}
 
 	private void patchRelic(Member member, int eliteKill, int normalKill, int difficulty) {
@@ -70,6 +71,7 @@ public class StageService {
 				memberRelicRepository.save(memberRelic);
 			}
 		});
+
 	}
 
 	private void patchRecord(Member member, StageRequestDTO stageRequestDTO) {
@@ -86,6 +88,7 @@ public class StageService {
 	}
 
 	private void createRecord(Member member, StageRequestDTO stageRequestDTO) {
+
 		Record record = Record.builder()
 			.member(member)
 			.stage(stageRequestDTO.getStage())
@@ -95,11 +98,51 @@ public class StageService {
 			.classNo(member.getCurrentClassNo())
 			.build();
 
-		for (MemberRelic memberRelic: member.getMemberRelics()) {
-			if (memberRelic.getSlot() > 0) {
-				record.addRecordRelic(memberRelic.getRelicNo(), memberRelic.getLevel(), memberRelic.getSlot());
-			}
+		Set<MemberRelic> memberRelics = member.getMemberRelics();
+
+		ArrayList<RecordRelic> recordRelics = new ArrayList<>(6);
+		for (int i = 1; i <= 6; i++) {
+			recordRelics.add(new RecordRelic(0, 0, i));
 		}
+
+		recordRelics.forEach(recordRelic -> {
+			memberRelics.forEach(memberRelic -> {
+				if (recordRelic.getSlot() == memberRelic.getSlot()) {
+					recordRelic.changeRelic(memberRelic.getRelicNo(), memberRelic.getLevel(), memberRelic.getSlot());
+				}
+			});
+		});
+
+		recordRelics.sort(RecordRelic::compareTo);
+
+		for (RecordRelic recordRelic: recordRelics) {
+				record.addRecordRelic(recordRelic.getRelicNo(), recordRelic.getLevel(), recordRelic.getSlot());
+			}
+
+		log.info("========================");
+		log.info(recordRelics);
+
+		// Todo 주석 지우기
+		// ArrayList<String> slotList = new ArrayList<>(List.of("1", "2", "3", "4", "5", "6"));
+		// ArrayList<RecordRelic> recordRelics = new ArrayList<>(6);
+		//
+		// for (MemberRelic memberRelic: memberRelics) {
+		// 	if (memberRelic.getSlot() > 0) {
+		// 		recordRelics.add(new RecordRelic(memberRelic.getRelicNo(), memberRelic.getLevel(), memberRelic.getSlot()));
+		// 		slotList.remove(Integer.toString(memberRelic.getSlot()));
+		// 	}
+		// }
+		//
+		// for (String slot: slotList) {
+		// 	recordRelics.add(new RecordRelic(0, 0, Integer.parseInt(slot)));
+		// }
+		//
+		// recordRelics.sort(RecordRelic::compareTo);
+		//
+		// for (RecordRelic recordRelic: recordRelics) {
+		// 	record.addRecordRelic(recordRelic.getRelicNo(), recordRelic.getLevel(), recordRelic.getSlot());
+		// }
+		//
 
 		for (SkillDTO skillDTO: stageRequestDTO.getSkillList()) {
 			record.addRecordSkill(skillDTO.getSkillNo(), skillDTO.getLevel(), skillDTO.getSlot());
