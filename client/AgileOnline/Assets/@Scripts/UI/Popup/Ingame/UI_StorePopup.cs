@@ -138,20 +138,52 @@ public class UI_StorePopup : UI_Popup
             return;
         }
 
-        int selectedCardIdx = _skillCards.IndexOf(skill);
-        
         //GameScene에서 구독한 BuySkill 함수 실행
         OnSkillCardClick?.Invoke(skill.SkillId);
         
         //스킬 업데이트
         //step1. 스킬 타입 정하기
-        int fixedSkillType = 0;
-        int[] candidates = GetRandomSkillIdList(3);
+        //: 병목 걸리면 가끔 아다리 안 맞을 때가 있어서 예외 처리 해줘야 함
+        // -> 예외사항 : 원래는 풀에서 제거되었어야 했을 이미 만렙찍은 스킬타입을 받아오는 경우가 발생
+        int fixedSkillType = GetFixedSkillType(_skillCards.IndexOf(skill),GetRandomSkillIdList(3));
+        int nowLevel = GetNowLevel(fixedSkillType);
+
+        while (nowLevel != 0 && fixedSkillType != -1 && // 처음 산 스킬이거나 스킬 풀이 빈 상황이 아닌데도
+               Managers.Data.SkillDic[fixedSkillType * 10 + nowLevel].NextId == -1 ) // 만렙 스킬을 가져온 경우라면
+        {
+            // 다시 스킬 타입을 받아옴
+            fixedSkillType = GetFixedSkillType(_skillCards.IndexOf(skill),GetRandomSkillIdList(3));
+            nowLevel = GetNowLevel(fixedSkillType);
+        }
+
+        
+        //todo(전지환) : 최대 레벨이면 스킬풀에서 제거하는 로직 필요!
+        //분기처리. 만약 스킬 타입이 -1(더 이상 반환할 수 있는 스킬이 없음)이라면..?
+        if (fixedSkillType == -1)
+            skill.RefreshNull();
+        else
+            skill.Refresh(fixedSkillType*10 + nowLevel + 1);
+        
+        
+        //step2. 스킬 레벨 받아오기 -> 함수화 (여러번 씀)
+        
+
+        //todo(전지환) : 스킬 데이터에 맞는 코스트로 빼주기
+        _player.PlayerGold -= Define.TEST_SKILL_COST;
+        Gold -= Define.TEST_SKILL_COST;
+        
+        
+    }
+
+    int GetFixedSkillType(int selectedCardIdx, int[] candidates)
+    {
+        int fixedSkillType = -1;
+        
         foreach (int skillType in candidates)
         {
             bool isDuplicate = false;
             
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < candidates.Length; i++)
             {
                 if(i == selectedCardIdx) continue;
 
@@ -169,29 +201,10 @@ public class UI_StorePopup : UI_Popup
                 break;
             };
         }
-        
-        //todo(전지환) : 최대 레벨이면 스킬풀에서 제거하는 로직 필요!
-        //분기처리. 만약 스킬 타입이 -1(더 이상 반환할 수 있는 스킬이 없음)이라면..?
-        if (fixedSkillType == -1)
-        {
-            skill.RefreshNull();
-        }
-        else
-        {
-            int nowLevel = GetNowLevel(fixedSkillType);
-            // nowLevel 만렙이면 우짤래 
-            skill.Refresh(fixedSkillType*10 + nowLevel + 1);
-        }
-        
-        //step2. 스킬 레벨 받아오기 -> 함수화 (여러번 씀)
-        
 
-        //todo(전지환) : 스킬 데이터에 맞는 코스트로 빼주기
-        _player.PlayerGold -= Define.TEST_SKILL_COST;
-        Gold -= Define.TEST_SKILL_COST;
-        
-        
+        return fixedSkillType;
     }
+    
 
     int GetNowLevel(int skillType)
     {

@@ -60,6 +60,7 @@ public class SkillCard : UI_Base
         SkillData data = Managers.Data.SkillDic[skillId];
         
         GetText((int)Texts.SkillName).gameObject.SetActive(true);
+        GetText((int)Texts.SkillCost).gameObject.SetActive(false);
         GetObject((int)GameObjects.SkillLv).gameObject.SetActive(true);
         GetObject((int)GameObjects.SkillIconMask).gameObject.SetActive(true);
         GetObject((int)GameObjects.SkillCostSymbol).gameObject.SetActive(true);
@@ -70,9 +71,10 @@ public class SkillCard : UI_Base
         GetText((int)Texts.NowLv).text = (skillId % 10 - 1).ToString();
         GetText((int)Texts.NextLv).text = (skillId % 10).ToString();
         GetText((int)Texts.SkillInfo).text = data.Description;
+        GetImage((int)Images.SkillImage).sprite = Managers.Resource.Load<Sprite>(data.IconName);
+
         //todo(전지환) : 스킬 코스트를 각 스킬 별로 설정해주어야 할 것.
         GetText((int)Texts.SkillCost).text = Define.TEST_SKILL_COST.ToString();
-        GetImage((int)Images.SkillImage).sprite = Managers.Resource.Load<Sprite>(data.IconName);
     }
 
     public void RefreshNull()
@@ -80,6 +82,7 @@ public class SkillCard : UI_Base
         _skillId = -1;
         
         GetText((int)Texts.SkillName).gameObject.SetActive(false);
+        GetText((int)Texts.SkillCost).gameObject.SetActive(false);
         GetObject((int)GameObjects.SkillLv).gameObject.SetActive(false);
         GetObject((int)GameObjects.SkillIconMask).gameObject.SetActive(false);
         GetObject((int)GameObjects.SkillCostSymbol).gameObject.SetActive(false);
