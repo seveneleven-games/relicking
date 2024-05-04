@@ -57,7 +57,7 @@ public class UI_InvenPopup : UI_Popup
             Managers.Game.OnResourcesChanged -= Refresh;
 
         if (_templateData != null)
-            _templateData.OnSelectedClassIdChanged -= SetClassDetailStatus;
+            _templateData.OnPlayerStatusChagned -= SetClassDetailStatus;
     }
 
     // 초기 세팅
@@ -79,8 +79,7 @@ public class UI_InvenPopup : UI_Popup
         GetButton((int)EButtons.ClassButton).gameObject.BindEvent(OnClickClassSelectButton);
 
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
-        _templateData.SelectedClassId = 1;
-        SetClassDetailStatus(_templateData.SelectedClassId);
+        SetClassDetailStatus(_templateData.SelectedClassId, _templateData.EquipedRelicIds);
 
         foreach (var RelicData in Managers.Data.RelicDic)
         {
@@ -99,8 +98,7 @@ public class UI_InvenPopup : UI_Popup
         OnClickRelicToggle();
 
         Managers.Game.OnResourcesChanged += Refresh;
-        _templateData.OnSelectedClassIdChanged += SetClassDetailStatus;
-        Refresh();
+        _templateData.OnPlayerStatusChagned += SetClassDetailStatus;
 
         return true;
     }
@@ -159,14 +157,32 @@ public class UI_InvenPopup : UI_Popup
         Managers.UI.ShowPopupUI<UI_InvenRelicInfoPopup>();
     }
 
-    void SetClassDetailStatus(int num)
+    void SetClassDetailStatus(int num, int[] nums)
     {
-        GetText((int)ETexts.MaxHealthText).text = Managers.Data.PlayerDic[num].MaxHp.ToString();
-        GetText((int)ETexts.DamageText).text = Managers.Data.PlayerDic[num].Atk.ToString();
-        GetText((int)ETexts.SpeedText).text = Managers.Data.PlayerDic[num].Speed.ToString();
-        GetText((int)ETexts.CoinBonusText).text = "100";
-        GetText((int)ETexts.CriticalRateText).text = Managers.Data.PlayerDic[num].CritRate.ToString();
-        GetText((int)ETexts.CriticalDamageText).text = Managers.Data.PlayerDic[num].CritDmgRate.ToString();
-        GetText((int)ETexts.CoolDownText).text = Managers.Data.PlayerDic[num].CoolDown.ToString();
+        int MaxHp = Managers.Data.PlayerDic[num].MaxHp;
+        int Atk = Managers.Data.PlayerDic[num].Atk;
+        float Speed = Managers.Data.PlayerDic[num].Speed;
+        int CoinBonus = 100;
+        float CritRate = Managers.Data.PlayerDic[num].CritRate;
+        float CritDmgRate = Managers.Data.PlayerDic[num].CritDmgRate;
+        float CoolDown = Managers.Data.PlayerDic[num].CoolDown;
+
+        foreach (int i in nums)
+        {
+            MaxHp += Managers.Data.RelicDic[i].MaxHp;
+            Atk += Managers.Data.RelicDic[i].Atk;
+            Speed += Managers.Data.RelicDic[i].Speed;
+            CoolDown -= Managers.Data.RelicDic[i].CoolTime / 100f ;
+        }
+
+        CoolDown = Mathf.Max(CoolDown, 0.4f);
+
+        GetText((int)ETexts.MaxHealthText).text = MaxHp.ToString();
+        GetText((int)ETexts.DamageText).text = Atk.ToString();
+        GetText((int)ETexts.SpeedText).text = Speed.ToString();
+        GetText((int)ETexts.CoinBonusText).text = CoinBonus.ToString();
+        GetText((int)ETexts.CriticalRateText).text = CritRate.ToString();
+        GetText((int)ETexts.CriticalDamageText).text = CritDmgRate.ToString();
+        GetText((int)ETexts.CoolDownText).text = CoolDown.ToString();
     }
 }
