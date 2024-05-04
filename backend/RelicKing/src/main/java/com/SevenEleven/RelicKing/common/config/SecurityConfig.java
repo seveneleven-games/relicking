@@ -38,8 +38,7 @@ public class SecurityConfig {
 		"/api/members/temp-password",
 		"/api/members/duplicate-email",
 		"/api/members/duplicate-nickname",
-		"/api/members/email-code",
-		"/api/members/email-authenticate",
+		"/api/members/emails/**",
 		"/api/members/signup",
 		"/api/members/kakao-login",
 
