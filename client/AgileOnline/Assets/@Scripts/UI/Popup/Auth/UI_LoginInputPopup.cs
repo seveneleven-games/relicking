@@ -185,7 +185,6 @@ public class UI_LoginInputPopup : UI_Popup
             // json -> 객체로 변환
             LoginDataRes loginDataRes = JsonUtility.FromJson<LoginDataRes>(res);
             
-            
             // 성공시 로비로 가기
             if (loginDataRes.data != null && loginDataRes.data.accessToken != null)
             {

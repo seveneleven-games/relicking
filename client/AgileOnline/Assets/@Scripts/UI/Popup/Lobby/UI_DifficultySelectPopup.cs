@@ -89,9 +89,6 @@ public class UI_DifficultySelectPopup : UI_Popup
         GenerateDifficultyButtons(_maxDifficulty, _clearInfo.SelectedDifficulty);
     }
     
-    
-    
-    
     void GenerateDifficultyButtons(int maxDifficulty, int selectedDifficulty)
     {
         // 현재 난이도가 5보다 작을 경우 대비
@@ -113,8 +110,6 @@ public class UI_DifficultySelectPopup : UI_Popup
         }
     }
 
-    
-    
     
     void SelectDifficulty(int level)
     {
