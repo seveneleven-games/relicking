@@ -33,6 +33,8 @@ public enum ExceptionType {
     // email
     FAILED_TO_SEND_EMAIL(HttpStatus.INTERNAL_SERVER_ERROR.value(), "이메일 전송에 실패했습니다."),
     NO_SUCH_ALGORITHM(HttpStatus.INTERNAL_SERVER_ERROR.value(), "알고리즘을 찾을 수 없습니다."),
+    EXPIRED_AUTH_CODE(HttpStatus.UNAUTHORIZED.value(), "인증 코드가 만료되었습니다."),
+    WRONG_AUTH_CODE(HttpStatus.UNAUTHORIZED.value(), "인증 코드가 불일치합니다."),
     ;
 
     private final int status;

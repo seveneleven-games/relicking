@@ -146,4 +146,18 @@ public class MemberController {
 		memberService.sendCodeToEmail(dto.getEmail());
 		return new Response(HttpStatus.OK.value(), "이메일로 인증 코드를 전송하였습니다.", true);
 	}
+
+	@Operation(
+		summary = "이메일 인증",
+		description = "인증 코드를 통해 이메일을 인증합니다."
+	)
+	@ApiResponse(
+		responseCode = "200", description = "이메일 인증 성공",
+		content = @Content(schema = @Schema(implementation = boolean.class))
+	)
+	@PostMapping("/emails/verification")
+	public Response verifyEmail(@RequestBody @Valid VerifyEmailRequestDto dto) {
+		memberService.verifyEmail(dto.getEmail(), dto.getCode());
+		return new Response(HttpStatus.OK.value(), "인증되었습니다.", true);
+	}
 }

@@ -251,4 +251,18 @@ public class MemberService {
 			throw new CustomException(exceptionType);
 		}
 	}
+
+	public void verifyEmail(String email, String code) {
+		String redisAuthCode = redisService.getValues(Constant.AUTH_CODE_PREFIX + email);
+
+		// 인증 코드가 만료된 경우
+		if (!redisService.checkExistsValue(redisAuthCode)) {
+			throw new CustomException(ExceptionType.EXPIRED_AUTH_CODE);
+		}
+
+		// 인증 코드가 불일치한 경우
+		if (!redisAuthCode.equals(code)) {
+			throw new CustomException(ExceptionType.WRONG_AUTH_CODE);
+		}
+	}
 }
