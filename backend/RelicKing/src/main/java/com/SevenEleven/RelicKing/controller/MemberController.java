@@ -17,6 +17,7 @@ import com.SevenEleven.RelicKing.dto.request.ReissueRequestDto;
 import com.SevenEleven.RelicKing.dto.request.SignUpRequestDto;
 import com.SevenEleven.RelicKing.dto.request.UpdateNicknameRequestDto;
 import com.SevenEleven.RelicKing.dto.request.UpdatePasswordRequestDto;
+import com.SevenEleven.RelicKing.dto.request.VerifyEmailRequestDto;
 import com.SevenEleven.RelicKing.dto.response.ReissueResponseDto;
 import com.SevenEleven.RelicKing.service.MemberService;
 
@@ -132,4 +133,17 @@ public class MemberController {
 		return memberService.checkNicknameForDuplicates(nickname);
 	}
 
+	@Operation(
+		summary = "이메일 인증 코드 발송",
+		description = "이메일 인증 코드를 발송하며 서버에서 해당 코드를 일정 시간동안 저장해둡니다."
+	)
+	@ApiResponse(
+		responseCode = "200", description = "이메일 인증 코드 발송 성공",
+		content = @Content(schema = @Schema(implementation = boolean.class))
+	)
+	@PostMapping("/emails/code")
+	public Response sendCodeToEmail(@RequestBody @Valid VerifyEmailRequestDto dto) {
+		memberService.sendCodeToEmail(dto.getEmail());
+		return new Response(HttpStatus.OK.value(), "이메일로 인증 코드를 전송하였습니다.", true);
+	}
 }

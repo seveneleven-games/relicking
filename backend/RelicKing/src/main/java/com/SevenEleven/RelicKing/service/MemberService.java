@@ -1,10 +1,15 @@
 package com.SevenEleven.RelicKing.service;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -44,6 +49,11 @@ public class MemberService {
 	private final JWTUtil jwtUtil;
 	private final RefreshTokenRepository refreshTokenRepository;
 	private final RecordRepository recordRepository;
+	private final EmailService emailService;
+	private final RedisService redisService;
+
+	@Value("${spring.mail.auth-code-expiration-millis}")
+	private int authCodeExpirationMillis;
 
 	@Transactional
 	public void signup(SignUpRequestDto dto) {
@@ -214,4 +224,31 @@ public class MemberService {
 		}
 	}
 
+	@Transactional
+	public void sendCodeToEmail(String email) {
+
+		String title = "RelicKing에서 인증 코드를 알려드립니다.";
+		String authCode = createCode();
+		String text = "인증 코드 : " + authCode;	// TODO : 인증 코드 안내 메일 본문 예쁘게 꾸며보기
+		emailService.sendEmail(email, title, text);
+
+		// 이메일 인증 요청 시 인증 코드를 redis에 저장
+		redisService.setValues(Constant.AUTH_CODE_PREFIX + email, authCode, Duration.ofMillis(authCodeExpirationMillis));
+	}
+
+	private String createCode() {
+		int length = 6;
+		try {
+			Random random = SecureRandom.getInstanceStrong();
+			StringBuilder stringBuilder = new StringBuilder();
+			for (int i = 0; i < length; i++) {
+				stringBuilder.append(random.nextInt(10));
+			}
+			return stringBuilder.toString();
+		} catch (NoSuchAlgorithmException e) {
+			ExceptionType exceptionType = ExceptionType.NO_SUCH_ALGORITHM;
+			log.info(exceptionType.getMessage());
+			throw new CustomException(exceptionType);
+		}
+	}
 }

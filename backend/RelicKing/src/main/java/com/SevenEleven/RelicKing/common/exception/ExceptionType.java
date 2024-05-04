@@ -29,6 +29,10 @@ public enum ExceptionType {
     EXPIRED_JWT(HttpStatus.UNAUTHORIZED.value(), "JWT가 만료되었습니다."),
     NOT_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED.value(), "access token이 아닙니다."),
     NOT_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED.value(), "refresh token이 아닙니다."),
+
+    // email
+    FAILED_TO_SEND_EMAIL(HttpStatus.INTERNAL_SERVER_ERROR.value(), "이메일 전송에 실패했습니다."),
+    NO_SUCH_ALGORITHM(HttpStatus.INTERNAL_SERVER_ERROR.value(), "알고리즘을 찾을 수 없습니다."),
     ;
 
     private final int status;
