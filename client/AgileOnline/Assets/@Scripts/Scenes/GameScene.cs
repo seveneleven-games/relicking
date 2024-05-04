@@ -47,9 +47,7 @@ public class GameScene : BaseScene
         _nodeMap.OnEnterNode += StartGame;
         
         _store = Managers.UI.ShowPopupUI<UI_StorePopup>();
-        _store.OnSkillCardClick += BuySkill;
         _store.DataSync(_player.PlayerSkillList);
-        _player.OnPlayerSkillAdded += _store.DataSync;
         
         // _inGame = Managers.UI.ShowPopupUI<UI_InGamePopup>();
         
@@ -144,12 +142,6 @@ public class GameScene : BaseScene
         }
         
         StartCoroutine(StartTimer(10f));
-    }
-
-    public void BuySkill(int skillId)
-    {
-        //todo(전지환) : 슬롯 번호는 이후 플레이어 컨트롤러에서 관리할 수 있도록 변경
-        _player.AddSkill(skillId, 5);
     }
     
     private IEnumerator StartTimer(float duration)

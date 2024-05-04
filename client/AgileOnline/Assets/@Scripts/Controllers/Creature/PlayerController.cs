@@ -368,7 +368,7 @@ public class PlayerController : CreatureController
         }
     }
 
-    public void AddSkill(int addSkillId, int slotNum)
+    public List<int> AddSkill(int addSkillId)
     {
         // 이전에 배운스킬 레벨업이면 해당 슬롯에 덮어씌움
         for (int i = 0; i < PlayerSkillList.Count; i++)
@@ -377,8 +377,7 @@ public class PlayerController : CreatureController
             {
                 PlayerSkillList[i] = addSkillId;
                 Debug.Log($"스킬 레벨 업!");
-                OnPlayerSkillAdded?.Invoke(_playerSkillList);
-                return;
+                return PlayerSkillList;
             }
         }
 
@@ -389,13 +388,13 @@ public class PlayerController : CreatureController
             {
                 PlayerSkillList[i] = addSkillId;
                 Debug.Log($"스킬 추가 !!");
-                OnPlayerSkillAdded?.Invoke(_playerSkillList);
-                return;
+                return PlayerSkillList;
             }
         }
 
         // 이전에 배운스킬도 아닌데 빈슬롯도없으면 로그에러띄워줌
         Debug.LogError("스킬 넣는게 잘못됐어요");
+        return PlayerSkillList;
     }
 
     #endregion

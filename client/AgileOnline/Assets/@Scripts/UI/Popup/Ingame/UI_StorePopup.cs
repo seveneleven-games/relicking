@@ -129,6 +129,13 @@ public class UI_StorePopup : UI_Popup
          *  : 스킬을 3개 미만으로 받아와야 하는 상황에는 스킬 카드를 디폴트로 랜더링 할 수 있도록 함
          *      (그리고 클릭 이벤트는 모두 비활성화)
          */
+        if (skill.SkillId == -1)
+        {
+            Debug.Log("빈 슬롯! 구매 처리 미진행");
+            return;
+        }
+        
+        
         Debug.Log($"구매 스킬 : {Managers.Data.SkillDic[skill.SkillId].Name} {Managers.Data.SkillDic[skill.SkillId].SkillId % 10}Lv, " +
                   $"구매 클릭 슬롯 번호 : {_skillCards.IndexOf(skill) + 1}번");
 
@@ -138,24 +145,18 @@ public class UI_StorePopup : UI_Popup
             return;
         }
 
-        //GameScene에서 구독한 BuySkill 함수 실행
-        OnSkillCardClick?.Invoke(skill.SkillId);
+        //GameScene에서 구독한 BuySkill 함수 실행 & 싱크 작업
+        DataSync(_player.AddSkill(skill.SkillId));
         
         //스킬 업데이트
         //step1. 스킬 타입 정하기
-        //: 병목 걸리면 가끔 아다리 안 맞을 때가 있어서 예외 처리 해줘야 함
-        // -> 예외사항 : 원래는 풀에서 제거되었어야 했을 이미 만렙찍은 스킬타입을 받아오는 경우가 발생
+        /*
+         * : 병목 걸리면 가끔 아다리 안 맞을 때가 있어서 예외 처리 해줘야 함
+         * -> 예외사항 : 원래는 풀에서 제거되었어야 했을 이미 만렙찍은 스킬타입을 받아오는 경우가 발생 
+         */
+        
         int fixedSkillType = GetFixedSkillType(_skillCards.IndexOf(skill),GetRandomSkillIdList(3));
         int nowLevel = GetNowLevel(fixedSkillType);
-
-        while (nowLevel != 0 && fixedSkillType != -1 && // 처음 산 스킬이거나 스킬 풀이 빈 상황이 아닌데도
-               Managers.Data.SkillDic[fixedSkillType * 10 + nowLevel].NextId == -1 ) // 만렙 스킬을 가져온 경우라면
-        {
-            // 다시 스킬 타입을 받아옴
-            fixedSkillType = GetFixedSkillType(_skillCards.IndexOf(skill),GetRandomSkillIdList(3));
-            nowLevel = GetNowLevel(fixedSkillType);
-        }
-
         
         //todo(전지환) : 최대 레벨이면 스킬풀에서 제거하는 로직 필요!
         //분기처리. 만약 스킬 타입이 -1(더 이상 반환할 수 있는 스킬이 없음)이라면..?
@@ -164,15 +165,10 @@ public class UI_StorePopup : UI_Popup
         else
             skill.Refresh(fixedSkillType*10 + nowLevel + 1);
         
-        
-        //step2. 스킬 레벨 받아오기 -> 함수화 (여러번 씀)
-        
 
         //todo(전지환) : 스킬 데이터에 맞는 코스트로 빼주기
         _player.PlayerGold -= Define.TEST_SKILL_COST;
         Gold -= Define.TEST_SKILL_COST;
-        
-        
     }
 
     int GetFixedSkillType(int selectedCardIdx, int[] candidates)
@@ -284,7 +280,6 @@ public class UI_StorePopup : UI_Popup
         {
             if (skillId != 0 && Managers.Data.SkillDic[skillId].NextId == -1)
             {
-                Debug.Log($"최고랩 달성! 달성 스킬 : {Managers.Data.SkillDic[skillId].Name}");
                 _maxSkillTypes.Add(skillId / 10);
             }
                 
