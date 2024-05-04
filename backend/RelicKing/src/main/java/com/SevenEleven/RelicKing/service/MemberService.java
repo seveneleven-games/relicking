@@ -153,7 +153,6 @@ public class MemberService {
 			array[record.getStage() - 1] = record.getDifficulty();
 		});
 
-
 		return StageDifficultyDTO.builder()
 			.stage1(array[0])
 			.stage2(array[1])

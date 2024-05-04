@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.SevenEleven.RelicKing.common.Constant;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,26 +29,25 @@ public class InventoryService {
 
 	private final MemberRelicRepository memberRelicRepository;
 
-	@Transactional(readOnly = true) // Todo 없는 유물도 레벨 0으로 전부 보내기
+	@Transactional(readOnly = true)
 	public InventoryResponseDTO getInventoryInfo(Member member) {
 		List<MemberRelic> memberRelicList = memberRelicRepository.findByMember(member);
-		// List<MemberRelicDTO> myRelicList = memberRelicList.stream().map(MemberRelic::entityToDTO).toList();
 
-		MemberRelicDTO[] memberRelicDTOS = new MemberRelicDTO[memberRelicList.size()];
-		Arrays.setAll(memberRelicDTOS, i -> new MemberRelicDTO(0, 0, 0, i + 1));
+		MemberRelicDTO[] memberRelicDTOS = new MemberRelicDTO[Constant.THE_NUMBER_OF_RELICS];
+		Arrays.setAll(memberRelicDTOS, i -> new MemberRelicDTO(i + 1, 0, 0, 0));
 
 		memberRelicList.forEach(memberRelic -> {
-			if (memberRelic.getSlot() > 0) {
-				memberRelicDTOS[memberRelic.getSlot() - 1] = MemberRelic.entityToDTO(memberRelic);
-			}
-
+			memberRelicDTOS[memberRelic.getRelicNo() - 1] =
+					new MemberRelicDTO(
+							memberRelic.getRelicNo(),
+							memberRelic.getLevel(),
+							memberRelic.getExp(),
+							memberRelic.getSlot());
 		});
-
-		List<MemberRelicDTO> myRelicList = new ArrayList<>(List.of(memberRelicDTOS));
 
 		return InventoryResponseDTO.builder()
 			.currentClassNo(member.getCurrentClassNo())
-			.myRelicList(myRelicList)
+			.myRelicList(new ArrayList<>(List.of(memberRelicDTOS)))
 			.build();
 	}
 
