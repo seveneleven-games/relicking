@@ -22,7 +22,8 @@ public class MonsterController : CreatureController
     
     public List<int> MonsterSkillList { get; private set; }
     
-    private List<Coroutine> _skillCoroutines = new List<Coroutine>();
+    private Coroutine _skillCoroutine;
+    private bool _isUsingSkill;
 
     public override bool Init()
     {
@@ -60,6 +61,7 @@ public class MonsterController : CreatureController
         else if (MonsterType == 2)
         {
             MonsterSkillList[0] = 1000;
+            MonsterSkillList[1] = 1001;
             transform.localScale = new Vector3(3, 3, 1);
         }
     }
@@ -67,11 +69,6 @@ public class MonsterController : CreatureController
     private void Start()
     {
         _player = Managers.Object.Player;
-        
-        if (MonsterType != 0)
-        {
-            StartSkills();
-        }
     }
 
     private void Update()
@@ -80,6 +77,11 @@ public class MonsterController : CreatureController
             return;
         
         ChasePlayer();
+        
+        if (!_isUsingSkill && MonsterType != 0)
+        {
+            StartRandomSkill();
+        }
     }
 
     private void ChasePlayer()
@@ -156,55 +158,56 @@ public class MonsterController : CreatureController
     }
 
     #region Skill
-
-    void StartSkills()
-    {
-        StopSkills();
-
-        foreach (int skillId in MonsterSkillList)
-        {
-            if (skillId > 0)
-            {
-                Coroutine skillCoroutine = StartCoroutine(CoStartSkill(skillId));
-                _skillCoroutines.Add(skillCoroutine);
-            }
-        }
-    }
     
-    void StopSkills()
+    void StartRandomSkill()
     {
-        foreach (Coroutine coroutine in _skillCoroutines)
+        if (_skillCoroutine != null)
         {
-            if (coroutine != null)
-                StopCoroutine(coroutine);
+            StopCoroutine(_skillCoroutine);
         }
 
-        _skillCoroutines.Clear();
+        int randomIndex = UnityEngine.Random.Range(0, MonsterSkillList.Count);
+        int skillId = MonsterSkillList[randomIndex];
+
+        if (skillId > 0)
+        {
+            _skillCoroutine = StartCoroutine(CoStartSkill(skillId));
+        }
     }
     
     IEnumerator CoStartSkill(int skillId)
     {
+        _isUsingSkill = true;
+
         SkillData skillData = Managers.Data.SkillDic[skillId];
         WaitForSeconds coolTimeWait = new WaitForSeconds(skillData.CoolTime);
-        while (true)
-        {
-            yield return coolTimeWait;
-            switch (skillData.PrefabName)
-            {
-                case "EliteMonsterProjectile":
-                    int empProjectileNum = skillData.ProjectileNum;
-                    float angleStep = 360f / empProjectileNum;
 
-                    for (int i = 0; i < empProjectileNum; i++)
-                    {
-                        float angle = i * angleStep;
-                        Vector3 direction = Quaternion.Euler(0f, 0f, angle) * Vector3.up;
-                        EliteMonsterProjectileController emp = Managers.Object.Spawn<EliteMonsterProjectileController>(transform.position, skillId);
-                        emp.SetMoveDirection(direction);
-                    }
-                    break;
-            }
+        switch (skillData.PrefabName)
+        {
+            case "EliteMonsterProjectile":
+                int empProjectileNum = skillData.ProjectileNum;
+                float angleStep = 360f / empProjectileNum;
+
+                for (int i = 0; i < empProjectileNum; i++)
+                {
+                    float angle = i * angleStep;
+                    Vector3 direction = Quaternion.Euler(0f, 0f, angle) * Vector3.up;
+                    EliteMonsterProjectileController emp = Managers.Object.Spawn<EliteMonsterProjectileController>(transform.position, skillId);
+                    emp.SetMoveDirection(direction);
+                }
+                break;
+            
+            case "BossMonsterCharge":
+                float originalSpeed = Speed;
+                Speed = 15f;
+                yield return new WaitForSeconds(2f);
+                Speed = originalSpeed;
+                break;
         }
+
+        yield return coolTimeWait;
+
+        _isUsingSkill = false;
     }
     
 
