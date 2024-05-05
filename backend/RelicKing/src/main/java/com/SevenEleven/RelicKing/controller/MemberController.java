@@ -2,6 +2,7 @@ package com.SevenEleven.RelicKing.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.SevenEleven.RelicKing.common.response.Response;
 import com.SevenEleven.RelicKing.common.security.CustomUserDetails;
+import com.SevenEleven.RelicKing.common.validation.ValidationSequence;
 import com.SevenEleven.RelicKing.dto.request.ReissueRequestDto;
 import com.SevenEleven.RelicKing.dto.request.SignUpRequestDto;
 import com.SevenEleven.RelicKing.dto.request.UpdateNicknameRequestDto;
@@ -26,7 +28,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Tag(name = "Member", description = "사용자 관련 API")
@@ -46,7 +47,7 @@ public class MemberController {
 		content = @Content(schema = @Schema(implementation = boolean.class))
 	)
 	@PostMapping("/signup")
-	public Response signup(@RequestBody @Valid SignUpRequestDto dto) {
+	public Response signup(@RequestBody @Validated(ValidationSequence.class) SignUpRequestDto dto) {
 		memberService.signup(dto);
 		return new Response(HttpStatus.OK.value(), "회원가입이 완료되었습니다.", true);
 	}
@@ -88,7 +89,7 @@ public class MemberController {
 		content = @Content(schema = @Schema(implementation = boolean.class))
 	)
 	@PatchMapping("/nickname")
-	public Response updateNickname(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody @Valid UpdateNicknameRequestDto dto) {
+	public Response updateNickname(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody @Validated(ValidationSequence.class) UpdateNicknameRequestDto dto) {
 		memberService.updateNickname(customUserDetails.getMember(), dto.getNickname());
 		return new Response(HttpStatus.OK.value(), "닉네임이 변경되었습니다.", true);
 	}
@@ -102,7 +103,7 @@ public class MemberController {
 		content = @Content(schema = @Schema(implementation = boolean.class))
 	)
 	@PatchMapping("/password")
-	public Response updatePassword(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody @Valid UpdatePasswordRequestDto dto) {
+	public Response updatePassword(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody @Validated(ValidationSequence.class) UpdatePasswordRequestDto dto) {
 		memberService.updatePassword(customUserDetails.getMember(), dto.getPassword());
 		return new Response(HttpStatus.OK.value(), "비밀번호가 변경되었습니다.", true);
 	}
@@ -142,7 +143,7 @@ public class MemberController {
 		content = @Content(schema = @Schema(implementation = boolean.class))
 	)
 	@PostMapping("/emails/code")
-	public Response sendCodeToEmail(@RequestBody @Valid VerifyEmailRequestDto dto) {
+	public Response sendCodeToEmail(@RequestBody @Validated(ValidationSequence.class) VerifyEmailRequestDto dto) {
 		memberService.sendCodeToEmail(dto.getEmail());
 		return new Response(HttpStatus.OK.value(), "이메일로 인증 코드를 전송하였습니다.", true);
 	}
@@ -156,7 +157,7 @@ public class MemberController {
 		content = @Content(schema = @Schema(implementation = boolean.class))
 	)
 	@PostMapping("/emails/verification")
-	public Response verifyEmail(@RequestBody @Valid VerifyEmailRequestDto dto) {
+	public Response verifyEmail(@RequestBody @Validated(ValidationSequence.class) VerifyEmailRequestDto dto) {
 		memberService.verifyEmail(dto.getEmail(), dto.getCode());
 		return new Response(HttpStatus.OK.value(), "인증되었습니다.", true);
 	}
