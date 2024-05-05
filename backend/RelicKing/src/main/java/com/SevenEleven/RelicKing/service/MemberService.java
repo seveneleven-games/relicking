@@ -191,7 +191,17 @@ public class MemberService {
 	}
 
 	@Transactional
-	public void updatePassword(Member member, String newPassword) {
+	public void updatePassword(Member member, String oldPassword, String newPassword, String newPasswordRe) {
+
+		// 기존 비밀번호가 불일치하는 경우
+		if (!bCryptPasswordEncoder.matches(oldPassword, member.getPassword())) {
+			throw new CustomException(ExceptionType.INCORRECT_PASSWORD);
+		}
+
+		// 새 비밀번호와 새 비밀번호 재입력 값이 다른 경우
+		if (!newPassword.equals(newPasswordRe)) {
+			throw new CustomException(ExceptionType.UNEQUAL_PASSWORDS);
+		}
 
 		String newEncryptedPassword = bCryptPasswordEncoder.encode(newPassword);
 		member.updatePassword(newEncryptedPassword);
@@ -277,7 +287,9 @@ public class MemberService {
 		String tempPassword = createTempPassword();
 
 		// 임시 비밀번호로 변경 (암호화하여 저장)
-		updatePassword(member, tempPassword);
+		String encryptedTempPassword = bCryptPasswordEncoder.encode(tempPassword);
+		member.updatePassword(encryptedTempPassword);
+		memberRepository.save(member);
 
 		// 이메일로 임시 비밀번호 발송
 		String title = "RelicKing에서 임시 비밀번호를 알려드립니다.";

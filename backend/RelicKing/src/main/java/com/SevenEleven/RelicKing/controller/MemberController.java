@@ -105,7 +105,7 @@ public class MemberController {
 	)
 	@PatchMapping("/password")
 	public Response updatePassword(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody @Validated(ValidationSequence.class) UpdatePasswordRequestDto dto) {
-		memberService.updatePassword(customUserDetails.getMember(), dto.getPassword());
+		memberService.updatePassword(customUserDetails.getMember(), dto.getOldPassword(), dto.getNewPassword(), dto.getNewPasswordRe());
 		return new Response(HttpStatus.OK.value(), "비밀번호가 변경되었습니다.", true);
 	}
 

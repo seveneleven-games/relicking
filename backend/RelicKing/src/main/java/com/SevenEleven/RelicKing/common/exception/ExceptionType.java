@@ -21,6 +21,8 @@ public enum ExceptionType {
     NICKNAME_ALREADY_EXISTS(HttpStatus.CONFLICT.value(), "이미 존재하는 닉네임입니다."),
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "사용자를 찾을 수 없습니다."),
     AUTHENTICATION_FAILED(HttpStatus.UNAUTHORIZED.value(), "로그인에 실패하였습니다."),
+    INCORRECT_PASSWORD(HttpStatus.UNAUTHORIZED.value(), "기존 비밀번호가 일치하지 않습니다."),
+    UNEQUAL_PASSWORDS(HttpStatus.BAD_REQUEST.value(), "새 비밀번호와 새 비밀번호 재입력 값이 일치하지 않습니다."),
 
     // JWT
     INVALID_JWT(HttpStatus.UNAUTHORIZED.value(), "유효하지 않은 JWT입니다."),
