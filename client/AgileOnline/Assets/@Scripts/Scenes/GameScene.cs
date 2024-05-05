@@ -46,7 +46,7 @@ public class GameScene : BaseScene
 
         _nodeMap = Managers.UI.ShowPopupUI<UI_NodeMapPopup>();
         _nodeMap.OnEnterNode += StartGame;
-        _store = EnableStore();
+        _store = InstantiateStore();
         
         // _inGame = Managers.UI.ShowPopupUI<UI_InGamePopup>();
         
@@ -60,8 +60,9 @@ public class GameScene : BaseScene
         return true;
     }
 
-    void EnableNodeMap()
+    void EnableNodeMap(int nodeNo)
     {
+        _nodeMap.DataSync(nodeNo);
         _nodeMap.gameObject.SetActive(true);
     }
     
@@ -72,7 +73,7 @@ public class GameScene : BaseScene
         _nodeMap.gameObject.SetActive(false);
     }
 
-    UI_StorePopup EnableStore()
+    UI_StorePopup InstantiateStore()
     {
         UI_StorePopup store;
         store = Managers.UI.ShowPopupUI<UI_StorePopup>();
@@ -81,12 +82,7 @@ public class GameScene : BaseScene
         return store;
     }
     
-    void DisableStore(UI_StorePopup store)
-    {
-        // 연관관계 모두 초기화
-        
-        store.ClosePopupUI();
-    }
+    
     
     #region 노드 정보에 맞는 몬스터 스폰
 
@@ -97,6 +93,9 @@ public class GameScene : BaseScene
 
     #endregion
 
+    // 진입한 노드 번호를 가지고 있을 변수
+    private int _nodeNo;
+    
     public void StartGame(int nodeNo, bool isBossNode)
     {
         // TODO: 팝업 관리 리팩토링 예정
@@ -111,6 +110,7 @@ public class GameScene : BaseScene
 
         _player.GetComponent<CircleCollider2D>().enabled = true;
         _player.StartSkills();
+        _nodeNo = nodeNo;
         NodeMapData nodeMapData = Managers.Data.NodeMapDic[_templateData.TempNodeNum];
         NodeData node = nodeMapData.NodeList[nodeNo];
         
@@ -185,8 +185,9 @@ public class GameScene : BaseScene
         _inGame.ClosePopupUI();
         _player.GetComponent<CircleCollider2D>().enabled = false;
 
-        EnableNodeMap();
-        _store = EnableStore();
+        EnableNodeMap(_nodeNo);
+        _store = InstantiateStore();
+        
         
         #region 플레이어 설정
         

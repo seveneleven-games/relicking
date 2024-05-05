@@ -52,6 +52,16 @@ public class UI_NodeMapPopup : UI_Popup
         return true;
     }
 
+    private void OnEnable()
+    {
+        if (_nodeMap == null) return;
+        
+        // 첫 화면 말고 켜질 때 마다 클리어한 노드를 반영해서 새로 그려야 한다
+        _nodeMap.Refresh();
+        _nodeMap.LineSync();
+    }
+
+
     // 스테이지 정보
     private string _stageNo;
     private string _stageBG;
@@ -111,7 +121,7 @@ public class UI_NodeMapPopup : UI_Popup
          * 3. 팝업 닫기 함수 호출
          */
         Debug.Log($"현재 클릭한 노드는 {clickNode}번! 보스노드 여부! : {isBossNode}");
-        OnEnterNode?.Invoke(clickNode+4, isBossNode);
+        OnEnterNode?.Invoke(clickNode, isBossNode);
     }
 
     void OnBackButtonClick()
@@ -121,8 +131,9 @@ public class UI_NodeMapPopup : UI_Popup
         Managers.Scene.LoadScene(EScene.LobbyScene);
     }
 
-    public void DataSync(int stageId)
+    public void DataSync(int nodeNo)
     {
-        throw new NotImplementedException();
+        _nodeMap.ClearedNodes[nodeNo] = true;
+          
     }
 }
