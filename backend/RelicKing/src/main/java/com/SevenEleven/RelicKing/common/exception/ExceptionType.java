@@ -35,6 +35,9 @@ public enum ExceptionType {
     NO_SUCH_ALGORITHM(HttpStatus.INTERNAL_SERVER_ERROR.value(), "알고리즘을 찾을 수 없습니다."),
     EXPIRED_AUTH_CODE(HttpStatus.UNAUTHORIZED.value(), "인증 코드가 만료되었습니다."),
     WRONG_AUTH_CODE(HttpStatus.UNAUTHORIZED.value(), "인증 코드가 불일치합니다."),
+
+    // Gacha
+    ILLEGAL_ARGUMENT(HttpStatus.BAD_REQUEST.value(), "유효하지 않은 가챠 뽑기 횟수를 입력했습니다. 1 또는 10만 가능합니다.")
     ;
 
     private final int status;
