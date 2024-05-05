@@ -3,9 +3,12 @@ package com.SevenEleven.RelicKing.service;
 import java.util.*;
 
 import com.SevenEleven.RelicKing.common.Constant;
+import com.SevenEleven.RelicKing.common.exception.CustomException;
+import com.SevenEleven.RelicKing.common.exception.ExceptionType;
 import com.SevenEleven.RelicKing.dto.request.GachaRequestDTO;
 import com.SevenEleven.RelicKing.entity.MemberRelic;
 import com.SevenEleven.RelicKing.repository.MemberRelicRepository;
+import com.SevenEleven.RelicKing.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +23,7 @@ import lombok.extern.log4j.Log4j2;
 @Transactional
 public class GachaService {
 
+	private final MemberRepository memberRepository;
 	private final MemberRelicRepository memberRelicRepository;
 
 	public Map<String, Integer> getGachaInfo(Member member) {
@@ -28,6 +32,12 @@ public class GachaService {
 
 	// Todo 유물 새로 뽑으면 db에 뽑은 순서 대로 저장 되어 유물 번호로 정렬되지 않는데, 유물 번호로 정렬되도록 회원가입하면 레벨 0 유물로 미리 채워 놓아야 할까?
 	public List<Map<String, Object>> doGacha(Member member, GachaRequestDTO gachaRequestDTO) {
+
+		if (gachaRequestDTO.getGachaNum().getValue() > member.getGacha()) {
+			throw new CustomException(ExceptionType.NOT_ENOUGH_GACHA);
+		}
+		member.changeGacha(member.getGacha() - gachaRequestDTO.getGachaNum().getValue());
+		memberRepository.save(member);
 
 		List<Map<String, Object>> results = new ArrayList<>();
 
@@ -69,7 +79,7 @@ public class GachaService {
 						.relicNo(i)
 						.build();
 				int before = memberRelic.getLevel();
-				memberRelic.plusExp(Constant.EXP_GACHA * counting[i]);
+				memberRelic.plusExp(Constant.EXP_GACHA * (counting[i] - 1));
 				int after = memberRelic.getLevel();
 				memberRelicRepository.save(memberRelic);
 
