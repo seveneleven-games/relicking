@@ -54,7 +54,7 @@ public class UI_IdleScene : UI_Scene
         if (originImage != null)
         {
             // 예를 들어 이미지를 설정하거나 다른 작업을 수행
-            originImage.color = Color.red; // 색상 변경 예시
+            
         }
         
         _idleProceedPopupUI = Managers.UI.ShowPopupUI<UI_IdleProceedPopup>();
