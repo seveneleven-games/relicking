@@ -43,20 +43,16 @@ public class GameScene : BaseScene
         _player.StopSkills();
         CameraController camera = Camera.main.GetOrAddComponent<CameraController>();
         camera.Target = _player;
-        
+
         _nodeMap = Managers.UI.ShowPopupUI<UI_NodeMapPopup>();
         _nodeMap.OnEnterNode += StartGame;
-        
-        _store = Managers.UI.ShowPopupUI<UI_StorePopup>();
-        _store.DataSync(_player.PlayerSkillList);
+        _store = EnableStore();
         
         // _inGame = Managers.UI.ShowPopupUI<UI_InGamePopup>();
         
-        //스킬 정보 보내주는거 추가
-        
         
         GameObject joystickObject = Managers.Resource.Instantiate("UI_Joystick");
-        joystickObject.name = "@UI_Joystick";
+        joystickObject.name = "@UI_Joystick"; 
 
         // TODO: 노드맵 UI에서 게임을 시작해야 한다. 
 
@@ -64,6 +60,34 @@ public class GameScene : BaseScene
         return true;
     }
 
+    void EnableNodeMap()
+    {
+        _nodeMap.gameObject.SetActive(true);
+    }
+    
+    void DisableNodeMap()
+    {
+        // 연관관계 모두 초기화
+        
+        _nodeMap.gameObject.SetActive(false);
+    }
+
+    UI_StorePopup EnableStore()
+    {
+        UI_StorePopup store;
+        store = Managers.UI.ShowPopupUI<UI_StorePopup>();
+        store.DataSync(_player.PlayerSkillList);
+
+        return store;
+    }
+    
+    void DisableStore(UI_StorePopup store)
+    {
+        // 연관관계 모두 초기화
+        
+        store.ClosePopupUI();
+    }
+    
     #region 노드 정보에 맞는 몬스터 스폰
 
     /* 스테이지 정보와 노드맵 템플릿 아이디를 기반으로 노드 정보 배열 관리
@@ -76,7 +100,8 @@ public class GameScene : BaseScene
     public void StartGame(int nodeNo, bool isBossNode)
     {
         // TODO: 팝업 관리 리팩토링 예정
-        _nodeMap.ClosePopupUI();
+        DisableNodeMap();
+        
         _inGame = Managers.UI.ShowPopupUI<UI_InGamePopup>();
         foreach (GameObject obj in FindObjectsOfType<GameObject>())
         {
@@ -92,10 +117,6 @@ public class GameScene : BaseScene
         GameObject map = Managers.Resource.Instantiate(node.MapPrefabName);
         map.transform.position = Vector3.zero;
         map.name = "@BaseMap";
-
-        // 여기에 팝업 닫는 함수 있어야 할 것.
-        _nodeMap.ClosePopupUI();
-        Debug.Log($"{nodeNo}번 노드 진입! 게임 시작!! 보스노드여부 : {isBossNode}");
 
         int nodeType = 0;
         List<int> normalMonsters = new List<int>();
@@ -163,8 +184,11 @@ public class GameScene : BaseScene
         
         _inGame.ClosePopupUI();
         _player.GetComponent<CircleCollider2D>().enabled = false;
-        _nodeMap = Managers.UI.ShowPopupUI<UI_NodeMapPopup>();
-        _nodeMap.OnEnterNode += StartGame;
+
+        EnableNodeMap();
+        _store = EnableStore();
+        
+        #region 플레이어 설정
         
         // 플레이어 스킬 중지
         _player.StopSkills();
@@ -204,6 +228,10 @@ public class GameScene : BaseScene
         
         // 플레이어 위치 초기화
         _player.transform.position = Vector3.zero;
+        
+        #endregion
+        
+        
     }
 
     private IEnumerator SpawnNormalMonsters(List<int> monsterIds)

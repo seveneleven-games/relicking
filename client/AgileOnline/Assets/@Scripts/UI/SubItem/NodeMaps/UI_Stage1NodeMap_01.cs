@@ -76,7 +76,6 @@ public class UI_Stage1NodeMap_01 : UI_NodeMapBase
     {
         BossDepth = 5;
         ClearedNodes = new bool[5];
-        ClearedNodes[2] = true;
     }
 
     public override void LineSync()

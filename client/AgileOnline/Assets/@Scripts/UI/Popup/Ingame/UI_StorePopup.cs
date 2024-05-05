@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 public class UI_StorePopup : UI_Popup
 {
-    private PlayerController _player = Managers.Object.Player;
+    private PlayerController _player;
 
     enum GameObjects
     {
@@ -77,6 +77,7 @@ public class UI_StorePopup : UI_Popup
         BindButton(typeof(Buttons));
 
         // 초기 비용 설정
+        _player = Managers.Object.Player;
         Gold = _player.PlayerGold;
         RerollCost = Define.INITIAL_REROLL_COST;
         
@@ -87,8 +88,6 @@ public class UI_StorePopup : UI_Popup
 
         // 현재 플레이어의 스킬 정보 가져오기
         DataSync(_player.PlayerSkillList);
-        
-        // 슬롯 개수 적용 : 일단 보류
         
         _skillCardParent = GetObject((int)GameObjects.StoreSkillCardList);
         _skillCardParent.gameObject.DestroyChilds();
@@ -117,7 +116,7 @@ public class UI_StorePopup : UI_Popup
     {
         return _isSkillPoolFixed ? 
             Extension.RandomSkillList(length, _skillList, _maxSkillTypes) : 
-            Extension.RandomIntList(length, 0, Define.TOTAL_PLAYER_SKILL_NUMBER);
+            Extension.RandomIntList(length, 0, Define.TOTAL_PLAYER_SKILL_NUMBER, _maxSkillTypes);
     }
     
     void BuySkill(SkillCard skill)
@@ -134,7 +133,6 @@ public class UI_StorePopup : UI_Popup
             Debug.Log("빈 슬롯! 구매 처리 미진행");
             return;
         }
-        
         
         Debug.Log($"구매 스킬 : {Managers.Data.SkillDic[skill.SkillId].Name} {Managers.Data.SkillDic[skill.SkillId].SkillId % 10}Lv, " +
                   $"구매 클릭 슬롯 번호 : {_skillCards.IndexOf(skill) + 1}번");
@@ -252,8 +250,6 @@ public class UI_StorePopup : UI_Popup
 
     void Exit()
     {
-        //todo(전지환) : 스킬 구매 데이터 반영 여부에 따라 여기서 관리하게 될 수도 있음
-        
         ClosePopupUI();
     }
 
@@ -280,6 +276,7 @@ public class UI_StorePopup : UI_Popup
         {
             if (skillId != 0 && Managers.Data.SkillDic[skillId].NextId == -1)
             {
+                Debug.Log($"만렙. {Managers.Data.SkillDic[skillId].Name}");
                 _maxSkillTypes.Add(skillId / 10);
             }
                 

@@ -94,17 +94,9 @@ public class UI_NodeMapPopup : UI_Popup
         _nodeMap = Managers.Resource.Instantiate(_nodeMapName, _nodes.transform).GetComponent<UI_NodeMapBase>() ;
         _nodeMap.gameObject.transform.localScale = new Vector3(0.8f,0.8f,0.8f);
         _nodes.GetComponent<ScrollRect>().content = _nodeMap.GetComponent<RectTransform>();
+
     }
     
-    private void OnEnable()
-    {
-        if (_nodeMap == null) return;
-        
-        // 첫 화면 말고 켜질 때 마다 클리어한 노드를 반영해서 새로 그려야 한다
-        _nodeMap.Refresh();
-        _nodeMap.LineSync();
-    }
-
     public event Action<int, bool> OnEnterNode;
     
     public void EnterNode(int clickNode, bool isBossNode)

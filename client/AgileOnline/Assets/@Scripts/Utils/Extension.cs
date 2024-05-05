@@ -52,7 +52,7 @@ public static class Extension
         }
     }
 
-    public static int[] RandomIntList(int length, int min, int max)
+    public static int[] RandomIntList(int length, int min, int max, HashSet<int> maxSkillTypes)
     {
         int[] result = new int[length];
         
@@ -60,6 +60,7 @@ public static class Extension
         
         for (int i = min; i < max; i++)
         {
+            if(maxSkillTypes.Contains(i)) continue;
             rangePool.Add(i);
         }
         
