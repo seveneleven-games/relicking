@@ -29,6 +29,9 @@ public enum ExceptionType {
     EXPIRED_JWT(HttpStatus.UNAUTHORIZED.value(), "JWT가 만료되었습니다."),
     NOT_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED.value(), "access token이 아닙니다."),
     NOT_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED.value(), "refresh token이 아닙니다."),
+
+    // Gacha
+    ILLEGAL_ARGUMENT(HttpStatus.BAD_REQUEST.value(), "유효하지 않은 가챠 뽑기 횟수를 입력했습니다. 1 또는 10만 가능합니다.")
     ;
 
     private final int status;
