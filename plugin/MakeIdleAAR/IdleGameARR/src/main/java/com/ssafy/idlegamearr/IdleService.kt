@@ -55,6 +55,8 @@ class IdleService : Service() {
     }
 
     fun stopService() {
+        // 서비스 종료 전에 유니티로 메세지 전송
+        UnityPlayer.UnitySendMessage("IdleManager", "OnServiceStopped", "SUCCESS");
         stopSelf()  // 현재 인스턴스의 서비스를 종료
     }
 }
