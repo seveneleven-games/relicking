@@ -40,7 +40,7 @@ public class MemberController {
 
 	@Operation(
 		summary = "회원 가입",
-		description = "닉네임 : 영문, 숫자, 특수문자로 12자 이내 / 비밀번호 : 영문, 숫자, 특수문자 각각 하나 이상 포함하여 8~16자"
+		description = "닉네임 : 한글, 영문, 숫자, 특수문자로 12자 이내 / 비밀번호 : 영문, 숫자, 특수문자 각각 하나 이상 포함하여 8~16자"
 	)
 	@ApiResponse(
 		responseCode = "200", description = "회원 가입 완료",
@@ -82,7 +82,7 @@ public class MemberController {
 
 	@Operation(
 		summary = "닉네임 변경",
-		description = "사용자의 닉네임을 변경합니다. 이미 사용 중인 닉네임으로는 변경할 수 없습니다. (영문, 숫자, 특수문자로 12자 이내)"
+		description = "사용자의 닉네임을 변경합니다. 이미 사용 중인 닉네임으로는 변경할 수 없습니다. (한글, 영문, 숫자, 특수문자로 12자 이내)"
 	)
 	@ApiResponse(
 		responseCode = "200", description = "닉네임 변경 성공",
