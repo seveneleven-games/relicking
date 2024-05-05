@@ -19,6 +19,12 @@ public class UI_InvenPopup : UI_Popup
     enum EButtons
     {
         ClassButton,
+        EquipedRelicButton1,
+        EquipedRelicButton2,
+        EquipedRelicButton3,
+        EquipedRelicButton4,
+        EquipedRelicButton5,
+        EquipedRelicButton6,
     }
 
     enum ETexts
@@ -76,7 +82,14 @@ public class UI_InvenPopup : UI_Popup
 
         GetToggle((int)EToggles.RelicToggle).gameObject.BindEvent(OnClickRelicToggle);
         GetToggle((int)EToggles.StatToggle).gameObject.BindEvent(OnClickStatToggle);
+        
         GetButton((int)EButtons.ClassButton).gameObject.BindEvent(OnClickClassSelectButton);
+        GetButton((int)EButtons.EquipedRelicButton1).gameObject.BindEvent(() => OnClickEquipedRelicButton(0));
+        GetButton((int)EButtons.EquipedRelicButton2).gameObject.BindEvent(() => OnClickEquipedRelicButton(1));
+        GetButton((int)EButtons.EquipedRelicButton3).gameObject.BindEvent(() => OnClickEquipedRelicButton(2));
+        GetButton((int)EButtons.EquipedRelicButton4).gameObject.BindEvent(() => OnClickEquipedRelicButton(3));
+        GetButton((int)EButtons.EquipedRelicButton5).gameObject.BindEvent(() => OnClickEquipedRelicButton(4));
+        GetButton((int)EButtons.EquipedRelicButton6).gameObject.BindEvent(() => OnClickEquipedRelicButton(5));
 
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
         SetClassDetailStatus(_templateData.SelectedClassId, _templateData.EquipedRelicIds);
@@ -155,6 +168,14 @@ public class UI_InvenPopup : UI_Popup
         Debug.Log(num);
         _templateData.SelectedRelicId = num;
         Managers.UI.ShowPopupUI<UI_InvenRelicInfoPopup>();
+    }
+
+    void OnClickEquipedRelicButton(int num)
+    {
+        if (_templateData.EquipedRelicIds[num] == 0)
+            return;
+
+        OnClickRelicInfoButton(_templateData.EquipedRelicIds[num]);
     }
 
     void SetClassDetailStatus(int num, int[] nums)
