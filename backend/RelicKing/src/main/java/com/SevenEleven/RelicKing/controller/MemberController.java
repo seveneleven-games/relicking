@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.SevenEleven.RelicKing.common.response.Response;
 import com.SevenEleven.RelicKing.common.security.CustomUserDetails;
 import com.SevenEleven.RelicKing.common.validation.ValidationSequence;
+import com.SevenEleven.RelicKing.dto.request.EmailRequestDto;
 import com.SevenEleven.RelicKing.dto.request.ReissueRequestDto;
 import com.SevenEleven.RelicKing.dto.request.SignUpRequestDto;
 import com.SevenEleven.RelicKing.dto.request.UpdateNicknameRequestDto;
@@ -143,7 +144,7 @@ public class MemberController {
 		content = @Content(schema = @Schema(implementation = boolean.class))
 	)
 	@PostMapping("/emails/code")
-	public Response sendCodeToEmail(@RequestBody @Validated(ValidationSequence.class) VerifyEmailRequestDto dto) {
+	public Response sendCodeToEmail(@RequestBody @Validated(ValidationSequence.class) EmailRequestDto dto) {
 		memberService.sendCodeToEmail(dto.getEmail());
 		return new Response(HttpStatus.OK.value(), "이메일로 인증 코드를 전송하였습니다.", true);
 	}
@@ -160,5 +161,19 @@ public class MemberController {
 	public Response verifyEmail(@RequestBody @Validated(ValidationSequence.class) VerifyEmailRequestDto dto) {
 		memberService.verifyEmail(dto.getEmail(), dto.getCode());
 		return new Response(HttpStatus.OK.value(), "인증되었습니다.", true);
+	}
+
+	@Operation(
+		summary = "임시 비밀번호 발송",
+		description = "비밀번호를 임시 비밀번호로 변경하며 이메일로 임시 비밀번호를 발송합니다."
+	)
+	@ApiResponse(
+		responseCode = "200", description = "임시 비밀번호로 변경 및 이메일 발송 성공",
+		content = @Content(schema = @Schema(implementation = boolean.class))
+	)
+	@PostMapping("/temp-password")
+	public Response updateTempPassword(@RequestBody @Validated(ValidationSequence.class) EmailRequestDto dto) {
+		memberService.updateTempPassword(dto.getEmail());
+		return new Response(HttpStatus.OK.value(), "이메일로 임시 비밀번호를 발송하였습니다.", true);
 	}
 }
