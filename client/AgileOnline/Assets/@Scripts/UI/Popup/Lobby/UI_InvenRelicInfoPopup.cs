@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UI_InvenRelicInfoPopup : UI_Popup
@@ -15,6 +16,7 @@ public class UI_InvenRelicInfoPopup : UI_Popup
     {
         ButtonBG,
         ButtonEquip,
+        ButtonUnequip,
         ButtonCancel,
     }
 
@@ -56,14 +58,18 @@ public class UI_InvenRelicInfoPopup : UI_Popup
         GetButton((int)EButtons.ButtonBG).gameObject.BindEvent(OnClickCloseButton);
         GetButton((int)EButtons.ButtonCancel).gameObject.BindEvent(OnClickCloseButton);
         GetButton((int)EButtons.ButtonEquip).gameObject.BindEvent(OnClickEquipButton);
-
+        GetButton((int)EButtons.ButtonUnequip).gameObject.BindEvent(OnClickUnequipButton);
 
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
         
         GetText((int)ETexts.RelicNameText).text = Managers.Data.RelicDic[_templateData.SelectedRelicId].Name;
         GetText((int)ETexts.RelicDescriptionText).text = Managers.Data.RelicDic[_templateData.SelectedRelicId].Description;
 
+        bool isEquip = IsRelicEquiped(_templateData.SelectedRelicId, _templateData.EquipedRelicIds);
+        GetButton((int)EButtons.ButtonUnequip).gameObject.SetActive(isEquip);
+        
         #endregion
+
 
         Managers.Game.OnResourcesChanged += Refresh;
         Refresh();
@@ -88,5 +94,39 @@ public class UI_InvenRelicInfoPopup : UI_Popup
         Debug.Log("EquipClicked");
         Managers.UI.ClosePopupUI(this);
         Managers.UI.ShowPopupUI<UI_InvenEquipPopup>();
+    }
+
+    void OnClickUnequipButton()
+    {
+        int EquipedIndex = -1;
+        for (int i = 0; i < _templateData.EquipedRelicIds.Length; i++)
+        {
+            if (_templateData.SelectedRelicId == _templateData.EquipedRelicIds[i])
+            {
+                EquipedIndex = i;
+                break;
+            }
+        }
+        if ( EquipedIndex >= 0)
+        {
+            _templateData.SetRelicAt(EquipedIndex, 0);
+            Debug.Log("[" + string.Join(", ", _templateData.EquipedRelicIds) + "]");
+        }
+        Managers.UI.ClosePopupUI(this);
+    }
+
+    public bool IsRelicEquiped(int relicId, int[] relicIds)
+    {
+        bool result = false;
+        for (int i = 0; i < relicIds.Length; i++)
+        {
+            if (relicId == relicIds[i])
+            {
+                result = true;
+                break;
+            }
+        }
+
+        return result;
     }
 }
