@@ -10,11 +10,17 @@ import lombok.Getter;
 @Getter
 public class UpdatePasswordRequestDto {
 
-	@NotBlank(message = "비밀번호는 필수 입력 값입니다.", groups = NotBlankGroup.class)
+	@NotBlank(message = "기존 비밀번호는 필수 입력 값입니다.", groups = NotBlankGroup.class)
+	private String oldPassword;
+
+	@NotBlank(message = "새 비밀번호는 필수 입력 값입니다.", groups = NotBlankGroup.class)
 	@Pattern(
 		regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*()_+=-])[A-Za-z\\d!@#$%^&*()_+=-]{8,16}$",
 		message = "비밀번호는 영문, 숫자, 특수문자를 각각 최소 하나씩 포함하며 8~16자여야 합니다.",
 		groups = PatternGroup.class
 	)
-	private String password;
+	private String newPassword;
+
+	@NotBlank(message = "새 비밀번호를 재입력해주세요.", groups = NotBlankGroup.class)
+	private String newPasswordRe;
 }
