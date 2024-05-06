@@ -375,6 +375,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI_IngameSettingPopup
       objectReference: {fileID: 0}
+    - target: {fileID: 8433978247511488804, guid: c471068c2fb7cab48a8a3e53935c2be8, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8433978247511488804, guid: c471068c2fb7cab48a8a3e53935c2be8, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8433978247511488804, guid: c471068c2fb7cab48a8a3e53935c2be8, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8433978247511488804, guid: c471068c2fb7cab48a8a3e53935c2be8, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
