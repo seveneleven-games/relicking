@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Data;
 using UnityEngine;
 
 public class UI_Stage1NodeMap_01 : UI_NodeMapBase
@@ -45,8 +46,6 @@ public class UI_Stage1NodeMap_01 : UI_NodeMapBase
         Line4To5,
     }
     
-    //todo(전지환) : 상위 스크립트를 상속 받아서 노드맵 팝업에서 해당 스크립트로 데이터 받아오는 virtual 함수를 만들어야 할 것 같음
-
     public override bool Init()
     {
         if (base.Init() == false)
@@ -76,11 +75,33 @@ public class UI_Stage1NodeMap_01 : UI_NodeMapBase
     {
         BossDepth = 5;
         ClearedNodes = new bool[5];
-        ClearedNodes[2] = true;
+        NodeMapNo = 0;
+        NodeList = Managers.Data.NodeMapDic[NodeMapNo].NodeList;
     }
 
+    public override void NodeSync()
+    {
+        Debug.Log($"노드맵 테스트중 Step5. 노드 싱크");
+        
+        foreach (var node in Enum.GetValues(typeof(Nodes)))
+        {
+            Debug.Log(GetObject((int)node).name);
+            
+            if (ClearedNodes[(int)node])
+                Visit(GetObject((int)node));
+            else if (NodeList[(int)node].NodeDepth <= ClearedDepth)
+                Deactivate(GetObject((int)node));
+            else if (NodeList[(int)node].NodeDepth == ClearedDepth + 1)
+                Activate(GetObject((int)node));
+        }
+
+    }
+
+    // 리팩터링 필요! 개같은거!
     public override void LineSync()
     {
+        Debug.Log($"노드맵 테스트중 Step6. 라인 싱크");
+        
         int index;
         
         foreach (int order in Enum.GetValues(typeof(Lines))) 

@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 public class UI_StorePopup : UI_Popup
 {
-    private PlayerController _player = Managers.Object.Player;
+    private PlayerController _player;
 
     enum GameObjects
     {
@@ -77,6 +77,7 @@ public class UI_StorePopup : UI_Popup
         BindButton(typeof(Buttons));
 
         // 초기 비용 설정
+        _player = Managers.Object.Player;
         Gold = _player.PlayerGold;
         RerollCost = Define.INITIAL_REROLL_COST;
         
@@ -87,8 +88,6 @@ public class UI_StorePopup : UI_Popup
 
         // 현재 플레이어의 스킬 정보 가져오기
         DataSync(_player.PlayerSkillList);
-        
-        // 슬롯 개수 적용 : 일단 보류
         
         _skillCardParent = GetObject((int)GameObjects.StoreSkillCardList);
         _skillCardParent.gameObject.DestroyChilds();
@@ -117,24 +116,16 @@ public class UI_StorePopup : UI_Popup
     {
         return _isSkillPoolFixed ? 
             Extension.RandomSkillList(length, _skillList, _maxSkillTypes) : 
-            Extension.RandomIntList(length, 0, Define.TOTAL_PLAYER_SKILL_NUMBER);
+            Extension.RandomIntList(length, 0, Define.TOTAL_PLAYER_SKILL_NUMBER, _maxSkillTypes);
     }
     
     void BuySkill(SkillCard skill)
     {
-        //todo(전지환) : 스킬 구매 정보 반영 로직 필요
-        /*
-         * 1. 스킬 카드 리롤 (이건 스킬카드 클래스에서)
-         *  : 단 현재 상품 탭에 떠있는 스킬이 떠서는 안 됨 [O]
-         *  : 스킬을 3개 미만으로 받아와야 하는 상황에는 스킬 카드를 디폴트로 랜더링 할 수 있도록 함
-         *      (그리고 클릭 이벤트는 모두 비활성화)
-         */
         if (skill.SkillId == -1)
         {
             Debug.Log("빈 슬롯! 구매 처리 미진행");
             return;
         }
-        
         
         Debug.Log($"구매 스킬 : {Managers.Data.SkillDic[skill.SkillId].Name} {Managers.Data.SkillDic[skill.SkillId].SkillId % 10}Lv, " +
                   $"구매 클릭 슬롯 번호 : {_skillCards.IndexOf(skill) + 1}번");
@@ -148,18 +139,9 @@ public class UI_StorePopup : UI_Popup
         //GameScene에서 구독한 BuySkill 함수 실행 & 싱크 작업
         DataSync(_player.AddSkill(skill.SkillId));
         
-        //스킬 업데이트
-        //step1. 스킬 타입 정하기
-        /*
-         * : 병목 걸리면 가끔 아다리 안 맞을 때가 있어서 예외 처리 해줘야 함
-         * -> 예외사항 : 원래는 풀에서 제거되었어야 했을 이미 만렙찍은 스킬타입을 받아오는 경우가 발생 
-         */
-        
         int fixedSkillType = GetFixedSkillType(_skillCards.IndexOf(skill),GetRandomSkillIdList(3));
         int nowLevel = GetNowLevel(fixedSkillType);
         
-        //todo(전지환) : 최대 레벨이면 스킬풀에서 제거하는 로직 필요!
-        //분기처리. 만약 스킬 타입이 -1(더 이상 반환할 수 있는 스킬이 없음)이라면..?
         if (fixedSkillType == -1)
             skill.RefreshNull();
         else
@@ -221,7 +203,6 @@ public class UI_StorePopup : UI_Popup
     
     void Reroll()
     {
-        //todo(전지환) : 돈이 모자라면 안 돌아가게 만들어야 할 것.
         if (Gold < RerollCost)
         {
             Debug.Log("소유한 골드가 적어 리롤 칠 수가 없어요!");
@@ -252,8 +233,6 @@ public class UI_StorePopup : UI_Popup
 
     void Exit()
     {
-        //todo(전지환) : 스킬 구매 데이터 반영 여부에 따라 여기서 관리하게 될 수도 있음
-        
         ClosePopupUI();
     }
 
@@ -280,6 +259,7 @@ public class UI_StorePopup : UI_Popup
         {
             if (skillId != 0 && Managers.Data.SkillDic[skillId].NextId == -1)
             {
+                Debug.Log($"만렙. {Managers.Data.SkillDic[skillId].Name}");
                 _maxSkillTypes.Add(skillId / 10);
             }
                 
