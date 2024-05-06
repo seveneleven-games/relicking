@@ -9,8 +9,7 @@ public class UI_IdleProceedPopup : UI_Popup
         
             enum EGameObjects
             {
-                //todo(박설연) : 이걸 오브젝트가 아니라 이미지로 빼서 일주일 단위 스트릭 로직을 추가해야 해여
-                StreakGraphContent,
+                
             }
         
             enum EButtons
