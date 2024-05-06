@@ -3,7 +3,7 @@
     {
       "RelicId": 0,
       "PrefabName": "Relic_00",
-      "Name": "빈 유물",
+      "Name": "효선이의 빈 유물",
       "ThumbnailName": "Relic_00.sprite",
       "Description": "빈 유물임",
       "Rarity": 0,
@@ -63,7 +63,7 @@
     {
       "RelicId": 41,
       "PrefabName": "Relic_05",
-      "Name": "반지",
+      "Name": "인화의 반지",
       "ThumbnailName": "Relic_05.sprite",
       "Description": "어쩌구 저쩌구 반지",
       "Rarity": 0,
@@ -75,7 +75,7 @@
     {
       "RelicId": 51,
       "PrefabName": "Relic_06",
-      "Name": "근렬이의 도끼",
+      "Name": "형규의 도끼",
       "ThumbnailName": "Relic_06.sprite",
       "Description": "어쩌구 저쩌구 도끼",
       "Rarity": 0,
