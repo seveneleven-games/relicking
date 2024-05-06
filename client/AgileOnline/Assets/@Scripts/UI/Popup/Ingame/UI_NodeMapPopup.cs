@@ -52,6 +52,18 @@ public class UI_NodeMapPopup : UI_Popup
         return true;
     }
 
+    private void OnEnable()
+    {
+        if (_nodeMap == null) return;
+
+        Debug.Log($"노드맵 테스트중 Step4. 생명 주기 체크!");
+        
+        // 첫 화면 말고 켜질 때 마다 클리어한 노드를 반영해서 새로 그려야 한다
+        _nodeMap.NodeSync();
+        _nodeMap.LineSync();
+    }
+
+
     // 스테이지 정보
     private string _stageNo;
     private string _stageBG;
@@ -66,8 +78,6 @@ public class UI_NodeMapPopup : UI_Popup
     {
         // NodeMap 정보를 받아와서 노드맵에 반영한다
         // 반영 정보 : 배경화면, 스테이지 번호, 노드맵 종류(프리팹 이름)
-        //todo(전지환) : 데이터 시트에서 스테이지 정보 긁어오기 (데이터 긁어오기 전에, 템플릿ID 랜덤으로 돌려서 노드맵 이름 요청해와야겠다)
-
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
         int stageId = _templateData.TemplateIds[0];
 
@@ -75,6 +85,7 @@ public class UI_NodeMapPopup : UI_Popup
         
         StageData stageData = Managers.Data.StageDic[stageId];
         int[] nodeMaps = stageData.NodeMaps;
+        
         _nodeMapNo = nodeMaps[Random.Range(0, nodeMaps.Length)];
         _templateData.TempNodeNum = _nodeMapNo;
         
@@ -94,17 +105,9 @@ public class UI_NodeMapPopup : UI_Popup
         _nodeMap = Managers.Resource.Instantiate(_nodeMapName, _nodes.transform).GetComponent<UI_NodeMapBase>() ;
         _nodeMap.gameObject.transform.localScale = new Vector3(0.8f,0.8f,0.8f);
         _nodes.GetComponent<ScrollRect>().content = _nodeMap.GetComponent<RectTransform>();
+
     }
     
-    private void OnEnable()
-    {
-        if (_nodeMap == null) return;
-        
-        // 첫 화면 말고 켜질 때 마다 클리어한 노드를 반영해서 새로 그려야 한다
-        _nodeMap.Refresh();
-        _nodeMap.LineSync();
-    }
-
     public event Action<int, bool> OnEnterNode;
     
     public void EnterNode(int clickNode, bool isBossNode)
@@ -119,7 +122,7 @@ public class UI_NodeMapPopup : UI_Popup
          * 3. 팝업 닫기 함수 호출
          */
         Debug.Log($"현재 클릭한 노드는 {clickNode}번! 보스노드 여부! : {isBossNode}");
-        OnEnterNode?.Invoke(clickNode+4, isBossNode);
+        OnEnterNode?.Invoke(clickNode, isBossNode);
     }
 
     void OnBackButtonClick()
@@ -129,8 +132,10 @@ public class UI_NodeMapPopup : UI_Popup
         Managers.Scene.LoadScene(EScene.LobbyScene);
     }
 
-    public void DataSync(int stageId)
+    public void DataSync(int nodeNo)
     {
-        throw new NotImplementedException();
+        Debug.Log($"노드맵 테스트중 Step3. 데이터 싱크");
+        _nodeMap.ClearedNodes[nodeNo] = true;
+        _nodeMap.ClearedDepth += 1;
     }
 }
