@@ -2,7 +2,7 @@ package com.SevenEleven.RelicKing.dto.request;
 
 import java.util.List;
 
-import com.SevenEleven.RelicKing.dto.model.SkillDTO;
+import com.SevenEleven.RelicKing.dto.request.model.SkillDTO;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;

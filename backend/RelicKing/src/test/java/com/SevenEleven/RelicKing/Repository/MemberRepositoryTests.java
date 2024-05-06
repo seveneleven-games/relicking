@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,9 @@ public class MemberRepositoryTests {
 	@Autowired
 	private MemberRepository memberRepository;
 
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 	@Test
 	public void test1() {
 		Assertions.assertNotNull(memberRepository);
@@ -31,17 +35,16 @@ public class MemberRepositoryTests {
 
 	@Test
 	public void insertTest() {
-		Member member = Member.builder()
-			.email("test@test.com")
-			.nickname("test")
-			.password("1234")
-			.build();
+		for (int i = 2; i <= 100 ; i++) {
+			Member member = Member.builder()
+					.email("test" + i + "@test.com")
+					.nickname("test" + i)
+					.password(bCryptPasswordEncoder.encode("abcd1234!" + i))
+					.gacha(1000)
+					.build();
 
-		Member result = memberRepository.save(member);
-
-		log.info("--------------------------------------------------------------");
-		log.info(result);
-		log.info("--------------------------------------------------------------");
+			memberRepository.save(member);
+		}
 	}
 
 	@Test
