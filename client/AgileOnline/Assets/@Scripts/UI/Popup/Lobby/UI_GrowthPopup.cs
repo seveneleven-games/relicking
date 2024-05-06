@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Util;
 
 [Serializable]
 public class GrowthStaticDataRes
@@ -44,8 +45,7 @@ public class UI_GrowthPopup : UI_Popup
 
     enum EGameObjects
     {
-        //todo(박설연) : 이걸 오브젝트가 아니라 이미지로 빼서 일주일 단위 스트릭 로직을 추가해야 해여
-        StreakGraphContent,
+        
     }
 
     enum EButtons
@@ -61,6 +61,12 @@ public class UI_GrowthPopup : UI_Popup
         TodayGrowthContent,
         OneWeekStreakDays,
         StreakBonusText,
+    }
+
+    enum EImages
+    {
+        //todo(박설연) : 이걸 오브젝트가 아니라 이미지로 빼서 일주일 단위 스트릭 로직을 추가해야 해여
+        StreakGraphContent,
     }
 
     #endregion
@@ -82,6 +88,7 @@ public class UI_GrowthPopup : UI_Popup
         BindObject(typeof(EGameObjects));
         BindButton(typeof(EButtons));
         BindText(typeof(ETexts));
+        BindImage(typeof(EImages));
 
         GetButton((int)EButtons.IdleSettingButton).gameObject.BindEvent(OnClickIdleSettingButton);
         GetButton((int)EButtons.StartIdleButton).gameObject.BindEvent(OnClickStartIdleButton);
@@ -121,14 +128,26 @@ public class UI_GrowthPopup : UI_Popup
 
     void UpdateGrowthUI(GrowthStaticRes data)
     {
-        Debug.Log("데이터 잘 가져왔음 : " + data.continuousLockDate);
-        Debug.Log("데이터 잘 가져왔음 : " + data.todayLockTime);
-        Debug.Log("데이터 잘 가져왔음 : " + data.totalLockTime);
+        // Debug.Log("데이터 잘 가져왔음 : " + data.continuousLockDate);
+        // Debug.Log("데이터 잘 가져왔음 : " + data.todayLockTime);
+        // Debug.Log("데이터 잘 가져왔음 : " + data.totalLockTime);
 
-        GetText((int)ETexts.TotalGrowthContent).text = data.totalLockTime.ToString();
-        GetText((int)ETexts.TodayGrowthContent).text = data.todayLockTime.ToString();
+        GetText((int)ETexts.TotalGrowthContent).text = FormatTime(data.totalLockTime);
+        GetText((int)ETexts.TodayGrowthContent).text = FormatTime(data.todayLockTime);
         GetText((int)ETexts.OneWeekStreakDays).text = $"{data.continuousLockDate}일";
 
+        if (data.continuousLockDate > 0)
+        {
+            // 스트릭 일수가 0보다 클 때만 보너스를 받는다는 텍스트 활성화
+            GetText((int)ETexts.StreakBonusText).text = $"스트릭 누적 보너스 +{data.continuousLockDate}";
+            GetText((int)ETexts.StreakBonusText).gameObject.SetActive(true);
+        }
+        else
+        {
+            // 스트릭 일수가 0 이하일 때 텍스트 비활성화
+            GetText((int)ETexts.StreakBonusText).gameObject.SetActive(false);
+            GetImage((int)EImages.StreakGraphContent).gameObject.SetActive(false);
+        }
     }
 
     void OnClickIdleSettingButton()
@@ -140,6 +159,12 @@ public class UI_GrowthPopup : UI_Popup
     {
         Debug.Log("성장하러 가기(방치) 버튼 Clicked");
         Managers.Scene.LoadScene(Define.EScene.IdleScene);
+    }
+    
+    string FormatTime(int totalSeconds)
+    {
+        TimeSpan time = TimeSpan.FromSeconds(totalSeconds);
+        return time.ToString(@"hh\:mm\:ss");
     }
     
 }
