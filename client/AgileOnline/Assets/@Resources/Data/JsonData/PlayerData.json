@@ -7,7 +7,7 @@
       "MaxHp": 100,
       "Atk": 10,
       "Speed": 5.0,
-      "CritRate": 1.0,
+      "CritRate": 0.7,
       "CritDmgRate": 2.0,
       "CoolDown": 1.0
     },
@@ -18,7 +18,7 @@
       "MaxHp": 150,
       "Atk": 10,
       "Speed": 5.0,
-      "CritRate": 1.0,
+      "CritRate": 0.7,
       "CritDmgRate": 2.0,
       "CoolDown": 1.0
     }

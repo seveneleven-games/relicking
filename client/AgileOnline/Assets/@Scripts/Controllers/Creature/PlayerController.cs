@@ -163,11 +163,11 @@ public class PlayerController : CreatureController
             popup.UpdateRemainGoldText(PlayerGold);
     }
 
-    public override void OnDamaged(BaseController attacker, int damage)
+    public override bool OnDamaged(BaseController attacker,ref int damage)
     {
-        base.OnDamaged(attacker, damage);
+        base.OnDamaged(attacker, ref damage);
         UI_World.Instance.UpdatePlayerHealth(Hp, MaxHp);
-        Debug.Log($"OnDamaged ! {Hp}");
+        return true;
     }
 
     #region Skill

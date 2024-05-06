@@ -72,7 +72,8 @@ public class EnergyBoltController : SkillController
         if (monster.IsValid() == false)
             return;
         
-        monster.OnDamaged(_owner, Damage);
+        int damage = Damage;
+        monster.OnDamaged(_owner, ref damage);
         
         Managers.Object.Despawn(this);
     }

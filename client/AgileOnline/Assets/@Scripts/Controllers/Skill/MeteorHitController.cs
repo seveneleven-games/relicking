@@ -60,7 +60,8 @@ public class MeteorHitController : SkillController
             MonsterController monster = collider.GetComponent<MonsterController>();
             if (monster != null)
             {
-                monster.OnDamaged(_owner, Damage);
+                int damage = Damage;
+                monster.OnDamaged(_owner, ref damage);
             }
         }
     }

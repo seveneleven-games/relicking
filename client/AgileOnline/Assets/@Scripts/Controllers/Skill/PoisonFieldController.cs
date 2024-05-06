@@ -97,7 +97,8 @@ public class PoisonFieldController : SkillController
             MonsterController monster = collider.GetComponent<MonsterController>();
             if (monster != null && monster.IsValid())
             {
-                monster.OnDamaged(_owner, Damage);
+                int damage = Damage;
+                monster.OnDamaged(_owner, ref damage);
             }
         }
     }

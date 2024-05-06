@@ -34,15 +34,28 @@ public class CreatureController : BaseController
         return true;
     }
 
-    public virtual void OnDamaged(BaseController attacker, int damage)
+    public virtual bool OnDamaged(BaseController attacker, ref int damage)
     {
-        Debug.Log(attacker + " " + damage);
+        bool isCritical = false;
+        
+        if (attacker is PlayerController playerAttacker)
+        {
+            float critRoll = UnityEngine.Random.value;
+            if (critRoll <= playerAttacker.CritRate)
+            {
+                damage *= (int)playerAttacker.CritDmgRate;
+                isCritical = true;
+            }
+        }
+        
         Hp -= damage;
         if (Hp <= 0)
         {
             Hp = 0;
             OnDead();
         }
+
+        return isCritical;
     }
 
     protected virtual void OnDead()
