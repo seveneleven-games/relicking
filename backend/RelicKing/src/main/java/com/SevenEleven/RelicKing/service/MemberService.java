@@ -191,7 +191,17 @@ public class MemberService {
 	}
 
 	@Transactional
-	public void updatePassword(Member member, String newPassword) {
+	public void updatePassword(Member member, String oldPassword, String newPassword, String newPasswordRe) {
+
+		// 기존 비밀번호가 불일치하는 경우
+		if (!bCryptPasswordEncoder.matches(oldPassword, member.getPassword())) {
+			throw new CustomException(ExceptionType.INCORRECT_PASSWORD);
+		}
+
+		// 새 비밀번호와 새 비밀번호 재입력 값이 다른 경우
+		if (!newPassword.equals(newPasswordRe)) {
+			throw new CustomException(ExceptionType.UNEQUAL_PASSWORDS);
+		}
 
 		String newEncryptedPassword = bCryptPasswordEncoder.encode(newPassword);
 		member.updatePassword(newEncryptedPassword);
@@ -225,7 +235,7 @@ public class MemberService {
 
 		String title = "RelicKing에서 인증 코드를 알려드립니다.";
 		String authCode = createCode();
-		String text = "인증 코드 : " + authCode;	// TODO : 인증 코드 안내 메일 본문 예쁘게 꾸며보기
+		String text = "인증 코드 : " + authCode;    // TODO : 인증 코드 안내 메일 본문 예쁘게 꾸며보기
 		emailService.sendEmail(email, title, text);
 
 		// 이메일 인증 요청 시 인증 코드를 redis에 저장
@@ -248,6 +258,7 @@ public class MemberService {
 		}
 	}
 
+	@Transactional(readOnly = true)
 	public void verifyEmail(String email, String code) {
 		String redisAuthCode = redisService.getValues(Constant.AUTH_CODE_PREFIX + email);
 
@@ -259,6 +270,51 @@ public class MemberService {
 		// 인증 코드가 불일치한 경우
 		if (!redisAuthCode.equals(code)) {
 			throw new CustomException(ExceptionType.WRONG_AUTH_CODE);
+		}
+	}
+
+	@Transactional
+	public void updateTempPassword(String email) {
+
+		Member member = memberRepository.findByEmail(email);
+
+		// 해당 이메일로 된 사용자가 존재하지 않는 경우
+		if (member == null) {
+			throw new CustomException(ExceptionType.MEMBER_NOT_FOUND);
+		}
+
+		// 임시 비밀번호 생성
+		String tempPassword = createTempPassword();
+
+		// 임시 비밀번호로 변경 (암호화하여 저장)
+		String encryptedTempPassword = bCryptPasswordEncoder.encode(tempPassword);
+		member.updatePassword(encryptedTempPassword);
+		memberRepository.save(member);
+
+		// 이메일로 임시 비밀번호 발송
+		String title = "RelicKing에서 임시 비밀번호를 알려드립니다.";
+		String text = "임시 비밀번호로 로그인 후 비밀번호를 변경해주세요. 임시 비밀번호 : " + tempPassword;    // TODO : 인증 코드 안내 메일 본문 예쁘게 꾸며보기
+		emailService.sendEmail(email, title, text);
+	}
+
+	private String createTempPassword() {
+
+		int length = 10;
+		String CHAR_SET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+		int CHAR_SET_LENGTH = CHAR_SET.length();
+
+		try {
+			Random random = SecureRandom.getInstanceStrong();
+			StringBuilder stringBuilder = new StringBuilder();
+			for (int i = 0; i < length; i++) {
+				int index = random.nextInt(CHAR_SET_LENGTH);
+				stringBuilder.append(CHAR_SET.charAt(index));
+			}
+			return stringBuilder.toString();
+		} catch (NoSuchAlgorithmException e) {
+			ExceptionType exceptionType = ExceptionType.NO_SUCH_ALGORITHM;
+			log.info(exceptionType.getMessage());
+			throw new CustomException(exceptionType);
 		}
 	}
 }

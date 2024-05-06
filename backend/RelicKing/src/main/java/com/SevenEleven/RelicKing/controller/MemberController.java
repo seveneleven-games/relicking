@@ -2,6 +2,7 @@ package com.SevenEleven.RelicKing.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.SevenEleven.RelicKing.common.response.Response;
 import com.SevenEleven.RelicKing.common.security.CustomUserDetails;
+import com.SevenEleven.RelicKing.common.validation.ValidationSequence;
+import com.SevenEleven.RelicKing.dto.request.EmailRequestDto;
 import com.SevenEleven.RelicKing.dto.request.ReissueRequestDto;
 import com.SevenEleven.RelicKing.dto.request.SignUpRequestDto;
 import com.SevenEleven.RelicKing.dto.request.UpdateNicknameRequestDto;
@@ -26,7 +29,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Tag(name = "Member", description = "사용자 관련 API")
@@ -39,14 +41,14 @@ public class MemberController {
 
 	@Operation(
 		summary = "회원 가입",
-		description = "닉네임 : 영문, 숫자, 특수문자로 12자 이내 / 비밀번호 : 영문, 숫자, 특수문자 각각 하나 이상 포함하여 8~16자"
+		description = "닉네임 : 한글, 영문, 숫자, 특수문자로 12자 이내 / 비밀번호 : 영문, 숫자, 특수문자 각각 하나 이상 포함하여 8~16자"
 	)
 	@ApiResponse(
 		responseCode = "200", description = "회원 가입 완료",
 		content = @Content(schema = @Schema(implementation = boolean.class))
 	)
 	@PostMapping("/signup")
-	public Response signup(@RequestBody @Valid SignUpRequestDto dto) {
+	public Response signup(@RequestBody @Validated(ValidationSequence.class) SignUpRequestDto dto) {
 		memberService.signup(dto);
 		return new Response(HttpStatus.OK.value(), "회원가입이 완료되었습니다.", true);
 	}
@@ -81,14 +83,14 @@ public class MemberController {
 
 	@Operation(
 		summary = "닉네임 변경",
-		description = "사용자의 닉네임을 변경합니다. 이미 사용 중인 닉네임으로는 변경할 수 없습니다. (영문, 숫자, 특수문자로 12자 이내)"
+		description = "사용자의 닉네임을 변경합니다. 이미 사용 중인 닉네임으로는 변경할 수 없습니다. (한글, 영문, 숫자, 특수문자로 12자 이내)"
 	)
 	@ApiResponse(
 		responseCode = "200", description = "닉네임 변경 성공",
 		content = @Content(schema = @Schema(implementation = boolean.class))
 	)
 	@PatchMapping("/nickname")
-	public Response updateNickname(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody @Valid UpdateNicknameRequestDto dto) {
+	public Response updateNickname(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody @Validated(ValidationSequence.class) UpdateNicknameRequestDto dto) {
 		memberService.updateNickname(customUserDetails.getMember(), dto.getNickname());
 		return new Response(HttpStatus.OK.value(), "닉네임이 변경되었습니다.", true);
 	}
@@ -102,8 +104,8 @@ public class MemberController {
 		content = @Content(schema = @Schema(implementation = boolean.class))
 	)
 	@PatchMapping("/password")
-	public Response updatePassword(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody @Valid UpdatePasswordRequestDto dto) {
-		memberService.updatePassword(customUserDetails.getMember(), dto.getPassword());
+	public Response updatePassword(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody @Validated(ValidationSequence.class) UpdatePasswordRequestDto dto) {
+		memberService.updatePassword(customUserDetails.getMember(), dto.getOldPassword(), dto.getNewPassword(), dto.getNewPasswordRe());
 		return new Response(HttpStatus.OK.value(), "비밀번호가 변경되었습니다.", true);
 	}
 
@@ -142,7 +144,7 @@ public class MemberController {
 		content = @Content(schema = @Schema(implementation = boolean.class))
 	)
 	@PostMapping("/emails/code")
-	public Response sendCodeToEmail(@RequestBody @Valid VerifyEmailRequestDto dto) {
+	public Response sendCodeToEmail(@RequestBody @Validated(ValidationSequence.class) EmailRequestDto dto) {
 		memberService.sendCodeToEmail(dto.getEmail());
 		return new Response(HttpStatus.OK.value(), "이메일로 인증 코드를 전송하였습니다.", true);
 	}
@@ -156,8 +158,22 @@ public class MemberController {
 		content = @Content(schema = @Schema(implementation = boolean.class))
 	)
 	@PostMapping("/emails/verification")
-	public Response verifyEmail(@RequestBody @Valid VerifyEmailRequestDto dto) {
+	public Response verifyEmail(@RequestBody @Validated(ValidationSequence.class) VerifyEmailRequestDto dto) {
 		memberService.verifyEmail(dto.getEmail(), dto.getCode());
 		return new Response(HttpStatus.OK.value(), "인증되었습니다.", true);
+	}
+
+	@Operation(
+		summary = "임시 비밀번호 발송",
+		description = "비밀번호를 임시 비밀번호로 변경하며 이메일로 임시 비밀번호를 발송합니다."
+	)
+	@ApiResponse(
+		responseCode = "200", description = "임시 비밀번호로 변경 및 이메일 발송 성공",
+		content = @Content(schema = @Schema(implementation = boolean.class))
+	)
+	@PostMapping("/temp-password")
+	public Response updateTempPassword(@RequestBody @Validated(ValidationSequence.class) EmailRequestDto dto) {
+		memberService.updateTempPassword(dto.getEmail());
+		return new Response(HttpStatus.OK.value(), "이메일로 임시 비밀번호를 발송하였습니다.", true);
 	}
 }
