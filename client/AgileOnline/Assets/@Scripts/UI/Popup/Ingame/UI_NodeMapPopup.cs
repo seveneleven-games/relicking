@@ -78,8 +78,6 @@ public class UI_NodeMapPopup : UI_Popup
     {
         // NodeMap 정보를 받아와서 노드맵에 반영한다
         // 반영 정보 : 배경화면, 스테이지 번호, 노드맵 종류(프리팹 이름)
-        //todo(전지환) : 데이터 시트에서 스테이지 정보 긁어오기 (데이터 긁어오기 전에, 템플릿ID 랜덤으로 돌려서 노드맵 이름 요청해와야겠다)
-
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
         int stageId = _templateData.TemplateIds[0];
 

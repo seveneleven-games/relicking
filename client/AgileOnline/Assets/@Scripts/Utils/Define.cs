@@ -11,10 +11,6 @@ public static class Define
         LobbyScene,
         GameScene,
         LoginScene,
-        
-        //todo(전지환) : 머지 전에 test씬 삭제하기
-        TestNodeMapScene,
-        TestStoreScene
     }
 
     public enum EUIEvent
