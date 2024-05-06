@@ -2852,6 +2852,7 @@ GameObject:
   - component: {fileID: 605511691618805920}
   - component: {fileID: 2854770907272367270}
   - component: {fileID: 7128434312667574312}
+  - component: {fileID: 4118487522601030754}
   m_Layer: 5
   m_Name: PatternRawImage
   m_TagString: Untagged
@@ -2913,6 +2914,20 @@ MonoBehaviour:
     y: 0
     width: 3.2
     height: 7
+--- !u!114 &4118487522601030754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6265347825343853517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 742b6862376c5834389eb93c19e6551b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rawImage: {fileID: 7128434312667574312}
+  speed: 0.1
 --- !u!1 &6353496653497024662
 GameObject:
   m_ObjectHideFlags: 0

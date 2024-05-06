@@ -192,7 +192,14 @@ public class UI_LoginInputPopup : UI_Popup
                 Managers.Game._gameData.accessToken = loginDataRes.data.accessToken;
                 Managers.Game._gameData.refreshToken = loginDataRes.data.refreshToken;
                 
+                // 스테이지별 난이도 정보 업데이트
+                Managers.Game.UpdateStageClearInfo(loginDataRes.data.stageRes);
+                
+                
                 Managers.Scene.LoadScene(EScene.LobbyScene);
+
+                
+                
             }
             
         }));

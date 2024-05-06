@@ -164,9 +164,6 @@ public static class Util
     #endregion
 
     #region JWT 통신
-
-    
-
     
     // 토큰 재발급 요청
     private static IEnumerator RequestNewToken()
@@ -259,7 +256,7 @@ public static IEnumerator JWTPostRequest(string uri, string jsonData, Action<str
             // json -> 객체로 변환
             DataRes dataRes = JsonUtility.FromJson<DataRes>(webRequest.downloadHandler.text);
             
-            // 토큰이 완료되었다면?
+            // 토큰이 만료되었다면?
             if (dataRes.message == "JWT가 만료되었습니다.") 
             {
                 yield return RequestNewToken(); // 토큰 재발급 요청
