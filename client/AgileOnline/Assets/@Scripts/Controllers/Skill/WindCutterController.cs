@@ -64,9 +64,9 @@ public class WindCutterController : SkillController
     
     private IEnumerator ReverseDirection(float delay)
     {
-        yield return new WaitForSeconds(delay); // 1.5초 대기
-        _moveDir = -_moveDir; // 방향 반전
-        StartCoroutine(ReverseDirection(1.5f)); // 1.5초 후 다시 방향 반전
+        yield return new WaitForSeconds(delay);
+        _moveDir = -_moveDir;
+        StartCoroutine(ReverseDirection(1.5f));
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -80,7 +80,5 @@ public class WindCutterController : SkillController
             return;
         
         monster.OnDamaged(_owner, Damage);
-        
-        // Managers.Object.Despawn(this);
     }
 }

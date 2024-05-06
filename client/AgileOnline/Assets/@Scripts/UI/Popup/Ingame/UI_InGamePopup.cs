@@ -17,7 +17,7 @@ public class UI_InGamePopup : UI_Popup
     }
 
     private TextMeshProUGUI timerText;
-    private float remainingTime = 10f;
+    private float remainingTime = 60f;
 
     public override bool Init()
     {

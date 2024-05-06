@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static Define;
 
@@ -178,6 +179,7 @@ public class ObjectManager
                     FrozenHeartController fhc = sc.GetComponent<FrozenHeartController>();
                     FrozenHearts.Add(fhc);
                     break;
+
             }
         }
 
@@ -239,9 +241,33 @@ public class ObjectManager
                     FrozenHeartController fhc = sc as FrozenHeartController;
                     FrozenHearts.Remove(fhc);
                     break;
+
             }
         }
 
         Managers.Resource.Destroy(obj.gameObject);
+    }
+
+    public List<MonsterController> GetNearestMonsters(int count = 1, int distanceThreshold = 0)
+    {
+        List<MonsterController> monsterList = Monsters
+            .OrderBy(monster => (Player.CenterPosition - monster.CenterPosition).sqrMagnitude).ToList();
+
+        if (distanceThreshold > 0)
+            monsterList = monsterList.Where(monster =>
+                (Player.CenterPosition - monster.CenterPosition).magnitude > distanceThreshold).ToList();
+        
+        int min = Mathf.Min(count, monsterList.Count);
+        
+        List<MonsterController> nearestMonsters = monsterList.Take(min).ToList();
+        
+        if (nearestMonsters.Count == 0) return null;
+        
+        while (nearestMonsters.Count < count)
+        {
+            nearestMonsters.Add(nearestMonsters.Last());
+        }
+        
+        return nearestMonsters;
     }
 }

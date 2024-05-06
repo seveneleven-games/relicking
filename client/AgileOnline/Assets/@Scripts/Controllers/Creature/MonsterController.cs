@@ -180,7 +180,7 @@ public class MonsterController : CreatureController
         _isUsingSkill = true;
 
         SkillData skillData = Managers.Data.SkillDic[skillId];
-        WaitForSeconds coolTimeWait = new WaitForSeconds(skillData.CoolTime);
+        WaitForSeconds coolTimeWait = new WaitForSeconds(5f);
 
         switch (skillData.PrefabName)
         {
@@ -200,7 +200,7 @@ public class MonsterController : CreatureController
             case "BossMonsterCharge":
                 float originalSpeed = Speed;
                 Speed = 15f;
-                yield return new WaitForSeconds(2f);
+                yield return new WaitForSeconds(0.5f);
                 Speed = originalSpeed;
                 break;
         }

@@ -65,13 +65,6 @@ public class PlayerController : CreatureController
         PlayerSkillList = new List<int>(new int[6]);
         PlayerRelicList = new List<int>(new int[6]);
 
-        // AddSkill(3, 0);
-        // AddSkill(13, 1);
-        // AddSkill(22, 2);
-        // AddSkill(33, 3);
-        // AddSkill(42, 4);
-        // AddSkill(52, 5);
-
         // 보는 방향 정해주는 더미 오브젝트
         GameObject indicatorObject = new GameObject("Indicator");
         indicatorObject.transform.SetParent(transform);
@@ -80,7 +73,7 @@ public class PlayerController : CreatureController
         _indicator = indicatorObject.transform;
 
         StartSkills();
-        
+
         DontDestroyOnLoad(this);
 
         return true;
@@ -105,7 +98,7 @@ public class PlayerController : CreatureController
     private void Update()
     {
         Vector3 dir = _moveDir * Time.deltaTime * Speed;
-        
+
         transform.TranslateEx(dir);
 
         if (_moveDir != Vector2.zero)
@@ -177,15 +170,6 @@ public class PlayerController : CreatureController
         Debug.Log($"OnDamaged ! {Hp}");
     }
 
-    protected override void OnDead()
-    {
-        base.OnDead();
-        CreatureState = ECreatureState.Dead;
-
-        // TODO: Game 종료 씬으로~
-        Managers.Scene.LoadScene(EScene.LobbyScene);
-    }
-
     #region Skill
 
     public void StartSkills()
@@ -216,7 +200,7 @@ public class PlayerController : CreatureController
                 Managers.Object.Despawn(ef);
             }
         }
-        
+
         FrozenHeartController[] frozenHearts = FindObjectsOfType<FrozenHeartController>();
         foreach (FrozenHeartController fh in frozenHearts)
         {
@@ -240,28 +224,27 @@ public class PlayerController : CreatureController
     {
         SkillData skillData = Managers.Data.SkillDic[skillId];
         WaitForSeconds coolTimeWait = new WaitForSeconds(skillData.CoolTime);
+
         while (true)
         {
             yield return coolTimeWait;
             switch (skillData.PrefabName)
             {
                 case "EnergyBolt":
-
-                    int ebProjectileNum = skillData.ProjectileNum;
                     float ebSpreadAngle = 30f;
 
-                    for (int i = 0; i < ebProjectileNum; i++)
+                    for (int i = 0; i < skillData.ProjectileNum; i++)
                     {
                         EnergyBoltController ebc =
                             Managers.Object.Spawn<EnergyBoltController>(transform.position, skillId);
 
                         float angle;
-                        if (ebProjectileNum == 1)
+                        if (skillData.ProjectileNum == 1)
                             angle = 0f;
                         else
                         {
-                            float offsetAngle = (i - (ebProjectileNum - 1) * 0.5f) *
-                                                (ebSpreadAngle / (ebProjectileNum - 1));
+                            float offsetAngle = (i - (skillData.ProjectileNum - 1) * 0.5f) *
+                                                (ebSpreadAngle / (skillData.ProjectileNum - 1));
                             angle = offsetAngle * Mathf.Deg2Rad;
                         }
 
@@ -272,8 +255,6 @@ public class PlayerController : CreatureController
                     break;
 
                 case "IceArrow":
-                    int iaProjectileNum = skillData.ProjectileNum;
-
                     List<MonsterController> nearbyMonsters = new List<MonsterController>();
                     Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 15f);
                     foreach (Collider2D collider in colliders)
@@ -286,7 +267,7 @@ public class PlayerController : CreatureController
                     nearbyMonsters.Sort((a, b) => Vector3.Distance(transform.position, a.transform.position)
                         .CompareTo(Vector3.Distance(transform.position, b.transform.position)));
 
-                    List<MonsterController> targetMonsters = nearbyMonsters.Take(iaProjectileNum).ToList();
+                    List<MonsterController> targetMonsters = nearbyMonsters.Take(skillData.ProjectileNum).ToList();
 
                     for (int i = 0; i < targetMonsters.Count; i++)
                     {
@@ -307,10 +288,9 @@ public class PlayerController : CreatureController
                     yield break;
 
                 case "PoisonField":
-                    int pfProjectileNum = skillData.ProjectileNum;
                     List<Vector3> installedPositions = new List<Vector3>();
 
-                    for (int i = 0; i < pfProjectileNum; i++)
+                    for (int i = 0; i < skillData.ProjectileNum; i++)
                     {
                         Vector3 randomPos;
                         do
@@ -329,22 +309,20 @@ public class PlayerController : CreatureController
                     break;
 
                 case "WindCutter":
-
-                    int wcProjectileNum = skillData.ProjectileNum;
                     float wcSpreadAngle = 30f;
 
-                    for (int i = 0; i < wcProjectileNum; i++)
+                    for (int i = 0; i < skillData.ProjectileNum; i++)
                     {
                         WindCutterController wcc =
                             Managers.Object.Spawn<WindCutterController>(transform.position, skillId);
 
                         float angle;
-                        if (wcProjectileNum == 1)
+                        if (skillData.ProjectileNum == 1)
                             angle = 0f;
                         else
                         {
-                            float offsetAngle = (i - (wcProjectileNum - 1) * 0.5f) *
-                                                (wcSpreadAngle / (wcProjectileNum - 1));
+                            float offsetAngle = (i - (skillData.ProjectileNum - 1) * 0.5f) *
+                                                (wcSpreadAngle / (skillData.ProjectileNum - 1));
                             angle = offsetAngle * Mathf.Deg2Rad;
                         }
 
@@ -353,22 +331,23 @@ public class PlayerController : CreatureController
                     }
 
                     break;
-                
+
                 case "FrozenHeart":
-                    int fzProjectileNum = skillData.ProjectileNum;
                     float fzDistance = 2f;
-                    for (int i = 0; i < fzProjectileNum; i++)
+                    for (int i = 0; i < skillData.ProjectileNum; i++)
                     {
-                        float degree = 360f / fzProjectileNum * i;
+                        float degree = 360f / skillData.ProjectileNum * i;
                         Vector3 spawnPos = transform.position;
                         FrozenHeartController fhc = Managers.Object.Spawn<FrozenHeartController>(spawnPos, skillId);
                         fhc.SetOwner(this);
                         fhc.InitSkill(skillId, fzDistance, degree);
                     }
+
                     yield break;
             }
         }
     }
+
 
     public List<int> AddSkill(int addSkillId)
     {
@@ -397,6 +376,69 @@ public class PlayerController : CreatureController
         // 이전에 배운스킬도 아닌데 빈슬롯도없으면 로그에러띄워줌
         Debug.LogError("스킬 넣는게 잘못됐어요");
         return PlayerSkillList;
+    }
+
+    #endregion
+
+    #region OnDead -> Lobby
+
+    protected override void OnDead()
+    {
+        base.OnDead();
+        CreatureState = ECreatureState.Dead;
+        
+        PlayerController player = Managers.Object.Player;
+        if (player != null)
+        {
+            player.gameObject.SetActive(false);
+            Managers.Object.Player = null;
+        }
+        StopAllCoroutines();
+        // 리소스 정리
+        CleanupResources();
+
+        // TODO: Game 종료 씬으로~
+        Managers.Scene.LoadScene(EScene.LobbyScene);
+    }
+    
+    private void CleanupResources()
+    {
+        // 몬스터와 골드 오브젝트 despawn
+        DespawnObjects<MonsterController>("@Monsters");
+        DespawnObjects<GoldController>("@Golds");
+
+        // 맵 오브젝트 파괴
+        DestroyObjects("@BaseMap");
+
+        // 오브젝트 풀 정리
+        Managers.Pool.Clear();
+    }
+
+    private void DespawnObjects<T>(string parentName) where T : MonoBehaviour
+    {
+        GameObject parentObject = GameObject.Find(parentName);
+        if (parentObject != null)
+        {
+            foreach (Transform child in parentObject.transform)
+            {
+                T component = child.gameObject.GetComponent<T>();
+                if (component != null)
+                {
+                    BaseController baseController = component as BaseController;
+                    if (baseController != null)
+                        Managers.Object.Despawn(baseController);
+                }
+            }
+        }
+    }
+
+    private void DestroyObjects(string name)
+    {
+        GameObject obj = GameObject.Find(name);
+        if (obj != null)
+        {
+            Managers.Resource.Destroy(obj);
+        }
     }
 
     #endregion

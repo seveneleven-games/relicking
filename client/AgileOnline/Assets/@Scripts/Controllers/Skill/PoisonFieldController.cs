@@ -9,7 +9,10 @@ public class PoisonFieldController : SkillController
     private CreatureController _owner;
     private float _damageInterval = 0.5f;
     private float _lastDamageTime;
-    // private Vector3 _moveDir;
+
+    private float _scaleUpDuration = 1f;
+    private Vector3 _initialScale;
+    private Vector3 _targetScale;
     
     public int SkillId { get; private set; }
     public int NextId { get; private set; }
@@ -53,35 +56,38 @@ public class PoisonFieldController : SkillController
         Speed = data.Speed;
         ProjectileNum = data.ProjectileNum;
         
+        _initialScale = transform.localScale * 0.1f;
+        _targetScale = transform.localScale;
+
+        transform.localScale = _initialScale;
+
+        StartCoroutine(ScaleUpCoroutine());
+        
         StartDestroy(LifeTime);
+    }
+    
+    private IEnumerator ScaleUpCoroutine()
+    {
+        float elapsedTime = 0f;
+
+        while (elapsedTime < _scaleUpDuration)
+        {
+            transform.localScale = Vector3.Lerp(_initialScale, _targetScale, elapsedTime / _scaleUpDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.localScale = _targetScale;
     }
     
     private void Update()
     {
-        // if (_owner != null)
-        // {
-        //     transform.position = _owner.transform.position;
-        // }
-        
         if (Time.time - _lastDamageTime >= _damageInterval)
         {
             _lastDamageTime = Time.time;
             DealDamageToNearbyMonsters();
         }
     }
-    
-    // private void OnTriggerStay2D(Collider2D collision)
-    // {
-    //     if (this.IsValid() == false)
-    //         return;
-    //
-    //     MonsterController monster = collision.gameObject.GetComponent<MonsterController>();
-    //
-    //     if (monster.IsValid() == false)
-    //         return;
-    //
-    //     monster.OnDamaged(_owner, Damage);
-    // }
     
     private void DealDamageToNearbyMonsters()
     {
