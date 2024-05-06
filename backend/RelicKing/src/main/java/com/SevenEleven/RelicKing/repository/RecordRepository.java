@@ -3,7 +3,6 @@ package com.SevenEleven.RelicKing.repository;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,9 +14,17 @@ public interface RecordRepository extends JpaRepository<Record, Integer> {
 
 	Optional<Record> findByMemberAndStage(Member member, int stage);
 
-	@EntityGraph(attributePaths = {"recordRelics", "recordSkills"}, type = EntityGraph.EntityGraphType.FETCH)
-	@Query("select r from Record r where r.recordId = :recordId")
-	Optional<Record> findByRecordId(@Param("recordId") int recordId);
+//	@EntityGraph(attributePaths = {"recordRelics", "recordSkills"}, type = EntityGraph.EntityGraphType.FETCH)
+//	@Query("select r from Record r where r.recordId = :recordId")
+//	Optional<Record> findByRecordId(@Param("recordId") int recordId);
 
 	List<Record> findByMember(Member member);
+
+	List<Record> findTop100ByStageOrderByDifficultyDescEliteKillDescNormalKillDesc(int stage);
+
+	@Query(value = "SELECT ranking.stage_rank FROM (" +
+			"SELECT r.member_id as memberId, RANK() OVER (ORDER BY r.difficulty DESC, r.elite_kill DESC, r.normal_kill DESC) as stage_rank " +
+			"FROM record r WHERE r.stage = :stage) ranking " +
+			"WHERE ranking.memberId = :memberId", nativeQuery = true)
+	int findRankByMemberAndStage(@Param("memberId") int memberId, @Param("stage") int stage);
 }

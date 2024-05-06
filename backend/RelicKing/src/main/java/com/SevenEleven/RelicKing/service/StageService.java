@@ -11,7 +11,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.SevenEleven.RelicKing.dto.model.SkillDTO;
+import com.SevenEleven.RelicKing.dto.request.model.SkillDTO;
 import com.SevenEleven.RelicKing.dto.request.StageRequestDTO;
 import com.SevenEleven.RelicKing.dto.response.StageResponseDTO;
 import com.SevenEleven.RelicKing.dto.model.RelicDTO;

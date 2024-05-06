@@ -13,6 +13,8 @@ import com.SevenEleven.RelicKing.repository.RecordRepository;
 
 import lombok.extern.log4j.Log4j2;
 
+import java.util.Random;
+
 @SpringBootTest
 @Log4j2
 public class RecordRepositoryTests {
@@ -33,42 +35,73 @@ public class RecordRepositoryTests {
 	}
 
 	@Test
+	public void massInsertTest() {
+
+		for (int k = 1; k <= 3; k++) {
+			for (int i = 1; i <= 100; i++) {
+				Member member = memberRepository.findById(i).orElseThrow();
+
+				Random rand = new Random();
+				int stage = k;
+				int difficulty = rand.nextInt(100);
+
+				Record record = Record.builder()
+						.member(member)
+						.stage(stage)
+						.difficulty(difficulty)
+						.eliteKill(10)
+						.normalKill(200)
+						.classNo(1)
+						.build();
+
+				for (int j = 1; j <= 6; j++) {
+					record.addRecordRelic(j, 10, j);
+				}
+
+				for (int j = 1; j <= 6; j++) {
+					record.addRecordSkill(j, 10, j);
+				}
+
+				recordRepository.save(record);
+			}
+		}
+	}
+
+	@Test
 	public void insertTest() {
 
 		Member member = memberRepository.findById(1).orElseThrow();
 
-		int stage = 3;
-		int difficulty = 7;
+		for (int i = 1; i <= 3; i++) {
+			int stage = i;
+			int difficulty = 10 - i;
 
-		Record record = Record.builder()
-			.member(member)
-			.stage(stage)
-			.difficulty(difficulty)
-			.eliteKill(10)
-			.normalKill(200)
-			.classNo(1)
-			.build();
+			Record record = Record.builder()
+					.member(member)
+					.stage(stage)
+					.difficulty(difficulty)
+					.eliteKill(10)
+					.normalKill(200)
+					.classNo(1)
+					.build();
 
-		for (int i = 1; i <= 6; i++) {
-			record.addRecordRelic(i, 10, i);
+			for (int j = 1; j <= 6; j++) {
+				record.addRecordRelic(j, 10, j);
+			}
+
+			for (int j = 1; j <= 6; j++) {
+				record.addRecordSkill(j, 10, j);
+			}
+
+			recordRepository.save(record);
 		}
-
-		for (int i = 1; i <= 6; i++) {
-			record.addRecordSkill(i, 10, i);
-		}
-
-		recordRepository.save(record);
 	}
 
 	@Transactional
 	@Test
 	public void readTest() {
-		Record record = recordRepository.findByRecordId(1).orElseThrow();
-
-		log.info("--------------------------------------------------------------");
-		log.info(record);
-		log.info(record.getRecordSkills());
-		log.info("--------------------------------------------------------------");
+		log.info("================================================================");
+		log.info(recordRepository.findRankByMemberAndStage(1, 1));
 	}
 
 	@Test

@@ -1,4 +1,4 @@
-package com.SevenEleven.RelicKing.dto.model;
+package com.SevenEleven.RelicKing.dto.request.model;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.PositiveOrZero;
