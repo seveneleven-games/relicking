@@ -4,7 +4,6 @@ using Data;
 using Unity.VisualScripting;
 using UnityEditor.iOS;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static Define;
 
@@ -62,6 +61,7 @@ public class GameScene : BaseScene
 
     void EnableNodeMap(int nodeNo)
     {
+        Debug.Log($"노드맵 테스트중 Step2. 노드맵 활성화");
         _nodeMap.DataSync(nodeNo);
         _nodeMap.gameObject.SetActive(true);
     }
@@ -95,9 +95,14 @@ public class GameScene : BaseScene
 
     // 진입한 노드 번호를 가지고 있을 변수
     private int _nodeNo;
+    private bool _isBossNode;
     
     public void StartGame(int nodeNo, bool isBossNode)
     {
+        // 클리어 이벤트 핸들링할 변수 전역화
+        _nodeNo = nodeNo;
+        _isBossNode = isBossNode;
+        
         // TODO: 팝업 관리 리팩토링 예정
         DisableNodeMap();
         
@@ -110,7 +115,7 @@ public class GameScene : BaseScene
 
         _player.GetComponent<CircleCollider2D>().enabled = true;
         _player.StartSkills();
-        _nodeNo = nodeNo;
+        
         NodeMapData nodeMapData = Managers.Data.NodeMapDic[_templateData.TempNodeNum];
         NodeData node = nodeMapData.NodeList[nodeNo];
         
@@ -181,7 +186,13 @@ public class GameScene : BaseScene
     private void OnGameClear()
     {
         StopAllCoroutines();
+
+        if (_isBossNode)
+        {
+            //todo(전지환) : 보스노드를 클리어한 경우, 최종 클리어 처리
+        }
         
+        Debug.Log($"노드맵 테스트중 Step1. 게임 클리어");
         _inGame.ClosePopupUI();
         _player.GetComponent<CircleCollider2D>().enabled = false;
 

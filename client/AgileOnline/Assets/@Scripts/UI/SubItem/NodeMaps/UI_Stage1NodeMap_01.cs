@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Data;
 using UnityEngine;
 
 public class UI_Stage1NodeMap_01 : UI_NodeMapBase
@@ -76,10 +77,33 @@ public class UI_Stage1NodeMap_01 : UI_NodeMapBase
     {
         BossDepth = 5;
         ClearedNodes = new bool[5];
+        NodeMapNo = 0;
+        NodeList = Managers.Data.NodeMapDic[NodeMapNo].NodeList;
     }
 
+    public override void NodeSync()
+    {
+        Debug.Log($"노드맵 테스트중 Step5. 노드 싱크");
+        
+        foreach (var node in Enum.GetValues(typeof(Nodes)))
+        {
+            Debug.Log(GetObject((int)node).name);
+            
+            if (ClearedNodes[(int)node])
+                Visit(GetObject((int)node));
+            else if (NodeList[(int)node].NodeDepth <= ClearedDepth)
+                Deactivate(GetObject((int)node));
+            else if (NodeList[(int)node].NodeDepth == ClearedDepth + 1)
+                Activate(GetObject((int)node));
+        }
+
+    }
+
+    // 리팩터링 필요! 개같은거!
     public override void LineSync()
     {
+        Debug.Log($"노드맵 테스트중 Step6. 라인 싱크");
+        
         int index;
         
         foreach (int order in Enum.GetValues(typeof(Lines))) 
