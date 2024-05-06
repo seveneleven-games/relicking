@@ -119,18 +119,65 @@ public class UI_NodeMapPopup : UI_Popup
          * 3. 팝업 닫기 함수 호출
          */
         Debug.Log($"현재 클릭한 노드는 {clickNode}번! 보스노드 여부! : {isBossNode}");
-        OnEnterNode?.Invoke(clickNode+4, isBossNode);
+        OnEnterNode?.Invoke(clickNode, isBossNode);
     }
 
     void OnBackButtonClick()
     {
         //todo(전지환) : 뒤로가기 버튼 확인 모달 띄우는게 좋지 않을까? ex) 스테이지를 포기하고 로비로 나가시겠습니까?
-        
+        PlayerController player = Managers.Object.Player;
+        if (player != null)
+        {
+            player.gameObject.SetActive(false);
+            Managers.Object.Player = null;
+        }
+        StopAllCoroutines();
+        CleanupResources();
         Managers.Scene.LoadScene(EScene.LobbyScene);
     }
 
     public void DataSync(int stageId)
     {
         throw new NotImplementedException();
+    }
+    
+    private void CleanupResources()
+    {
+        // 몬스터와 골드 오브젝트 despawn
+        DespawnObjects<MonsterController>("@Monsters");
+        DespawnObjects<GoldController>("@Golds");
+
+        // 맵 오브젝트 파괴
+        DestroyObjects("@BaseMap");
+
+        // 오브젝트 풀 정리
+        Managers.Pool.Clear();
+    }
+
+    private void DespawnObjects<T>(string parentName) where T : MonoBehaviour
+    {
+        GameObject parentObject = GameObject.Find(parentName);
+        if (parentObject != null)
+        {
+            foreach (Transform child in parentObject.transform)
+            {
+                T component = child.gameObject.GetComponent<T>();
+                if (component != null)
+                {
+                    BaseController baseController = component as BaseController;
+                    if (baseController != null)
+                        Managers.Object.Despawn(baseController);
+                }
+            }
+        }
+    }
+
+    private void DestroyObjects(string name)
+    {
+        GameObject obj = GameObject.Find(name);
+        if (obj != null)
+        {
+            Managers.Resource.Destroy(obj);
+        }
     }
 }

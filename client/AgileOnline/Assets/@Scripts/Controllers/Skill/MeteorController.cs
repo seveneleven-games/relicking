@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using Data;
 using UnityEngine;
 
-public class WindCutterController : SkillController
+public class MeteorController : SkillController
 {
     private CreatureController _owner;
     private Vector3 _moveDir;
-    
+    private float _elapsedTime = 0f;
+    private float _duration = 2f;
+    private float _distance = 4f;
+    private Vector3 _initialPosition;
+
     public int SkillId { get; private set; }
     public int NextId { get; private set; }
     public string PrefabName { get; private set; }
@@ -19,13 +23,13 @@ public class WindCutterController : SkillController
     public float LifeTime { get; private set; } = 10;
     public float Speed { get; private set; }
     public int ProjectileNum { get; private set; }
-    
+
     public override bool Init()
     {
         if (base.Init() == false)
             return false;
-        
-        SkillType = Define.ESkillType.WindCutter;
+
+        SkillType = Define.ESkillType.Meteor;
 
         return true;
     }
@@ -33,7 +37,7 @@ public class WindCutterController : SkillController
     public void InitSkill(int templateId)
     {
         SkillData data = Managers.Data.SkillDic[templateId];
-        
+
         SkillId = data.SkillId;
         NextId = data.NextId;
         PrefabName = data.PrefabName;
@@ -46,50 +50,28 @@ public class WindCutterController : SkillController
         Speed = data.Speed;
         ProjectileNum = data.ProjectileNum;
         
-        StartDestroy(LifeTime);
-    }
-    
-    public override void UpdateController()
-    {
-        base.UpdateController();
-
-        transform.position += _moveDir * Speed * Time.deltaTime;
-    }
-    
-    public void SetMoveDirection(Vector3 direction)
-    {
-        _moveDir = direction.normalized;
-        _owner = Managers.Object.Player;
-        StartCoroutine(ReverseDirection(1.5f));
+        _initialPosition = transform.position;
     }
 
-    private IEnumerator ReverseDirection(float delay)
+    private void OnEnable()
     {
-        yield return new WaitForSeconds(delay);
+        _elapsedTime = 0f;
+        transform.position = _initialPosition;
+    }
 
-        if (_owner != null)
+    private void Update()
+    {
+        _elapsedTime += Time.deltaTime;
+
+        if (_elapsedTime <= _duration)
         {
-            Vector3 directionToPlayer = (_owner.transform.position - transform.position).normalized;
-            _moveDir = directionToPlayer;
+            float t = _elapsedTime / _duration;
+            float yOffset = Mathf.Lerp(0f, -_distance, t);
+            transform.position += new Vector3(0f, yOffset, 0f) * Time.deltaTime;
         }
         else
         {
-            _moveDir = -_moveDir;
+            Managers.Object.Despawn(this);
         }
-
-        StartCoroutine(ReverseDirection(1.5f));
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (this.IsValid() == false)
-            return;
-
-        MonsterController monster = collision.gameObject.GetComponent<MonsterController>();
-
-        if (monster.IsValid() == false)
-            return;
-        
-        monster.OnDamaged(_owner, Damage);
     }
 }

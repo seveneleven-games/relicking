@@ -6,6 +6,7 @@ using Data;
 using Unity.VisualScripting;
 using UnityEngine;
 using static Define;
+using Random = UnityEngine.Random;
 
 
 public class PlayerController : CreatureController
@@ -47,7 +48,6 @@ public class PlayerController : CreatureController
     private List<Coroutine> _skillCoroutines = new List<Coroutine>();
 
     private bool isSkillsActive = false;
-    public bool IsSkillsActive => isSkillsActive;
 
     public override bool Init()
     {
@@ -295,8 +295,8 @@ public class PlayerController : CreatureController
                         Vector3 randomPos;
                         do
                         {
-                            float randomX = UnityEngine.Random.Range(-6f, 6f);
-                            float randomY = UnityEngine.Random.Range(-6f, 6f);
+                            float randomX = Random.Range(-6f, 6f);
+                            float randomY = Random.Range(-6f, 6f);
                             randomPos = new Vector3(randomX, randomY, 0f);
                         } while (installedPositions.Any(pos => Vector3.Distance(pos, randomPos) < 2f));
 
@@ -344,8 +344,30 @@ public class PlayerController : CreatureController
                     }
 
                     yield break;
+                
+                case "Meteor":
+                    for (int i = 0; i < skillData.ProjectileNum; i++)
+                    {
+                        Vector3 shadowSpawnPos = transform.position + new Vector3(Random.Range(-5f, 5f), Random.Range(-5f, 5f), 0f);
+                        Debug.Log("메테오 시전!!!");
+                        Managers.Object.Spawn<MeteorShadowController>(shadowSpawnPos, skillId);
+                        
+                        Vector3 meteorSpawnPos = shadowSpawnPos + new Vector3(0f, 4f, 0f);
+                        Managers.Object.Spawn<MeteorController>(meteorSpawnPos, skillId);
+                        
+                        Vector3 hitSpawnPos = shadowSpawnPos;
+                        StartCoroutine(DelayedMeteorHit(hitSpawnPos, skillId, 2f));
+                    }
+                    break;
             }
         }
+    }
+    
+    private IEnumerator DelayedMeteorHit(Vector3 spawnPos, int skillId, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        MeteorHitController mhc = Managers.Object.Spawn<MeteorHitController>(spawnPos, skillId);
+        mhc.InitSkill(skillId);
     }
 
 

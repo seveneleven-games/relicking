@@ -63,7 +63,10 @@ public static class Define
         PoisonField,
         EliteMonsterProjectile,
         WindCutter,
-        FrozenHeart
+        FrozenHeart,
+        MeteorHit,
+        Meteor,
+        MeteorShadow
     }
 
     public enum EJoystickState
@@ -86,7 +89,7 @@ public static class Define
     public static int INITIAL_REROLL_COST = 0;
     
     //todo(전지환) : 총 스킬 개수 
-    public static int TOTAL_PLAYER_SKILL_NUMBER = 6;
+    public static int TOTAL_PLAYER_SKILL_NUMBER = 7;
     public static int TEST_SKILL_COST = 100;
     public static int MY_SKILL_LEVEL = 0;
     

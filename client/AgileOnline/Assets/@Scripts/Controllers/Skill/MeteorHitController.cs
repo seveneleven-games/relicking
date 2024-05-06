@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Data;
 using UnityEngine;
 
-public class WindCutterController : SkillController
+public class MeteorHitController : SkillController
 {
     private CreatureController _owner;
     private Vector3 _moveDir;
@@ -25,7 +25,7 @@ public class WindCutterController : SkillController
         if (base.Init() == false)
             return false;
         
-        SkillType = Define.ESkillType.WindCutter;
+        SkillType = Define.ESkillType.MeteorHit;
 
         return true;
     }
@@ -45,51 +45,23 @@ public class WindCutterController : SkillController
         LifeTime = data.LifeTime;
         Speed = data.Speed;
         ProjectileNum = data.ProjectileNum;
+
+        ApplyDamageToMonstersInRange();
         
-        StartDestroy(LifeTime);
+        StartDestroy(1f);
     }
     
-    public override void UpdateController()
+    private void ApplyDamageToMonstersInRange()
     {
-        base.UpdateController();
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 2f);
 
-        transform.position += _moveDir * Speed * Time.deltaTime;
-    }
-    
-    public void SetMoveDirection(Vector3 direction)
-    {
-        _moveDir = direction.normalized;
-        _owner = Managers.Object.Player;
-        StartCoroutine(ReverseDirection(1.5f));
-    }
-
-    private IEnumerator ReverseDirection(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-
-        if (_owner != null)
+        foreach (Collider2D collider in colliders)
         {
-            Vector3 directionToPlayer = (_owner.transform.position - transform.position).normalized;
-            _moveDir = directionToPlayer;
+            MonsterController monster = collider.GetComponent<MonsterController>();
+            if (monster != null)
+            {
+                monster.OnDamaged(_owner, Damage);
+            }
         }
-        else
-        {
-            _moveDir = -_moveDir;
-        }
-
-        StartCoroutine(ReverseDirection(1.5f));
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (this.IsValid() == false)
-            return;
-
-        MonsterController monster = collision.gameObject.GetComponent<MonsterController>();
-
-        if (monster.IsValid() == false)
-            return;
-        
-        monster.OnDamaged(_owner, Damage);
     }
 }

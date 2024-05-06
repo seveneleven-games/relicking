@@ -59,6 +59,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9c8b67c6f6cafe0498e979b79ff97bbc
+    m_Address: Meteor_icon.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 5172e12bf4a124f4e9826e7812874449, type: 2}
   m_SchemaSet:
