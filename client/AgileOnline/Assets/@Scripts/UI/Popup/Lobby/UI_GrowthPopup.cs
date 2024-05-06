@@ -153,12 +153,14 @@ public class UI_GrowthPopup : UI_Popup
     void OnClickIdleSettingButton()
     {
         Debug.Log("잠금 앱 설정 버튼 Clicked");
+        Managers.UI.ShowPopupUI<UI_ToBeContinuedPopup>();
     }
 
     void OnClickStartIdleButton()
     {
         Debug.Log("성장하러 가기(방치) 버튼 Clicked");
-        Managers.Scene.LoadScene(Define.EScene.IdleScene);
+       // Managers.Scene.LoadScene(Define.EScene.IdleScene);
+       Managers.UI.ShowPopupUI<UI_ToBeContinuedPopup>();
     }
     
     string FormatTime(int totalSeconds)
