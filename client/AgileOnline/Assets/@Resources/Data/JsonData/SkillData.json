@@ -282,7 +282,7 @@
       "IconName": "ChainLightning_icon.sprite",
       "CoolTime": 5,
       "Damage": 30,
-      "LifeTime": 1,
+      "LifeTime": 0.3,
       "Speed": 5.0,
       "ProjectileNum": 1
     },
@@ -295,7 +295,7 @@
       "IconName": "ChainLightning_icon.sprite",
       "CoolTime": 5,
       "Damage": 40,
-      "LifeTime": 1,
+      "LifeTime": 0.3,
       "Speed": 5.0,
       "ProjectileNum": 1
     },
@@ -308,7 +308,7 @@
       "IconName": "ChainLightning_icon.sprite",
       "CoolTime": 5,
       "Damage": 50,
-      "LifeTime": 1,
+      "LifeTime": 0.3,
       "Speed": 5.0,
       "ProjectileNum": 1
     },
