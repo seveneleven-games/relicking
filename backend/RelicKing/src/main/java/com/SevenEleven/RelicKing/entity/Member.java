@@ -127,6 +127,10 @@ public class Member { // Todo 엔티티 빌더 빼고 생성자 만들기
 		this.continuousLockDate = this.continuousLockDatePrev + 1;
 	}
 
+	public void addContinuousLockDatePrev() {
+		this.continuousLockDatePrev++;
+	}
+
 	public void updateNickname(String newNickname) {
 		this.nickname = newNickname;
 	}

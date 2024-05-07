@@ -35,6 +35,8 @@ public class LockService {
 		LocalDateTime todayMidnight = LocalDate.now().atStartOfDay();
 		LocalDateTime startTime = now.minusSeconds(lockTime);
 
+		int earnedGacha, bonusGacha, gachaAfterLock;
+
 		// 시작 시간이 오늘인 경우
 		if (startTime.isAfter(todayMidnight)) {
 
@@ -47,6 +49,11 @@ public class LockService {
 				member.addContinuousLockDate();
 			}
 
+			// 가챠권 지급
+			earnedGacha = lockTime / Constant.GACHA_PER_MINUTE;
+			bonusGacha = earnedGacha * Constant.BONUS_GACHA_PERCENTAGE[Math.min(member.getContinuousLockDate(), Constant.BONUS_GACHA_PERCENTAGE.length - 1)] / 100;
+			gachaAfterLock = member.getGacha() + earnedGacha + bonusGacha;
+			member.changeGacha(gachaAfterLock);
 		}
 		// 시작 시간이 어제인 경우
 		else {
@@ -66,8 +73,21 @@ public class LockService {
 			// 어제 시간에 어제 분량 더하면 스트릭이 유지되는 경우
 			if (yesterdayLockTimeAfterLock >= Constant.LOCK_TIME_TO_CONTINUE) {
 				member.addContinuousLockDate();
+				member.addContinuousLockDatePrev();
 			}
 
+			// 연속 방치일 수 업데이트 (누적 방치 시간 업데이트 반영된 결과 바탕으로!)
+			if (todayLockTimeAfterLock >= Constant.LOCK_TIME_TO_CONTINUE) {
+				member.addContinuousLockDate();
+			}
+
+			// 가챠권 지급
+			earnedGacha = lockTime / Constant.GACHA_PER_MINUTE;
+			int bonusGachaForYesterday = lockYesterday * Constant.BONUS_GACHA_PERCENTAGE[Math.min(member.getContinuousLockDatePrev(), Constant.BONUS_GACHA_PERCENTAGE.length - 1)] / 100;
+			int bonusGachaForToday = lockToday * Constant.BONUS_GACHA_PERCENTAGE[Math.min(member.getContinuousLockDate(), Constant.BONUS_GACHA_PERCENTAGE.length - 1)] / 100;
+			bonusGacha = bonusGachaForYesterday + bonusGachaForToday;
+			gachaAfterLock = member.getGacha() + earnedGacha + bonusGacha;
+			member.changeGacha(gachaAfterLock);
 		}
 
 		// 시작 시간이 어제든 오늘이든 전체 누적과 마지막 잠금일은 영향 받지 않으므로 조건문 타지 않음.
@@ -75,15 +95,11 @@ public class LockService {
 		member.updateTotalLockTimeAfterLock(totalLockTimeAfterLock);
 		member.updateLastLockDate();
 
-		// 가챠권 지급
-		int earnedGacha = lockTime / Constant.GACHA_PER_MINUTE;
-		int gachaAfterLock = member.getGacha() + earnedGacha;
-		member.changeGacha(gachaAfterLock);
-
 		memberRepository.save(member);
 
 		return SaveLockResponseDto.builder()
 			.earnedGacha(earnedGacha)
+			.bonusGacha(bonusGacha)
 			.gachaAfterLock(gachaAfterLock)
 			.build();
 	}
