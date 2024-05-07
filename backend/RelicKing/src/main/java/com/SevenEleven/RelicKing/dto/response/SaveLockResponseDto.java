@@ -8,5 +8,6 @@ import lombok.Getter;
 public class SaveLockResponseDto {
 
 	private int earnedGacha;
+	private int bonusGacha;
 	private int gachaAfterLock;
 }
