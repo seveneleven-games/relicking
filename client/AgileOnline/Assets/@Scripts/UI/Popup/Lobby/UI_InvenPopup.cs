@@ -113,7 +113,7 @@ public class UI_InvenPopup : UI_Popup
             Util.FindChild<Image>(RelicObject, "RelicImage").sprite = spr;
             RelicObject.BindEvent(() => OnClickRelicInfoButton(RelicId));
         }
-
+        
         #endregion
 
         ToggleInit();
@@ -222,20 +222,24 @@ public class UI_InvenPopup : UI_Popup
     {
         for (int i = 0; i < nums.Length; i++)
         {
-            Color tempColor = GetImage(i + 2).color;
-            if (nums[i] == 0)
+            Image image = GetImage(i + 2);
+            if (image != null)
             {
-                tempColor.a = 0f;
-                GetImage(i + 2).color = tempColor;
-            }
-            else
-            {
-                tempColor.a = 1f;
-                GetImage(i + 2).color = tempColor;
-                string SprName = Managers.Data.RelicDic[nums[i]].ThumbnailName;
-                Debug.Log(SprName);
-                Sprite spr = Managers.Resource.Load<Sprite>(SprName);
-                GetImage(i + 2).sprite = spr;
+                Color tempColor = image.color;
+                if (nums[i] == 0)
+                {
+                    tempColor.a = 0f;
+                   image.color = tempColor;
+                }
+                else
+                {
+                   tempColor.a = 1f;
+                   image.color = tempColor;
+                   string SprName = Managers.Data.RelicDic[nums[i]].ThumbnailName;
+                    Debug.Log(SprName);
+                    Sprite spr = Managers.Resource.Load<Sprite>(SprName);
+                   image.sprite = spr;
+                }
             }
         }
     }
