@@ -19,7 +19,7 @@ public interface Constant {
 	String ACCESS_TOKEN_PREFIX = "Bearer ";
 
 	// relic
-	List<Integer> LEVEL_EXP_TABLE = Arrays.asList(1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000, 256000, 512000);
+	List<Integer> LEVEL_EXP_TABLE = Arrays.asList(2000, 4000, 8000, 16000, 32000, 64000, 128000, 256000, 512000, 1024000);
 	int THE_NUMBER_OF_RELICS = 20;
 	int EXP_GACHA = 1000;
 
