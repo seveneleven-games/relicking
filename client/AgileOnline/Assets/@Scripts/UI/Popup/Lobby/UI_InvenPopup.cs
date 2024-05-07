@@ -2,6 +2,7 @@ using Data;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_InvenPopup : UI_Popup
 {
@@ -48,6 +49,12 @@ public class UI_InvenPopup : UI_Popup
     {
         RelicToggleBGImage,
         StatToggleBGImage,
+        EquipedRelicImage1,
+        EquipedRelicImage2,
+        EquipedRelicImage3,
+        EquipedRelicImage4,
+        EquipedRelicImage5,
+        EquipedRelicImage6,
     }
 
     #endregion
@@ -82,7 +89,7 @@ public class UI_InvenPopup : UI_Popup
 
         GetToggle((int)EToggles.RelicToggle).gameObject.BindEvent(OnClickRelicToggle);
         GetToggle((int)EToggles.StatToggle).gameObject.BindEvent(OnClickStatToggle);
-        
+
         GetButton((int)EButtons.ClassButton).gameObject.BindEvent(OnClickClassSelectButton);
         GetButton((int)EButtons.EquipedRelicButton1).gameObject.BindEvent(() => OnClickEquipedRelicButton(0));
         GetButton((int)EButtons.EquipedRelicButton2).gameObject.BindEvent(() => OnClickEquipedRelicButton(1));
@@ -102,6 +109,8 @@ public class UI_InvenPopup : UI_Popup
             int RelicId = RelicData.Key;
             GameObject RelicObject = Managers.Resource.Instantiate("UI_RelicDetailObject", GetObject((int)EGameObjects.RelicListObject).transform);
             RelicObject.name = $"RelicObject{RelicId}";
+            Sprite spr = Managers.Resource.Load<Sprite>(RelicData.Value.ThumbnailName);
+            Util.FindChild<Image>(RelicObject, "RelicImage").sprite = spr;
             RelicObject.BindEvent(() => OnClickRelicInfoButton(RelicId));
         }
 
@@ -109,9 +118,12 @@ public class UI_InvenPopup : UI_Popup
 
         ToggleInit();
         OnClickRelicToggle();
+        SetEquipedRelicImages(_templateData.EquipedRelicIds);
+
 
         Managers.Game.OnResourcesChanged += Refresh;
         _templateData.OnPlayerStatusChagned += SetClassDetailStatus;
+        _templateData.OnEquipedRelicIdsChanged += SetEquipedRelicImages;
 
         return true;
     }
@@ -155,7 +167,7 @@ public class UI_InvenPopup : UI_Popup
             return;
 
         GetObject((int)EGameObjects.StatToggleObject).SetActive(true);
-        _isSelectedStat= true;
+        _isSelectedStat = true;
     }
 
     void OnClickClassSelectButton()
@@ -193,7 +205,7 @@ public class UI_InvenPopup : UI_Popup
             MaxHp += Managers.Data.RelicDic[i].MaxHp;
             Atk += Managers.Data.RelicDic[i].Atk;
             Speed += Managers.Data.RelicDic[i].Speed;
-            CoolDown -= Managers.Data.RelicDic[i].CoolTime / 100f ;
+            CoolDown -= Managers.Data.RelicDic[i].CoolTime / 100f;
         }
 
         CoolDown = Mathf.Max(CoolDown, 0.4f);
@@ -205,5 +217,26 @@ public class UI_InvenPopup : UI_Popup
         GetText((int)ETexts.CriticalRateText).text = CritRate.ToString();
         GetText((int)ETexts.CriticalDamageText).text = CritDmgRate.ToString();
         GetText((int)ETexts.CoolDownText).text = CoolDown.ToString();
+    }
+    void SetEquipedRelicImages(int[] nums)
+    {
+        for (int i = 0; i < nums.Length; i++)
+        {
+            Color tempColor = GetImage(i + 2).color;
+            if (nums[i] == 0)
+            {
+                tempColor.a = 0f;
+                GetImage(i + 2).color = tempColor;
+            }
+            else
+            {
+                tempColor.a = 1f;
+                GetImage(i + 2).color = tempColor;
+                string SprName = Managers.Data.RelicDic[nums[i]].ThumbnailName;
+                Debug.Log(SprName);
+                Sprite spr = Managers.Resource.Load<Sprite>(SprName);
+                GetImage(i + 2).sprite = spr;
+            }
+        }
     }
 }
