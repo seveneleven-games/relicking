@@ -10,7 +10,7 @@ public class GrowthStaticDataRes
     public int status;
     public string message;
     public GrowthStaticRes data;
-    
+
     // JSON에서 객체로 변환하는 팩토리 메서드 추가했음
     public static GrowthStaticDataRes FromJson(string jsonString)
     {
@@ -27,7 +27,7 @@ public class GrowthStaticRes
     public int totalLockTime;
     public int continuousLockDate;
     public int todayLockTime;
-    
+
     // 데이터 처리를 위한 메서드 추가했음
     public static GrowthStaticRes ProcessData(GrowthStaticRes data)
     {
@@ -36,22 +36,23 @@ public class GrowthStaticRes
         {
             // 여기서 데이터 바꿔주는 로직 추가할 예정 (스트릭, 시간 단위) 
         }
+
         return data;
     }
 }
+
 public class UI_GrowthPopup : UI_Popup
 {
     #region Enum
 
     enum EGameObjects
     {
-        
     }
 
     enum EButtons
     {
-       IdleSettingButton,
-       StartIdleButton,
+        IdleSettingButton,
+        StartIdleButton,
     }
 
     enum ETexts
@@ -96,7 +97,7 @@ public class UI_GrowthPopup : UI_Popup
         #endregion
 
         GetGrowth();
-        
+
         Managers.Game.OnResourcesChanged += Refresh;
         Refresh();
 
@@ -123,7 +124,6 @@ public class UI_GrowthPopup : UI_Popup
     // 갱신
     void Refresh()
     {
-
     }
 
     void UpdateGrowthUI(GrowthStaticRes data)
@@ -159,14 +159,13 @@ public class UI_GrowthPopup : UI_Popup
     void OnClickStartIdleButton()
     {
         Debug.Log("성장하러 가기(방치) 버튼 Clicked");
-       // Managers.Scene.LoadScene(Define.EScene.IdleScene);
-       Managers.UI.ShowPopupUI<UI_ToBeContinuedPopup>();
+        // Managers.Scene.LoadScene(Define.EScene.IdleScene);
+        Managers.UI.ShowPopupUI<UI_ToBeContinuedPopup>();
     }
-    
+
     string FormatTime(int totalSeconds)
     {
         TimeSpan time = TimeSpan.FromSeconds(totalSeconds);
         return time.ToString(@"hh\:mm\:ss");
     }
-    
 }
