@@ -121,6 +121,8 @@ public class GameManager
     public event Action<EJoystickState> OnJoystickStateChanged;
     public event Action OnResourcesChanged;
     
+
+    
     #endregion
     
     

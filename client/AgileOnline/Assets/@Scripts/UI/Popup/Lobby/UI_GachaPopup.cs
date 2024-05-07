@@ -180,7 +180,9 @@ public class UI_GachaPopup : UI_Popup
                 
                 if (gachaDataRes.status == 200)
                 {
-
+                    Transform UI_root = gameObject.transform.parent; // @UI_Root
+                    FindChild(UI_root.gameObject, "UI_LobbyScene").SetActive(false);
+                    FindChild(UI_root.gameObject, "UI_GachaPopup").SetActive(false);
                     ShowGachaResultPopup(gachaDataRes.data);
                     
                     // 성공했으면 빼주기 (자동 갱신을 위하여)

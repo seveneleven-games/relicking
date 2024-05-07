@@ -60,8 +60,8 @@ public class UI_GachaRelicObject : UI_Base
         BindText(typeof(ETexts));
         BindToggle(typeof(EToggles));
         BindImage(typeof(EImages)); 
-        
         #endregion
+        
         
         return true;
     }
@@ -144,4 +144,8 @@ public class UI_GachaRelicObject : UI_Base
     {
         
     }
+
+    
+    
 }
+
