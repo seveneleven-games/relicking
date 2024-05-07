@@ -421,7 +421,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6286176515384216780}
   m_Layer: 0
-  m_Name: SkillObject
+  m_Name: SkillBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
