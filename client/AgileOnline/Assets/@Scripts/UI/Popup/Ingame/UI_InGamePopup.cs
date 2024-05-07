@@ -52,7 +52,6 @@ public class UI_InGamePopup : UI_Popup
             Managers.Object.Player = null;
         }
         StopAllCoroutines();
-        // 리소스 정리
         CleanupResources();
         
         Managers.Scene.LoadScene(EScene.LobbyScene);
