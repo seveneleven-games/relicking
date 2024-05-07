@@ -1,8 +1,8 @@
 package com.SevenEleven.RelicKing.entity;
 
 import java.time.LocalDateTime;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -65,12 +65,12 @@ public class Record {
 	@ElementCollection(fetch = FetchType.LAZY)
 	@CollectionTable(name = "record_relic", joinColumns = @JoinColumn(name = "record_id"))
 	@Builder.Default
-	private Set<RecordRelic> recordRelics = new LinkedHashSet<>(6);
+	private List<RecordRelic> recordRelics = new ArrayList<>(6);
 
 	@ElementCollection(fetch = FetchType.LAZY)
 	@CollectionTable(name = "record_skill", joinColumns = @JoinColumn(name = "record_id"))
 	@Builder.Default
-	private Set<RecordSkill> recordSkills = new LinkedHashSet<>(6);
+	private List<RecordSkill> recordSkills = new ArrayList<>(6);
 
 	public void addRecordRelic(int relicNo, int level, int slot) {
 

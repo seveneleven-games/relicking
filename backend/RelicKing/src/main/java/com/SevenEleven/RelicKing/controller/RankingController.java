@@ -26,7 +26,7 @@ public class RankingController {
             rankingService.getRankings(customUserDetails.getMember()));
     }
 
-    @GetMapping("/detail/{recordId}")
+    @GetMapping("/{recordId}")
     public Response getDetailedRankingInfo(@PathVariable(value = "recordId") int recordId) {
 
         return new Response(HttpStatus.OK.value(),
