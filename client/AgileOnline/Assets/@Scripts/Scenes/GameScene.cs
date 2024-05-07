@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Data;
@@ -6,6 +7,7 @@ using UnityEditor.iOS;
 using UnityEngine;
 using UnityEngine.UI;
 using static Define;
+using Random = UnityEngine.Random;
 
 public class GameScene : BaseScene
 {
@@ -26,6 +28,9 @@ public class GameScene : BaseScene
     private UI_InGamePopup _inGame;
 
     private Text timerText;
+    private Coroutine _timerCoroutine;
+    
+    public event Action OnGameOverEvent;
 
     public override bool Init()
     {
@@ -49,9 +54,10 @@ public class GameScene : BaseScene
         
         // _inGame = Managers.UI.ShowPopupUI<UI_InGamePopup>();
         
-        
         GameObject joystickObject = Managers.Resource.Instantiate("UI_Joystick");
-        joystickObject.name = "@UI_Joystick"; 
+        joystickObject.name = "@UI_Joystick";
+
+        OnGameOverEvent += HandleGameOver;
 
         // TODO: 노드맵 UI에서 게임을 시작해야 한다. 
 
@@ -168,7 +174,7 @@ public class GameScene : BaseScene
                 break;
         }
         
-        StartCoroutine(StartTimer(60f));
+        _timerCoroutine = StartCoroutine(StartTimer(60f));
     }
     
     private IEnumerator StartTimer(float duration)
@@ -352,6 +358,31 @@ public class GameScene : BaseScene
         } while (Vector3.Distance(playerPosition, randomPosition) <= playerRadius);
 
         return randomPosition;
+    }
+    
+    public void InvokeGameOverEvent()
+    {
+        OnGameOverEvent?.Invoke();
+    }
+    
+    private void HandleGameOver()
+    {
+        OnGameOver();
+    }
+    
+    private void OnGameOver()
+    {
+        StopAllCoroutines();
+        if (_timerCoroutine != null)
+        {
+            StopCoroutine(_timerCoroutine);
+            _timerCoroutine = null;
+        }
+    }
+    
+    private void OnDestroy()
+    {
+        OnGameOverEvent -= HandleGameOver;
     }
 
     public override void Clear()
