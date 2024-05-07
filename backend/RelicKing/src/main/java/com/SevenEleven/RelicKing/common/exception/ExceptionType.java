@@ -41,6 +41,9 @@ public enum ExceptionType {
     // Gacha
     ILLEGAL_ARGUMENT(HttpStatus.BAD_REQUEST.value(), "유효하지 않은 가챠 뽑기 횟수를 입력했습니다. 1 또는 10만 가능합니다."),
     NOT_ENOUGH_GACHA(HttpStatus.BAD_REQUEST.value(), "가챠권 개수가 부족합니다."),
+
+    //rankings
+    NO_SUCH_RECORD(HttpStatus.NOT_FOUND.value(), "No such recordId"),
     ;
 
     private final int status;
