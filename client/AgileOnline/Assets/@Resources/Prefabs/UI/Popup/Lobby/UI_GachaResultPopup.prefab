@@ -418,7 +418,7 @@ GameObject:
   - component: {fileID: 4079750983998955593}
   - component: {fileID: 3036401489608502674}
   - component: {fileID: 3029447788969659767}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: UI_GachaResultPopup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -468,7 +468,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: -1442221319
-  m_SortingOrder: 100
+  m_SortingOrder: 120
   m_TargetDisplay: 0
 --- !u!114 &4079750983998955593
 MonoBehaviour:
@@ -966,7 +966,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3459869230431035476, guid: f84c311efa928514c9b5a65ef5e80e32, type: 3}
       propertyPath: m_SortingLayerID
-      value: -1442221319
+      value: -2005935817
       objectReference: {fileID: 0}
     - target: {fileID: 3459869230431035476, guid: f84c311efa928514c9b5a65ef5e80e32, type: 3}
       propertyPath: m_MaskInteraction
