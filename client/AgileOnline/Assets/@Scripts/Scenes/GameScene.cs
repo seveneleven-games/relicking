@@ -133,7 +133,7 @@ public class GameScene : BaseScene
     {
         // 클리어 이벤트 핸들링할 변수 전역화
         _nodeNo = nodeNo;
-        _isBossNode = true;
+        _isBossNode = isBossNode;
         Debug.Log("지금 보스 노드인가요 ? : " + _isBossNode);
         
         // TODO: 팝업 관리 리팩토링 예정
