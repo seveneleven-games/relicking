@@ -65,7 +65,7 @@ public class UI_NodeMapPopup : UI_Popup
 
 
     // 스테이지 정보
-    private string _stageNo;
+    public string _stageNo { get; private set; }
     private string _stageBG;
     private int _nodeMapNo;
     private string _nodeMapName;
@@ -79,9 +79,9 @@ public class UI_NodeMapPopup : UI_Popup
         // NodeMap 정보를 받아와서 노드맵에 반영한다
         // 반영 정보 : 배경화면, 스테이지 번호, 노드맵 종류(프리팹 이름)
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
-        int stageId = _templateData.TemplateIds[0];
+        int stageId = _templateData.StageId;
 
-        _stageNo = _templateData.TemplateIds[0].ToString();
+        _stageNo = _templateData.StageId.ToString();
         
         StageData stageData = Managers.Data.StageDic[stageId];
         int[] nodeMaps = stageData.NodeMaps;

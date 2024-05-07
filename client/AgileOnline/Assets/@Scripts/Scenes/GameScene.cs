@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Data;
 using Unity.VisualScripting;
 using UnityEditor.iOS;
@@ -8,6 +9,32 @@ using UnityEngine;
 using UnityEngine.UI;
 using static Define;
 using Random = UnityEngine.Random;
+
+[Serializable]
+public class ClearDataReq
+{
+    public int eliteKill;
+    public int normalKill;
+    public int stage;
+    public int difficulty;
+    public List<Skill> skillList;
+}
+
+[Serializable]
+public class Skill
+{
+    public int slot;
+    public int skillNo;
+    public int level;
+}
+
+[Serializable]
+public class ClearDataRes
+{
+    public int status;
+    public string message;
+    public bool data;
+}
 
 public class GameScene : BaseScene
 {
@@ -81,8 +108,7 @@ public class GameScene : BaseScene
 
     UI_StorePopup InstantiateStore()
     {
-        UI_StorePopup store;
-        store = Managers.UI.ShowPopupUI<UI_StorePopup>();
+        var store = Managers.UI.ShowPopupUI<UI_StorePopup>();
         store.DataSync(_player.PlayerSkillList);
 
         return store;
@@ -107,7 +133,8 @@ public class GameScene : BaseScene
     {
         // 클리어 이벤트 핸들링할 변수 전역화
         _nodeNo = nodeNo;
-        _isBossNode = isBossNode;
+        _isBossNode = true;
+        Debug.Log("지금 보스 노드인가요 ? : " + _isBossNode);
         
         // TODO: 팝업 관리 리팩토링 예정
         DisableNodeMap();
@@ -174,7 +201,7 @@ public class GameScene : BaseScene
                 break;
         }
         
-        _timerCoroutine = StartCoroutine(StartTimer(60f));
+        _timerCoroutine = StartCoroutine(StartTimer(30f));
     }
     
     private IEnumerator StartTimer(float duration)
@@ -195,7 +222,40 @@ public class GameScene : BaseScene
 
         if (_isBossNode)
         {
-            //todo(전지환) : 보스노드를 클리어한 경우, 최종 클리어 처리
+            Debug.Log("보스노드 클리어!");
+            ClearDataReq clearDataReq = new ClearDataReq();
+            clearDataReq.eliteKill = 0;
+            clearDataReq.normalKill = 0;
+            clearDataReq.stage = Int32.Parse(_nodeMap._stageNo);
+            clearDataReq.difficulty = _templateData.difficulty;
+            
+            List<Skill> skillList = _player.PlayerSkillList
+                .Select((skillId, index) => new Skill
+                {
+                    skillNo = skillId / 10,
+                    level = skillId % 10 == 0 ? 10 : skillId % 10,
+                    slot = index + 1
+                })
+                .ToList();
+
+            clearDataReq.skillList = skillList;
+            
+            string clearJsonData = JsonUtility.ToJson(clearDataReq);
+
+            StartCoroutine(
+                Util.JWTPatchRequest("stages", clearJsonData, res =>
+                {
+                    Debug.Log("Server Response: " + res);
+                    ClearDataRes clearDataRes = JsonUtility.FromJson<ClearDataRes>(res);
+                    if (clearDataRes != null && clearDataRes.status == 200)
+                    {
+                        Debug.Log(clearDataRes.message);
+                    }
+                    else
+                    {
+                        Debug.LogError("서버 응답 오류: " + res);
+                    }
+                }));
         }
         
         Debug.Log($"노드맵 테스트중 Step1. 게임 클리어");
