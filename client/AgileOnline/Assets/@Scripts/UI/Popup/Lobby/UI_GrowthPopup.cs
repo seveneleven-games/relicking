@@ -175,7 +175,7 @@ public class UI_GrowthPopup : UI_Popup
         if (Managers.Game.showIdleRewardPopup)
         {
             //그 리워드 관련 팝업으로 바꿔주기
-            Managers.UI.ShowPopupUI<UI_ToBeContinuedPopup>();
+            Managers.UI.ShowPopupUI<UI_IdleRewardInfoPopup>();
             Managers.Game.showIdleRewardPopup = false;
         }
     }

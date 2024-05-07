@@ -172,6 +172,7 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - default
+    - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 45be4620c68b74e3d9ebc09e820235c7
     m_Address: UI_IdleScene
