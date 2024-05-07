@@ -2,17 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UI_IngameSetingPopup : MonoBehaviour
+public class UI_IngameSetingPopup : UI_Popup
 {
-    // Start is called before the first frame update
-    void Start()
+    public override bool Init()
     {
+        return base.Init();
         
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
+    
 }
