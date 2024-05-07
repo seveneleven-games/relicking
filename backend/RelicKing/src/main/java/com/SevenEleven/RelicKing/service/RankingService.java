@@ -1,5 +1,7 @@
 package com.SevenEleven.RelicKing.service;
 
+import com.SevenEleven.RelicKing.common.exception.CustomException;
+import com.SevenEleven.RelicKing.common.exception.ExceptionType;
 import com.SevenEleven.RelicKing.entity.Member;
 import com.SevenEleven.RelicKing.entity.Record;
 import com.SevenEleven.RelicKing.repository.RecordRepository;
@@ -17,9 +19,9 @@ public class RankingService {
 
     private final RecordRepository recordRepository;
 
-    public Map<String, Object> getrankings(Member member) {
+    public Map<String, Object> getRankings(Member member) {
         Record[] myRecord = new Record[3];
-        Arrays.fill(myRecord, Record.builder().member(member).recordId(0).difficulty(0).build());
+        Arrays.fill(myRecord, Record.builder().member(member).recordId(-1).difficulty(-1).build());
         List<Record> myRecordList = recordRepository.findByMember(member);
         myRecordList.forEach(record -> myRecord[record.getStage() - 1] = record);
         Map<String, Object> data = new LinkedHashMap<>();
@@ -31,7 +33,7 @@ public class RankingService {
             try {
                 myRank.put("rank", recordRepository.findRankByMemberAndStage(member.getMemberId(), i));
             } catch (AopInvocationException e) {
-                myRank.put("rank", "-");
+                myRank.put("rank", -1);
             }
             myRank.put("nickname", member.getNickname());
             myRank.put("classNo", member.getCurrentClassNo());
@@ -51,6 +53,21 @@ public class RankingService {
             stage.put("rankList", rankList);
             data.put("stage" + i, stage);
         }
+
+        return data;
+    }
+
+    public Map<String, Object> getDetailedRanking(int recordId) {
+
+        Record record = recordRepository.findById(recordId)
+            .orElseThrow(() -> new CustomException(ExceptionType.NO_SUCH_RECORD));
+
+        Map<String, Object> data = new LinkedHashMap<>();
+
+        data.put("eliteKill", record.getEliteKill());
+        data.put("normalKill", record.getNormalKill());
+        data.put("relicList", record.getRecordRelics());
+        data.put("skillList", record.getRecordSkills());
 
         return data;
     }
