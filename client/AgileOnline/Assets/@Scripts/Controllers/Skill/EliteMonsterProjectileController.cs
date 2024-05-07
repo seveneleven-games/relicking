@@ -73,7 +73,8 @@ public class EliteMonsterProjectileController : SkillController
         if (player.IsValid() == false)
             return;
         
-        player.OnDamaged(_owner, Damage);
+        int damage = Damage;
+        player.OnDamaged(_owner, ref damage);
         
         Managers.Object.Despawn(this);
     }

@@ -17,7 +17,7 @@ public class UI_InGamePopup : UI_Popup
     }
 
     private TextMeshProUGUI timerText;
-    private float remainingTime = 10f;
+    private float remainingTime = 60f;
 
     public override bool Init()
     {
@@ -52,7 +52,6 @@ public class UI_InGamePopup : UI_Popup
             Managers.Object.Player = null;
         }
         StopAllCoroutines();
-        // 리소스 정리
         CleanupResources();
         
         Managers.Scene.LoadScene(EScene.LobbyScene);

@@ -61,6 +61,11 @@ public class EnergyBoltController : SkillController
     {
         _moveDir = direction.normalized;
     }
+    
+    public void SetOwner(CreatureController owner)
+    {
+        _owner = owner;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -72,7 +77,8 @@ public class EnergyBoltController : SkillController
         if (monster.IsValid() == false)
             return;
         
-        monster.OnDamaged(_owner, Damage);
+        int damage = Damage;
+        monster.OnDamaged(_owner, ref damage);
         
         Managers.Object.Despawn(this);
     }

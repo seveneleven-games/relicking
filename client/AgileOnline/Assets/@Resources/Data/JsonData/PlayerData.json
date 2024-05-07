@@ -4,10 +4,10 @@
       "PlayerId": 1,
       "PrefabName": "Player1",
       "Name": "전근렬",
-      "MaxHp": 50,
+      "MaxHp": 100,
       "Atk": 10,
-      "Speed": 3.0,
-      "CritRate": 1.0,
+      "Speed": 5.0,
+      "CritRate": 0.7,
       "CritDmgRate": 2.0,
       "CoolDown": 1.0
     },
@@ -15,10 +15,10 @@
       "PlayerId": 2,
       "PrefabName": "Player2",
       "Name": "농부",
-      "MaxHp": 70,
+      "MaxHp": 150,
       "Atk": 10,
       "Speed": 5.0,
-      "CritRate": 1.0,
+      "CritRate": 0.7,
       "CritDmgRate": 2.0,
       "CoolDown": 1.0
     }

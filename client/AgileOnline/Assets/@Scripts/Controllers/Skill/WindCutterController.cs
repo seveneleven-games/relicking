@@ -59,14 +59,30 @@ public class WindCutterController : SkillController
     public void SetMoveDirection(Vector3 direction)
     {
         _moveDir = direction.normalized;
+        _owner = Managers.Object.Player;
         StartCoroutine(ReverseDirection(1.5f));
     }
     
+    public void SetOwner(CreatureController owner)
+    {
+        _owner = owner;
+    }
+
     private IEnumerator ReverseDirection(float delay)
     {
-        yield return new WaitForSeconds(delay); // 1.5초 대기
-        _moveDir = -_moveDir; // 방향 반전
-        StartCoroutine(ReverseDirection(1.5f)); // 1.5초 후 다시 방향 반전
+        yield return new WaitForSeconds(delay);
+
+        if (_owner != null)
+        {
+            Vector3 directionToPlayer = (_owner.transform.position - transform.position).normalized;
+            _moveDir = directionToPlayer;
+        }
+        else
+        {
+            _moveDir = -_moveDir;
+        }
+
+        StartCoroutine(ReverseDirection(1.5f));
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -79,8 +95,7 @@ public class WindCutterController : SkillController
         if (monster.IsValid() == false)
             return;
         
-        monster.OnDamaged(_owner, Damage);
-        
-        // Managers.Object.Despawn(this);
+        int damage = Damage;
+        monster.OnDamaged(_owner, ref damage);
     }
 }

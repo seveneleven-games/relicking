@@ -59,7 +59,10 @@ public static class Define
         PoisonField,
         EliteMonsterProjectile,
         WindCutter,
-        FrozenHeart
+        FrozenHeart,
+        MeteorHit,
+        Meteor,
+        MeteorShadow
     }
 
     public enum EJoystickState
@@ -71,14 +74,20 @@ public static class Define
 
 
     #region UI_NodeMapScene
+
+    //todo(전지환) : NodeMapPopup 임시 데이터 (점검 후 삭제 필요)
+    public static int STAGE_NO = 1;
+    public static string STAGE_NODEMAP_NAME = "UI_Stage1NodeMap_01";
+    public static string STAGE_BG_NAME = "Stage1BG.sprite";
     
     //todo(전지환) : StorePopup 임시 데이터
     public static int INITIAL_GOLD = 99999;
     public static int INITIAL_REROLL_COST = 0;
     
-    //총 스킬 개수 
-    public static int TOTAL_PLAYER_SKILL_NUMBER = 6;
+    //todo(전지환) : 총 스킬 개수 
+    public static int TOTAL_PLAYER_SKILL_NUMBER = 7;
     public static int TEST_SKILL_COST = 100;
+    public static int MY_SKILL_LEVEL = 0;
     
     public static string BASE_URI = "https://k10d211.p.ssafy.io/api/";
     #endregion

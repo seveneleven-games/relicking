@@ -168,7 +168,7 @@ public class GameScene : BaseScene
                 break;
         }
         
-        StartCoroutine(StartTimer(10f));
+        StartCoroutine(StartTimer(60f));
     }
     
     private IEnumerator StartTimer(float duration)
