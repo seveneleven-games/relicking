@@ -34,7 +34,6 @@ public class GameData
     
     // 유저가 깬 각 스테이지별 난이도 정보
     public Dictionary<int, StageClearInfo> DicStageClearInfo = new Dictionary<int, StageClearInfo>();
-
 }
 
 public class GameManager
@@ -122,8 +121,11 @@ public class GameManager
     public event Action<EJoystickState> OnJoystickStateChanged;
     public event Action OnResourcesChanged;
     
-    #endregion
 
+    
+    #endregion
+    
+    
     // 초기 세팅
     public void Init()
     {
@@ -136,11 +138,36 @@ public class GameManager
             StageClearInfo info = new StageClearInfo
             {
                 StageId = stageData.StageId,
-                MaxDifficulty = 10, // test를 위해
-                SelectedDifficulty = 11, // test를 위해
+                // MaxDifficulty = 10, // test를 위해
+                // SelectedDifficulty = 11, // test를 위해
             };
             _gameData.DicStageClearInfo.Add(stageData.StageId, info);
         }
     }
+
+    #region 로그인 시 스테이지 별 난이도 가져오기
+
+    public void UpdateStageClearInfo(StageRes stageRes)
+    {
+        if (stageRes == null) return;
+
+        // 각 스테이지별 정보 업데이트
+        UpdateStageDifficulty(1, stageRes.stage1);
+        UpdateStageDifficulty(2, stageRes.stage2);
+        UpdateStageDifficulty(3, stageRes.stage3);
+    }
+
+    private void UpdateStageDifficulty(int stageId, int difficulty)
+    {
+        if (_gameData.DicStageClearInfo.ContainsKey(stageId))
+        {
+            // 난이도가 0인 경우 최소값 1로 설정
+            int validDifficulty = Math.Max(difficulty, 1);
+            _gameData.DicStageClearInfo[stageId].MaxDifficulty = validDifficulty;
+            _gameData.DicStageClearInfo[stageId].SelectedDifficulty = difficulty + 1;
+        }
+    }
+    
+    #endregion
     
 }

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using static Util;
 public static class Define
 {
     public enum EScene
@@ -71,8 +71,7 @@ public static class Define
         PointerUp,
         Drag
     }
-
-
+    
     #region UI_NodeMapScene
 
     //todo(전지환) : NodeMapPopup 임시 데이터 (점검 후 삭제 필요)
@@ -92,6 +91,16 @@ public static class Define
     public static string BASE_URI = "https://k10d211.p.ssafy.io/api/";
     #endregion
 
+}
+
+public static class RelicUIColors
+{
+    // 배경 색깔
+    public static readonly Color GradeSSS = HexToColor("FF0000");
+    public static readonly Color GradeS = HexToColor("FBFF31");
+    public static readonly Color GradeA = HexToColor("A507CC");
+    public static readonly Color GradeB = HexToColor("2641CB");
+    public static readonly Color GradeC = HexToColor("696969");
 }
 
 
