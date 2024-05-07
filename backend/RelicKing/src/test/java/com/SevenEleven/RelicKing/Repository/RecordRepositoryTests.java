@@ -9,11 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.SevenEleven.RelicKing.common.Constant;
 import com.SevenEleven.RelicKing.entity.Member;
 import com.SevenEleven.RelicKing.entity.Record;
+import com.SevenEleven.RelicKing.entity.RecordRelic;
 import com.SevenEleven.RelicKing.repository.MemberRepository;
 import com.SevenEleven.RelicKing.repository.RecordRepository;
 
 import lombok.extern.log4j.Log4j2;
 
+import java.util.List;
 import java.util.Random;
 
 @SpringBootTest
@@ -65,12 +67,15 @@ public class RecordRepositoryTests {
 					}
 				});
 
-				int size = record.getRecordRelics().size();
+				List<RecordRelic> recordRelics = record.getRecordRelics();
+				int size = recordRelics.size();
 				if (size < 6) {
 					for (int j = size + 1; j <= 6; j++) {
 						record.addRecordRelic(0, 0, j);
 					}
 				}
+
+				recordRelics.sort(RecordRelic::compareTo);
 
 				for (int j = 1; j <= 6; j++) {
 					int skillNo = rand.nextInt(Constant.THE_NUMBER_OF_SKILL);

@@ -53,7 +53,7 @@ public class MemberRelicRepositoryTests {
 					.relicNo(relicNoList.get(j - 1))
 					.slot(j > 6 ? 0 : j)
 					.build();
-				memberRelic.plusExp(rand.nextInt(Constant.LEVEL_EXP_TABLE.get(9)));
+				memberRelic.plusExp(Constant.LEVEL_EXP_TABLE.get(rand.nextInt(10)) - 1);
 				memberRelicRepository.save(memberRelic);
 			}
 		}
