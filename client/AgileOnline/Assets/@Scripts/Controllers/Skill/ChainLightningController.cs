@@ -7,6 +7,9 @@ public class ChainLightningController : SkillController
 {
     private CreatureController _owner;
     private Vector3 _moveDir;
+
+    private Vector3 startPoint;
+    private Vector3 endPoint;
     
     public int SkillId { get; private set; }
     public int NextId { get; private set; }
@@ -30,7 +33,7 @@ public class ChainLightningController : SkillController
         return true;
     }
     
-    public void InitSkill(int templateId)
+    public void InitSkill(int templateId, Vector3 start, Vector3 end)
     {
         SkillData data = Managers.Data.SkillDic[templateId];
         
@@ -45,6 +48,11 @@ public class ChainLightningController : SkillController
         LifeTime = data.LifeTime;
         Speed = data.Speed;
         ProjectileNum = data.ProjectileNum;
+        
+        Vector3 direction = end - start;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        transform.localScale = new Vector3(direction.magnitude, 1f, 1f);
         
         StartDestroy(LifeTime);
     }

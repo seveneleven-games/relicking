@@ -125,7 +125,7 @@ public class ObjectManager
         return pc;
     }
 
-    public T Spawn<T>(Vector3 position, int templateId) where T : BaseController
+    public T Spawn<T>(Vector3 position, int templateId, params object[] parameters) where T : BaseController
     {
         string dataType = typeof(T).Name.Replace("Controller", "Data");
 
@@ -244,10 +244,12 @@ public class ObjectManager
                     break;
                 
                 case ESkillType.ChainLightning:
+                    Vector3 startPoint = (Vector3)parameters[0];
+                    Vector3 endPoint = (Vector3)parameters[1];
                     sc.transform.parent = ChainLightningRoot;
                     ChainLightningController clc = sc.GetComponent<ChainLightningController>();
                     ChainLightnings.Add(clc);
-                    clc.InitSkill(templateId);
+                    clc.InitSkill(templateId, startPoint, endPoint);
                     break;
             }
         }
