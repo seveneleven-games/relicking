@@ -40,7 +40,7 @@ public class UI_World : MonoBehaviour
         }
     }
 
-    public void ShowDamage(int damage, Vector3 position)
+    public void ShowDamage(int damage, Vector3 position, bool isCritical = false)
     {
         GameObject damageTextObject = new GameObject("DamageText");
         damageTextObject.transform.SetParent(_canvas.transform);
@@ -48,9 +48,8 @@ public class UI_World : MonoBehaviour
         TextMeshProUGUI damageText = damageTextObject.AddComponent<TextMeshProUGUI>();
         damageText.text = damage.ToString();
         damageText.fontSize = 35;
-        damageText.color = Color.white;
+        damageText.color = isCritical ? Color.red : Color.white;
         damageText.alignment = TextAlignmentOptions.Center;
-        Debug.Log("이거 폰트임:" + damageTextFont);
         damageText.font = damageTextFont;
         
         RectTransform rectTransform = damageTextObject.GetComponent<RectTransform>();

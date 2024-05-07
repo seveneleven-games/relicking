@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static Define;
 
@@ -18,6 +19,12 @@ public class ObjectManager
 
     public HashSet<WindCutterController> WindCutters { get; } = new HashSet<WindCutterController>();
     public HashSet<FrozenHeartController> FrozenHearts { get; } = new HashSet<FrozenHeartController>();
+
+    public HashSet<MeteorHitController> MeteorHits { get; } = new HashSet<MeteorHitController>();
+
+    public HashSet<MeteorController> Meteors { get; } = new HashSet<MeteorController>();
+
+    public HashSet<MeteorShadowController> MeteorShadows { get; } = new HashSet<MeteorShadowController>();
     
     #region Roots
 
@@ -80,6 +87,21 @@ public class ObjectManager
         get { return GetRootTransform("@FrozenHeart"); }
     }
 
+    public Transform MeteorRoot
+    {
+        get { return GetRootTransform("@Meteor"); }
+    }
+    
+    public Transform MeteorShadowRoot
+    {
+        get { return GetRootTransform("@MeteorShadow"); }
+    }
+
+    public Transform MeteorHitRoot
+    {
+        get { return GetRootTransform("@MeteorHit"); }
+    }
+
     #endregion
     
     public PlayerController CreatePlayer(int templateId)
@@ -99,7 +121,22 @@ public class ObjectManager
     public T Spawn<T>(Vector3 position, int templateId) where T : BaseController
     {
         string dataType = typeof(T).Name.Replace("Controller", "Data");
-        string prefabName = Managers.Data.GetData<T>(dataType, templateId); ;
+
+        string prefabName = "";
+        
+        if (dataType == "MeteorShadowData")
+        {
+            prefabName = "MeteorShadow";
+        }
+        else if (dataType == "MeteorHitData")
+        {
+            prefabName = "MeteorHit";
+        }
+        else
+        {
+            prefabName = Managers.Data.GetData<T>(dataType, templateId);   
+        }
+        
         GameObject go = Managers.Resource.Instantiate(prefabName, pooling: true);
         go.name = prefabName;
         go.transform.position = position;
@@ -178,6 +215,27 @@ public class ObjectManager
                     FrozenHeartController fhc = sc.GetComponent<FrozenHeartController>();
                     FrozenHearts.Add(fhc);
                     break;
+                
+                case ESkillType.Meteor:
+                    sc.transform.parent = MeteorRoot;
+                    MeteorController mc = sc.GetComponent<MeteorController>();
+                    Meteors.Add(mc);
+                    mc.InitSkill(templateId);
+                    break;
+
+                case ESkillType.MeteorShadow:
+                    sc.transform.parent = MeteorShadowRoot;
+                    MeteorShadowController msc = sc.GetComponent<MeteorShadowController>();
+                    msc.InitSkill(templateId);
+                    break;
+
+                case ESkillType.MeteorHit:
+                    sc.transform.parent = MeteorHitRoot;
+                    MeteorHitController mhc = sc.GetComponent<MeteorHitController>();
+                    MeteorHits.Add(mhc);
+                    mhc.InitSkill(templateId);
+                    break;
+
             }
         }
 
@@ -239,9 +297,47 @@ public class ObjectManager
                     FrozenHeartController fhc = sc as FrozenHeartController;
                     FrozenHearts.Remove(fhc);
                     break;
+                
+                case ESkillType.MeteorHit:
+                    MeteorHitController mhc = sc as MeteorHitController;
+                    MeteorHits.Remove(mhc);
+                    break;
+                
+                case ESkillType.Meteor:
+                    MeteorController mtc = sc as MeteorController;
+                    Meteors.Remove(mtc);
+                    break;
+                
+                case ESkillType.MeteorShadow:
+                    MeteorShadowController msc = sc as MeteorShadowController;
+                    MeteorShadows.Remove(msc);
+                    break;
             }
         }
 
         Managers.Resource.Destroy(obj.gameObject);
+    }
+
+    public List<MonsterController> GetNearestMonsters(int count = 1, int distanceThreshold = 0)
+    {
+        List<MonsterController> monsterList = Monsters
+            .OrderBy(monster => (Player.CenterPosition - monster.CenterPosition).sqrMagnitude).ToList();
+
+        if (distanceThreshold > 0)
+            monsterList = monsterList.Where(monster =>
+                (Player.CenterPosition - monster.CenterPosition).magnitude > distanceThreshold).ToList();
+        
+        int min = Mathf.Min(count, monsterList.Count);
+        
+        List<MonsterController> nearestMonsters = monsterList.Take(min).ToList();
+        
+        if (nearestMonsters.Count == 0) return null;
+        
+        while (nearestMonsters.Count < count)
+        {
+            nearestMonsters.Add(nearestMonsters.Last());
+        }
+        
+        return nearestMonsters;
     }
 }

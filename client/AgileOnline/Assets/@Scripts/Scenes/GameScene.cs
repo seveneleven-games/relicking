@@ -1,12 +1,40 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Data;
 using Unity.VisualScripting;
 using UnityEditor.iOS;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static Define;
+using Random = UnityEngine.Random;
+
+[Serializable]
+public class ClearDataReq
+{
+    public int eliteKill;
+    public int normalKill;
+    public int stage;
+    public int difficulty;
+    public List<Skill> skillList;
+}
+
+[Serializable]
+public class Skill
+{
+    public int slot;
+    public int skillNo;
+    public int level;
+}
+
+[Serializable]
+public class ClearDataRes
+{
+    public int status;
+    public string message;
+    public bool data;
+}
 
 public class GameScene : BaseScene
 {
@@ -27,6 +55,9 @@ public class GameScene : BaseScene
     private UI_InGamePopup _inGame;
 
     private Text timerText;
+    private Coroutine _timerCoroutine;
+    
+    public event Action OnGameOverEvent;
 
     public override bool Init()
     {
@@ -34,12 +65,6 @@ public class GameScene : BaseScene
             return false;
 
         SceneType = EScene.GameScene;
-
-        _nodeMap = Managers.UI.ShowPopupUI<UI_NodeMapPopup>();
-        _nodeMap.OnEnterNode += StartGame;
-        _store = Managers.UI.ShowPopupUI<UI_StorePopup>();
-        _store.OnSkillCardClick += BuySkill;
-        // _inGame = Managers.UI.ShowPopupUI<UI_InGamePopup>();
 
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
         _classId = _templateData.playerId;
@@ -49,13 +74,17 @@ public class GameScene : BaseScene
         _player.StopSkills();
         CameraController camera = Camera.main.GetOrAddComponent<CameraController>();
         camera.Target = _player;
+
+        _nodeMap = Managers.UI.ShowPopupUI<UI_NodeMapPopup>();
+        _nodeMap.OnEnterNode += StartGame;
+        _store = InstantiateStore();
         
-        //스킬 정보 보내주는거 추가
-        _store.DataSync(_player.PlayerSkillList);
-        _player.OnPlayerSkillAdded += _store.DataSync;
+        // _inGame = Managers.UI.ShowPopupUI<UI_InGamePopup>();
         
         GameObject joystickObject = Managers.Resource.Instantiate("UI_Joystick");
         joystickObject.name = "@UI_Joystick";
+
+        OnGameOverEvent += HandleGameOver;
 
         // TODO: 노드맵 UI에서 게임을 시작해야 한다. 
 
@@ -63,6 +92,30 @@ public class GameScene : BaseScene
         return true;
     }
 
+    void EnableNodeMap(int nodeNo)
+    {
+        Debug.Log($"노드맵 테스트중 Step2. 노드맵 활성화");
+        _nodeMap.DataSync(nodeNo);
+        _nodeMap.gameObject.SetActive(true);
+    }
+    
+    void DisableNodeMap()
+    {
+        // 연관관계 모두 초기화
+        
+        _nodeMap.gameObject.SetActive(false);
+    }
+
+    UI_StorePopup InstantiateStore()
+    {
+        var store = Managers.UI.ShowPopupUI<UI_StorePopup>();
+        store.DataSync(_player.PlayerSkillList);
+
+        return store;
+    }
+    
+    
+    
     #region 노드 정보에 맞는 몬스터 스폰
 
     /* 스테이지 정보와 노드맵 템플릿 아이디를 기반으로 노드 정보 배열 관리
@@ -72,10 +125,20 @@ public class GameScene : BaseScene
 
     #endregion
 
+    // 진입한 노드 번호를 가지고 있을 변수
+    private int _nodeNo;
+    private bool _isBossNode;
+    
     public void StartGame(int nodeNo, bool isBossNode)
     {
+        // 클리어 이벤트 핸들링할 변수 전역화
+        _nodeNo = nodeNo;
+        _isBossNode = isBossNode;
+        Debug.Log("지금 보스 노드인가요 ? : " + _isBossNode);
+        
         // TODO: 팝업 관리 리팩토링 예정
-        _nodeMap.ClosePopupUI();
+        DisableNodeMap();
+        
         _inGame = Managers.UI.ShowPopupUI<UI_InGamePopup>();
         foreach (GameObject obj in FindObjectsOfType<GameObject>())
         {
@@ -85,16 +148,13 @@ public class GameScene : BaseScene
 
         _player.GetComponent<CircleCollider2D>().enabled = true;
         _player.StartSkills();
+        
         NodeMapData nodeMapData = Managers.Data.NodeMapDic[_templateData.TempNodeNum];
         NodeData node = nodeMapData.NodeList[nodeNo];
         
         GameObject map = Managers.Resource.Instantiate(node.MapPrefabName);
         map.transform.position = Vector3.zero;
         map.name = "@BaseMap";
-
-        // 여기에 팝업 닫는 함수 있어야 할 것.
-        _nodeMap.ClosePopupUI();
-        Debug.Log($"{nodeNo}번 노드 진입! 게임 시작!! 보스노드여부 : {isBossNode}");
 
         int nodeType = 0;
         List<int> normalMonsters = new List<int>();
@@ -141,13 +201,7 @@ public class GameScene : BaseScene
                 break;
         }
         
-        StartCoroutine(StartTimer(10f));
-    }
-
-    public void BuySkill(int skillId)
-    {
-        //todo(전지환) : 슬롯 번호는 이후 플레이어 컨트롤러에서 관리할 수 있도록 변경
-        _player.AddSkill(skillId, 5);
+        _timerCoroutine = StartCoroutine(StartTimer(30f));
     }
     
     private IEnumerator StartTimer(float duration)
@@ -165,11 +219,54 @@ public class GameScene : BaseScene
     private void OnGameClear()
     {
         StopAllCoroutines();
+
+        if (_isBossNode)
+        {
+            Debug.Log("보스노드 클리어!");
+            ClearDataReq clearDataReq = new ClearDataReq();
+            clearDataReq.eliteKill = 0;
+            clearDataReq.normalKill = 0;
+            clearDataReq.stage = Int32.Parse(_nodeMap._stageNo);
+            clearDataReq.difficulty = _templateData.difficulty;
+            
+            List<Skill> skillList = _player.PlayerSkillList
+                .Select((skillId, index) => new Skill
+                {
+                    skillNo = skillId / 10,
+                    level = skillId % 10 == 0 ? 10 : skillId % 10,
+                    slot = index + 1
+                })
+                .ToList();
+
+            clearDataReq.skillList = skillList;
+            
+            string clearJsonData = JsonUtility.ToJson(clearDataReq);
+
+            StartCoroutine(
+                Util.JWTPatchRequest("stages", clearJsonData, res =>
+                {
+                    Debug.Log("Server Response: " + res);
+                    ClearDataRes clearDataRes = JsonUtility.FromJson<ClearDataRes>(res);
+                    if (clearDataRes != null && clearDataRes.status == 200)
+                    {
+                        Debug.Log(clearDataRes.message);
+                    }
+                    else
+                    {
+                        Debug.LogError("서버 응답 오류: " + res);
+                    }
+                }));
+        }
         
+        Debug.Log($"노드맵 테스트중 Step1. 게임 클리어");
         _inGame.ClosePopupUI();
         _player.GetComponent<CircleCollider2D>().enabled = false;
-        _nodeMap = Managers.UI.ShowPopupUI<UI_NodeMapPopup>();
-        _nodeMap.OnEnterNode += StartGame;
+
+        EnableNodeMap(_nodeNo);
+        _store = InstantiateStore();
+        
+        
+        #region 플레이어 설정
         
         // 플레이어 스킬 중지
         _player.StopSkills();
@@ -209,6 +306,10 @@ public class GameScene : BaseScene
         
         // 플레이어 위치 초기화
         _player.transform.position = Vector3.zero;
+        
+        #endregion
+        
+        
     }
 
     private IEnumerator SpawnNormalMonsters(List<int> monsterIds)
@@ -317,6 +418,31 @@ public class GameScene : BaseScene
         } while (Vector3.Distance(playerPosition, randomPosition) <= playerRadius);
 
         return randomPosition;
+    }
+    
+    public void InvokeGameOverEvent()
+    {
+        OnGameOverEvent?.Invoke();
+    }
+    
+    private void HandleGameOver()
+    {
+        OnGameOver();
+    }
+    
+    private void OnGameOver()
+    {
+        StopAllCoroutines();
+        if (_timerCoroutine != null)
+        {
+            StopCoroutine(_timerCoroutine);
+            _timerCoroutine = null;
+        }
+    }
+    
+    private void OnDestroy()
+    {
+        OnGameOverEvent -= HandleGameOver;
     }
 
     public override void Clear()
