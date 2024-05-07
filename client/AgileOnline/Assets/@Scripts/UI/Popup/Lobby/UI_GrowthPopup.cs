@@ -100,6 +100,8 @@ public class UI_GrowthPopup : UI_Popup
 
         Managers.Game.OnResourcesChanged += Refresh;
         Refresh();
+        
+        ShowIdleRewardDialog();
 
         return true;
     }
@@ -159,13 +161,22 @@ public class UI_GrowthPopup : UI_Popup
     void OnClickStartIdleButton()
     {
         Debug.Log("성장하러 가기(방치) 버튼 Clicked");
-        // Managers.Scene.LoadScene(Define.EScene.IdleScene);
-        Managers.UI.ShowPopupUI<UI_ToBeContinuedPopup>();
+        Managers.Scene.LoadScene(Define.EScene.IdleScene);
     }
 
     string FormatTime(int totalSeconds)
     {
         TimeSpan time = TimeSpan.FromSeconds(totalSeconds);
         return time.ToString(@"hh\:mm\:ss");
+    }
+    
+    void ShowIdleRewardDialog()
+    {
+        if (Managers.Game.showIdleRewardPopup)
+        {
+            //그 리워드 관련 팝업으로 바꿔주기
+            Managers.UI.ShowPopupUI<UI_ToBeContinuedPopup>();
+            Managers.Game.showIdleRewardPopup = false;
+        }
     }
 }

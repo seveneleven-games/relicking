@@ -42,7 +42,8 @@ public class UI_IdleProceedPopup : UI_Popup
             int seconds = (int)elapsedTime;
             if (seconds != lastUpdatedTime) // 초가 변경될 때만 UI 업데이트
             {
-                GetText((int)ETexts.TotalGrowthContent).text = seconds.ToString();
+                Debug.Log(seconds);
+                GetText((int)ETexts.TotalGrowthContent).text = FormatTime(seconds);
                 lastUpdatedTime = seconds;
             }
         }
@@ -65,6 +66,7 @@ public class UI_IdleProceedPopup : UI_Popup
         elapsedTime = Time.time - startTime;
         int seconds = (int)elapsedTime;
         // 여기서 멈추면 
+        Managers.Game.idleRewardTime = seconds;
     }
 
     public void ResetStopwatch()
@@ -116,6 +118,8 @@ public class UI_IdleProceedPopup : UI_Popup
 
         #endregion
 
+        StartStopwatch();
+        
         Managers.Game.OnResourcesChanged += Refresh;
         Refresh();
 
@@ -129,8 +133,17 @@ public class UI_IdleProceedPopup : UI_Popup
 
     void OnClickExitIdleButton()
     {
+        StopStopwatch();
+        ResetStopwatch();
+        
         Debug.Log("종료하기 Clicked");
         Managers.Game.showIdleRewardPopup = true;
         Managers.Scene.LoadScene(EScene.LobbyScene);
+    }
+    
+    string FormatTime(int totalSeconds)
+    {
+        TimeSpan time = TimeSpan.FromSeconds(totalSeconds);
+        return time.ToString(@"hh\:mm\:ss");
     }
 }

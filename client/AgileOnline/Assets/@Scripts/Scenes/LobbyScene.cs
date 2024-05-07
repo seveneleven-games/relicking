@@ -14,9 +14,9 @@ public class LobbyScene : BaseScene
 
         // UI
         Managers.UI.ShowSceneUI<UI_LobbyScene>();
-        Screen.sleepTimeout = SleepTimeout.SystemSetting;
+       // Screen.sleepTimeout = SleepTimeout.SystemSetting;
 
-        ShowIdleRewardDialog();
+        
 
         return true;
     }
@@ -26,13 +26,5 @@ public class LobbyScene : BaseScene
 
     }
 
-    void ShowIdleRewardDialog()
-    {
-        if (Managers.Game.showIdleRewardPopup)
-        {
-            //그 리워드 관련 팝업으로 바꿔주기
-            Managers.UI.ShowPopupUI<UI_ToBeContinuedPopup>();
-            Managers.Game.showIdleRewardPopup = false;
-        }
-    }
+   
 }

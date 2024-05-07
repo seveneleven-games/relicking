@@ -114,10 +114,21 @@ public class UI_LobbyScene : UI_Scene
         _growthPopupUI = Managers.UI.ShowPopupUI<UI_GrowthPopup>();
         
         TogglesInit();
+
+
+        if (Managers.Game.showIdleRewardPopup)
+        {
+            GetToggle((int)EToggles.GrowthToggle).gameObject.GetComponent<Toggle>().isOn = true;
+            OnClickGrowthToggle();
+        }
+        else
+        {
+            // 맨 처음은 배틀로
+            GetToggle((int)EToggles.BattleToggle).gameObject.GetComponent<Toggle>().isOn = true;
+            OnClickBattleToggle();
+        }
         
-        // 맨 처음은 배틀로
-        GetToggle((int)EToggles.BattleToggle).gameObject.GetComponent<Toggle>().isOn = true;
-        OnClickBattleToggle();
+        
         // 가챠
         //GetToggle((int)EToggles.GachaToggle).gameObject.GetComponent<Toggle>().isOn = true;
         //OnClickGachaToggle();
