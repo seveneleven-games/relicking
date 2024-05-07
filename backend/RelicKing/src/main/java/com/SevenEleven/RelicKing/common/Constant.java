@@ -24,4 +24,7 @@ public interface Constant {
 
 	// email
 	String AUTH_CODE_PREFIX = "AuthCode ";
+
+	// skill
+	int THE_NUMBER_OF_SKILL = 7;
 }

@@ -1,6 +1,6 @@
 package com.SevenEleven.RelicKing.entity;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -60,7 +60,7 @@ public class Record {
 	@LastModifiedDate
 	@Column(nullable = false)
 	@Builder.Default
-	private LocalDate updatedDate = LocalDate.now();
+	private LocalDateTime updatedDate = LocalDateTime.now();
 
 	@ElementCollection(fetch = FetchType.LAZY)
 	@CollectionTable(name = "record_relic", joinColumns = @JoinColumn(name = "record_id"))
