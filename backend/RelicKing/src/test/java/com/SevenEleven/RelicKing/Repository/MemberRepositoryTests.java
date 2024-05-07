@@ -35,7 +35,7 @@ public class MemberRepositoryTests {
 
 	@Test
 	public void insertTest() {
-		for (int i = 2; i <= 100 ; i++) {
+		for (int i = 1; i <= 100 ; i++) {
 			Member member = Member.builder()
 					.email("test" + i + "@test.com")
 					.nickname("test" + i)
