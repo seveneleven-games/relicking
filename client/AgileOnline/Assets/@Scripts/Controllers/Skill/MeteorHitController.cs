@@ -51,6 +51,11 @@ public class MeteorHitController : SkillController
         StartDestroy(1f);
     }
     
+    public void SetOwner(CreatureController owner)
+    {
+        _owner = owner;
+    }
+    
     private void ApplyDamageToMonstersInRange()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 2f);

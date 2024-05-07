@@ -40,12 +40,17 @@ public class CreatureController : BaseController
         
         if (attacker is PlayerController playerAttacker)
         {
+            Debug.Log("플레이어임");
             float critRoll = UnityEngine.Random.value;
             if (critRoll <= playerAttacker.CritRate)
             {
                 damage *= (int)playerAttacker.CritDmgRate;
                 isCritical = true;
             }
+        }
+        else
+        {
+            Debug.Log("플레이어 아님..");
         }
         
         Hp -= damage;

@@ -62,6 +62,11 @@ public class WindCutterController : SkillController
         _owner = Managers.Object.Player;
         StartCoroutine(ReverseDirection(1.5f));
     }
+    
+    public void SetOwner(CreatureController owner)
+    {
+        _owner = owner;
+    }
 
     private IEnumerator ReverseDirection(float delay)
     {

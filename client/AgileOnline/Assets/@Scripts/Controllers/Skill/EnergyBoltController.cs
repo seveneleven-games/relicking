@@ -61,6 +61,11 @@ public class EnergyBoltController : SkillController
     {
         _moveDir = direction.normalized;
     }
+    
+    public void SetOwner(CreatureController owner)
+    {
+        _owner = owner;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

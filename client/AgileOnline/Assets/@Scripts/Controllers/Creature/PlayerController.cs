@@ -237,6 +237,7 @@ public class PlayerController : CreatureController
                     {
                         EnergyBoltController ebc =
                             Managers.Object.Spawn<EnergyBoltController>(transform.position, skillId);
+                        ebc.SetOwner(this);
 
                         float angle;
                         if (skillData.ProjectileNum == 1)
@@ -274,6 +275,7 @@ public class PlayerController : CreatureController
                         MonsterController targetMonster = targetMonsters[i];
 
                         IceArrowController iac = Managers.Object.Spawn<IceArrowController>(transform.position, skillId);
+                        iac.SetOwner(this);
 
                         Vector3 direction = (targetMonster.transform.position - transform.position).normalized;
                         iac.SetMoveDirection(direction);
@@ -315,6 +317,7 @@ public class PlayerController : CreatureController
                     {
                         WindCutterController wcc =
                             Managers.Object.Spawn<WindCutterController>(transform.position, skillId);
+                        wcc.SetOwner(this);
 
                         float angle;
                         if (skillData.ProjectileNum == 1)
@@ -352,7 +355,7 @@ public class PlayerController : CreatureController
                         Debug.Log("메테오 시전!!!");
                         Managers.Object.Spawn<MeteorShadowController>(shadowSpawnPos, skillId);
                         
-                        Vector3 meteorSpawnPos = shadowSpawnPos + new Vector3(0f, 4f, 0f);
+                        Vector3 meteorSpawnPos = shadowSpawnPos + new Vector3(0f, 5.5f, 0f);
                         Managers.Object.Spawn<MeteorController>(meteorSpawnPos, skillId);
                         
                         Vector3 hitSpawnPos = shadowSpawnPos;
@@ -367,6 +370,7 @@ public class PlayerController : CreatureController
     {
         yield return new WaitForSeconds(delay);
         MeteorHitController mhc = Managers.Object.Spawn<MeteorHitController>(spawnPos, skillId);
+        mhc.SetOwner(this);
         mhc.InitSkill(skillId);
     }
 

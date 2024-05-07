@@ -141,6 +141,10 @@ public class MonsterController : CreatureController
     public override bool OnDamaged(BaseController attacker, ref int damage)
     {
         bool isCritical = base.OnDamaged(attacker, ref damage);
+        if (isCritical)
+        {
+            Debug.Log("크리티컬임!!");   
+        }
         UI_World.Instance.ShowDamage(damage, transform.position + Vector3.up * 1f, isCritical);
         return isCritical;
     }
