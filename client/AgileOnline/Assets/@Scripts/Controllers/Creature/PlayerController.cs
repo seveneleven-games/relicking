@@ -366,6 +366,13 @@ public class PlayerController : CreatureController
                         StartCoroutine(DelayedMeteorHit(hitSpawnPos, skillId, 2f));
                     }
                     break;
+                
+                case "ChainLightning":
+                    for (int i = 0; i < skillData.ProjectileNum; i++)
+                    {
+                        
+                    }
+                    break;
             }
         }
     }

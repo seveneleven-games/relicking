@@ -25,6 +25,8 @@ public class ObjectManager
     public HashSet<MeteorController> Meteors { get; } = new HashSet<MeteorController>();
 
     public HashSet<MeteorShadowController> MeteorShadows { get; } = new HashSet<MeteorShadowController>();
+
+    public HashSet<ChainLightningController> ChainLightnings { get; } = new HashSet<ChainLightningController>();
     
     #region Roots
 
@@ -100,6 +102,11 @@ public class ObjectManager
     public Transform MeteorHitRoot
     {
         get { return GetRootTransform("@MeteorHit"); }
+    }
+
+    public Transform ChainLightningRoot
+    {
+        get { return GetRootTransform("@ChainLightning"); }
     }
 
     #endregion
@@ -235,7 +242,13 @@ public class ObjectManager
                     MeteorHits.Add(mhc);
                     mhc.InitSkill(templateId);
                     break;
-
+                
+                case ESkillType.ChainLightning:
+                    sc.transform.parent = ChainLightningRoot;
+                    ChainLightningController clc = sc.GetComponent<ChainLightningController>();
+                    ChainLightnings.Add(clc);
+                    clc.InitSkill(templateId);
+                    break;
             }
         }
 
@@ -311,6 +324,11 @@ public class ObjectManager
                 case ESkillType.MeteorShadow:
                     MeteorShadowController msc = sc as MeteorShadowController;
                     MeteorShadows.Remove(msc);
+                    break;
+                
+                case ESkillType.ChainLightning:
+                    ChainLightningController clc = sc as ChainLightningController;
+                    ChainLightnings.Remove(clc);
                     break;
             }
         }

@@ -62,7 +62,8 @@ public static class Define
         FrozenHeart,
         MeteorHit,
         Meteor,
-        MeteorShadow
+        MeteorShadow,
+        ChainLightning
     }
 
     public enum EJoystickState
