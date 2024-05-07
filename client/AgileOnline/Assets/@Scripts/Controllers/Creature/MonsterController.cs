@@ -22,7 +22,8 @@ public class MonsterController : CreatureController
     
     public List<int> MonsterSkillList { get; private set; }
     
-    private List<Coroutine> _skillCoroutines = new List<Coroutine>();
+    private Coroutine _skillCoroutine;
+    private bool _isUsingSkill;
 
     public override bool Init()
     {
@@ -57,20 +58,17 @@ public class MonsterController : CreatureController
         {
             MonsterSkillList[0] = 1000;
         }
+        else if (MonsterType == 2)
+        {
+            MonsterSkillList[0] = 1000;
+            MonsterSkillList[1] = 1001;
+            transform.localScale = new Vector3(3, 3, 1);
+        }
     }
 
     private void Start()
     {
         _player = Managers.Object.Player;
-        
-        if (MonsterType == 1)
-        {
-            StartSkills();
-        }
-        // GameObject hudPosObject = new GameObject("HUDPos");
-        // hudPosObject.transform.SetParent(transform);
-        // hudPosObject.transform.localPosition = Vector3.up * 1.5f;
-        // hudPos = hudPosObject.transform;
     }
 
     private void Update()
@@ -79,11 +77,17 @@ public class MonsterController : CreatureController
             return;
         
         ChasePlayer();
+        
+        if (!_isUsingSkill && MonsterType != 0)
+        {
+            StartRandomSkill();
+        }
     }
 
     private void ChasePlayer()
     {
         Vector3 dir = (_player.transform.position - transform.position).normalized;
+        CreatureState = ECreatureState.Move;
         TranslateEx(dir * Time.deltaTime * Speed);
     }
 
@@ -132,12 +136,6 @@ public class MonsterController : CreatureController
             yield return new WaitForSeconds(0.1f);
         }
     }
-
-    // public override void OnDamaged(BaseController attacker, int damage)
-    // {
-    //     base.OnDamaged(attacker, damage);
-    //     TakeDamage(damage);
-    // }
     
     public override void OnDamaged(BaseController attacker, int damage)
     {
@@ -152,14 +150,6 @@ public class MonsterController : CreatureController
         if (_coDotDamage != null)
             StopCoroutine(_coDotDamage);
         _coDotDamage = null;
-        
-        // if (hudPos != null && hudPos.childCount > 0)
-        // {
-        //     for (int i = 0; i < hudPos.childCount; i++)
-        //     {
-        //         Destroy(hudPos.GetChild(i).gameObject);
-        //     }
-        // }
 
         GoldController gc = Managers.Object.Spawn<GoldController>(transform.position, MonsterId);
         gc.InitGold(MonsterId);
@@ -167,82 +157,57 @@ public class MonsterController : CreatureController
         Managers.Object.Despawn(this);
     }
 
-    // public GameObject hudDamageText;
-    // public Transform hudPos;
-
-    // private void TakeDamage(int damage)
-    // {
-    //     if (hudPos != null && hudPos.childCount > 0)
-    //     {
-    //         for (int i = 0; i < hudPos.childCount; i++)
-    //         {
-    //             Managers.Pool.Push(hudPos.GetChild(i).gameObject);
-    //         }
-    //     }
-    //     
-    //     GameObject hudText = Managers.Pool.Pop(hudDamageText);
-    //     hudText.transform.position = hudPos.position;
-    //     hudText.GetComponent<Damage>().damage = damage;
-    // }
-
     #region Skill
-
-    void StartSkills()
-    {
-        StopSkills();
-
-        foreach (int skillId in MonsterSkillList)
-        {
-            if (skillId > 0)
-            {
-                Coroutine skillCoroutine = StartCoroutine(CoStartSkill(skillId));
-                _skillCoroutines.Add(skillCoroutine);
-            }
-        }
-    }
     
-    void StopSkills()
+    void StartRandomSkill()
     {
-        foreach (Coroutine coroutine in _skillCoroutines)
+        if (_skillCoroutine != null)
         {
-            if (coroutine != null)
-                StopCoroutine(coroutine);
+            StopCoroutine(_skillCoroutine);
         }
 
-        _skillCoroutines.Clear();
+        int randomIndex = UnityEngine.Random.Range(0, MonsterSkillList.Count);
+        int skillId = MonsterSkillList[randomIndex];
+
+        if (skillId > 0)
+        {
+            _skillCoroutine = StartCoroutine(CoStartSkill(skillId));
+        }
     }
     
     IEnumerator CoStartSkill(int skillId)
     {
+        _isUsingSkill = true;
+
         SkillData skillData = Managers.Data.SkillDic[skillId];
         WaitForSeconds coolTimeWait = new WaitForSeconds(skillData.CoolTime);
-        while (true)
-        {
-            yield return coolTimeWait;
-            switch (skillData.PrefabName)
-            {
-                case "EliteMonsterProjectile":
-                    int empProjectileNum = skillData.ProjectileNum;
-                    float angleStep = 360f / empProjectileNum;
 
-                    for (int i = 0; i < empProjectileNum; i++)
-                    {
-                        float angle = i * angleStep;
-                        Vector3 direction = Quaternion.Euler(0f, 0f, angle) * Vector3.up;
-                        Debug.Log("스킬타입: " + PrefabName);
-                        EliteMonsterProjectileController emp = Managers.Object.Spawn<EliteMonsterProjectileController>(transform.position, skillId);
-                        if (emp != null)
-                        {
-                            emp.SetMoveDirection(direction);
-                        }
-                        else
-                        {
-                            Debug.LogError("Failed to spawn or initialize EliteMonsterProjectileController");
-                        }
-                    }
-                    break;
-            }
+        switch (skillData.PrefabName)
+        {
+            case "EliteMonsterProjectile":
+                int empProjectileNum = skillData.ProjectileNum;
+                float angleStep = 360f / empProjectileNum;
+
+                for (int i = 0; i < empProjectileNum; i++)
+                {
+                    float angle = i * angleStep;
+                    Vector3 direction = Quaternion.Euler(0f, 0f, angle) * Vector3.up;
+                    EliteMonsterProjectileController emp = Managers.Object.Spawn<EliteMonsterProjectileController>(transform.position, skillId);
+                    emp.SetMoveDirection(direction);
+                }
+                break;
+            
+            case "BossMonsterCharge":
+                float originalSpeed = Speed;
+                Speed = 15f;
+                yield return new WaitForSeconds(2f);
+                Speed = originalSpeed;
+                break;
         }
+
+        yield return coolTimeWait;
+
+        _isUsingSkill = false;
     }
     
 

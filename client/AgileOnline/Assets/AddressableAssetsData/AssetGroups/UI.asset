@@ -131,18 +131,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 36068c33391dbee409bfe2b50a8af371
-    m_Address: UI_SignupInputPopup
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - PreLoad
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 65416964a1212094fae46b3e4f90ba6c
-    m_Address: UI_BattlePopup
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - PreLoad
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d26c1f865c636d9468eff8ff0337332c
     m_Address: UI_DifficultySelectPopup
     m_ReadOnly: 0
@@ -151,6 +139,48 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d2ba8181c786a445da9e158db7aa6b15
     m_Address: UI_GrowthPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 348cd4206a7b07244a112215d5e5738f
+    m_Address: UI_DifficultyButton
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 420603fbc8c0aef4982f0229e37a3d88
+    m_Address: UI_SignupInputPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e20e01f0da30b794b9f6fc7c04b6ab23
+    m_Address: UI_BattlePopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c38bd2ccc91d5418fae4b7f3cb3be29c
+    m_Address: UI_IdleProceedPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c2d1d2c734cca7d46b9e28a6d4dfa6d8
+    m_Address: UI_IdleRewardInfoPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 45be4620c68b74e3d9ebc09e820235c7
+    m_Address: UI_IdleScene
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9c975854cc0b249d59b486aec084689e
+    m_Address: UI_ToBeContinuedPopup
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad

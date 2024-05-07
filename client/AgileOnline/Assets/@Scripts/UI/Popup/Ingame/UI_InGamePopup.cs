@@ -45,11 +45,16 @@ public class UI_InGamePopup : UI_Popup
 
     void OnBackButtonClick()
     {
-        // 게임 상태 초기화
-        InitializeGameState();
-
+        PlayerController player = Managers.Object.Player;
+        if (player != null)
+        {
+            player.gameObject.SetActive(false);
+            Managers.Object.Player = null;
+        }
+        StopAllCoroutines();
         // 리소스 정리
         CleanupResources();
+        
         Managers.Scene.LoadScene(EScene.LobbyScene);
     }
 
@@ -65,12 +70,6 @@ public class UI_InGamePopup : UI_Popup
         timerText.text = "0";
     }
 
-    private void InitializeGameState()
-    {
-        // 코루틴 중지
-        StopAllCoroutines();
-    }
-
     private void CleanupResources()
     {
         // 몬스터와 골드 오브젝트 despawn
@@ -82,9 +81,6 @@ public class UI_InGamePopup : UI_Popup
 
         // 오브젝트 풀 정리
         Managers.Pool.Clear();
-
-        // 사용하지 않는 에셋 언로드
-        Resources.UnloadUnusedAssets();
     }
 
     private void DespawnObjects<T>(string parentName) where T : MonoBehaviour

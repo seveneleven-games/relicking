@@ -66,7 +66,7 @@ public class UI_InvenPopup : UI_Popup
             _templateData.OnPlayerStatusChagned -= SetClassDetailStatus;
     }
 
-    // ÃÊ±â ¼¼ÆÃ
+    // ì´ˆê¸° ì„¸íŒ…
     public override bool Init()
     {
         if (base.Init() == false)
@@ -116,7 +116,7 @@ public class UI_InvenPopup : UI_Popup
         return true;
     }
 
-    // °»½Å
+    // ê°±ì‹ 
     void Refresh()
     {
 
@@ -124,11 +124,11 @@ public class UI_InvenPopup : UI_Popup
 
     void ToggleInit()
     {
-        // ¼±ÅÃ¿©ºÎ ÃÊ±âÈ­
+        // ì„ íƒì—¬ë¶€ ì´ˆê¸°í™”
         _isSelectedEquip = false;
         _isSelectedStat = false;
 
-        // ÆË¾÷¹öÆ° ÃÊ±âÈ­
+        // íŒì—…ë²„íŠ¼ ì´ˆê¸°í™”
         GetObject((int)EGameObjects.RelicToggleObject).SetActive(false);
         GetObject((int)EGameObjects.StatToggleObject).SetActive(false);
 
