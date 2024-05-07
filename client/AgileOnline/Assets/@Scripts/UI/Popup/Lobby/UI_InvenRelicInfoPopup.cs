@@ -1,3 +1,4 @@
+using Data;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -61,9 +62,13 @@ public class UI_InvenRelicInfoPopup : UI_Popup
         GetButton((int)EButtons.ButtonUnequip).gameObject.BindEvent(OnClickUnequipButton);
 
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
-        
-        GetText((int)ETexts.RelicNameText).text = Managers.Data.RelicDic[_templateData.SelectedRelicId].Name;
-        GetText((int)ETexts.RelicDescriptionText).text = Managers.Data.RelicDic[_templateData.SelectedRelicId].Description;
+
+        RelicData relicData = Managers.Data.RelicDic[_templateData.SelectedRelicId];
+
+        GetText((int)ETexts.RelicNameText).text = relicData.Name;
+        GetText((int)ETexts.RelicDescriptionText).text = relicData.Description;
+        Sprite spr = Managers.Resource.Load<Sprite>(relicData.ThumbnailName);
+        GetImage((int)EImages.RelicImage).sprite = spr;
 
         bool isEquip = IsRelicEquiped(_templateData.SelectedRelicId, _templateData.EquipedRelicIds);
         GetButton((int)EButtons.ButtonUnequip).gameObject.SetActive(isEquip);

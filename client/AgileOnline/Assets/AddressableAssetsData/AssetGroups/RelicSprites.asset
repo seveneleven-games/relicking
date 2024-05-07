@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: RelicSprites
+  m_EditorClassIdentifier: 
+  m_GroupName: RelicSprites
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 804c233563eff7043a7227fcde849701
+  m_SerializeEntries:
+  - m_GUID: 2f7828e3ea690654bb0256a1ec05b0a8
+    m_Address: Relic_01.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5ec18095156bf66499de19c0f5650d7a
+    m_Address: Relic_02.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e56bc02e3973ada46a1df8a8dc168047
+    m_Address: Relic_03.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4252fb03195fad8409f7cb606054d986
+    m_Address: Relic_04.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bab717d4caf8bc840a3f86d193441ded
+    m_Address: Relic_05.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3b1847c1deb44cd498d5718166a4adf5
+    m_Address: Relic_06.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 5172e12bf4a124f4e9826e7812874449, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: ef00e5d91c132d748936d242fe41caf2, type: 2}
+    - {fileID: 11400000, guid: 4b9b445049437794a99331059107e60b, type: 2}
