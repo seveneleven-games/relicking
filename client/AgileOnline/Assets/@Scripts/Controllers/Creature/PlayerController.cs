@@ -48,11 +48,15 @@ public class PlayerController : CreatureController
     private List<Coroutine> _skillCoroutines = new List<Coroutine>();
 
     private bool isSkillsActive = false;
+    
+    private GameScene _gameScene;
 
     public override bool Init()
     {
         if (base.Init() == false)
             return false;
+        
+        _gameScene = FindObjectOfType<GameScene>();
 
         ObjectType = EObjectType.Player;
         CreatureState = ECreatureState.Idle;
@@ -411,6 +415,9 @@ public class PlayerController : CreatureController
     protected override void OnDead()
     {
         base.OnDead();
+        
+        Managers.UI.ShowPopupUI<UI_DeadPopup>();
+        
         CreatureState = ECreatureState.Dead;
         
         PlayerController player = Managers.Object.Player;
@@ -422,9 +429,11 @@ public class PlayerController : CreatureController
         StopAllCoroutines();
         // 리소스 정리
         CleanupResources();
-
-        // TODO: Game 종료 씬으로~
-        Managers.Scene.LoadScene(EScene.LobbyScene);
+        
+        if (_gameScene != null)
+        {
+            _gameScene.InvokeGameOverEvent();
+        }
     }
     
     private void CleanupResources()
