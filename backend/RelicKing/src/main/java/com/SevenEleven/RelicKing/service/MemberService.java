@@ -4,7 +4,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.Duration;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -107,7 +106,7 @@ public class MemberService {
 		}
 
 		// DB에 저장되어 있는지 확인
-		Boolean isExist = refreshTokenRepository.existsByRefreshToken(refreshToken);
+		boolean isExist = refreshTokenRepository.existsByRefreshToken(refreshToken);
 		if (!isExist) {
 			ExceptionType exceptionType = ExceptionType.INVALID_JWT;
 			log.info(exceptionType.getMessage());
@@ -119,14 +118,10 @@ public class MemberService {
 		String newAccessToken = jwtUtil.createJwt("access", email, Constant.ACCESS_TOKEN_EXPIRATION_TIME);
 		String newRefreshToken = jwtUtil.createJwt("refresh", email, Constant.REFRESH_TOKEN_EXPIRATION_TIME);    // Refresh Token Rotation
 
-		// DB에 저장되어 있는 refresh token 모두 삭제
-		refreshTokenRepository.deleteByEmail(email);
-
 		// 새 Refresh 토큰 저장
 		RefreshToken refreshTokenEntity = RefreshToken.builder()
 			.email(email)
 			.refreshToken(newRefreshToken)
-			.expiration(new Date(System.currentTimeMillis() + Constant.REFRESH_TOKEN_EXPIRATION_TIME).toString())
 			.build();
 		refreshTokenRepository.save(refreshTokenEntity);
 
@@ -175,7 +170,7 @@ public class MemberService {
 	@Transactional
 	public void logout(Member member) {
 
-		refreshTokenRepository.deleteByEmail(member.getEmail());
+		refreshTokenRepository.deleteById(member.getEmail());
 	}
 
 	@Transactional

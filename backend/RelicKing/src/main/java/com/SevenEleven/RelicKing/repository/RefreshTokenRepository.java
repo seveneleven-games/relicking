@@ -1,14 +1,10 @@
 package com.SevenEleven.RelicKing.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.repository.CrudRepository;
 
 import com.SevenEleven.RelicKing.entity.RefreshToken;
 
-public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Integer> {
+public interface RefreshTokenRepository extends CrudRepository<RefreshToken, String> {
 
 	Boolean existsByRefreshToken(String refreshToken);
-
-	@Transactional
-	void deleteByEmail(String email);
 }
