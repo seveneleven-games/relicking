@@ -1,33 +1,20 @@
 package com.SevenEleven.RelicKing.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
+
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@Entity
+@RedisHash(value = "RefreshToken", timeToLive = 7776000)
 @Getter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class RefreshToken {
 
 	@Id
-	@Column(name = "refresh_token_id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int refreshTokenId;
-
-	@Column(nullable = false)
 	private String email;
 
-	@Column(nullable = false)
+	@Indexed
 	private String refreshToken;
-
-	@Column(nullable = false)
-	private String expiration;
 }
