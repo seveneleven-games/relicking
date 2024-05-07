@@ -25,6 +25,30 @@
       "Speed": 0
     },
     {
+      "RelicId": 2,
+      "PrefabName": "Relic_01",
+      "Name": "설연이의 낡은 검",
+      "ThumbnailName": "Relic_01.sprite",
+      "Description": "어쩌구 저쩌구",
+      "Rarity": 0,
+      "Atk": 20,
+      "MaxHp": 0,
+      "CoolTime": 0,
+      "Speed": 0
+    },
+    {
+      "RelicId": 3,
+      "PrefabName": "Relic_01",
+      "Name": "설연이의 낡은 검",
+      "ThumbnailName": "Relic_01.sprite",
+      "Description": "어쩌구 저쩌구",
+      "Rarity": 0,
+      "Atk": 30,
+      "MaxHp": 0,
+      "CoolTime": 0,
+      "Speed": 0
+    },
+    {
       "RelicId": 11,
       "PrefabName": "Relic_02",
       "Name": "근렬이의 방패",

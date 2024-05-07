@@ -6,6 +6,7 @@ using Data;
 using Unity.VisualScripting;
 using UnityEngine;
 using static Define;
+using Random = UnityEngine.Random;
 
 
 public class PlayerController : CreatureController
@@ -47,12 +48,15 @@ public class PlayerController : CreatureController
     private List<Coroutine> _skillCoroutines = new List<Coroutine>();
 
     private bool isSkillsActive = false;
-    public bool IsSkillsActive => isSkillsActive;
+    
+    private GameScene _gameScene;
 
     public override bool Init()
     {
         if (base.Init() == false)
             return false;
+        
+        _gameScene = FindObjectOfType<GameScene>();
 
         ObjectType = EObjectType.Player;
         CreatureState = ECreatureState.Idle;
@@ -65,13 +69,6 @@ public class PlayerController : CreatureController
         PlayerSkillList = new List<int>(new int[6]);
         PlayerRelicList = new List<int>(new int[6]);
 
-        // AddSkill(3, 0);
-        // AddSkill(13, 1);
-        // AddSkill(22, 2);
-        // AddSkill(33, 3);
-        // AddSkill(42, 4);
-        // AddSkill(52, 5);
-
         // 보는 방향 정해주는 더미 오브젝트
         GameObject indicatorObject = new GameObject("Indicator");
         indicatorObject.transform.SetParent(transform);
@@ -80,7 +77,7 @@ public class PlayerController : CreatureController
         _indicator = indicatorObject.transform;
 
         StartSkills();
-        
+
         DontDestroyOnLoad(this);
 
         return true;
@@ -105,7 +102,7 @@ public class PlayerController : CreatureController
     private void Update()
     {
         Vector3 dir = _moveDir * Time.deltaTime * Speed;
-        
+
         transform.TranslateEx(dir);
 
         if (_moveDir != Vector2.zero)
@@ -170,20 +167,11 @@ public class PlayerController : CreatureController
             popup.UpdateRemainGoldText(PlayerGold);
     }
 
-    public override void OnDamaged(BaseController attacker, int damage)
+    public override bool OnDamaged(BaseController attacker,ref int damage)
     {
-        base.OnDamaged(attacker, damage);
+        base.OnDamaged(attacker, ref damage);
         UI_World.Instance.UpdatePlayerHealth(Hp, MaxHp);
-        Debug.Log($"OnDamaged ! {Hp}");
-    }
-
-    protected override void OnDead()
-    {
-        base.OnDead();
-        CreatureState = ECreatureState.Dead;
-
-        // TODO: Game 종료 씬으로~
-        Managers.Scene.LoadScene(EScene.LobbyScene);
+        return true;
     }
 
     #region Skill
@@ -216,7 +204,7 @@ public class PlayerController : CreatureController
                 Managers.Object.Despawn(ef);
             }
         }
-        
+
         FrozenHeartController[] frozenHearts = FindObjectsOfType<FrozenHeartController>();
         foreach (FrozenHeartController fh in frozenHearts)
         {
@@ -240,28 +228,28 @@ public class PlayerController : CreatureController
     {
         SkillData skillData = Managers.Data.SkillDic[skillId];
         WaitForSeconds coolTimeWait = new WaitForSeconds(skillData.CoolTime);
+
         while (true)
         {
             yield return coolTimeWait;
             switch (skillData.PrefabName)
             {
                 case "EnergyBolt":
-
-                    int ebProjectileNum = skillData.ProjectileNum;
                     float ebSpreadAngle = 30f;
 
-                    for (int i = 0; i < ebProjectileNum; i++)
+                    for (int i = 0; i < skillData.ProjectileNum; i++)
                     {
                         EnergyBoltController ebc =
                             Managers.Object.Spawn<EnergyBoltController>(transform.position, skillId);
+                        ebc.SetOwner(this);
 
                         float angle;
-                        if (ebProjectileNum == 1)
+                        if (skillData.ProjectileNum == 1)
                             angle = 0f;
                         else
                         {
-                            float offsetAngle = (i - (ebProjectileNum - 1) * 0.5f) *
-                                                (ebSpreadAngle / (ebProjectileNum - 1));
+                            float offsetAngle = (i - (skillData.ProjectileNum - 1) * 0.5f) *
+                                                (ebSpreadAngle / (skillData.ProjectileNum - 1));
                             angle = offsetAngle * Mathf.Deg2Rad;
                         }
 
@@ -272,8 +260,6 @@ public class PlayerController : CreatureController
                     break;
 
                 case "IceArrow":
-                    int iaProjectileNum = skillData.ProjectileNum;
-
                     List<MonsterController> nearbyMonsters = new List<MonsterController>();
                     Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 15f);
                     foreach (Collider2D collider in colliders)
@@ -286,13 +272,14 @@ public class PlayerController : CreatureController
                     nearbyMonsters.Sort((a, b) => Vector3.Distance(transform.position, a.transform.position)
                         .CompareTo(Vector3.Distance(transform.position, b.transform.position)));
 
-                    List<MonsterController> targetMonsters = nearbyMonsters.Take(iaProjectileNum).ToList();
+                    List<MonsterController> targetMonsters = nearbyMonsters.Take(skillData.ProjectileNum).ToList();
 
                     for (int i = 0; i < targetMonsters.Count; i++)
                     {
                         MonsterController targetMonster = targetMonsters[i];
 
                         IceArrowController iac = Managers.Object.Spawn<IceArrowController>(transform.position, skillId);
+                        iac.SetOwner(this);
 
                         Vector3 direction = (targetMonster.transform.position - transform.position).normalized;
                         iac.SetMoveDirection(direction);
@@ -307,16 +294,15 @@ public class PlayerController : CreatureController
                     yield break;
 
                 case "PoisonField":
-                    int pfProjectileNum = skillData.ProjectileNum;
                     List<Vector3> installedPositions = new List<Vector3>();
 
-                    for (int i = 0; i < pfProjectileNum; i++)
+                    for (int i = 0; i < skillData.ProjectileNum; i++)
                     {
                         Vector3 randomPos;
                         do
                         {
-                            float randomX = UnityEngine.Random.Range(-6f, 6f);
-                            float randomY = UnityEngine.Random.Range(-6f, 6f);
+                            float randomX = Random.Range(-6f, 6f);
+                            float randomY = Random.Range(-6f, 6f);
                             randomPos = new Vector3(randomX, randomY, 0f);
                         } while (installedPositions.Any(pos => Vector3.Distance(pos, randomPos) < 2f));
 
@@ -329,22 +315,21 @@ public class PlayerController : CreatureController
                     break;
 
                 case "WindCutter":
-
-                    int wcProjectileNum = skillData.ProjectileNum;
                     float wcSpreadAngle = 30f;
 
-                    for (int i = 0; i < wcProjectileNum; i++)
+                    for (int i = 0; i < skillData.ProjectileNum; i++)
                     {
                         WindCutterController wcc =
                             Managers.Object.Spawn<WindCutterController>(transform.position, skillId);
+                        wcc.SetOwner(this);
 
                         float angle;
-                        if (wcProjectileNum == 1)
+                        if (skillData.ProjectileNum == 1)
                             angle = 0f;
                         else
                         {
-                            float offsetAngle = (i - (wcProjectileNum - 1) * 0.5f) *
-                                                (wcSpreadAngle / (wcProjectileNum - 1));
+                            float offsetAngle = (i - (skillData.ProjectileNum - 1) * 0.5f) *
+                                                (wcSpreadAngle / (skillData.ProjectileNum - 1));
                             angle = offsetAngle * Mathf.Deg2Rad;
                         }
 
@@ -353,22 +338,73 @@ public class PlayerController : CreatureController
                     }
 
                     break;
-                
+
                 case "FrozenHeart":
-                    int fzProjectileNum = skillData.ProjectileNum;
                     float fzDistance = 2f;
-                    for (int i = 0; i < fzProjectileNum; i++)
+                    for (int i = 0; i < skillData.ProjectileNum; i++)
                     {
-                        float degree = 360f / fzProjectileNum * i;
+                        float degree = 360f / skillData.ProjectileNum * i;
                         Vector3 spawnPos = transform.position;
                         FrozenHeartController fhc = Managers.Object.Spawn<FrozenHeartController>(spawnPos, skillId);
                         fhc.SetOwner(this);
                         fhc.InitSkill(skillId, fzDistance, degree);
                     }
+
                     yield break;
+                
+                case "Meteor":
+                    for (int i = 0; i < skillData.ProjectileNum; i++)
+                    {
+                        Vector3 shadowSpawnPos = transform.position + new Vector3(Random.Range(-5f, 5f), Random.Range(-5f, 5f), 0f);
+                        Managers.Object.Spawn<MeteorShadowController>(shadowSpawnPos, skillId);
+                        
+                        Vector3 meteorSpawnPos = shadowSpawnPos + new Vector3(0f, 5.5f, 0f);
+                        Managers.Object.Spawn<MeteorController>(meteorSpawnPos, skillId);
+                        
+                        Vector3 hitSpawnPos = shadowSpawnPos;
+                        StartCoroutine(DelayedMeteorHit(hitSpawnPos, skillId, 2f));
+                    }
+                    break;
+                
+                case "ChainLightning":
+                    for (int i = 0; i < skillData.ProjectileNum; i++)
+                    {
+                        int damage = Managers.Data.SkillDic[skillId].Damage;
+                        List<MonsterController> chainMonsters = new List<MonsterController>();
+                        Collider2D[] chainColliders = Physics2D.OverlapCircleAll(transform.position, 10f);
+                        foreach (Collider2D collider in chainColliders)
+                        {
+                            MonsterController monster = collider.GetComponent<MonsterController>();
+                            if (monster != null)
+                                chainMonsters.Add(monster);
+                        }
+                        chainMonsters.Sort((a, b) => Vector3.Distance(transform.position, a.transform.position)
+                            .CompareTo(Vector3.Distance(transform.position, b.transform.position)));
+                        int numOfBounce = Mathf.Min(3, chainMonsters.Count);
+                        List<MonsterController> chainTargetMonsters = chainMonsters.Take(numOfBounce).ToList();
+
+                        Vector3 startPoint = transform.position;
+                        foreach (MonsterController monster in chainTargetMonsters)
+                        {
+                            monster.OnDamaged(this, ref damage);
+                            Vector3 endPoint = monster.transform.position;
+                            Managers.Object.Spawn<ChainLightningController>(startPoint, skillId, new object[] { startPoint, endPoint });
+                            startPoint = endPoint;
+                        }
+                    }
+                    break;
             }
         }
     }
+    
+    private IEnumerator DelayedMeteorHit(Vector3 spawnPos, int skillId, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        MeteorHitController mhc = Managers.Object.Spawn<MeteorHitController>(spawnPos, skillId);
+        mhc.SetOwner(this);
+        mhc.InitSkill(skillId);
+    }
+
 
     public List<int> AddSkill(int addSkillId)
     {
@@ -397,6 +433,74 @@ public class PlayerController : CreatureController
         // 이전에 배운스킬도 아닌데 빈슬롯도없으면 로그에러띄워줌
         Debug.LogError("스킬 넣는게 잘못됐어요");
         return PlayerSkillList;
+    }
+
+    #endregion
+
+    #region OnDead -> Lobby
+
+    protected override void OnDead()
+    {
+        base.OnDead();
+        
+        Managers.UI.ShowPopupUI<UI_DeadPopup>();
+        
+        CreatureState = ECreatureState.Dead;
+        
+        PlayerController player = Managers.Object.Player;
+        if (player != null)
+        {
+            player.gameObject.SetActive(false);
+            Managers.Object.Player = null;
+        }
+        StopAllCoroutines();
+        // 리소스 정리
+        CleanupResources();
+        
+        if (_gameScene != null)
+        {
+            _gameScene.InvokeGameOverEvent();
+        }
+    }
+    
+    private void CleanupResources()
+    {
+        // 몬스터와 골드 오브젝트 despawn
+        DespawnObjects<MonsterController>("@Monsters");
+        DespawnObjects<GoldController>("@Golds");
+
+        // 맵 오브젝트 파괴
+        DestroyObjects("@BaseMap");
+
+        // 오브젝트 풀 정리
+        Managers.Pool.Clear();
+    }
+
+    private void DespawnObjects<T>(string parentName) where T : MonoBehaviour
+    {
+        GameObject parentObject = GameObject.Find(parentName);
+        if (parentObject != null)
+        {
+            foreach (Transform child in parentObject.transform)
+            {
+                T component = child.gameObject.GetComponent<T>();
+                if (component != null)
+                {
+                    BaseController baseController = component as BaseController;
+                    if (baseController != null)
+                        Managers.Object.Despawn(baseController);
+                }
+            }
+        }
+    }
+
+    private void DestroyObjects(string name)
+    {
+        GameObject obj = GameObject.Find(name);
+        if (obj != null)
+        {
+            Managers.Resource.Destroy(obj);
+        }
     }
 
     #endregion

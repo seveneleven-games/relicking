@@ -132,15 +132,21 @@ public class MonsterController : CreatureController
     {
         while (true)
         {
-            target.OnDamaged(this, Atk);
+            int damage = Atk;
+            target.OnDamaged(this, ref damage);
             yield return new WaitForSeconds(0.1f);
         }
     }
     
-    public override void OnDamaged(BaseController attacker, int damage)
+    public override bool OnDamaged(BaseController attacker, ref int damage)
     {
-        base.OnDamaged(attacker, damage);
-        UI_World.Instance.ShowDamage(damage, transform.position + Vector3.up * 1f);
+        bool isCritical = base.OnDamaged(attacker, ref damage);
+        if (isCritical)
+        {
+            Debug.Log("크리티컬임!!");   
+        }
+        UI_World.Instance.ShowDamage(damage, transform.position + Vector3.up * 1f, isCritical);
+        return isCritical;
     }
     
     protected override void OnDead()
@@ -180,7 +186,7 @@ public class MonsterController : CreatureController
         _isUsingSkill = true;
 
         SkillData skillData = Managers.Data.SkillDic[skillId];
-        WaitForSeconds coolTimeWait = new WaitForSeconds(skillData.CoolTime);
+        WaitForSeconds coolTimeWait = new WaitForSeconds(5f);
 
         switch (skillData.PrefabName)
         {
@@ -200,7 +206,7 @@ public class MonsterController : CreatureController
             case "BossMonsterCharge":
                 float originalSpeed = Speed;
                 Speed = 15f;
-                yield return new WaitForSeconds(2f);
+                yield return new WaitForSeconds(0.5f);
                 Speed = originalSpeed;
                 break;
         }
