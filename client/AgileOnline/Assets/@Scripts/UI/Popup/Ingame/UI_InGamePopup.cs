@@ -13,7 +13,7 @@ public class UI_InGamePopup : UI_Popup
 
     enum Buttons
     {
-        BackButton
+        SettingButton
     }
 
     private TextMeshProUGUI timerText;
@@ -26,7 +26,7 @@ public class UI_InGamePopup : UI_Popup
 
         BindText(typeof(GameObjects));
         BindButton(typeof(Buttons));
-        GetButton((int)Buttons.BackButton).gameObject.BindEvent(OnBackButtonClick);
+        GetButton((int)Buttons.SettingButton).gameObject.BindEvent(ShowSettingPopup);
 
         timerText = GetText((int)GameObjects.TimerText).GetComponent<TextMeshProUGUI>();
         StartCoroutine(UpdateTimer());
@@ -43,18 +43,10 @@ public class UI_InGamePopup : UI_Popup
         component.text = gold.ToString();
     }
 
-    void OnBackButtonClick()
+    void ShowSettingPopup()
     {
-        PlayerController player = Managers.Object.Player;
-        if (player != null)
-        {
-            player.gameObject.SetActive(false);
-            Managers.Object.Player = null;
-        }
-        StopAllCoroutines();
-        CleanupResources();
-        
-        Managers.Scene.LoadScene(EScene.LobbyScene);
+        Time.timeScale = 0;
+        Managers.UI.ShowPopupUI<UI_IngameSettingPopup>();
     }
 
     private IEnumerator UpdateTimer()
