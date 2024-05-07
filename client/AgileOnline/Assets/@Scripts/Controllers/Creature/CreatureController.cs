@@ -11,8 +11,6 @@ public class CreatureController : BaseController
     public int MaxHp { get; protected set; }
 
     protected ECreatureState _creatureState = ECreatureState.None;
-    
-    public event Action<float, float> OnHealthChanged;
 
     public virtual ECreatureState CreatureState
     {
@@ -36,15 +34,33 @@ public class CreatureController : BaseController
         return true;
     }
 
-    public virtual void OnDamaged(BaseController attacker, int damage)
+    public virtual bool OnDamaged(BaseController attacker, ref int damage)
     {
-        Debug.Log(attacker + " " + damage);
+        bool isCritical = false;
+        
+        if (attacker is PlayerController playerAttacker)
+        {
+            Debug.Log("플레이어임");
+            float critRoll = UnityEngine.Random.value;
+            if (critRoll <= playerAttacker.CritRate)
+            {
+                damage *= (int)playerAttacker.CritDmgRate;
+                isCritical = true;
+            }
+        }
+        else
+        {
+            Debug.Log("플레이어 아님..");
+        }
+        
         Hp -= damage;
         if (Hp <= 0)
         {
             Hp = 0;
             OnDead();
         }
+
+        return isCritical;
     }
 
     protected virtual void OnDead()

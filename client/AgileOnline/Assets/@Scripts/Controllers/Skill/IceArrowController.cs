@@ -63,6 +63,11 @@ public class IceArrowController : SkillController
         transform.rotation = Quaternion.Euler(0f, 0f, angle - 90);
     }
     
+    public void SetOwner(CreatureController owner)
+    {
+        _owner = owner;
+    }
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (this.IsValid() == false)
@@ -73,7 +78,8 @@ public class IceArrowController : SkillController
         if (monster.IsValid() == false)
             return;
         
-        monster.OnDamaged(_owner, Damage);
+        int damage = Damage;
+        monster.OnDamaged(_owner, ref damage);
         
         Managers.Object.Despawn(this);
     }

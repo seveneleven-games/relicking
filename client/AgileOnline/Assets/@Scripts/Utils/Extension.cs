@@ -52,19 +52,23 @@ public static class Extension
         }
     }
 
-    public static int[] RandomIntList(int length, int min, int max)
+    public static int[] RandomIntList(int length, int min, int max, HashSet<int> maxSkillTypes)
     {
         int[] result = new int[length];
+        Array.Fill(result, -1);
         
         List<int> rangePool = new();
         
         for (int i = min; i < max; i++)
         {
+            if(maxSkillTypes.Contains(i)) continue;
             rangePool.Add(i);
         }
         
         for (int j = 0; j < length; j++)
         {
+            if (rangePool.Count == 0) break;
+            
             int index = UnityEngine.Random.Range(0, rangePool.Count);
             result[j] = rangePool[index];
             rangePool.RemoveAt(index);
@@ -73,21 +77,32 @@ public static class Extension
         return result;
     }
 
-    public static int[] RandomSkillList(int length, List<int> skillList)
+    public static int[] RandomSkillList(int length, List<int> skillList, HashSet<int> maxSkillTypes)
     {
         
         int[] result = new int[length];
+        Array.Fill(result, -1);
 
+        int skillType = 0;
+        
         // 딥카피 부분
         List<int> rangePool = new();
+        
+        Debug.Log("스킬 리스트 반환 함수 들어옴!");
+        
         foreach (int skillId  in skillList)
         {
-            rangePool.Add(skillId / 10);
+            skillType = skillId / 10;
+            if(maxSkillTypes.Contains(skillType)) continue;
+            rangePool.Add(skillType);
         }
         
         for (int j = 0; j < length; j++)
         {
+            if (rangePool.Count == 0) break;
+            
             int index = UnityEngine.Random.Range(0, rangePool.Count);
+            // 스킬 풀이 비어서 더 못 꺼내요 ㅋㅋ
             result[j] = rangePool[index];
             rangePool.RemoveAt(index);
         }

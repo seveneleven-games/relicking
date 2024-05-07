@@ -22,7 +22,8 @@ public class MonsterController : CreatureController
     
     public List<int> MonsterSkillList { get; private set; }
     
-    private List<Coroutine> _skillCoroutines = new List<Coroutine>();
+    private Coroutine _skillCoroutine;
+    private bool _isUsingSkill;
 
     public override bool Init()
     {
@@ -60,6 +61,7 @@ public class MonsterController : CreatureController
         else if (MonsterType == 2)
         {
             MonsterSkillList[0] = 1000;
+            MonsterSkillList[1] = 1001;
             transform.localScale = new Vector3(3, 3, 1);
         }
     }
@@ -67,11 +69,6 @@ public class MonsterController : CreatureController
     private void Start()
     {
         _player = Managers.Object.Player;
-        
-        if (MonsterType != 0)
-        {
-            StartSkills();
-        }
     }
 
     private void Update()
@@ -80,6 +77,11 @@ public class MonsterController : CreatureController
             return;
         
         ChasePlayer();
+        
+        if (!_isUsingSkill && MonsterType != 0)
+        {
+            StartRandomSkill();
+        }
     }
 
     private void ChasePlayer()
@@ -130,15 +132,21 @@ public class MonsterController : CreatureController
     {
         while (true)
         {
-            target.OnDamaged(this, Atk);
+            int damage = Atk;
+            target.OnDamaged(this, ref damage);
             yield return new WaitForSeconds(0.1f);
         }
     }
     
-    public override void OnDamaged(BaseController attacker, int damage)
+    public override bool OnDamaged(BaseController attacker, ref int damage)
     {
-        base.OnDamaged(attacker, damage);
-        UI_World.Instance.ShowDamage(damage, transform.position + Vector3.up * 1f);
+        bool isCritical = base.OnDamaged(attacker, ref damage);
+        if (isCritical)
+        {
+            Debug.Log("크리티컬임!!");   
+        }
+        UI_World.Instance.ShowDamage(damage, transform.position + Vector3.up * 1f, isCritical);
+        return isCritical;
     }
     
     protected override void OnDead()
@@ -156,63 +164,56 @@ public class MonsterController : CreatureController
     }
 
     #region Skill
-
-    void StartSkills()
-    {
-        StopSkills();
-
-        foreach (int skillId in MonsterSkillList)
-        {
-            if (skillId > 0)
-            {
-                Coroutine skillCoroutine = StartCoroutine(CoStartSkill(skillId));
-                _skillCoroutines.Add(skillCoroutine);
-            }
-        }
-    }
     
-    void StopSkills()
+    void StartRandomSkill()
     {
-        foreach (Coroutine coroutine in _skillCoroutines)
+        if (_skillCoroutine != null)
         {
-            if (coroutine != null)
-                StopCoroutine(coroutine);
+            StopCoroutine(_skillCoroutine);
         }
 
-        _skillCoroutines.Clear();
+        int randomIndex = UnityEngine.Random.Range(0, MonsterSkillList.Count);
+        int skillId = MonsterSkillList[randomIndex];
+
+        if (skillId > 0)
+        {
+            _skillCoroutine = StartCoroutine(CoStartSkill(skillId));
+        }
     }
     
     IEnumerator CoStartSkill(int skillId)
     {
-        SkillData skillData = Managers.Data.SkillDic[skillId];
-        WaitForSeconds coolTimeWait = new WaitForSeconds(skillData.CoolTime);
-        while (true)
-        {
-            yield return coolTimeWait;
-            switch (skillData.PrefabName)
-            {
-                case "EliteMonsterProjectile":
-                    int empProjectileNum = skillData.ProjectileNum;
-                    float angleStep = 360f / empProjectileNum;
+        _isUsingSkill = true;
 
-                    for (int i = 0; i < empProjectileNum; i++)
-                    {
-                        float angle = i * angleStep;
-                        Vector3 direction = Quaternion.Euler(0f, 0f, angle) * Vector3.up;
-                        Debug.Log("스킬타입: " + PrefabName);
-                        EliteMonsterProjectileController emp = Managers.Object.Spawn<EliteMonsterProjectileController>(transform.position, skillId);
-                        if (emp != null)
-                        {
-                            emp.SetMoveDirection(direction);
-                        }
-                        else
-                        {
-                            Debug.LogError("Failed to spawn or initialize EliteMonsterProjectileController");
-                        }
-                    }
-                    break;
-            }
+        SkillData skillData = Managers.Data.SkillDic[skillId];
+        WaitForSeconds coolTimeWait = new WaitForSeconds(5f);
+
+        switch (skillData.PrefabName)
+        {
+            case "EliteMonsterProjectile":
+                int empProjectileNum = skillData.ProjectileNum;
+                float angleStep = 360f / empProjectileNum;
+
+                for (int i = 0; i < empProjectileNum; i++)
+                {
+                    float angle = i * angleStep;
+                    Vector3 direction = Quaternion.Euler(0f, 0f, angle) * Vector3.up;
+                    EliteMonsterProjectileController emp = Managers.Object.Spawn<EliteMonsterProjectileController>(transform.position, skillId);
+                    emp.SetMoveDirection(direction);
+                }
+                break;
+            
+            case "BossMonsterCharge":
+                float originalSpeed = Speed;
+                Speed = 15f;
+                yield return new WaitForSeconds(0.5f);
+                Speed = originalSpeed;
+                break;
         }
+
+        yield return coolTimeWait;
+
+        _isUsingSkill = false;
     }
     
 

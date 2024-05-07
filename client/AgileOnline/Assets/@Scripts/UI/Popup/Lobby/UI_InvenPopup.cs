@@ -2,6 +2,7 @@ using Data;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_InvenPopup : UI_Popup
 {
@@ -19,6 +20,12 @@ public class UI_InvenPopup : UI_Popup
     enum EButtons
     {
         ClassButton,
+        EquipedRelicButton1,
+        EquipedRelicButton2,
+        EquipedRelicButton3,
+        EquipedRelicButton4,
+        EquipedRelicButton5,
+        EquipedRelicButton6,
     }
 
     enum ETexts
@@ -42,6 +49,12 @@ public class UI_InvenPopup : UI_Popup
     {
         RelicToggleBGImage,
         StatToggleBGImage,
+        EquipedRelicImage1,
+        EquipedRelicImage2,
+        EquipedRelicImage3,
+        EquipedRelicImage4,
+        EquipedRelicImage5,
+        EquipedRelicImage6,
     }
 
     #endregion
@@ -57,7 +70,7 @@ public class UI_InvenPopup : UI_Popup
             Managers.Game.OnResourcesChanged -= Refresh;
 
         if (_templateData != null)
-            _templateData.OnSelectedClassIdChanged -= SetClassDetailStatus;
+            _templateData.OnPlayerStatusChagned -= SetClassDetailStatus;
     }
 
     // 초기 세팅
@@ -76,11 +89,17 @@ public class UI_InvenPopup : UI_Popup
 
         GetToggle((int)EToggles.RelicToggle).gameObject.BindEvent(OnClickRelicToggle);
         GetToggle((int)EToggles.StatToggle).gameObject.BindEvent(OnClickStatToggle);
+
         GetButton((int)EButtons.ClassButton).gameObject.BindEvent(OnClickClassSelectButton);
+        GetButton((int)EButtons.EquipedRelicButton1).gameObject.BindEvent(() => OnClickEquipedRelicButton(0));
+        GetButton((int)EButtons.EquipedRelicButton2).gameObject.BindEvent(() => OnClickEquipedRelicButton(1));
+        GetButton((int)EButtons.EquipedRelicButton3).gameObject.BindEvent(() => OnClickEquipedRelicButton(2));
+        GetButton((int)EButtons.EquipedRelicButton4).gameObject.BindEvent(() => OnClickEquipedRelicButton(3));
+        GetButton((int)EButtons.EquipedRelicButton5).gameObject.BindEvent(() => OnClickEquipedRelicButton(4));
+        GetButton((int)EButtons.EquipedRelicButton6).gameObject.BindEvent(() => OnClickEquipedRelicButton(5));
 
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
-        _templateData.SelectedClassId = 1;
-        SetClassDetailStatus(_templateData.SelectedClassId);
+        SetClassDetailStatus(_templateData.SelectedClassId, _templateData.EquipedRelicIds);
 
         foreach (var RelicData in Managers.Data.RelicDic)
         {
@@ -90,17 +109,21 @@ public class UI_InvenPopup : UI_Popup
             int RelicId = RelicData.Key;
             GameObject RelicObject = Managers.Resource.Instantiate("UI_RelicDetailObject", GetObject((int)EGameObjects.RelicListObject).transform);
             RelicObject.name = $"RelicObject{RelicId}";
+            Sprite spr = Managers.Resource.Load<Sprite>(RelicData.Value.ThumbnailName);
+            Util.FindChild<Image>(RelicObject, "RelicImage").sprite = spr;
             RelicObject.BindEvent(() => OnClickRelicInfoButton(RelicId));
         }
-
+        
         #endregion
 
         ToggleInit();
         OnClickRelicToggle();
+        SetEquipedRelicImages(_templateData.EquipedRelicIds);
+
 
         Managers.Game.OnResourcesChanged += Refresh;
-        _templateData.OnSelectedClassIdChanged += SetClassDetailStatus;
-        Refresh();
+        _templateData.OnPlayerStatusChagned += SetClassDetailStatus;
+        _templateData.OnEquipedRelicIdsChanged += SetEquipedRelicImages;
 
         return true;
     }
@@ -144,7 +167,7 @@ public class UI_InvenPopup : UI_Popup
             return;
 
         GetObject((int)EGameObjects.StatToggleObject).SetActive(true);
-        _isSelectedStat= true;
+        _isSelectedStat = true;
     }
 
     void OnClickClassSelectButton()
@@ -159,14 +182,65 @@ public class UI_InvenPopup : UI_Popup
         Managers.UI.ShowPopupUI<UI_InvenRelicInfoPopup>();
     }
 
-    void SetClassDetailStatus(int num)
+    void OnClickEquipedRelicButton(int num)
     {
-        GetText((int)ETexts.MaxHealthText).text = Managers.Data.PlayerDic[num].MaxHp.ToString();
-        GetText((int)ETexts.DamageText).text = Managers.Data.PlayerDic[num].Atk.ToString();
-        GetText((int)ETexts.SpeedText).text = Managers.Data.PlayerDic[num].Speed.ToString();
-        GetText((int)ETexts.CoinBonusText).text = "100";
-        GetText((int)ETexts.CriticalRateText).text = Managers.Data.PlayerDic[num].CritRate.ToString();
-        GetText((int)ETexts.CriticalDamageText).text = Managers.Data.PlayerDic[num].CritDmgRate.ToString();
-        GetText((int)ETexts.CoolDownText).text = Managers.Data.PlayerDic[num].CoolDown.ToString();
+        if (_templateData.EquipedRelicIds[num] == 0)
+            return;
+
+        OnClickRelicInfoButton(_templateData.EquipedRelicIds[num]);
+    }
+
+    void SetClassDetailStatus(int num, int[] nums)
+    {
+        int MaxHp = Managers.Data.PlayerDic[num].MaxHp;
+        int Atk = Managers.Data.PlayerDic[num].Atk;
+        float Speed = Managers.Data.PlayerDic[num].Speed;
+        int CoinBonus = 100;
+        float CritRate = Managers.Data.PlayerDic[num].CritRate;
+        float CritDmgRate = Managers.Data.PlayerDic[num].CritDmgRate;
+        float CoolDown = Managers.Data.PlayerDic[num].CoolDown;
+
+        foreach (int i in nums)
+        {
+            MaxHp += Managers.Data.RelicDic[i].MaxHp;
+            Atk += Managers.Data.RelicDic[i].Atk;
+            Speed += Managers.Data.RelicDic[i].Speed;
+            CoolDown -= Managers.Data.RelicDic[i].CoolTime / 100f;
+        }
+
+        CoolDown = Mathf.Max(CoolDown, 0.4f);
+
+        GetText((int)ETexts.MaxHealthText).text = MaxHp.ToString();
+        GetText((int)ETexts.DamageText).text = Atk.ToString();
+        GetText((int)ETexts.SpeedText).text = Speed.ToString();
+        GetText((int)ETexts.CoinBonusText).text = CoinBonus.ToString();
+        GetText((int)ETexts.CriticalRateText).text = CritRate.ToString();
+        GetText((int)ETexts.CriticalDamageText).text = CritDmgRate.ToString();
+        GetText((int)ETexts.CoolDownText).text = CoolDown.ToString();
+    }
+    void SetEquipedRelicImages(int[] nums)
+    {
+        for (int i = 0; i < nums.Length; i++)
+        {
+            Image image = GetImage(i + 2);
+            if (image != null)
+            {
+                Color tempColor = image.color;
+                if (nums[i] == 0)
+                {
+                    tempColor.a = 0f;
+                   image.color = tempColor;
+                }
+                else
+                {
+                   tempColor.a = 1f;
+                   image.color = tempColor;
+                   string SprName = Managers.Data.RelicDic[nums[i]].ThumbnailName;
+                    Debug.Log(SprName);
+                    Sprite spr = Managers.Resource.Load<Sprite>(SprName);
+                   image.sprite = spr;
+                }
+            }
+        }
     }
 }
