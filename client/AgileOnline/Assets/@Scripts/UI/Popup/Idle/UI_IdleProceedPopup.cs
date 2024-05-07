@@ -31,6 +31,7 @@ public class UI_IdleProceedPopup : UI_Popup
     private bool stopwatchActive = false;
     private float elapsedTime = 0f;
     private int lastUpdatedTime = 0; // 마지막 ui 업데이트 시간 저장 
+    
 
 
     private void Update()
@@ -57,9 +58,13 @@ public class UI_IdleProceedPopup : UI_Popup
         }
     }
 
+    // 버튼 누르면 스톱워치 정지 -> 모달에 현재 시간 저장해서 보여줌 
     public void StopStopwatch()
     {
         stopwatchActive = false;
+        elapsedTime = Time.time - startTime;
+        int seconds = (int)elapsedTime;
+        // 여기서 멈추면 
     }
 
     public void ResetStopwatch()
@@ -125,6 +130,7 @@ public class UI_IdleProceedPopup : UI_Popup
     void OnClickExitIdleButton()
     {
         Debug.Log("종료하기 Clicked");
+        Managers.Game.showIdleRewardPopup = true;
         Managers.Scene.LoadScene(EScene.LobbyScene);
     }
 }
