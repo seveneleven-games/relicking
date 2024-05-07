@@ -9,5 +9,6 @@ public class GetLockInfoResponseDto {
 
 	private int totalLockTime;
 	private int continuousLockDate;
+	private int bonusGachaPercentage;
 	private int todayLockTime;
 }

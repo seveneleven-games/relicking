@@ -91,9 +91,13 @@ public class LockService {
 	@Transactional(readOnly = true)
 	public GetLockInfoResponseDto getLockInfo(Member member) {
 
+		int continuousLockDate = member.getContinuousLockDate();
+		int bonusGachaPercentage = Constant.BONUS_GACHA_PERCENTAGE[Math.min(continuousLockDate, Constant.BONUS_GACHA_PERCENTAGE.length - 1)];
+
 		return GetLockInfoResponseDto.builder()
 			.totalLockTime(member.getTotalLockTime())
-			.continuousLockDate(member.getContinuousLockDate())
+			.continuousLockDate(continuousLockDate)
+			.bonusGachaPercentage(bonusGachaPercentage)
 			.todayLockTime(member.getTodayLockTime())
 			.build();
 	}
