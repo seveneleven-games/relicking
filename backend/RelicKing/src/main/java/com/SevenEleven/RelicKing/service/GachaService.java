@@ -53,13 +53,15 @@ public class GachaService {
 
 		for (int i = 0; i < gachaRequestDTO.getGachaNum().getValue(); i++) {
 			double w = Math.random();
-			if (w <= 0.5) {
+			System.out.println("===========================");
+			System.out.println(w);
+			if (w <= 0.6) {
 				gachaResult[0][rand.nextInt(Constant.RELIC_INFO_TABLE[0]) + 1]++;
-			} else if (w <= 0.75) {
+			} else if (w <= 0.85) {
 				gachaResult[1][rand.nextInt(Constant.RELIC_INFO_TABLE[1]) + 1]++;
-			} else if (w <= 0.875) {
+			} else if (w <= 0.95) {
 				gachaResult[2][rand.nextInt(Constant.RELIC_INFO_TABLE[2]) + 1]++;
-			} else if (w <= 0.9375) {
+			} else if (w <= 0.99) {
 				gachaResult[3][rand.nextInt(Constant.RELIC_INFO_TABLE[3]) + 1]++;
 			} else {
 				gachaResult[4][rand.nextInt(Constant.RELIC_INFO_TABLE[4]) + 1]++;
@@ -76,10 +78,10 @@ public class GachaService {
 		Set<MemberRelic> memberRelics = member.getMemberRelics();
 		memberRelics.forEach(memberRelic -> {
 			int rarity = memberRelic.getRelicNo()/100;
-			if (gachaResult[rarity][memberRelic.getRelicNo()] > 0) {
+			if (gachaResult[rarity][memberRelic.getRelicNo() % 100] > 0) {
 				// 경험치 더하고 레벨업 여부 따로 계산
 				int before = memberRelic.getLevel();
-				memberRelic.plusExp(Constant.EXP_GACHA * gachaResult[rarity][memberRelic.getRelicNo()]);
+				memberRelic.plusExp(Constant.EXP_GACHA * gachaResult[rarity][memberRelic.getRelicNo() % 100]);
 				int after = memberRelic.getLevel();
 
 				// save
@@ -93,11 +95,11 @@ public class GachaService {
 				relic.put("newYn", false);
 
 				results.add(relic);
-				gachaResult[rarity][memberRelic.getRelicNo()] = 0;
+				gachaResult[rarity][memberRelic.getRelicNo() % 100] = 0;
 			}
 		});
 
-		for (int i = 0; i <= raritySize; i++) {
+		for (int i = 0; i < raritySize; i++) {
 			for (int j = 1; j < gachaResult[i].length; j++) {
 				if (gachaResult[i][j] > 0) {
 					MemberRelic memberRelic = MemberRelic.builder()
