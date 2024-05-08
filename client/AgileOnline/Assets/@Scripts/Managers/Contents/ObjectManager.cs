@@ -360,4 +360,44 @@ public class ObjectManager
         
         return nearestMonsters;
     }
+    
+    public void CleanupResources()
+    {
+        // 몬스터와 골드 오브젝트 despawn
+        DespawnObjects<MonsterController>("@Monsters");
+        DespawnObjects<GoldController>("@Golds");
+
+        // 맵 오브젝트 파괴
+        DestroyObjects("@BaseMap");
+
+        // 오브젝트 풀 정리
+        Managers.Pool.Clear();
+    }
+
+    private void DespawnObjects<T>(string parentName) where T : MonoBehaviour
+    {
+        GameObject parentObject = GameObject.Find(parentName);
+        if (parentObject != null)
+        {
+            foreach (Transform child in parentObject.transform)
+            {
+                T component = child.gameObject.GetComponent<T>();
+                if (component != null)
+                {
+                    BaseController baseController = component as BaseController;
+                    if (baseController != null)
+                        Managers.Object.Despawn(baseController);
+                }
+            }
+        }
+    }
+
+    private void DestroyObjects(string name)
+    {
+        GameObject obj = GameObject.Find(name);
+        if (obj != null)
+        {
+            Managers.Resource.Destroy(obj);
+        }
+    }
 }

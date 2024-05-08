@@ -118,10 +118,7 @@ public class UI_BattlePopup : UI_Popup
         // 첫 스테이지 상태
         _scrollSnap.StartingScreen = Managers.Game.CurrentSelectStage.StageId - 1;
         
-        // 임시
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
-        Debug.Log("templateData is :" + _templateData);
-        
         
         #endregion
         
@@ -287,20 +284,7 @@ public class UI_BattlePopup : UI_Popup
         
         // 임시
         Debug.Log("go Game");
-        //TODO : 백엔드에서 통신해서 받아온 데이터랑 현재 선택한 스테이지 데이터를 넣어서 줘야됨
-        int stageId = 1;
-        int difficulty = 10;
-        int relic1Id = 0;
-        int relic2Id = 0;
-        int relic3Id = 0;
-        int relic4Id = 0;
-        int relic5Id = 0;
-        int relic6Id = 0;
-        _templateData.StageId = stageId;
-        _templateData.difficulty = difficulty;
-        _templateData.playerId = Random.Range(1, 3);
-        _templateData.RelicIds = new int[] {relic1Id,
-            relic2Id, relic3Id, relic4Id, relic5Id, relic6Id};
+        _templateData.StageId = Managers.Game.CurrentSelectStage.StageId;
         
         Managers.Scene.LoadScene(Define.EScene.GameScene);
     }

@@ -16,7 +16,31 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 1f91081db3151a840978bf8e8758f31b
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 6b5a472bcb64a044b80675ef6f936d4e
+    m_Address: UI_ClearPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 34ef7db3b448ea844ae82bff2c990193
+    m_Address: UI_GameExitConfirmPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c471068c2fb7cab48a8a3e53935c2be8
+    m_Address: UI_IngameSettingPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a293a63ad3704e5458709030d1cda0dc
+    m_Address: UI_OutgameSettingPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 5172e12bf4a124f4e9826e7812874449, type: 2}
   m_SchemaSet:
