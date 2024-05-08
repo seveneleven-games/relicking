@@ -42,12 +42,12 @@ public class MemberRelicRepositoryTests {
 			Member member = memberRepository.findByMemberId(i).orElseThrow();
 
 			List<Integer> relicNoList = new java.util.ArrayList<>(
-				IntStream.rangeClosed(1, Constant.THE_NUMBER_OF_RELICS).boxed().toList());
+				IntStream.rangeClosed(1, Constant.THE_NUMBER_OF_C).boxed().toList());
 			Collections.shuffle(relicNoList);
 
 			Random rand = new Random();
 
-			for (int j = 1; j <= rand.nextInt(Constant.THE_NUMBER_OF_RELICS) + 1; j++ ) {
+			for (int j = 1; j <= rand.nextInt(Constant.THE_NUMBER_OF_C) + 1; j++ ) {
 				MemberRelic memberRelic = MemberRelic.builder()
 					.member(member)
 					.relicNo(relicNoList.get(j - 1))

@@ -26,6 +26,7 @@ public class GachaService {
 	private final MemberRepository memberRepository;
 	private final MemberRelicRepository memberRelicRepository;
 
+	// Todo 주석 지우기
 	public Map<String, Integer> getGachaInfo(Member member) {
 		return Map.of("gacha", member.getGacha());
 	}
@@ -40,20 +41,45 @@ public class GachaService {
 
 		List<Map<String, Object>> results = new ArrayList<>();
 
-		int[] counting = new int[Constant.THE_NUMBER_OF_RELICS + 1];
-		Arrays.fill(counting, 0);
-
 		Random rand = new Random();
-		for (int i = 0; i < gachaRequestDTO.getGachaNum().getValue(); i++) {
-			counting[rand.nextInt(Constant.THE_NUMBER_OF_RELICS) + 1]++;
+
+		int raritySize = Constant.RELIC_INFO_TABLE.length;
+		int[][] gachaResult = new int[raritySize][];
+		for (int i = 0; i < raritySize; i++) {
+			int[] rarityCountingArray = new int[Constant.RELIC_INFO_TABLE[i] + 1];
+			Arrays.fill(rarityCountingArray, 0);
+			gachaResult[i] = rarityCountingArray;
 		}
 
+		for (int i = 0; i < gachaRequestDTO.getGachaNum().getValue(); i++) {
+			double w = Math.random();
+			if (w <= 0.5) {
+				gachaResult[0][rand.nextInt(Constant.RELIC_INFO_TABLE[0]) + 1]++;
+			} else if (w <= 0.75) {
+				gachaResult[1][rand.nextInt(Constant.RELIC_INFO_TABLE[1]) + 1]++;
+			} else if (w <= 0.875) {
+				gachaResult[2][rand.nextInt(Constant.RELIC_INFO_TABLE[2]) + 1]++;
+			} else if (w <= 0.9375) {
+				gachaResult[3][rand.nextInt(Constant.RELIC_INFO_TABLE[3]) + 1]++;
+			} else {
+				gachaResult[4][rand.nextInt(Constant.RELIC_INFO_TABLE[4]) + 1]++;
+			}
+		}
+
+		// int[] counting = new int[Constant.THE_NUMBER_OF_C + 1];
+		// Arrays.fill(counting, 0);
+		//
+		// for (int i = 0; i < gachaRequestDTO.getGachaNum().getValue(); i++) {
+		// 	counting[rand.nextInt(Constant.THE_NUMBER_OF_C) + 1]++;
+		// }
+		
 		Set<MemberRelic> memberRelics = member.getMemberRelics();
 		memberRelics.forEach(memberRelic -> {
-			if (counting[memberRelic.getRelicNo()] > 0) {
+			int rarity = memberRelic.getRelicNo()/100;
+			if (gachaResult[rarity][memberRelic.getRelicNo()] > 0) {
 				// 경험치 더하고 레벨업 여부 따로 계산
 				int before = memberRelic.getLevel();
-				memberRelic.plusExp(Constant.EXP_GACHA * counting[memberRelic.getRelicNo()]);
+				memberRelic.plusExp(Constant.EXP_GACHA * gachaResult[rarity][memberRelic.getRelicNo()]);
 				int after = memberRelic.getLevel();
 
 				// save
@@ -67,30 +93,52 @@ public class GachaService {
 				relic.put("newYn", false);
 
 				results.add(relic);
-				counting[memberRelic.getRelicNo()] = 0;
+				gachaResult[rarity][memberRelic.getRelicNo()] = 0;
 			}
 		});
 
-		for (int i = 1; i <= Constant.THE_NUMBER_OF_RELICS; i++) {
-			if (counting[i] > 0) {
-				MemberRelic memberRelic = MemberRelic.builder()
+		for (int i = 0; i <= raritySize; i++) {
+			for (int j = 1; j < gachaResult[i].length; j++) {
+				if (gachaResult[i][j] > 0) {
+					MemberRelic memberRelic = MemberRelic.builder()
 						.member(member)
-						.relicNo(i)
+						.relicNo(i * 100 + j)
 						.build();
-				int before = memberRelic.getLevel();
-				memberRelic.plusExp(Constant.EXP_GACHA * (counting[i] - 1));
-				int after = memberRelic.getLevel();
-				memberRelicRepository.save(memberRelic);
+					memberRelic.plusExp(Constant.EXP_GACHA * (gachaResult[i][j] - 1));
+					int after = memberRelic.getLevel();
+					memberRelicRepository.save(memberRelic);
 
-				Map<String, Object> relic = new LinkedHashMap<>();
-				relic.put("relicNo", memberRelic.getRelicNo());
-				relic.put("level", after);
-				relic.put("levelUpYn", after > before);
-				relic.put("newYn", true);
+					Map<String, Object> relic = new LinkedHashMap<>();
+					relic.put("relicNo", memberRelic.getRelicNo());
+					relic.put("level", after);
+					relic.put("levelUpYn", after > 1);
+					relic.put("newYn", true);
 
-				results.add(relic);
+					results.add(relic);
+				}
 			}
 		}
+
+		// for (int i = 1; i <= Constant.THE_NUMBER_OF_C; i++) {
+		// 	if (counting[i] > 0) {
+		// 		MemberRelic memberRelic = MemberRelic.builder()
+		// 				.member(member)
+		// 				.relicNo(i)
+		// 				.build();
+		// 		int before = memberRelic.getLevel();
+		// 		memberRelic.plusExp(Constant.EXP_GACHA * (counting[i] - 1));
+		// 		int after = memberRelic.getLevel();
+		// 		memberRelicRepository.save(memberRelic);
+		//
+		// 		Map<String, Object> relic = new LinkedHashMap<>();
+		// 		relic.put("relicNo", memberRelic.getRelicNo());
+		// 		relic.put("level", after);
+		// 		relic.put("levelUpYn", after > before);
+		// 		relic.put("newYn", true);
+		//
+		// 		results.add(relic);
+		// 	}
+		// }
 
 		Collections.shuffle(results);
 
