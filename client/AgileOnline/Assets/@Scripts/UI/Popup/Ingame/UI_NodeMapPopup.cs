@@ -56,8 +56,6 @@ public class UI_NodeMapPopup : UI_Popup
     {
         if (_nodeMap == null) return;
 
-        Debug.Log($"노드맵 테스트중 Step4. 생명 주기 체크!");
-        
         // 첫 화면 말고 켜질 때 마다 클리어한 노드를 반영해서 새로 그려야 한다
         _nodeMap.NodeSync();
         _nodeMap.LineSync();
@@ -83,6 +81,7 @@ public class UI_NodeMapPopup : UI_Popup
 
         _stageNo = _templateData.StageId.ToString();
         
+        Debug.Log("스테이지id : " + stageId);
         StageData stageData = Managers.Data.StageDic[stageId];
         int[] nodeMaps = stageData.NodeMaps;
         
@@ -103,6 +102,9 @@ public class UI_NodeMapPopup : UI_Popup
         
         //적용
         _nodeMap = Managers.Resource.Instantiate(_nodeMapName, _nodes.transform).GetComponent<UI_NodeMapBase>() ;
+        
+        Debug.Log(_nodeMap);
+        
         _nodeMap.gameObject.transform.localScale = new Vector3(0.8f,0.8f,0.8f);
         _nodes.GetComponent<ScrollRect>().content = _nodeMap.GetComponent<RectTransform>();
 
@@ -146,7 +148,8 @@ public class UI_NodeMapPopup : UI_Popup
 
     public void DataSync(int nodeNo)
     {
-        Debug.Log($"노드맵 테스트중 Step3. 데이터 싱크");
+        Debug.Log(_nodeMap);
+        Debug.Log(_nodeMap.ClearedNodes);
         _nodeMap.ClearedNodes[nodeNo] = true;
         _nodeMap.ClearedDepth += 1;
     }

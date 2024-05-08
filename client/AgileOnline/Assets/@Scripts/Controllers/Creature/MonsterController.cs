@@ -25,6 +25,8 @@ public class MonsterController : CreatureController
     private Coroutine _skillCoroutine;
     private bool _isUsingSkill;
 
+    private TemplateData _templateData;
+
     public override bool Init()
     {
         if (base.Init() == false)
@@ -39,14 +41,16 @@ public class MonsterController : CreatureController
     public void InitMonster(int templateId)
     {
         MonsterData data = Managers.Data.MonsterDic[templateId];
-        
+        _templateData = Resources.Load<TemplateData>("GameTemplateData");
+        int difficulty = _templateData.difficulty;
+
         MonsterId = data.MonsterId;
         PrefabName = data.PrefabName;
         MonsterType = data.MonsterType;
         Name = data.Name;
-        MaxHp = data.MaxHp;
+        MaxHp = data.MaxHp * difficulty;
         Hp = MaxHp;
-        Atk = data.Atk;
+        Atk = data.Atk * difficulty;
         Speed = data.Speed;
         DropGold = data.DropGold;
         CritRate = data.CritRate;

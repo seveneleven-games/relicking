@@ -15,7 +15,7 @@ public class PlayerController : CreatureController
 
     public int PlayerId { get; private set; }
     public string Name { get; private set; }
-    public int Atk { get; private set; }
+    public float Atk { get; private set; }
     public float CritRate { get; private set; }
     public float CritDmgRate { get; private set; }
     public float CoolDown { get; private set; }
@@ -50,6 +50,8 @@ public class PlayerController : CreatureController
     private bool isSkillsActive = false;
     
     private GameScene _gameScene;
+
+    private TemplateData _templateData;
 
     public override bool Init()
     {
@@ -97,6 +99,17 @@ public class PlayerController : CreatureController
         CritRate = data.CritRate;
         CritDmgRate = data.CritDmgRate;
         CoolDown = data.CoolDown;
+        
+        Debug.Log("현재 공격력은~ : " + Atk);
+        
+        _templateData = Resources.Load<TemplateData>("GameTemplateData");
+        
+        int[] relicIds = _templateData.EquipedRelicIds;
+        foreach (int relicId in relicIds)
+        {
+            RelicData relicData = Managers.Data.RelicDic[relicId];
+            Atk *= 1 + (relicData.Atk / 100f);
+        }
     }
 
     private void Update()

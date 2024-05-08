@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,7 +14,9 @@ public class LobbyScene : BaseScene
 
         // UI
         Managers.UI.ShowSceneUI<UI_LobbyScene>();
-        Screen.sleepTimeout = SleepTimeout.SystemSetting;
+       // Screen.sleepTimeout = SleepTimeout.SystemSetting;
+
+        
 
         return true;
     }
@@ -22,4 +25,6 @@ public class LobbyScene : BaseScene
     {
 
     }
+
+   
 }
