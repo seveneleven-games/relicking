@@ -23,7 +23,7 @@ public class UI_ToBeContinuedPopup : UI_Popup
             Managers.Game.OnResourcesChanged -= Refresh;
     }
 
-    // ÃÊ±â ¼¼ÆÃ
+    // ì´ˆê¸° ì„¸íŒ…
     public override bool Init()
     {
         if (base.Init() == false)
@@ -45,7 +45,7 @@ public class UI_ToBeContinuedPopup : UI_Popup
         return true;
     }
 
-    // °»½Å
+    // ê°±ì‹ 
     void Refresh()
     {
 
@@ -53,7 +53,7 @@ public class UI_ToBeContinuedPopup : UI_Popup
 
     void OnClickCloseButton()
     {
-        Debug.Log("ÁØºñÁß¸ð´Þ´ÝÀ½");
+        Debug.Log("ëª¨ë‹¬ ë‹«íž˜");
         Managers.UI.ClosePopupUI(this);
     }
 }

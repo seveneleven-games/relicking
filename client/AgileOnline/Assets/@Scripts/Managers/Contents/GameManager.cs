@@ -29,6 +29,13 @@ public class GameData
     
     public int Ticket = 0;
 
+    // 보상 팝업 관련 플래그 설정 
+    public bool showIdleRewardPopup = false;
+
+    public int idleRewardTime = 0;
+
+    public string LastActivePopup;
+    
     // 유저가 현재 선택한 스테이지 정보
     public StageData CurrentSelectStage = new StageData();
     
@@ -40,6 +47,33 @@ public class GameManager
 {
     #region GameData
     public GameData _gameData = new GameData();
+
+    public bool showIdleRewardPopup
+    {
+        get { return _gameData.showIdleRewardPopup; }
+        set
+        {
+            _gameData.showIdleRewardPopup = value;
+        }
+    }
+    
+    public int idleRewardTime
+    {
+        get { return _gameData.idleRewardTime; }
+        set
+        {
+            _gameData.idleRewardTime = value;
+        }
+    }
+
+    public string LastActivePopup
+    {
+        get { return _gameData.LastActivePopup; }
+        set
+        {
+            _gameData.LastActivePopup = value;
+        }
+    }
     
     public int Ticket
     {
@@ -169,5 +203,4 @@ public class GameManager
     }
     
     #endregion
-    
-}
+    }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static Util;
 
 public class UI_InvenRelicInfoPopup : UI_Popup
 {
@@ -114,10 +115,11 @@ public class UI_InvenRelicInfoPopup : UI_Popup
         }
         if ( EquipedIndex >= 0)
         {
-            _templateData.SetRelicAt(EquipedIndex, 0);
-            Debug.Log("[" + string.Join(", ", _templateData.EquipedRelicIds) + "]");
+            Debug.Log($"Call UnequipRelic Function");
+            UnEquipRelic(EquipedIndex);
+            //_templateData.SetRelicAt(EquipedIndex, 0);
+            //Debug.Log("[" + string.Join(", ", _templateData.EquipedRelicIds) + "]");
         }
-        Managers.UI.ClosePopupUI(this);
     }
 
     public bool IsRelicEquiped(int relicId, int[] relicIds)
@@ -133,5 +135,28 @@ public class UI_InvenRelicInfoPopup : UI_Popup
         }
 
         return result;
+    }
+
+    void UnEquipRelic(int number)
+    {
+        RelicDataReq relicDataReq = new()
+        {
+            slot = number + 1,
+            relicNo = 0,
+        };
+
+        string relicJsonData = JsonUtility.ToJson(relicDataReq);
+
+        StartCoroutine(JWTPostRequest("relics", relicJsonData, res =>
+        {
+            RelicDataRes relicDataRes = JsonUtility.FromJson<RelicDataRes>(res);
+
+            if (relicDataRes.status == 200)
+            {
+                _templateData.SetRelicAt(number, 0);
+                Debug.Log("[" + string.Join(", ", _templateData.EquipedRelicIds) + "]");
+                Managers.UI.ClosePopupUI(this);
+            }
+        }));
     }
 }

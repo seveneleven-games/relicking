@@ -67,7 +67,7 @@ public class GameScene : BaseScene
         SceneType = EScene.GameScene;
 
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
-        _classId = _templateData.playerId;
+        _classId = _templateData.SelectedClassId;
         
         _player = Managers.Object.CreatePlayer(_classId);
 
@@ -94,7 +94,6 @@ public class GameScene : BaseScene
 
     void EnableNodeMap(int nodeNo)
     {
-        Debug.Log($"노드맵 테스트중 Step2. 노드맵 활성화");
         _nodeMap.DataSync(nodeNo);
         _nodeMap.gameObject.SetActive(true);
     }
@@ -222,43 +221,11 @@ public class GameScene : BaseScene
 
         if (_isBossNode)
         {
-            Debug.Log("보스노드 클리어!");
-            ClearDataReq clearDataReq = new ClearDataReq();
-            clearDataReq.eliteKill = 0;
-            clearDataReq.normalKill = 0;
-            clearDataReq.stage = Int32.Parse(_nodeMap._stageNo);
-            clearDataReq.difficulty = _templateData.difficulty;
-            
-            List<Skill> skillList = _player.PlayerSkillList
-                .Select((skillId, index) => new Skill
-                {
-                    skillNo = skillId / 10,
-                    level = skillId % 10 == 0 ? 10 : skillId % 10,
-                    slot = index + 1
-                })
-                .ToList();
-
-            clearDataReq.skillList = skillList;
-            
-            string clearJsonData = JsonUtility.ToJson(clearDataReq);
-
-            StartCoroutine(
-                Util.JWTPatchRequest("stages", clearJsonData, res =>
-                {
-                    Debug.Log("Server Response: " + res);
-                    ClearDataRes clearDataRes = JsonUtility.FromJson<ClearDataRes>(res);
-                    if (clearDataRes != null && clearDataRes.status == 200)
-                    {
-                        Debug.Log(clearDataRes.message);
-                    }
-                    else
-                    {
-                        Debug.LogError("서버 응답 오류: " + res);
-                    }
-                }));
+            ClearServerCommunication();
+            Managers.UI.ShowPopupUI<UI_ClearPopup>();
+            return;
         }
         
-        Debug.Log($"노드맵 테스트중 Step1. 게임 클리어");
         _inGame.ClosePopupUI();
         _player.GetComponent<CircleCollider2D>().enabled = false;
 
@@ -310,6 +277,44 @@ public class GameScene : BaseScene
         #endregion
         
         
+    }
+
+    void ClearServerCommunication()
+    {
+        Debug.Log("보스노드 클리어!");
+        ClearDataReq clearDataReq = new ClearDataReq();
+        clearDataReq.eliteKill = 0;
+        clearDataReq.normalKill = 0;
+        clearDataReq.stage = Int32.Parse(_nodeMap._stageNo);
+        clearDataReq.difficulty = _templateData.difficulty;
+            
+        List<Skill> skillList = _player.PlayerSkillList
+            .Select((skillId, index) => new Skill
+            {
+                skillNo = skillId / 10,
+                level = skillId % 10 == 0 ? 10 : skillId % 10,
+                slot = index + 1
+            })
+            .ToList();
+
+        clearDataReq.skillList = skillList;
+            
+        string clearJsonData = JsonUtility.ToJson(clearDataReq);
+
+        StartCoroutine(
+            Util.JWTPatchRequest("stages", clearJsonData, res =>
+            {
+                Debug.Log("Server Response: " + res);
+                ClearDataRes clearDataRes = JsonUtility.FromJson<ClearDataRes>(res);
+                if (clearDataRes != null && clearDataRes.status == 200)
+                {
+                    Debug.Log(clearDataRes.message);
+                }
+                else
+                {
+                    Debug.LogError("서버 응답 오류: " + res);
+                }
+            }));
     }
 
     private IEnumerator SpawnNormalMonsters(List<int> monsterIds)
