@@ -67,7 +67,7 @@ public class GameScene : BaseScene
         SceneType = EScene.GameScene;
 
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
-        _classId = _templateData.playerId;
+        _classId = _templateData.SelectedClassId;
         
         _player = Managers.Object.CreatePlayer(_classId);
 
