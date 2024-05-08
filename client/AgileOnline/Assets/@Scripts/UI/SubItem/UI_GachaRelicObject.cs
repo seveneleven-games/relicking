@@ -36,11 +36,6 @@ public class UI_GachaRelicObject : UI_Base
     
     #endregion
     
-    // 객체 관련 두는 곳
-    RelicData _relicData;
-
-    // 생성자
-    public Relic Relic;
     
     private void Awake()
     {
@@ -72,17 +67,11 @@ public class UI_GachaRelicObject : UI_Base
         // 레벨 표시 -> 레벨은 ID로 따로 관리를 안하네??
         GetText((int)ETexts.RelicLevelText).text = "LV. " + relic.level.ToString();
         
-        
-        // Todo GachaRelic의 relicNo를 통해서 어떤 Relic인지 가져오기 (생성자 처음이라 이게 맞나 싶음)
-        // 그리고 된다고 하더라도 생성자로 해도 되나 싶음 -> 그냥 바로 딕셔너리에 접근해도 될텐데. Managers.Data.RelicDic[relic.relicNo] 이렇게 접근하면 되는건데 굳이 이렇게 만들었나?
-        
-        Relic = new Relic(relic.relicNo);
-
         #region 레어리티 표시
 
         // 레어리티 표시 (BG 색깔 바꾸기) -> ID를 통해서 분석
         // 0 : C급, 1 : B급, 2 : A급, 3 : S급, 4 : SSS급 (임시, 나중에 ENUM으로 바꾸거나 할 것!)
-        switch (Relic.RelicData.Rarity)
+        switch (Managers.Data.RelicDic[relic.relicNo].Rarity)
         {
             case 0:
                 GetImage((int)EImages.RelicBGImage).color = RelicUIColors.GradeC;
@@ -107,7 +96,7 @@ public class UI_GachaRelicObject : UI_Base
         #endregion
         
         // 유물 이미지 가져오기
-        GetImage((int)EImages.RelicImage).sprite = Managers.Resource.Load<Sprite>(Relic.RelicData.ThumbnailName);
+        GetImage((int)EImages.RelicImage).sprite = Managers.Resource.Load<Sprite>(Managers.Data.RelicDic[relic.relicNo].ThumbnailName);
 
         #region 신규와 레벨업 여부
 
