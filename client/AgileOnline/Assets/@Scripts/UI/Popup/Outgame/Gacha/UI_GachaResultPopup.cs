@@ -111,6 +111,10 @@ public class UI_GachaResultPopup : UI_Popup
         
         if (_relics != null && _relics.Count > 0)
         {
+            // 루키스 방식!
+            GameObject container = GetObject((int)EGameObjects.GachaResultListObject);
+            container.DestroyChilds();
+            
             foreach (GachaRelic relic in _relics)
             {
                 #region 내방식
@@ -123,15 +127,13 @@ public class UI_GachaResultPopup : UI_Popup
                 #region 루키스 방식
             
                 // 루키스 방식
-                GameObject container = GetObject((int)EGameObjects.GachaResultListObject);
-                container.DestroyChilds();
                 
                 UI_GachaRelicObject item = Managers.Resource.Instantiate("UI_GachaRelicObject", pooling: true)
                     .GetOrAddComponent<UI_GachaRelicObject>();
                 
                 item.transform.SetParent(container.transform);
                 #endregion
-                // Todo -> 여기까진 맞게 한 듯 (이 이후부터 다르게 해줘야 될 듯!!)
+                
                 // 각 아이템들의 정보 설정해주기
                 item.GetComponent<UI_GachaRelicObject>().SetInfo(relic);
                 
