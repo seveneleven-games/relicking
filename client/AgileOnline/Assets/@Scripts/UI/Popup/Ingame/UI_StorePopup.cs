@@ -121,7 +121,7 @@ public class UI_StorePopup : UI_Popup
     {
         return _isSkillPoolFixed ? 
             Extension.RandomSkillList(length, _skillList, _maxSkillTypes) : 
-            Extension.RandomIntList(length, 0, Define.TOTAL_PLAYER_SKILL_NUMBER, _maxSkillTypes);
+            Extension.RandomIntList(length, 1, Define.TOTAL_PLAYER_SKILL_NUMBER, _maxSkillTypes);
     }
     
     void BuySkill(SkillCard skill)
@@ -150,7 +150,7 @@ public class UI_StorePopup : UI_Popup
         if (fixedSkillType == -1)
             skill.RefreshNull();
         else
-            skill.Refresh(fixedSkillType*10 + nowLevel + 1);
+            skill.SkillId = fixedSkillType*10 + nowLevel;
 
         if (_isSkillPoolFixed)
         {
@@ -163,7 +163,7 @@ public class UI_StorePopup : UI_Popup
                 int skillType = GetFixedSkillType(i,GetRandomSkillIdList(3));
                 int level = GetNowLevel(skillType);
                 
-                _skillCards[i].Refresh(skillType * 10 + level + 1);
+                _skillCards[i].SkillId = skillType * 10 + level;
             }
         }
 
@@ -236,7 +236,7 @@ public class UI_StorePopup : UI_Popup
             if (_skillTypes[i] == -1)
                 _skillCards[i].RefreshNull();
             else
-                _skillCards[i].SkillId = _skillTypes[i] * 10 + GetNowLevel(_skillTypes[i]) + 1;
+                _skillCards[i].SkillId = _skillTypes[i] * 10 + GetNowLevel(_skillTypes[i]);
 
         }
 
