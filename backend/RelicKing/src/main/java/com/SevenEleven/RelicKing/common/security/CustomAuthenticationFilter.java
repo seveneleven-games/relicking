@@ -38,7 +38,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
 		// email, password 추출
 		ObjectMapper om = new ObjectMapper();
-		LoginRequestDto dto = null;
+		LoginRequestDto dto;
 		try {
 			dto = om.readValue(request.getInputStream(), LoginRequestDto.class);
 		} catch (IOException e) {
