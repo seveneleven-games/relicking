@@ -81,6 +81,7 @@ public class UI_NodeMapPopup : UI_Popup
 
         _stageNo = _templateData.StageId.ToString();
         
+        Debug.Log("스테이지id : " + stageId);
         StageData stageData = Managers.Data.StageDic[stageId];
         int[] nodeMaps = stageData.NodeMaps;
         
@@ -101,6 +102,9 @@ public class UI_NodeMapPopup : UI_Popup
         
         //적용
         _nodeMap = Managers.Resource.Instantiate(_nodeMapName, _nodes.transform).GetComponent<UI_NodeMapBase>() ;
+        
+        Debug.Log(_nodeMap);
+        
         _nodeMap.gameObject.transform.localScale = new Vector3(0.8f,0.8f,0.8f);
         _nodes.GetComponent<ScrollRect>().content = _nodeMap.GetComponent<RectTransform>();
 
@@ -144,6 +148,8 @@ public class UI_NodeMapPopup : UI_Popup
 
     public void DataSync(int nodeNo)
     {
+        Debug.Log(_nodeMap);
+        Debug.Log(_nodeMap.ClearedNodes);
         _nodeMap.ClearedNodes[nodeNo] = true;
         _nodeMap.ClearedDepth += 1;
     }

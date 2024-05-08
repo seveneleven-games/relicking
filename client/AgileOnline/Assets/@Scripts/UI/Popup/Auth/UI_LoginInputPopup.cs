@@ -33,6 +33,8 @@ public class UserRes
     public int memberId;
     public string nickname;
     public StageRes stageRes;
+    public int currentClassNo;
+    public List<RelicList> relicList;
 }
 
 [Serializable]
@@ -41,6 +43,14 @@ public class StageRes
     public int stage1;
     public int stage2;
     public int stage3;
+}
+
+[Serializable]
+public class RelicList
+{
+    public int slot;
+    public int relicNo;
+    public int level;
 }
 
 
@@ -93,7 +103,8 @@ public class UI_LoginInputPopup : UI_Popup
     #endregion
     
     // 객체 관련 두는 곳
-    
+
+    private TemplateData _templateData;
     
     private void Awake()
     {
@@ -105,6 +116,8 @@ public class UI_LoginInputPopup : UI_Popup
     {
         if (base.Init() == false)
             return false;
+        
+        _templateData = Resources.Load<TemplateData>("GameTemplateData");
 
         Debug.Log("UI_LoginInputPopup");
         
@@ -194,12 +207,22 @@ public class UI_LoginInputPopup : UI_Popup
                 
                 // 스테이지별 난이도 정보 업데이트
                 Managers.Game.UpdateStageClearInfo(loginDataRes.data.stageRes);
-                
-                
-                Managers.Scene.LoadScene(EScene.LobbyScene);
+                _templateData.SelectedClassId = loginDataRes.data.currentClassNo;
+                loginDataRes.data.relicList.ForEach(relic =>
+                {
+                    int index = relic.slot - 1;
+                    if (index >= 0 && index < _templateData.EquipedRelicIds.Length)
+                    {
+                        _templateData.EquipedRelicIds[index] = relic.relicNo * 10 + relic.level;
+                    }
+                });
 
-                
-                
+                foreach (int relicId in _templateData.EquipedRelicIds)
+                {
+                    Debug.Log("relic id is : " + relicId);
+                }
+
+                Managers.Scene.LoadScene(EScene.LobbyScene);
             }
             
         }));
