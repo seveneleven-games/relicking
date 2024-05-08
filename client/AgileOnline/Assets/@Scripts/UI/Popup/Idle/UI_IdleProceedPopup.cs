@@ -134,7 +134,7 @@ public class UI_IdleProceedPopup : UI_Popup
     void OnClickExitIdleButton()
     {
         StopStopwatch();
-        ResetStopwatch();
+        //ResetStopwatch();
         
         Debug.Log("종료하기 Clicked");
         Managers.Game.showIdleRewardPopup = true;
