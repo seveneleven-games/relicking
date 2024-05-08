@@ -147,10 +147,10 @@ public class UI_InvenPopup : UI_Popup
         
     }
 
-    //private void OnEnable()
-    //{
-    //    GetRelicInfo();
-    //}
+    private void OnEnable()
+    {
+        GetRelicInfo();
+    }
 
     void ToggleInit()
     {
@@ -270,6 +270,7 @@ public class UI_InvenPopup : UI_Popup
             if (inventoryDataRes.status == 200)
             {
                 _templateData.SelectedClassId = inventoryDataRes.data.currentClassNo;
+                _templateData.OwnedRelics.Clear();
                 _templateData.OwnedRelics = inventoryDataRes.data.myRelicList;
                 foreach (var OwnedRelic in _templateData.OwnedRelics)
                 {
