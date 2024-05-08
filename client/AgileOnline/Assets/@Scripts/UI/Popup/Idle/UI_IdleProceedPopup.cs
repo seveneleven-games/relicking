@@ -47,6 +47,11 @@ public class UI_IdleProceedPopup : UI_Popup
                 lastUpdatedTime = seconds;
             }
         }
+
+        if (Managers.Game.showIdleRewardPopup)
+        {
+            Managers.Scene.LoadScene(EScene.LobbyScene);
+        }
     }
 
     public void StartStopwatch()
@@ -134,11 +139,11 @@ public class UI_IdleProceedPopup : UI_Popup
     void OnClickExitIdleButton()
     {
         StopStopwatch();
-        //ResetStopwatch();
         
         Debug.Log("종료하기 Clicked");
-        Managers.Game.showIdleRewardPopup = true;
-        Managers.Scene.LoadScene(EScene.LobbyScene);
+        
+        Managers.UI.ShowPopupUI<UI_IdleRewardInfoPopup>();
+        //Managers.Scene.LoadScene(EScene.LobbyScene);
     }
     
     string FormatTime(int totalSeconds)

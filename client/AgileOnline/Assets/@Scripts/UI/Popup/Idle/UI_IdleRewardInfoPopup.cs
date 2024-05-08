@@ -5,7 +5,7 @@ using UnityEngine;
 using static Define;
 using static Util;
 
-#region º¸»ó °ü·Ã
+#region ë°©ì¹˜ë³´ìƒ
 
 [Serializable]
 public class IdleDataReq
@@ -61,7 +61,7 @@ public class UI_IdleRewardInfoPopup: UI_Popup
             Managers.Game.OnResourcesChanged -= Refresh;
     }
 
-    // ÃÊ±â ¼¼ÆÃ
+    
     public override bool Init()
     {
         if (base.Init() == false)
@@ -81,25 +81,15 @@ public class UI_IdleRewardInfoPopup: UI_Popup
         
         Managers.Game.OnResourcesChanged += Refresh;
         Refresh();
+        
+       
 
         return true;
     }
 
     void PostIdleReward()
     {
-        // get ¼ºÀå Åë°è
-        // StartCoroutine(JWTPostRequest("lock", res =>
-        // {
-        //     // json -> °´Ã¼·Î º¯È¯
-        //     GrowthStaticDataRes growthDataRes = GrowthStaticDataRes.FromJson(res);
-        //
-        //     // Àß ¿ÔÀ¸¸é Ã³¸®
-        //     if (growthDataRes.status == 200)
-        //     {
-        //         // UI ¾÷µ¥ÀÌÆ® ÇØÁÖ±â -> ±Ùµ¥.. ÀÌ°Å È­¸é µé¾î¿Ã¶§¸¶´Ù ¾÷µ¥ÀÌÆ® ÇÏ´Â ¸Ş¼Òµå¸¦ µû·Î »ı°¢ÇØ¾ßÇÒ µí ½Í¾î¿ë
-        //         UpdateGrowthUI(growthDataRes.data);
-        //     }
-        // }));
+    
 
         IdleDataReq idleDataReq = new IdleDataReq
         {
@@ -110,7 +100,7 @@ public class UI_IdleRewardInfoPopup: UI_Popup
 
         StartCoroutine(JWTPostRequest("lock/end", idleJsonData, res =>
         {
-            // json -> °´Ã¼·Î º¯È¯
+            // json -> ê°ì²´ ë³€í™˜ 
             IdleDataRes idleDataRes = JsonUtility.FromJson<IdleDataRes>(res);
 
                 
@@ -125,29 +115,29 @@ public class UI_IdleRewardInfoPopup: UI_Popup
     void UpdateRewardUI(IdleRewardData data)
     {
         GetText((int)ETexts.TotalIdleContent).text = FormatTime(Managers.Game.idleRewardTime);
-        GetText((int)ETexts.RewardBonusText).text = $"½ºÆ®¸¯ ´©Àû º¸³Ê½º {data.bonusGacha}%";
+        GetText((int)ETexts.RewardBonusText).text = $"ìŠ¤íŠ¸ë¦­ ëˆ„ì  ë³´ë„ˆìŠ¤ {data.bonusGacha}%";
         GetText((int)ETexts.Tickets).text = data.earnedGacha.ToString();
 
         if (data.bonusGacha > 0)
         {
-            // º¸³Ê½º È¿°ú°¡ 0º¸´Ù Å¬ ¶§¸¸ º¸³Ê½º¸¦ ¹Ş´Â´Ù´Â ÅØ½ºÆ® È°¼ºÈ­
             GetText((int)ETexts.RewardBonusText).gameObject.SetActive(true);
         }
         else
         {
-            // º¸³Ê½º È¿°ú°¡ 0 ÀÌÇÏÀÏ ¶§ ÅØ½ºÆ® ºñÈ°¼ºÈ­
             GetText((int)ETexts.RewardBonusText).gameObject.SetActive(false);
         }
     }
 
-    // °»½Å
+    // 
     void Refresh()
     {
     }
 
     void OnClickCloseButton()
     {
-        Debug.Log("Á¾·áÇÏ±â Clicked");
+        Debug.Log("Closed Button Clicked");
+        // í”Œë˜ê·¸ on
+        Managers.Game.showIdleRewardPopup = true;
         Managers.UI.ClosePopupUI(this);
     }
     

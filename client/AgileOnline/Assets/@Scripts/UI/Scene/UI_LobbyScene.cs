@@ -120,6 +120,7 @@ public class UI_LobbyScene : UI_Scene
         {
             GetToggle((int)EToggles.GrowthToggle).gameObject.GetComponent<Toggle>().isOn = true;
             OnClickGrowthToggle();
+            Managers.Game.showIdleRewardPopup = false;
         }
         else
         {

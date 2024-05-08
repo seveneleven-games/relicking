@@ -101,7 +101,7 @@ public class UI_GrowthPopup : UI_Popup
         Managers.Game.OnResourcesChanged += Refresh;
         Refresh();
         
-        ShowIdleRewardDialog();
+        //ShowIdleRewardDialog();
 
         return true;
     }
