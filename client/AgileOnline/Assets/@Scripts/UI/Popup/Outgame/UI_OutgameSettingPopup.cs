@@ -7,9 +7,9 @@ public class UI_OutgameSettingPopup : UI_Popup
     enum Texts
     {
         BGMONText,
-        BGMOFFText,
         SFXONText,
-        SFXOFFText
+        BGMOFFText,
+        SFXOFFText,
     }
 
     enum Buttons
@@ -29,13 +29,12 @@ public class UI_OutgameSettingPopup : UI_Popup
         if (base.Init() == false)
             return false;
 
-        BindText(typeof(Texts));
         BindButton(typeof(Buttons));
         BindToggle(typeof(Toggles));
-        
+        BindText(typeof(Texts));
+
         GetButton((int)Buttons.CloseButton).gameObject.BindEvent(ClosePopupUI);
         
-        //todo(전지환) : 설정 정보에 따라 toggle 싱크 맞춰줘야 함
         GetText((int)Texts.BGMOFFText).gameObject.SetActive(false);
         GetText((int)Texts.SFXOFFText).gameObject.SetActive(false);
 
