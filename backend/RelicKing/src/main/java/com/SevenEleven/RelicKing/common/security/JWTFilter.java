@@ -13,7 +13,6 @@ import com.SevenEleven.RelicKing.common.exception.ExceptionType;
 import com.SevenEleven.RelicKing.common.response.ResponseFail;
 import com.SevenEleven.RelicKing.entity.Member;
 import com.SevenEleven.RelicKing.repository.MemberRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
@@ -54,22 +53,22 @@ public class JWTFilter extends OncePerRequestFilter {
 			jwtUtil.isExpired(accessToken); // 만료되었으면 예외가 발생한다.
 		} catch (SecurityException | MalformedJwtException e) {
 			ExceptionType exceptionType = ExceptionType.INVALID_JWT;
-			setErrorResponse(response, new CustomException(exceptionType));
+			ResponseFail.setErrorResponse(response, new CustomException(exceptionType));
 			log.info(exceptionType.getMessage());
 			return;
 		} catch (UnsupportedJwtException e) {
 			ExceptionType exceptionType = ExceptionType.UNSUPPORTED_JWT;
-			setErrorResponse(response, new CustomException(exceptionType));
+			ResponseFail.setErrorResponse(response, new CustomException(exceptionType));
 			log.info(exceptionType.getMessage());
 			return;
 		} catch (IllegalArgumentException e) {
 			ExceptionType exceptionType = ExceptionType.JWT_CLAIMS_IS_EMPTY;
-			setErrorResponse(response, new CustomException(exceptionType));
+			ResponseFail.setErrorResponse(response, new CustomException(exceptionType));
 			log.info(exceptionType.getMessage());
 			return;
 		} catch (ExpiredJwtException e) {
 			ExceptionType exceptionType = ExceptionType.EXPIRED_JWT;
-			setErrorResponse(response, new CustomException(exceptionType));
+			ResponseFail.setErrorResponse(response, new CustomException(exceptionType));
 			log.info(exceptionType.getMessage());
 			return;
 		}
@@ -79,7 +78,7 @@ public class JWTFilter extends OncePerRequestFilter {
 
 		if (!category.equals("access")) {
 			ExceptionType exceptionType = ExceptionType.NOT_ACCESS_TOKEN;
-			setErrorResponse(response, new CustomException(exceptionType));
+			ResponseFail.setErrorResponse(response, new CustomException(exceptionType));
 			log.info(exceptionType.getMessage());
 			return;
 		}
@@ -94,21 +93,5 @@ public class JWTFilter extends OncePerRequestFilter {
 		SecurityContextHolder.getContext().setAuthentication(authToken);
 
 		filterChain.doFilter(request, response);
-	}
-
-	/**
-	 * filter에서 발생하는 예외는 GlobalExceptionHandler로 처리할 수 없으므로 직접 처리해주어야 한다.
-	 */
-	private void setErrorResponse(HttpServletResponse response, CustomException e) throws IOException {
-
-		ObjectMapper objectMapper = new ObjectMapper();
-
-		response.setStatus(e.getExceptionType().getStatus());
-		response.setContentType("application/json");
-		response.setCharacterEncoding("utf-8");
-
-		ResponseFail responseFail = new ResponseFail(e.getExceptionType().getStatus(), e.getExceptionType().getMessage());
-
-		response.getWriter().write(objectMapper.writeValueAsString(responseFail));
 	}
 }
