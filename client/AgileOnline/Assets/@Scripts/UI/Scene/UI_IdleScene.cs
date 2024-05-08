@@ -51,11 +51,6 @@ public class UI_IdleScene : UI_Scene
         
         
         Image originImage = GetImage((int)EImages.OriginImage); // 이미지 사용
-        if (originImage != null)
-        {
-            // 예를 들어 이미지를 설정하거나 다른 작업을 수행
-            
-        }
         
         _idleProceedPopupUI = Managers.UI.ShowPopupUI<UI_IdleProceedPopup>();
         

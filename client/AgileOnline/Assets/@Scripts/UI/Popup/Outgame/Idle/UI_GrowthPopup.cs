@@ -161,6 +161,8 @@ public class UI_GrowthPopup : UI_Popup
     void OnClickStartIdleButton()
     {
         Debug.Log("성장하러 가기(방치) 버튼 Clicked");
+        // 여기서 플러그인 허용 요청 -> 요청이 모두 잘 오면 화면 이동하기
+        
         Managers.Scene.LoadScene(Define.EScene.IdleScene);
     }
 
@@ -170,13 +172,4 @@ public class UI_GrowthPopup : UI_Popup
         return time.ToString(@"hh\:mm\:ss");
     }
     
-    void ShowIdleRewardDialog()
-    {
-        if (Managers.Game.showIdleRewardPopup)
-        {
-            //그 리워드 관련 팝업으로 바꿔주기
-            Managers.UI.ShowPopupUI<UI_IdleRewardInfoPopup>();
-            Managers.Game.showIdleRewardPopup = false;
-        }
-    }
 }
