@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: UI_Gacha
+  m_EditorClassIdentifier: 
+  m_GroupName: UI_Gacha
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 17469f55e53dab14aaf91b515b3bb9e7
+  m_SerializeEntries:
+  - m_GUID: 499dd7f76ba9ee74da2597393cca6aae
+    m_Address: UI_GachaPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 08e058612d49bfa41920505e578517ad
+    m_Address: UI_GachaInfoPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 66e2a2e87e79e4543b7cd426d893b9ad
+    m_Address: UI_GachaNoTicketPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 30240672571ba834a84e35f1e27deb6c
+    m_Address: UI_GachaResultPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 81ad9a90f1d6f2149ae6a0fecb328d49
+    m_Address: UI_GachaRelicObject
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 5172e12bf4a124f4e9826e7812874449, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 4e24ab778a4c68c489e5e11719e231cb, type: 2}
+    - {fileID: 11400000, guid: 72ac4f4056e082c46bae5ada1111b6ad, type: 2}
