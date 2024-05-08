@@ -124,6 +124,8 @@ public class UI_BattlePopup : UI_Popup
         
         Refresh();
         
+        
+        
         return true;
     }
 
@@ -308,6 +310,8 @@ public class UI_BattlePopup : UI_Popup
             popup.SetMaxDifficulty(_stageData.StageId, _clearInfo.MaxDifficulty);
         }
     }
+    
+   
     
 
 }

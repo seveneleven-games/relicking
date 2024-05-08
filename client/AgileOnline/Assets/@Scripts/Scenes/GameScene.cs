@@ -275,8 +275,6 @@ public class GameScene : BaseScene
         _player.transform.position = Vector3.zero;
         
         #endregion
-        
-        
     }
 
     void ClearServerCommunication()

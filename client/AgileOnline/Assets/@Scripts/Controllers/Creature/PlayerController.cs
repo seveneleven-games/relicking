@@ -382,7 +382,9 @@ public class PlayerController : CreatureController
                 case "ChainLightning":
                     for (int i = 0; i < skillData.ProjectileNum; i++)
                     {
-                        int damage = Managers.Data.SkillDic[skillId].Damage;
+                        Debug.Log("원래 데미지임 : " + Managers.Data.SkillDic[skillId].Damage);
+                        int toInt = Mathf.RoundToInt(Managers.Data.SkillDic[skillId].Damage * Atk);
+                        Debug.Log("나중 데미지임 : " + toInt);
                         List<MonsterController> chainMonsters = new List<MonsterController>();
                         Collider2D[] chainColliders = Physics2D.OverlapCircleAll(transform.position, 10f);
                         foreach (Collider2D collider in chainColliders)
@@ -399,7 +401,7 @@ public class PlayerController : CreatureController
                         Vector3 startPoint = transform.position;
                         foreach (MonsterController monster in chainTargetMonsters)
                         {
-                            monster.OnDamaged(this, ref damage);
+                            monster.OnDamaged(this, ref toInt);
                             Vector3 endPoint = monster.transform.position;
                             Managers.Object.Spawn<ChainLightningController>(startPoint, skillId, new object[] { startPoint, endPoint });
                             startPoint = endPoint;
