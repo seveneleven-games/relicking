@@ -282,6 +282,7 @@ public class UI_BattlePopup : UI_Popup
         
         // 임시
         Debug.Log("go Game");
+        _templateData.StageId = Managers.Game.CurrentSelectStage.StageId;
         
         Managers.Scene.LoadScene(Define.EScene.GameScene);
     }
