@@ -151,7 +151,21 @@ public class UI_StorePopup : UI_Popup
             skill.RefreshNull();
         else
             skill.Refresh(fixedSkillType*10 + nowLevel + 1);
-        
+
+        if (_isSkillPoolFixed)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                if (i == _skillCards.IndexOf(skill)) continue;
+
+                if (_maxSkillTypes.Contains(_skillCards[i].SkillId / 10)) continue;
+
+                int skillType = GetFixedSkillType(i,GetRandomSkillIdList(3));
+                int level = GetNowLevel(skillType);
+                
+                _skillCards[i].Refresh(skillType * 10 + level + 1);
+            }
+        }
 
         //todo(전지환) : 스킬 데이터에 맞는 코스트로 빼주기
         _player.PlayerGold -= Define.TEST_SKILL_COST;
