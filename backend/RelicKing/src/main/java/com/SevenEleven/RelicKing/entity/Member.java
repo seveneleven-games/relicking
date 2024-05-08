@@ -57,7 +57,7 @@ public class Member { // Todo 엔티티 빌더 빼고 생성자 만들기
 
 	@Builder.Default
 	@Column(nullable = false)
-	private int currentClassNo = 0;
+	private int currentClassNo = 1;
 
 	@Builder.Default
 	@Column(nullable = false)
