@@ -356,7 +356,6 @@ public class PlayerController : CreatureController
                     for (int i = 0; i < skillData.ProjectileNum; i++)
                     {
                         Vector3 shadowSpawnPos = transform.position + new Vector3(Random.Range(-5f, 5f), Random.Range(-5f, 5f), 0f);
-                        Debug.Log("메테오 시전!!!");
                         Managers.Object.Spawn<MeteorShadowController>(shadowSpawnPos, skillId);
                         
                         Vector3 meteorSpawnPos = shadowSpawnPos + new Vector3(0f, 5.5f, 0f);
@@ -364,6 +363,34 @@ public class PlayerController : CreatureController
                         
                         Vector3 hitSpawnPos = shadowSpawnPos;
                         StartCoroutine(DelayedMeteorHit(hitSpawnPos, skillId, 2f));
+                    }
+                    break;
+                
+                case "ChainLightning":
+                    for (int i = 0; i < skillData.ProjectileNum; i++)
+                    {
+                        int damage = Managers.Data.SkillDic[skillId].Damage;
+                        List<MonsterController> chainMonsters = new List<MonsterController>();
+                        Collider2D[] chainColliders = Physics2D.OverlapCircleAll(transform.position, 10f);
+                        foreach (Collider2D collider in chainColliders)
+                        {
+                            MonsterController monster = collider.GetComponent<MonsterController>();
+                            if (monster != null)
+                                chainMonsters.Add(monster);
+                        }
+                        chainMonsters.Sort((a, b) => Vector3.Distance(transform.position, a.transform.position)
+                            .CompareTo(Vector3.Distance(transform.position, b.transform.position)));
+                        int numOfBounce = Mathf.Min(3, chainMonsters.Count);
+                        List<MonsterController> chainTargetMonsters = chainMonsters.Take(numOfBounce).ToList();
+
+                        Vector3 startPoint = transform.position;
+                        foreach (MonsterController monster in chainTargetMonsters)
+                        {
+                            monster.OnDamaged(this, ref damage);
+                            Vector3 endPoint = monster.transform.position;
+                            Managers.Object.Spawn<ChainLightningController>(startPoint, skillId, new object[] { startPoint, endPoint });
+                            startPoint = endPoint;
+                        }
                     }
                     break;
             }
