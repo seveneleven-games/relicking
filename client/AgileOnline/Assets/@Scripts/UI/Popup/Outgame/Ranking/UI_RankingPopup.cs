@@ -19,15 +19,12 @@ public class RankingDataRes
 [Serializable]
 public class AllRankingData
 {
-    public Dictionary<Stage, StageRanking> stages = new Dictionary<Stage, StageRanking>();
+    public StageRanking stage1;
+    public StageRanking stage2;
+    public StageRanking stage3;
 }
 
-public enum Stage
-{
-    Stage1,
-    Stage2,
-    Stage3
-}
+
 
 [Serializable]
 public class StageRanking
@@ -91,7 +88,6 @@ public class UI_RankingPopup : UI_Popup
     // 객체관련 두는 곳
     RankingDataRes _rankingDataRes;
 
-    private Stage currentStage = Stage.Stage1; // 임시
     
     public override bool Init()
     {
@@ -105,7 +101,6 @@ public class UI_RankingPopup : UI_Popup
         BindText(typeof(ETexts));
 
         GetButton((int)EButtons.StageSelectButton).gameObject.BindEvent(OnClickStageSelectButton);
-        GetButton((int)EButtons.MyRankingButton).gameObject.BindEvent(OnClickRankingDetailButton);
 
         #endregion
 
@@ -121,27 +116,43 @@ public class UI_RankingPopup : UI_Popup
         {
             // json -> 객체로 변환
             _rankingDataRes = JsonUtility.FromJson<RankingDataRes>(res);
+            SetMyInfo();
+            GenerateRankingList();
         }));
     }
 
+    // 자기 정보 가져오기
+    void SetMyInfo()
+    {
+        GetText((int)ETexts.MyRank).text = $"{_rankingDataRes.data.stage1.myRank.rank}";
+        GetText((int)ETexts.MyNickName).text = _rankingDataRes.data.stage1.myRank.nickname;
+        GetText((int)ETexts.MyClass).text = $"{_rankingDataRes.data.stage1.myRank.classNo}"; // 임시
+        GetText((int)ETexts.MyDifficulty).text = $"{_rankingDataRes.data.stage1.myRank.difficulty}";
+        GetButton((int)EButtons.MyRankingButton).gameObject.BindEvent(() => OnClickRankingDetailButton(_rankingDataRes.data.stage1.myRank));
+    }
+    
+    
     // 랭킹 리스트 만들기
     void GenerateRankingList()
     {
-        if (_rankingDataRes.data.stages.TryGetValue(currentStage, out StageRanking stageRanking))
         {
-
             GameObject container = GetObject((int)EGameObjects.Content);
             container.DestroyChilds();
+
+            StageRanking stageRanking = _rankingDataRes.data.stage1;
             
-            
-            foreach (RankingInfo info in stageRanking.rankList)
+            for (int i = 0; i < stageRanking.rankList.Count; i++)
             {
-                // 가챠부분 보기.
+                RankingInfo info = stageRanking.rankList[i];
+                
+                int rank = i + 1; // 등수 만들어주기.
+                
+                UI_RankingObject item = Managers.Resource.Instantiate("UI_RankingObject", pooling: true)
+                    .GetOrAddComponent<UI_RankingObject>();
+                item.transform.SetParent(container.transform);
+                
+                item.GetComponent<UI_RankingObject>().SetInfo(info, rank);
             }
-        }
-        else
-        {
-            Debug.LogError("Selected stage does not exist in the data.");
         }
     }
 
@@ -155,9 +166,11 @@ public class UI_RankingPopup : UI_Popup
         Debug.Log("StageSelect");
     }
 
-    void OnClickRankingDetailButton()
+    void OnClickRankingDetailButton(MyRankingInfo myRankingInfo)
     {
         Debug.Log("RankingDetail");
-        Managers.UI.ShowPopupUI<UI_RankingDetailPopup>();
+        UI_RankingDetailPopup popup = Managers.UI.ShowPopupUI<UI_RankingDetailPopup>();
+        // 디테일 쪽에 내 랭킹 정보 그대로 보내줘야됨....(정보를 쬐매만 줌.)
+        popup.SetMyRankingInfo(myRankingInfo);
     }
 }

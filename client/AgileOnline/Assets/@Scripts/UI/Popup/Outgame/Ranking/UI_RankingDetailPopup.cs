@@ -75,6 +75,13 @@ public class UI_RankingDetailPopup : UI_Popup
 
     #endregion
     
+    // 객체 관련
+    private MyRankingInfo _myRankingInfo;
+
+    private int _recordId; // 이걸 둔 이유는 내 랭크 조회와 다른 사람 랭크 조회로 함수가 둘로 나눠짐을 방지하기 위해.
+    
+    private DetailRankingDataRes _detailRankingDataRes;
+    
     // 초기 세팅
     public override bool Init()
     {
@@ -98,14 +105,32 @@ public class UI_RankingDetailPopup : UI_Popup
         return true;
     }
 
-    // 이 부분 버튼을 통해서 눌렀을 때 recordId 값을 전달해주는 식으로 구현하기
+
+    public void SetMyRankingInfo(MyRankingInfo myRankingInfo)
+    {
+        _myRankingInfo = myRankingInfo;
+        _recordId = myRankingInfo.recordId;
+        Init();
+        UIRefresh();
+
+    }
+
+    void UIRefresh()
+    {
+        GetDetailRankingInfo(_recordId);
+        
+        // 여기부터 해야됨!!!!
+        
+    }
+    
     void GetDetailRankingInfo(int recordId)
     {
         StartCoroutine(JWTGetRequest($"rankings/{recordId}", res =>
         {
             // json -> 객체로 변환
-            DetailRankingDataRes detailRankingDataRes = JsonUtility.FromJson<DetailRankingDataRes>(res);
-            
+            _detailRankingDataRes = JsonUtility.FromJson<DetailRankingDataRes>(res);
+
+
         }));
     }
     
@@ -113,7 +138,7 @@ public class UI_RankingDetailPopup : UI_Popup
     // 갱신
     void Refresh()
     {
-
+        
     }
 
     void OnClickCloseButton()
