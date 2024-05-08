@@ -71,7 +71,6 @@ public class StageService {
 				memberRelicRepository.save(memberRelic);
 			}
 		});
-
 	}
 
 	private void patchRecord(Member member, StageRequestDTO stageRequestDTO) {
@@ -118,9 +117,6 @@ public class StageService {
 		for (RecordRelic recordRelic: recordRelics) {
 				record.addRecordRelic(recordRelic.getRelicNo(), recordRelic.getLevel(), recordRelic.getSlot());
 			}
-
-		log.info("========================");
-		log.info(recordRelics);
 
 		// Todo 주석 지우기
 		// ArrayList<String> slotList = new ArrayList<>(List.of("1", "2", "3", "4", "5", "6"));

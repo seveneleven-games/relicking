@@ -22,6 +22,7 @@ import com.SevenEleven.RelicKing.common.security.JWTUtil;
 import com.SevenEleven.RelicKing.dto.request.SignUpRequestDto;
 import com.SevenEleven.RelicKing.dto.response.LoginResponseDTO;
 import com.SevenEleven.RelicKing.dto.response.ReissueResponseDto;
+import com.SevenEleven.RelicKing.dto.response.StageResponseDTO;
 import com.SevenEleven.RelicKing.dto.response.model.StageDifficultyDTO;
 import com.SevenEleven.RelicKing.entity.Member;
 import com.SevenEleven.RelicKing.entity.Record;
@@ -50,6 +51,7 @@ public class MemberService {
 	private final RecordRepository recordRepository;
 	private final EmailService emailService;
 	private final RedisService redisService;
+	private final StageService stageService;
 
 	@Value("${spring.mail.auth-code-expiration-millis}")
 	private int authCodeExpirationMillis;
@@ -156,6 +158,7 @@ public class MemberService {
 	public LoginResponseDTO getDataAfterLogin(String email, String accessToken, String refreshToken) {
 
 		Member member = memberRepository.findByEmail(email);
+		StageResponseDTO stageResponseDTO = stageService.getClassAndRelics(member);
 
 		StageDifficultyDTO stageDifficultyDTO = getDifficulty(member);
 
@@ -165,6 +168,8 @@ public class MemberService {
 			.memberId(member.getMemberId())
 			.nickname(member.getNickname())
 			.stageData(stageDifficultyDTO)
+			.currentClassNo(stageResponseDTO.getCurrentClassNo())
+			.relicList(stageResponseDTO.getRelicList())
 			.build();
 	}
 
