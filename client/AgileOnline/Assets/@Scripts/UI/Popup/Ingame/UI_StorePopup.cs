@@ -41,7 +41,8 @@ public class UI_StorePopup : UI_Popup
     private List<int> _skillList; // GameScene에서 연결해줌 변경될 때 마다 싱크 맞춰줌
     private bool _isSkillPoolFixed = false;
     
-    private HashSet<int> _maxSkillTypes = new(); 
+    private HashSet<int> _maxSkillTypes = new();
+    private bool _skillPoolFixedInit = false;
     
     // 골드 관련 변수
     private int _gold;
@@ -152,8 +153,10 @@ public class UI_StorePopup : UI_Popup
         else
             skill.SkillId = fixedSkillType*10 + nowLevel;
 
-        if (_isSkillPoolFixed)
+        if (_isSkillPoolFixed && !_skillPoolFixedInit)
         {
+            _skillPoolFixedInit = true;
+            
             for (int i = 0; i < 3; i++)
             {
                 if (i == _skillCards.IndexOf(skill)) continue;
