@@ -2,6 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static Util;
+
+public class ClassSelectDataReq
+{
+    public int classNo;
+}
+
+public class ClassSelectDataRes
+{
+    public int status;
+    public string message;
+    public ClassSelectRes data;
+}
+
+public class ClassSelectRes
+{
+    public bool result;
+}
 
 public class UI_InvenClassSelectPopup : UI_Popup
 {
@@ -28,6 +46,8 @@ public class UI_InvenClassSelectPopup : UI_Popup
     #endregion
 
     public TemplateData _templateData;
+
+    int TempClassId;
 
     public void OnDestroy()
     {
@@ -88,15 +108,36 @@ public class UI_InvenClassSelectPopup : UI_Popup
 
     void OnClickSelectButton()
     {
-        Debug.Log($"ClassChangedto{_templateData.SelectedClassId}");
-        OnClickCloseButton();
+        ClassSelect();
     }
 
     void OnClickClassSelectButton(int num)
     {
         Debug.Log(num);
-        _templateData.SelectedClassId = num;
+        TempClassId = num;
         GetText((int)ETexts.ClassNameText).text = Managers.Data.PlayerDic[num].Name;
         GetText((int)ETexts.ClassDescriptionText).text = $"{num} description";
+    }
+
+    void ClassSelect()
+    {
+        ClassSelectDataReq classSelectDataReq = new()
+        {
+            classNo = TempClassId,
+        };
+
+        string classJsonData = JsonUtility.ToJson(classSelectDataReq);
+
+        StartCoroutine(JWTPostRequest("classes", classJsonData, res =>
+        {
+            ClassSelectDataRes classSelectDataRes = JsonUtility.FromJson<ClassSelectDataRes>(res);
+
+            if (classSelectDataRes.status == 200)
+            {
+                _templateData.SelectedClassId = TempClassId;
+                Debug.Log($"ClassChangedto{_templateData.SelectedClassId}");
+                Managers.UI.ClosePopupUI(this);
+            }
+        }));
     }
 }
