@@ -42,7 +42,7 @@ public class UI_IdleProceedPopup : UI_Popup
             int seconds = (int)elapsedTime;
             if (seconds != lastUpdatedTime) // 초가 변경될 때만 UI 업데이트
             {
-                Debug.Log(seconds);
+                //Debug.Log(seconds);
                 GetText((int)ETexts.TotalGrowthContent).text = FormatTime(seconds);
                 lastUpdatedTime = seconds;
             }
