@@ -19,11 +19,14 @@ public class UI_GachaResultPopup : UI_Popup
         OpenContentObject, // 결과 이전 창
         ContentObject, // 결과창
         GachaResultListObject, // 위치 필요
+        LuckyboxIdle,
+        LuckyboxOpen,
     }
 
     enum EButtons
     {
         SkipButton,
+        BoxButton,
         CloseButton,
     }
 
@@ -47,21 +50,30 @@ public class UI_GachaResultPopup : UI_Popup
             return false;
 
         #region Object Bind
-
+        
         BindObject(typeof(EGameObjects));
         BindButton(typeof(EButtons));
         
-        // 결과창 관련
-        GetObject((int)EGameObjects.OpenContentObject).SetActive(true);
-        GetObject((int)EGameObjects.ContentObject).SetActive(false);
+        
+        // boxClick 버튼
+        GetButton((int)EButtons.BoxButton).gameObject.SetActive(true);
+        GetButton((int)EButtons.BoxButton).gameObject.BindEvent(OnClickBoxButton);
         
         // skip 버튼
         GetButton((int)EButtons.SkipButton).gameObject.BindEvent(OnClickSkipButton);
         
         // Close 버튼
         GetButton((int)EButtons.CloseButton).gameObject.BindEvent(OnClickCloseButton);
-
-
+        
+        // 상자들
+        GetObject((int)EGameObjects.LuckyboxIdle).SetActive(true);
+        GetObject((int)EGameObjects.LuckyboxOpen).SetActive(false);
+        
+        // 결과창 관련 -> 이거도 순서를 탐.
+        GetObject((int)EGameObjects.OpenContentObject).SetActive(true);
+        GetObject((int)EGameObjects.ContentObject).SetActive(false);
+        
+        
         #region Camera
         
         // 캔버스 가져오기
@@ -89,7 +101,6 @@ public class UI_GachaResultPopup : UI_Popup
     public void SetRelicsData(List<GachaRelic> gachaRelics)
     {
         _relics = gachaRelics;
-        
         Init(); // 이걸 넣어주는 이유는 Bind를 안해서 못 가져옴...
         UIRefresh();
     }
@@ -141,6 +152,27 @@ public class UI_GachaResultPopup : UI_Popup
 
     }
 
+    void OnClickBoxButton()
+    {
+        GetObject((int)EGameObjects.LuckyboxIdle).SetActive(false);
+        GetObject((int)EGameObjects.LuckyboxOpen).SetActive(true);
+        GetButton((int)EButtons.BoxButton).gameObject.SetActive(false);
+        
+        // 3초 기다리고 OnClickSkipButton() 실행
+        StartCoroutine(WaitAndTriggerSkipButton());
+    }
+    
+    
+    IEnumerator WaitAndTriggerSkipButton()
+    {
+        // 3초 동안 대기
+        yield return new WaitForSeconds(1.5f);
+    
+        // OnClickSkipButton 메서드 호출
+        OnClickSkipButton();
+    }
+    
+    
     void OnClickSkipButton()
     {
         // 뽑기 연출을 스킵하고 결과 보여주기
