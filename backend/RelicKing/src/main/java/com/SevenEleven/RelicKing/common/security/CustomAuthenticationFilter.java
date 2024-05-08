@@ -2,22 +2,16 @@ package com.SevenEleven.RelicKing.common.security;
 
 import java.io.IOException;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.SevenEleven.RelicKing.common.Constant;
 import com.SevenEleven.RelicKing.common.exception.CustomException;
 import com.SevenEleven.RelicKing.common.exception.ExceptionType;
-import com.SevenEleven.RelicKing.common.response.Response;
 import com.SevenEleven.RelicKing.common.response.ResponseFail;
 import com.SevenEleven.RelicKing.dto.request.LoginRequestDto;
-import com.SevenEleven.RelicKing.dto.response.LoginResponseDTO;
-import com.SevenEleven.RelicKing.entity.RefreshToken;
-import com.SevenEleven.RelicKing.repository.RefreshTokenRepository;
 import com.SevenEleven.RelicKing.service.MemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -30,16 +24,10 @@ import lombok.extern.slf4j.Slf4j;
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
 	private final AuthenticationManager authenticationManager;
-	private final JWTUtil jwtUtil;
-	private final RefreshTokenRepository refreshTokenRepository;
 	private final MemberService memberService;
 
-	private final ObjectMapper objectMapper = new ObjectMapper();
-
-	public CustomAuthenticationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil, RefreshTokenRepository refreshTokenRepository, MemberService memberService) {
+	public CustomAuthenticationFilter(AuthenticationManager authenticationManager, MemberService memberService) {
 		this.authenticationManager = authenticationManager;
-		this.jwtUtil = jwtUtil;
-		this.refreshTokenRepository = refreshTokenRepository;
 		this.memberService = memberService;
 
 		setFilterProcessesUrl("/api/members/login");
@@ -50,7 +38,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
 		// email, password 추출
 		ObjectMapper om = new ObjectMapper();
-		LoginRequestDto dto = null;
+		LoginRequestDto dto;
 		try {
 			dto = om.readValue(request.getInputStream(), LoginRequestDto.class);
 		} catch (IOException e) {
@@ -69,57 +57,14 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException {
 
-		// TODO : 이 많은 로직을 여기서 하는 게 맞나 싶다. Service로 이주시켜야 하나? 그러면 Repository 주입도 줄일 수 있을 것 같다.
-
-		// email 추출
-		String email = authentication.getName();
-
-		// 토큰 생성
-		String accessToken = jwtUtil.createJwt("access", email, Constant.ACCESS_TOKEN_EXPIRATION_TIME);
-		String refreshToken = jwtUtil.createJwt("refresh", email, Constant.REFRESH_TOKEN_EXPIRATION_TIME);
-
-		// Refresh 토큰 저장
-		RefreshToken refreshTokenEntity = RefreshToken.builder()
-			.email(email)
-			.refreshToken(refreshToken)
-			.build();
-		refreshTokenRepository.save(refreshTokenEntity);
-
-		// 응답 설정
-		LoginResponseDTO loginResponseDTO = memberService.getDataAfterLogin(email, accessToken, refreshToken);
-		setSuccessResponse(response, new Response(HttpStatus.OK.value(), "로그인 되었습니다.", loginResponseDTO));
+		memberService.successfulAuthentication(response, authentication.getName());
 	}
 
 	@Override
 	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {
 		ExceptionType exceptionType = ExceptionType.AUTHENTICATION_FAILED;
-		setErrorResponse(response, new CustomException(exceptionType));
+		ResponseFail.setErrorResponse(response, new CustomException(exceptionType));
 		log.info(exceptionType.getMessage());
 	}
 
-	private void setSuccessResponse(HttpServletResponse response, Response customResponse) throws IOException {
-		// content type
-		response.setContentType("application/json");
-		response.setCharacterEncoding("utf-8");
-
-		String result = objectMapper.writeValueAsString(customResponse);
-
-		response.getWriter().write(result);
-	}
-
-	/**
-	 * filter에서 발생하는 예외는 GlobalExceptionHandler로 처리할 수 없으므로 직접 처리해주어야 한다.
-	 */
-	private void setErrorResponse(HttpServletResponse response, CustomException e) throws IOException {
-
-		ObjectMapper objectMapper = new ObjectMapper();
-
-		response.setStatus(e.getExceptionType().getStatus());
-		response.setContentType("application/json");
-		response.setCharacterEncoding("utf-8");
-
-		ResponseFail responseFail = new ResponseFail(e.getExceptionType().getStatus(), e.getExceptionType().getMessage());
-
-		response.getWriter().write(objectMapper.writeValueAsString(responseFail));
-	}
 }
