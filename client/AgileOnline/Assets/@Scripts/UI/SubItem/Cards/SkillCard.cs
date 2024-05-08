@@ -60,7 +60,7 @@ public class SkillCard : UI_Base
         SkillData data = Managers.Data.SkillDic[skillId];
         
         GetText((int)Texts.SkillName).gameObject.SetActive(true);
-        GetText((int)Texts.SkillCost).gameObject.SetActive(false);
+        GetText((int)Texts.SkillCost).gameObject.SetActive(true);
         GetObject((int)GameObjects.SkillLv).gameObject.SetActive(true);
         GetObject((int)GameObjects.SkillIconMask).gameObject.SetActive(true);
         GetObject((int)GameObjects.SkillCostSymbol).gameObject.SetActive(true);
