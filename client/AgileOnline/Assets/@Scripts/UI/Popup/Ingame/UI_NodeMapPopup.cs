@@ -23,7 +23,7 @@ public class UI_NodeMapPopup : UI_Popup
 
     enum Buttons
     {
-        BackButton
+        SettingButton
     }
 
     enum Toggles { }
@@ -45,7 +45,7 @@ public class UI_NodeMapPopup : UI_Popup
 
         DataInit();
         
-        GetButton((int)Buttons.BackButton).gameObject.BindEvent(OnBackButtonClick);
+        GetButton((int)Buttons.SettingButton).gameObject.BindEvent(ShowSettingPopup);
         
         Debug.Log("UI_NodeMapScene initialized.");
 
@@ -125,9 +125,14 @@ public class UI_NodeMapPopup : UI_Popup
         OnEnterNode?.Invoke(clickNode, isBossNode);
     }
 
-    void OnBackButtonClick()
+    void ShowSettingPopup()
     {
-        //todo(전지환) : 뒤로가기 버튼 확인 모달 띄우는게 좋지 않을까? ex) 스테이지를 포기하고 로비로 나가시겠습니까?
+        Managers.UI.ShowPopupUI<UI_IngameSettingPopup>();
+    }
+    
+    void OnExitGame()
+    {
+        //todo(전지환) : ExitConfirmPopup에서 실행하기
         PlayerController player = Managers.Object.Player;
         if (player != null)
         {

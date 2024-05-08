@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: UI_Auth
+  m_EditorClassIdentifier: 
+  m_GroupName: UI_Auth
+  m_Data:
+    m_SerializedData: []
+  m_GUID: cb8089f3f374ec9448f022f36f473ecb
+  m_SerializeEntries:
+  - m_GUID: 44526e95d623dcf449d03c898a058de5
+    m_Address: UI_LoginInputPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a61570e4d135a554ab4720cce57494b1
+    m_Address: UI_LoginPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 959097849af5de94faf8495d14174cdc
+    m_Address: UI_NicknamePopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 420603fbc8c0aef4982f0229e37a3d88
+    m_Address: UI_SignupInputPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 5172e12bf4a124f4e9826e7812874449, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: e92655d8ab9fb2d47b7a8c357f123ea3, type: 2}
+    - {fileID: 11400000, guid: 7c2dc935e09aad44e9bcdd2760338dfa, type: 2}

@@ -109,6 +109,11 @@ public class UI_StorePopup : UI_Popup
         
         return true;
     }
+    
+    void ShowSettingPopup()
+    {
+        Managers.UI.ShowPopupUI<UI_IngameSettingPopup>();
+    }
 
     public event Action<int> OnSkillCardClick;
 
@@ -225,11 +230,7 @@ public class UI_StorePopup : UI_Popup
         RerollCost += 5;
     }
 
-    void ShowSettingPopup()
-    {
-        //todo(전지환) 셋팅 모달 컴포넌트 나오면 show popup 해야할듯
-        // Managers.UI.ShowPopupUI<셋팅모달컴포넌트>();
-    }
+    
 
     void Exit()
     {
