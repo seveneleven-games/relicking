@@ -56,8 +56,6 @@ public class UI_NodeMapPopup : UI_Popup
     {
         if (_nodeMap == null) return;
 
-        Debug.Log($"노드맵 테스트중 Step4. 생명 주기 체크!");
-        
         // 첫 화면 말고 켜질 때 마다 클리어한 노드를 반영해서 새로 그려야 한다
         _nodeMap.NodeSync();
         _nodeMap.LineSync();
@@ -146,7 +144,6 @@ public class UI_NodeMapPopup : UI_Popup
 
     public void DataSync(int nodeNo)
     {
-        Debug.Log($"노드맵 테스트중 Step3. 데이터 싱크");
         _nodeMap.ClearedNodes[nodeNo] = true;
         _nodeMap.ClearedDepth += 1;
     }

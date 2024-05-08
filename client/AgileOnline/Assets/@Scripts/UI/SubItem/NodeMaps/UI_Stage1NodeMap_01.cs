@@ -81,8 +81,6 @@ public class UI_Stage1NodeMap_01 : UI_NodeMapBase
 
     public override void NodeSync()
     {
-        Debug.Log($"노드맵 테스트중 Step5. 노드 싱크");
-        
         foreach (var node in Enum.GetValues(typeof(Nodes)))
         {
             Debug.Log(GetObject((int)node).name);
@@ -97,11 +95,9 @@ public class UI_Stage1NodeMap_01 : UI_NodeMapBase
 
     }
 
-    // 리팩터링 필요! 개같은거!
+    //todo(전지환) : 리팩터링 필요! 개같은거!
     public override void LineSync()
     {
-        Debug.Log($"노드맵 테스트중 Step6. 라인 싱크");
-        
         int index;
         
         foreach (int order in Enum.GetValues(typeof(Lines))) 
