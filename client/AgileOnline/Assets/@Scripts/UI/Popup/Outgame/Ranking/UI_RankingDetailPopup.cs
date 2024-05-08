@@ -1,6 +1,45 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Util;
+
+#region 랭킹 상세 조회 (DetailRankingDataRes)
+
+[Serializable]
+public class DetailRankingDataRes
+{
+    public int status;
+    public string message;
+    public RankingDetail data;
+}
+
+[Serializable]
+public class RankingDetail
+{
+    public int eliteKill;
+    public int normalKill;
+    public List<RelicDetail> relicList;
+    public List<SkillDetail> skillList;
+}
+
+[Serializable]
+public class RelicDetail
+{
+    public int relicNo;
+    public int level; 
+    public int slot; 
+}
+
+[Serializable]
+public class SkillDetail
+{
+    public int skillNo;
+    public int level; 
+    public int slot; 
+}
+
+#endregion
 
 public class UI_RankingDetailPopup : UI_Popup
 {
@@ -35,13 +74,7 @@ public class UI_RankingDetailPopup : UI_Popup
     }
 
     #endregion
-
-    public void OnDestroy()
-    {
-        if (Managers.Game != null)
-            Managers.Game.OnResourcesChanged -= Refresh;
-    }
-
+    
     // 초기 세팅
     public override bool Init()
     {
@@ -60,12 +93,23 @@ public class UI_RankingDetailPopup : UI_Popup
 
         #endregion
 
-        Managers.Game.OnResourcesChanged += Refresh;
         Refresh();
 
         return true;
     }
 
+    // 이 부분 버튼을 통해서 눌렀을 때 recordId 값을 전달해주는 식으로 구현하기
+    void GetDetailRankingInfo(int recordId)
+    {
+        StartCoroutine(JWTGetRequest($"rankings/{recordId}", res =>
+        {
+            // json -> 객체로 변환
+            DetailRankingDataRes detailRankingDataRes = JsonUtility.FromJson<DetailRankingDataRes>(res);
+            
+        }));
+    }
+    
+    
     // 갱신
     void Refresh()
     {
