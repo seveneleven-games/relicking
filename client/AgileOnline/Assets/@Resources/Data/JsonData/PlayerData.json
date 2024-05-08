@@ -21,6 +21,28 @@
       "CritRate": 0.7,
       "CritDmgRate": 2.0,
       "CoolDown": 1.0
+    },
+    {
+      "PlayerId": 3,
+      "PrefabName": "Player3",
+      "Name": "개사기캐",
+      "MaxHp": 300,
+      "Atk": 10,
+      "Speed": 5.0,
+      "CritRate": 0.7,
+      "CritDmgRate": 2.0,
+      "CoolDown": 1.0
+    },
+    {
+      "PlayerId": 4,
+      "PrefabName": "Player4",
+      "Name": "엘프",
+      "MaxHp": 80,
+      "Atk": 30,
+      "Speed": 8.0,
+      "CritRate": 0.8,
+      "CritDmgRate": 2.0,
+      "CoolDown": 1.0
     }
   ]
 }

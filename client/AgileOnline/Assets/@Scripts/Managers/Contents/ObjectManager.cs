@@ -25,6 +25,8 @@ public class ObjectManager
     public HashSet<MeteorController> Meteors { get; } = new HashSet<MeteorController>();
 
     public HashSet<MeteorShadowController> MeteorShadows { get; } = new HashSet<MeteorShadowController>();
+
+    public HashSet<ChainLightningController> ChainLightnings { get; } = new HashSet<ChainLightningController>();
     
     #region Roots
 
@@ -102,6 +104,11 @@ public class ObjectManager
         get { return GetRootTransform("@MeteorHit"); }
     }
 
+    public Transform ChainLightningRoot
+    {
+        get { return GetRootTransform("@ChainLightning"); }
+    }
+
     #endregion
     
     public PlayerController CreatePlayer(int templateId)
@@ -118,7 +125,7 @@ public class ObjectManager
         return pc;
     }
 
-    public T Spawn<T>(Vector3 position, int templateId) where T : BaseController
+    public T Spawn<T>(Vector3 position, int templateId, params object[] parameters) where T : BaseController
     {
         string dataType = typeof(T).Name.Replace("Controller", "Data");
 
@@ -235,7 +242,15 @@ public class ObjectManager
                     MeteorHits.Add(mhc);
                     mhc.InitSkill(templateId);
                     break;
-
+                
+                case ESkillType.ChainLightning:
+                    Vector3 startPoint = (Vector3)parameters[0];
+                    Vector3 endPoint = (Vector3)parameters[1];
+                    sc.transform.parent = ChainLightningRoot;
+                    ChainLightningController clc = sc.GetComponent<ChainLightningController>();
+                    ChainLightnings.Add(clc);
+                    clc.InitSkill(templateId, startPoint, endPoint);
+                    break;
             }
         }
 
@@ -311,6 +326,11 @@ public class ObjectManager
                 case ESkillType.MeteorShadow:
                     MeteorShadowController msc = sc as MeteorShadowController;
                     MeteorShadows.Remove(msc);
+                    break;
+                
+                case ESkillType.ChainLightning:
+                    ChainLightningController clc = sc as ChainLightningController;
+                    ChainLightnings.Remove(clc);
                     break;
             }
         }

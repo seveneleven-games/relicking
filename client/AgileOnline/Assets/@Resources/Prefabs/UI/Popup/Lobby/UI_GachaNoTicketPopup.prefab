@@ -302,6 +302,7 @@ GameObject:
   - component: {fileID: 1275281938712799312}
   - component: {fileID: 4079750983998955593}
   - component: {fileID: 3036401489608502674}
+  - component: {fileID: 4966234601251849799}
   m_Layer: 5
   m_Name: UI_GachaNoTicketPopup
   m_TagString: Untagged
@@ -393,6 +394,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &4966234601251849799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5886724832085041538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324f630dfbaa91240a7a72e1627fce82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7130469392489384032
 GameObject:
   m_ObjectHideFlags: 0
