@@ -39,7 +39,6 @@ public class Damage : MonoBehaviour
 
     private void OnDisable()
     {
-        // 풀에 반환될 때 텍스트와 알파값 초기화
         text.text = "";
         alpha.a = 1;
         text.color = alpha;
