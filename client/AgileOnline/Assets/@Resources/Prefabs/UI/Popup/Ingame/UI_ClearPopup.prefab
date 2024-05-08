@@ -1166,6 +1166,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2061201270739811006}
     m_Modifications:
+    - target: {fileID: 1023169198686192463, guid: c7f102fcd0d515641b04d9407f5bc9fc, type: 3}
+      propertyPath: m_Name
+      value: RelicSlot5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1141468713558741644, guid: c7f102fcd0d515641b04d9407f5bc9fc, type: 3}
+      propertyPath: m_Name
+      value: RelicSlot2
+      objectReference: {fileID: 0}
     - target: {fileID: 1748711715781245180, guid: c7f102fcd0d515641b04d9407f5bc9fc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1189,6 +1197,10 @@ PrefabInstance:
     - target: {fileID: 1748711715781245180, guid: c7f102fcd0d515641b04d9407f5bc9fc, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1799671118278888338, guid: c7f102fcd0d515641b04d9407f5bc9fc, type: 3}
+      propertyPath: m_Name
+      value: SkillSlot6
       objectReference: {fileID: 0}
     - target: {fileID: 2041783191441701188, guid: c7f102fcd0d515641b04d9407f5bc9fc, type: 3}
       propertyPath: m_Pivot.x
@@ -1350,6 +1362,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4151809056354365303, guid: c7f102fcd0d515641b04d9407f5bc9fc, type: 3}
+      propertyPath: m_Name
+      value: RelicSlot6
+      objectReference: {fileID: 0}
     - target: {fileID: 5208053439591619582, guid: c7f102fcd0d515641b04d9407f5bc9fc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1374,6 +1390,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5305496747187176195, guid: c7f102fcd0d515641b04d9407f5bc9fc, type: 3}
+      propertyPath: m_Name
+      value: SkillSlot2
+      objectReference: {fileID: 0}
     - target: {fileID: 5307746605616781311, guid: c7f102fcd0d515641b04d9407f5bc9fc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1398,6 +1418,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5369764940229133827, guid: c7f102fcd0d515641b04d9407f5bc9fc, type: 3}
+      propertyPath: m_Name
+      value: SkillSlot4
+      objectReference: {fileID: 0}
     - target: {fileID: 5567295822657505441, guid: c7f102fcd0d515641b04d9407f5bc9fc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1454,6 +1478,22 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7526213400144560244, guid: c7f102fcd0d515641b04d9407f5bc9fc, type: 3}
+      propertyPath: m_Name
+      value: RelicSlot3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7602125766364309537, guid: c7f102fcd0d515641b04d9407f5bc9fc, type: 3}
+      propertyPath: m_Name
+      value: SkillSlot5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7609998556894071925, guid: c7f102fcd0d515641b04d9407f5bc9fc, type: 3}
+      propertyPath: m_Name
+      value: RelicSlot4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7825459900408946474, guid: c7f102fcd0d515641b04d9407f5bc9fc, type: 3}
+      propertyPath: m_Name
+      value: RelicSlot1
+      objectReference: {fileID: 0}
     - target: {fileID: 7978878846551353968, guid: c7f102fcd0d515641b04d9407f5bc9fc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1486,6 +1526,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8488532608992947235, guid: c7f102fcd0d515641b04d9407f5bc9fc, type: 3}
+      propertyPath: m_Name
+      value: SkillSlot1
+      objectReference: {fileID: 0}
     - target: {fileID: 8769782892315920720, guid: c7f102fcd0d515641b04d9407f5bc9fc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1501,6 +1545,10 @@ PrefabInstance:
     - target: {fileID: 8769782892315920720, guid: c7f102fcd0d515641b04d9407f5bc9fc, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9119232899766717185, guid: c7f102fcd0d515641b04d9407f5bc9fc, type: 3}
+      propertyPath: m_Name
+      value: SkillSlot3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
