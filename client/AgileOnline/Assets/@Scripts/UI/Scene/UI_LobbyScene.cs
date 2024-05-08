@@ -28,7 +28,7 @@ public class UI_LobbyScene : UI_Scene
     
     enum EButtons
     {
-        
+        SettingButton
     }
     
     enum ETexts
@@ -121,6 +121,9 @@ public class UI_LobbyScene : UI_Scene
         // 가챠
         //GetToggle((int)EToggles.GachaToggle).gameObject.GetComponent<Toggle>().isOn = true;
         //OnClickGachaToggle();
+        
+        // 설정 버튼
+        GetButton((int)EButtons.SettingButton).gameObject.BindEvent(ShowSettingPopup);
 
         #endregion
 
@@ -129,6 +132,12 @@ public class UI_LobbyScene : UI_Scene
         
         return true;
     }
+    
+    void ShowSettingPopup()
+    {
+        Managers.UI.ShowPopupUI<UI_OutgameSettingPopup>();
+    }
+    
 
     // 갱신
     void Refresh()
