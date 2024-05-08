@@ -41,7 +41,8 @@ public class UI_StorePopup : UI_Popup
     private List<int> _skillList; // GameScene에서 연결해줌 변경될 때 마다 싱크 맞춰줌
     private bool _isSkillPoolFixed = false;
     
-    private HashSet<int> _maxSkillTypes = new(); 
+    private HashSet<int> _maxSkillTypes = new();
+    private bool _skillPoolFixedInit = false;
     
     // 골드 관련 변수
     private int _gold;
@@ -121,7 +122,7 @@ public class UI_StorePopup : UI_Popup
     {
         return _isSkillPoolFixed ? 
             Extension.RandomSkillList(length, _skillList, _maxSkillTypes) : 
-            Extension.RandomIntList(length, 0, Define.TOTAL_PLAYER_SKILL_NUMBER, _maxSkillTypes);
+            Extension.RandomIntList(length, 1, Define.TOTAL_PLAYER_SKILL_NUMBER, _maxSkillTypes);
     }
     
     void BuySkill(SkillCard skill)
@@ -150,10 +151,12 @@ public class UI_StorePopup : UI_Popup
         if (fixedSkillType == -1)
             skill.RefreshNull();
         else
-            skill.Refresh(fixedSkillType*10 + nowLevel + 1);
+            skill.SkillId = fixedSkillType*10 + nowLevel;
 
-        if (_isSkillPoolFixed)
+        if (_isSkillPoolFixed && !_skillPoolFixedInit)
         {
+            _skillPoolFixedInit = true;
+            
             for (int i = 0; i < 3; i++)
             {
                 if (i == _skillCards.IndexOf(skill)) continue;
@@ -163,7 +166,7 @@ public class UI_StorePopup : UI_Popup
                 int skillType = GetFixedSkillType(i,GetRandomSkillIdList(3));
                 int level = GetNowLevel(skillType);
                 
-                _skillCards[i].Refresh(skillType * 10 + level + 1);
+                _skillCards[i].SkillId = skillType * 10 + level;
             }
         }
 
@@ -236,7 +239,7 @@ public class UI_StorePopup : UI_Popup
             if (_skillTypes[i] == -1)
                 _skillCards[i].RefreshNull();
             else
-                _skillCards[i].SkillId = _skillTypes[i] * 10 + GetNowLevel(_skillTypes[i]) + 1;
+                _skillCards[i].SkillId = _skillTypes[i] * 10 + GetNowLevel(_skillTypes[i]);
 
         }
 

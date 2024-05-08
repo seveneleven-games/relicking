@@ -121,18 +121,6 @@
       "Speed": 0
     },
     {
-      "RelicId": 20,
-      "PrefabName": "Relic_01",
-      "Name": "설연이의 낡은 검",
-      "ThumbnailName": "Relic_01.sprite",
-      "Description": "어쩌구 저쩌구",
-      "Rarity": 0,
-      "Atk": 30,
-      "MaxHp": 0,
-      "CoolTime": 0,
-      "Speed": 0
-    },
-    {
       "RelicId": 21,
       "PrefabName": "Relic_02",
       "Name": "근렬이의 방패",
@@ -230,18 +218,6 @@
     },
     {
       "RelicId": 29,
-      "PrefabName": "Relic_02",
-      "Name": "근렬이의 방패",
-      "ThumbnailName": "Relic_02.sprite",
-      "Description": "어쩌구 저쩌구 방패",
-      "Rarity": 0,
-      "Atk": 0,
-      "MaxHp": 20,
-      "CoolTime": 0,
-      "Speed": 0
-    },
-    {
-      "RelicId": 30,
       "PrefabName": "Relic_02",
       "Name": "근렬이의 방패",
       "ThumbnailName": "Relic_02.sprite",
@@ -361,18 +337,6 @@
       "Speed": 10
     },
     {
-      "RelicId": 40,
-      "PrefabName": "Relic_03",
-      "Name": "지환이의 신발",
-      "ThumbnailName": "Relic_03.sprite",
-      "Description": "어쩌구 저쩌구 신발",
-      "Rarity": 0,
-      "Atk": 0,
-      "MaxHp": 0,
-      "CoolTime": 10,
-      "Speed": 10
-    },
-    {
       "RelicId": 41,
       "PrefabName": "Relic_04",
       "Name": "동영이형의 헤드셋",
@@ -470,18 +434,6 @@
     },
     {
       "RelicId": 49,
-      "PrefabName": "Relic_04",
-      "Name": "동영이형의 헤드셋",
-      "ThumbnailName": "Relic_04.sprite",
-      "Description": "늘어나지 않는다",
-      "Rarity": 0,
-      "Atk": 5,
-      "MaxHp": 15,
-      "CoolTime": 10,
-      "Speed": 5
-    },
-    {
-      "RelicId": 50,
       "PrefabName": "Relic_04",
       "Name": "동영이형의 헤드셋",
       "ThumbnailName": "Relic_04.sprite",
@@ -601,18 +553,6 @@
       "Speed": 0
     },
     {
-      "RelicId": 60,
-      "PrefabName": "Relic_05",
-      "Name": "인화의 반지",
-      "ThumbnailName": "Relic_05.sprite",
-      "Description": "어쩌구 저쩌구 반지",
-      "Rarity": 0,
-      "Atk": 0,
-      "MaxHp": 0,
-      "CoolTime": 20,
-      "Speed": 0
-    },
-    {
       "RelicId": 61,
       "PrefabName": "Relic_06",
       "Name": "형규의 도끼",
@@ -710,18 +650,6 @@
     },
     {
       "RelicId": 69,
-      "PrefabName": "Relic_06",
-      "Name": "형규의 도끼",
-      "ThumbnailName": "Relic_06.sprite",
-      "Description": "어쩌구 저쩌구 도끼",
-      "Rarity": 0,
-      "Atk": 30,
-      "MaxHp": 10,
-      "CoolTime": 0,
-      "Speed": 0
-    },
-    {
-      "RelicId": 70,
       "PrefabName": "Relic_06",
       "Name": "형규의 도끼",
       "ThumbnailName": "Relic_06.sprite",

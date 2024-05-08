@@ -59,7 +59,7 @@ public static class Extension
         
         List<int> rangePool = new();
         
-        for (int i = min; i < max; i++)
+        for (int i = min; i <= max; i++)
         {
             if(maxSkillTypes.Contains(i)) continue;
             rangePool.Add(i);
