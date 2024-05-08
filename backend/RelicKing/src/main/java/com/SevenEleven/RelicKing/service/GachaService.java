@@ -30,7 +30,6 @@ public class GachaService {
 		return Map.of("gacha", member.getGacha());
 	}
 
-	// Todo 유물 새로 뽑으면 db에 뽑은 순서 대로 저장 되어 유물 번호로 정렬되지 않는데, 유물 번호로 정렬되도록 회원가입하면 레벨 0 유물로 미리 채워 놓아야 할까?
 	public List<Map<String, Object>> doGacha(Member member, GachaRequestDTO gachaRequestDTO) {
 
 		if (gachaRequestDTO.getGachaNum().getValue() > member.getGacha()) {
