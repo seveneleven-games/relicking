@@ -1,6 +1,7 @@
 package com.SevenEleven.RelicKing.dto.request;
 
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -30,6 +31,6 @@ public class MemberRequestDTO {
 	private int gacha = 0;
 
 	@Builder.Default
-	@PositiveOrZero
+	@Positive
 	private int currentClassNo = 0;
 }
