@@ -233,26 +233,19 @@ public static class Util
 
 public static IEnumerator JWTPostRequest(string uri, string jsonData, Action<string> callback)
 {
-    Debug.Log("entered 1");
-
     string finalUri = BASE_URI + uri;
     
     string accessToken = Managers.Game.AccessToken;
     
     using (UnityWebRequest webRequest = new UnityWebRequest(finalUri, "POST"))
     {
-        Debug.Log("entered 2");
-
         byte[] jsonToSend = new UTF8Encoding().GetBytes(jsonData);
         webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
         webRequest.downloadHandler = new DownloadHandlerBuffer();
         webRequest.SetRequestHeader("Content-Type", "application/json");
         webRequest.SetRequestHeader("Authorization", "Bearer " + accessToken);
 
-        Debug.Log("About to send Request");
         yield return webRequest.SendWebRequest();
-
-        Debug.Log("Web Request Send");
 
         if (webRequest.result == UnityWebRequest.Result.ConnectionError || 
             webRequest.result == UnityWebRequest.Result.ProtocolError)

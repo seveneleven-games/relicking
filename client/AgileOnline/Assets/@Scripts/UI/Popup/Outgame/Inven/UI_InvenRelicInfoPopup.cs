@@ -120,7 +120,6 @@ public class UI_InvenRelicInfoPopup : UI_Popup
             //_templateData.SetRelicAt(EquipedIndex, 0);
             //Debug.Log("[" + string.Join(", ", _templateData.EquipedRelicIds) + "]");
         }
-        Managers.UI.ClosePopupUI(this);
     }
 
     public bool IsRelicEquiped(int relicId, int[] relicIds)
