@@ -213,7 +213,7 @@ public class UI_LoginInputPopup : UI_Popup
                     int index = relic.slot - 1;
                     if (index >= 0 && index < _templateData.EquipedRelicIds.Length)
                     {
-                        _templateData.EquipedRelicIds[index] = relic.relicNo * 10 + relic.level;
+                        _templateData.EquipedRelicIds[index] = relic.relicNo * 10 + relic.level - 10;
                     }
                 });
 
