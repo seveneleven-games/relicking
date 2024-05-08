@@ -1,6 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Util;
+
+
+public class RelicDataReq
+{
+    public int slot;
+    public int relicNo;
+}
+public class RelicDataRes
+{
+    public int status;
+    public string message;
+    public RelicRes data;
+}
+
+public class RelicRes
+{
+    public bool result;
+}
 
 public class UI_InvenEquipPopup : UI_Popup
 {
@@ -74,9 +93,30 @@ public class UI_InvenEquipPopup : UI_Popup
 
     void OnClickEquipButton(int number)
     {
-        _templateData.SetRelicAt(number, _templateData.SelectedRelicId);
-        Debug.Log($"Button number {number}");
-        Debug.Log("[" + string.Join(", ", _templateData.EquipedRelicIds) + "]");
-        Managers.UI.ClosePopupUI(this);
+        EquipRelic(number);
+    }
+
+    void EquipRelic(int number)
+    {
+        RelicDataReq relicDataReq = new()
+        {
+            slot = number + 1,
+            relicNo = _templateData.SelectedRelicId,
+        };
+
+        string relicJsonData = JsonUtility.ToJson(relicDataReq);
+
+        StartCoroutine(JWTPostRequest("relics", relicJsonData, res =>
+        {
+            RelicDataRes relicDataRes = JsonUtility.FromJson<RelicDataRes>(res);
+ 
+            if (relicDataRes.status == 200)
+            {
+                _templateData.SetRelicAt(number, _templateData.SelectedRelicId);
+                Debug.Log($"Button number {number}");
+                Debug.Log("[" + string.Join(", ", _templateData.EquipedRelicIds) + "]");
+                Managers.UI.ClosePopupUI(this);
+            }
+        }));
     }
 }
