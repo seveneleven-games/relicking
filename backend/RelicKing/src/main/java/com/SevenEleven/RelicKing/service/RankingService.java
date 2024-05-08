@@ -41,7 +41,7 @@ public class RankingService {
             stage.put("myRank", myRank);
 
             List<Map<String, Object>> rankList =
-                    recordRepository.findTop100ByStageOrderByDifficultyDescEliteKillDescNormalKillDesc(i)
+                    recordRepository.findTop100ByStageOrderByDifficultyDescUpdatedDate(i)
                             .stream().map(record -> {
                                 Map<String, Object> rank = new LinkedHashMap<>();
                                 rank.put("recordId", record.getRecordId());

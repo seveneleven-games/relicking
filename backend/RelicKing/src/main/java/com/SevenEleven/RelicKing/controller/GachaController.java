@@ -9,8 +9,10 @@ import com.SevenEleven.RelicKing.common.response.Response;
 import com.SevenEleven.RelicKing.common.security.CustomUserDetails;
 import com.SevenEleven.RelicKing.service.GachaService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
+@Tag(name = "Gacha", description = "가챠 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/gacha")

@@ -20,7 +20,7 @@ public interface RecordRepository extends JpaRepository<Record, Integer> {
 
 	List<Record> findByMember(Member member);
 
-	List<Record> findTop100ByStageOrderByDifficultyDescEliteKillDescNormalKillDesc(int stage);
+	List<Record> findTop100ByStageOrderByDifficultyDescUpdatedDate(int stage);
 
 	@Query(value = "SELECT ranking.stage_rank FROM (" +
 			"SELECT r.member_id as memberId, RANK() OVER (ORDER BY r.difficulty DESC, r.elite_kill DESC, r.normal_kill DESC) as stage_rank " +
