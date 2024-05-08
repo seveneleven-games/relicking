@@ -514,6 +514,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SunShines4
       objectReference: {fileID: 0}
+    - target: {fileID: 7451350449695206711, guid: 406c4e8cced099242bc08d67273bd794, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
