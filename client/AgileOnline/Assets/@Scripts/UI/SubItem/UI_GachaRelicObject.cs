@@ -64,6 +64,16 @@ public class UI_GachaRelicObject : UI_Base
     // UI_GachaResultPopup에서 호출할 것임.
     public void SetInfo(GachaRelic relic)
     {
+        
+        // z 위치 0으로 바꾸기
+        RectTransform rectTransform = GetComponent<RectTransform>();
+        Vector3 localPosition = rectTransform.localPosition;
+        localPosition.z = 0;
+        rectTransform.localPosition = localPosition;
+        
+        // 스케일 설정
+        transform.localScale = Vector3.one;
+        
         // 레벨 표시 -> 레벨은 ID로 따로 관리를 안하네??
         GetText((int)ETexts.RelicLevelText).text = "LV. " + relic.level.ToString();
         
@@ -71,7 +81,7 @@ public class UI_GachaRelicObject : UI_Base
 
         // 레어리티 표시 (BG 색깔 바꾸기) -> ID를 통해서 분석
         // 0 : C급, 1 : B급, 2 : A급, 3 : S급, 4 : SSS급 (임시, 나중에 ENUM으로 바꾸거나 할 것!)
-        switch (Managers.Data.RelicDic[relic.relicNo].Rarity)
+        switch (Managers.Data.RelicDic[relic.relicNo * 10 + relic.level].Rarity)
         {
             case 0:
                 GetImage((int)EImages.RelicBGImage).color = RelicUIColors.GradeC;
@@ -96,7 +106,7 @@ public class UI_GachaRelicObject : UI_Base
         #endregion
         
         // 유물 이미지 가져오기
-        GetImage((int)EImages.RelicImage).sprite = Managers.Resource.Load<Sprite>(Managers.Data.RelicDic[relic.relicNo].ThumbnailName);
+        GetImage((int)EImages.RelicImage).sprite = Managers.Resource.Load<Sprite>(Managers.Data.RelicDic[relic.relicNo * 10 + relic.level].ThumbnailName);
 
         #region 신규와 레벨업 여부
 
