@@ -1,66 +1,45 @@
 using System.Collections;
-using TMPro;
+using System.Collections.Generic;
 using UnityEngine;
 using static Define;
 
-public class UI_InGamePopup : UI_Popup
-{
-    enum GameObjects
-    {
-        TimerText,
-        RemainGold
-    }
 
+public class UI_GameExitConfirmPopup : UI_Popup
+{
     enum Buttons
     {
-        SettingButton
+        CloseButton,
+        ExitButton
     }
 
-    private TextMeshProUGUI timerText;
-    private float remainingTime = 30f;
-
+    
     public override bool Init()
     {
         if (base.Init() == false)
             return false;
 
-        BindText(typeof(GameObjects));
         BindButton(typeof(Buttons));
-        GetButton((int)Buttons.SettingButton).gameObject.BindEvent(ShowSettingPopup);
-
-        timerText = GetText((int)GameObjects.TimerText).GetComponent<TextMeshProUGUI>();
-        StartCoroutine(UpdateTimer());
-
-        PlayerController pc = Managers.Object.Player;
-        pc.UpdateRemainGoldText();
-
+        
+        GetButton((int)Buttons.ExitButton).gameObject.BindEvent(ExitGame);
+        GetButton((int)Buttons.CloseButton).gameObject.BindEvent(ClosePopupUI);
+        
         return true;
     }
-
-    public void UpdateRemainGoldText(int gold)
+    
+    void ExitGame()
     {
-        TextMeshProUGUI component = GetText((int)GameObjects.RemainGold).GetComponent<TextMeshProUGUI>();
-        component.text = gold.ToString();
-    }
-
-    void ShowSettingPopup()
-    {
-        Time.timeScale = 0;
-        Managers.UI.ShowPopupUI<UI_IngameSettingPopup>();
-    }
-
-    private IEnumerator UpdateTimer()
-    {
-        while (remainingTime > 1f)
+        //todo(전지환) : ExitConfirmPopup에서 실행하기
+        PlayerController player = Managers.Object.Player;
+        if (player != null)
         {
-            timerText.text = Mathf.FloorToInt(remainingTime).ToString();
-            remainingTime -= Time.deltaTime;
-            yield return null;
+            player.gameObject.SetActive(false);
+            Managers.Object.Player = null;
         }
-
-        timerText.text = "0";
+        StopAllCoroutines();
+        CleanupResources();
+        Managers.Scene.LoadScene(EScene.LobbyScene);
     }
-
+    
     private void CleanupResources()
     {
         // 몬스터와 골드 오브젝트 despawn
@@ -100,4 +79,5 @@ public class UI_InGamePopup : UI_Popup
             Managers.Resource.Destroy(obj);
         }
     }
+    
 }
