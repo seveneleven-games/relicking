@@ -65,7 +65,7 @@ public class SecurityConfig {
 
 			// 필터 추가
 			.addFilterBefore(new JWTFilter(jwtUtil, memberRepository), CustomAuthenticationFilter.class)
-			.addFilterAt(new CustomAuthenticationFilter(authenticationManager(authenticationConfiguration), jwtUtil, refreshTokenRepository, memberService), UsernamePasswordAuthenticationFilter.class)
+			.addFilterAt(new CustomAuthenticationFilter(authenticationManager(authenticationConfiguration), memberService), UsernamePasswordAuthenticationFilter.class)
 
 			// 세션 사용하지 않음
 			.sessionManagement(session ->

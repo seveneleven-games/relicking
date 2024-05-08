@@ -1,5 +1,6 @@
 package com.SevenEleven.RelicKing.service;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.Duration;
@@ -9,6 +10,7 @@ import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,13 +35,13 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.SecurityException;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class MemberService {
 
 	private final MemberRepository memberRepository;
@@ -52,6 +54,25 @@ public class MemberService {
 
 	@Value("${spring.mail.auth-code-expiration-millis}")
 	private int authCodeExpirationMillis;
+
+	@Transactional
+	public void successfulAuthentication(HttpServletResponse response, String email) throws IOException {
+
+		// 토큰 생성
+		String accessToken = jwtUtil.createJwt("access", email, Constant.ACCESS_TOKEN_EXPIRATION_TIME);
+		String refreshToken = jwtUtil.createJwt("refresh", email, Constant.REFRESH_TOKEN_EXPIRATION_TIME);
+
+		// Refresh 토큰 저장
+		RefreshToken refreshTokenEntity = RefreshToken.builder()
+			.email(email)
+			.refreshToken(refreshToken)
+			.build();
+		refreshTokenRepository.save(refreshTokenEntity);
+
+		// 응답 설정
+		LoginResponseDTO loginResponseDTO = getDataAfterLogin(email, accessToken, refreshToken);
+		Response.setSuccessResponse(response, new Response(HttpStatus.OK.value(), "로그인 되었습니다.", loginResponseDTO));
+	}
 
 	@Transactional
 	public void signup(SignUpRequestDto dto) {
