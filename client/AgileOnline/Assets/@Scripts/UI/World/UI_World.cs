@@ -57,7 +57,7 @@ public class UI_World : MonoBehaviour
         Vector2 canvasPosition;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(_canvasRectTransform, screenPosition, _canvas.worldCamera, out canvasPosition);
         rectTransform.anchoredPosition = canvasPosition;
-        rectTransform.sizeDelta = new Vector2(60, 30);
+        rectTransform.sizeDelta = new Vector2(300, 50);
         
         StartCoroutine(MoveDamageText(damageTextObject));
     }
