@@ -66,7 +66,7 @@ public class UI_IngameSettingPopup : UI_Popup
         GetButton((int)Buttons.ExitButton).gameObject.BindEvent(ShowConfirmPopup);
         GetButton((int)Buttons.CloseButton).gameObject.BindEvent(ClosePopupUI);
 
-        SetRelicInfo();
+        SetInfo();
 
         //todo(전지환) : 설정 정보에 따라 toggle 싱크 맞춰줘야 함
         GetText((int)Texts.BGMOFFText).gameObject.SetActive(false);
@@ -75,7 +75,7 @@ public class UI_IngameSettingPopup : UI_Popup
         return true;
     }
 
-    void SetRelicInfo()
+    void SetInfo()
     {
         int[] relicIds = _templateData.EquipedRelicIds;
         List<int> skillIds = Managers.Object.Player.PlayerSkillList;
@@ -132,6 +132,11 @@ public class UI_IngameSettingPopup : UI_Popup
                 skillLevelText.gameObject.SetActive(true);
             }
         }
+
+        int playerId = Managers.Object.Player.PlayerId;
+        string classSpriteName = Managers.Data.PlayerDic[playerId].ThumbnailName;
+        Sprite classSprite = Managers.Resource.Load<Sprite>(classSpriteName);
+        GetImage((int)Images.ClassImage).sprite = classSprite;
     }
 
     void ShowConfirmPopup()

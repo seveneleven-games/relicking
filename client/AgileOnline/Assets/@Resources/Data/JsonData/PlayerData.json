@@ -3,6 +3,7 @@
     {
       "PlayerId": 1,
       "PrefabName": "Player1",
+      "ThumbnailName": "Player1_img.sprite",
       "Name": "전근렬",
       "MaxHp": 100,
       "Atk": 10,
@@ -14,6 +15,7 @@
     {
       "PlayerId": 2,
       "PrefabName": "Player2",
+      "ThumbnailName": "Player2_img.sprite",
       "Name": "농부",
       "MaxHp": 150,
       "Atk": 10,
@@ -25,6 +27,7 @@
     {
       "PlayerId": 3,
       "PrefabName": "Player3",
+      "ThumbnailName": "Player3_img.sprite",
       "Name": "개사기캐",
       "MaxHp": 300,
       "Atk": 10,
@@ -36,6 +39,7 @@
     {
       "PlayerId": 4,
       "PrefabName": "Player4",
+      "ThumbnailName": "Player4_img.sprite",
       "Name": "엘프",
       "MaxHp": 80,
       "Atk": 30,
