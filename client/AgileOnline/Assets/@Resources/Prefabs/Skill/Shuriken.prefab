@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 686311159473055278}
   - component: {fileID: 686311159473055279}
   - component: {fileID: -3829723932807196301}
-  - component: {fileID: -7965142356978872218}
+  - component: {fileID: -6366778021403650702}
+  - component: {fileID: 3117130906264353898}
   m_Layer: 8
   m_Name: Shuriken
   m_TagString: Untagged
@@ -4918,8 +4919,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!70 &-7965142356978872218
-CapsuleCollider2D:
+--- !u!114 &-6366778021403650702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 686311159473055440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6d92e2037a48314c876450273c4c476, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!58 &3117130906264353898
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4951,8 +4964,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 1}
-  m_Direction: 0
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &686311160103024454
 GameObject:
   m_ObjectHideFlags: 0
