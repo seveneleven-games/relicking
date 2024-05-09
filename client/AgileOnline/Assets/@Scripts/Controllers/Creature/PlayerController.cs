@@ -382,9 +382,7 @@ public class PlayerController : CreatureController
                 case "ChainLightning":
                     for (int i = 0; i < skillData.ProjectileNum; i++)
                     {
-                        Debug.Log("원래 데미지임 : " + Managers.Data.SkillDic[skillId].Damage);
                         int toInt = Mathf.RoundToInt(Managers.Data.SkillDic[skillId].Damage * Atk);
-                        Debug.Log("나중 데미지임 : " + toInt);
                         List<MonsterController> chainMonsters = new List<MonsterController>();
                         Collider2D[] chainColliders = Physics2D.OverlapCircleAll(transform.position, 10f);
                         foreach (Collider2D collider in chainColliders)
@@ -408,7 +406,40 @@ public class PlayerController : CreatureController
                         }
                     }
                     break;
+                
+                case "Shuriken":
+                    for (int i = 0; i < skillData.ProjectileNum; i++)
+                    {
+                        ShurikenController skc = Managers.Object.Spawn<ShurikenController>(transform.position, skillId);
+                        skc.SetOwner(this);
+                        float randomAngle = Random.Range(0f, 360f);
+                        Vector3 moveDirection = Quaternion.Euler(0f, 0f, randomAngle * Mathf.Rad2Deg) * _indicator.up;
+                        
+                        skc.SetMoveDirection(moveDirection);
+                    }
+                    break;
+                
+                case "StormBlade":
+                    StartCoroutine(ShootStormBlades(skillData.ProjectileNum, skillId));
+                    break;
             }
+        }
+    }
+    
+    private IEnumerator ShootStormBlades(int projectileNum, int skillId)
+    {
+        for (int i = 0; i < projectileNum; i++)
+        {
+            StormBladeController sbc =
+                Managers.Object.Spawn<StormBladeController>(transform.position, skillId);
+            sbc.SetOwner(this);
+
+            float angle = 0;
+
+            Vector3 moveDirection = Quaternion.Euler(0f, 0f, angle * Mathf.Rad2Deg) * _indicator.up;
+            sbc.SetMoveDirection(moveDirection);
+
+            yield return new WaitForSeconds(0.1f);
         }
     }
     
