@@ -1,14 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using static Util;
 
+[Serializable]
 public class ClassSelectDataReq
 {
     public int classNo;
 }
 
+[Serializable]
 public class ClassSelectDataRes
 {
     public int status;
@@ -16,6 +19,7 @@ public class ClassSelectDataRes
     public ClassSelectRes data;
 }
 
+[Serializable]
 public class ClassSelectRes
 {
     public bool result;
@@ -73,9 +77,7 @@ public class UI_InvenClassSelectPopup : UI_Popup
 
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
 
-        GetText((int)ETexts.ClassNameText).text = Managers.Data.PlayerDic[_templateData.SelectedClassId].Name;
-        GetText((int)ETexts.ClassDescriptionText).text = $"{_templateData.SelectedClassId} description";
-
+        OnClickClassSelectButton(_templateData.SelectedClassId);
 
         int ClassCount = Managers.Data.PlayerDic.Count;
         for (int i = 0; i < ClassCount; i++)
@@ -83,6 +85,8 @@ public class UI_InvenClassSelectPopup : UI_Popup
             int currentClassId = i + 1;
             GameObject ClassObject = Managers.Resource.Instantiate("UI_ClassObject", GetObject((int)EGameObjects.ClassListObject).transform);
             ClassObject.name = $"ClassObject{currentClassId}";
+            Sprite spr = Managers.Resource.Load<Sprite>(Managers.Data.PlayerDic[currentClassId].ThumbnailName);
+            Util.FindChild<Image>(ClassObject, "ClassImage").sprite = spr;
             ClassObject.BindEvent(() => OnClickClassSelectButton(currentClassId));
         }
 
@@ -116,7 +120,7 @@ public class UI_InvenClassSelectPopup : UI_Popup
         Debug.Log(num);
         TempClassId = num;
         GetText((int)ETexts.ClassNameText).text = Managers.Data.PlayerDic[num].Name;
-        GetText((int)ETexts.ClassDescriptionText).text = $"{num} description";
+        GetText((int)ETexts.ClassDescriptionText).text = Managers.Data.PlayerDic[num].Description;
     }
 
     void ClassSelect()

@@ -1,14 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static Util;
 
-
+[Serializable]
 public class RelicDataReq
 {
     public int slot;
     public int relicNo;
 }
+
+[Serializable]
 public class RelicDataRes
 {
     public int status;
@@ -16,6 +19,7 @@ public class RelicDataRes
     public RelicRes data;
 }
 
+[Serializable]
 public class RelicRes
 {
     public bool result;
@@ -101,7 +105,7 @@ public class UI_InvenEquipPopup : UI_Popup
         RelicDataReq relicDataReq = new()
         {
             slot = number + 1,
-            relicNo = _templateData.SelectedRelicId,
+            relicNo = _templateData.SelectedRelicId / 10,
         };
 
         string relicJsonData = JsonUtility.ToJson(relicDataReq);

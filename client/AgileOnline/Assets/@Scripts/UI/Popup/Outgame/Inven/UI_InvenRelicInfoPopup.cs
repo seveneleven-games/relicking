@@ -11,7 +11,7 @@ public class UI_InvenRelicInfoPopup : UI_Popup
     enum EGameObjects
     {
         ContentObjet,
-        RelicExpSliderObject,
+        //RelicExpSliderObject,
     }
 
     enum EButtons
@@ -24,9 +24,10 @@ public class UI_InvenRelicInfoPopup : UI_Popup
 
     enum ETexts
     {
-        LevelText,
+        RelicLevelText,
         RelicNameText,
         RelicDescriptionText,
+        RelicRarityText,
     }
 
     enum EImages
@@ -66,8 +67,33 @@ public class UI_InvenRelicInfoPopup : UI_Popup
 
         RelicData relicData = Managers.Data.RelicDic[_templateData.SelectedRelicId];
 
+        switch (relicData.Rarity)
+        {
+            case 0:
+                GetText((int)ETexts.RelicRarityText).text = "C";
+                GetText((int)ETexts.RelicRarityText).color = Util.HexToColor("696969");
+                break;
+            case 1:
+                GetText((int)ETexts.RelicRarityText).text = "B";
+                GetText((int)ETexts.RelicRarityText).color = Util.HexToColor("2641CB");
+                break;
+            case 2:
+                GetText((int)ETexts.RelicRarityText).text = "A";
+                GetText((int)ETexts.RelicRarityText).color = Util.HexToColor("A507CC");
+                break;
+            case 3:
+                GetText((int)ETexts.RelicRarityText).text = "S";
+                GetText((int)ETexts.RelicRarityText).color = Util.HexToColor("FBFF31");
+                break;
+            case 4:
+                GetText((int)ETexts.RelicRarityText).text = "SSS";
+                GetText((int)ETexts.RelicRarityText).color = Util.HexToColor("FF0000");
+                break;
+        }
         GetText((int)ETexts.RelicNameText).text = relicData.Name;
-        GetText((int)ETexts.RelicDescriptionText).text = relicData.Description;
+        GetText((int)ETexts.RelicDescriptionText).text = relicData.Description + RelicDetailDescription(relicData);
+        string levelText = _templateData.SelectedRelicId % 10 == 9 ? "Max" : (_templateData.SelectedRelicId % 10).ToString();
+        GetText((int)ETexts.RelicLevelText).text = "Lv." + levelText;
         Sprite spr = Managers.Resource.Load<Sprite>(relicData.ThumbnailName);
         GetImage((int)EImages.RelicImage).sprite = spr;
 
@@ -132,6 +158,29 @@ public class UI_InvenRelicInfoPopup : UI_Popup
                 result = true;
                 break;
             }
+        }
+
+        return result;
+    }
+
+    public string RelicDetailDescription(RelicData data)
+    {
+        string result = "";
+        if (data.Atk > 0)
+        {
+            result += $"\n공격력 +{data.Atk}";
+        }
+        if (data.MaxHp > 0)
+        {
+            result += $"\n최대체력 +{data.MaxHp}";
+        }
+        if (data.CoolTime > 0)
+        {
+            result += $"\n쿨타임 {data.CoolTime}% 감소";
+        }
+        if (data.Speed > 0)
+        {
+            result += $"\n이동속도 +{data.Speed}";
         }
 
         return result;

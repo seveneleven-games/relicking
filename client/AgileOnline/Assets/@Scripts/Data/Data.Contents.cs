@@ -14,7 +14,9 @@ namespace Data
     {
         public int PlayerId;
         public string PrefabName;
+        public string ThumbnailName;
         public string Name;
+        public string Description;
         public int MaxHp;
         public int Atk;
         public float Speed;
@@ -115,7 +117,7 @@ namespace Data
         public string Description;
         public string IconName; 
         public float CoolTime;
-        public int Damage;
+        public float Damage;
         public float LifeTime;
         public float Speed;
         public int ProjectileNum;

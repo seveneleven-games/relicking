@@ -3,10 +3,12 @@
     {
       "PlayerId": 1,
       "PrefabName": "Player1",
+      "ThumbnailName": "Player1_img.sprite",
       "Name": "전근렬",
+      "Description": "가장 기본적인 캐릭터입니다.",
       "MaxHp": 100,
       "Atk": 10,
-      "Speed": 5.0,
+      "Speed": 300.0,
       "CritRate": 0.7,
       "CritDmgRate": 2.0,
       "CoolDown": 1.0
@@ -14,10 +16,12 @@
     {
       "PlayerId": 2,
       "PrefabName": "Player2",
+      "ThumbnailName": "Player2_img.sprite",
       "Name": "농부",
+      "Description": "최대 생명력이 150%",
       "MaxHp": 150,
       "Atk": 10,
-      "Speed": 5.0,
+      "Speed": 300.0,
       "CritRate": 0.7,
       "CritDmgRate": 2.0,
       "CoolDown": 1.0
@@ -25,10 +29,12 @@
     {
       "PlayerId": 3,
       "PrefabName": "Player3",
+      "ThumbnailName": "Player3_img.sprite",
       "Name": "개사기캐",
+      "Description": "최대 생명력 300%",
       "MaxHp": 300,
       "Atk": 10,
-      "Speed": 5.0,
+      "Speed": 350.0,
       "CritRate": 0.7,
       "CritDmgRate": 2.0,
       "CoolDown": 1.0
@@ -36,10 +42,12 @@
     {
       "PlayerId": 4,
       "PrefabName": "Player4",
+      "ThumbnailName": "Player4_img.sprite",
       "Name": "엘프",
+      "Description": "체력은 낮지만 빠르고 강합니다.",
       "MaxHp": 80,
       "Atk": 30,
-      "Speed": 8.0,
+      "Speed": 450.0,
       "CritRate": 0.8,
       "CritDmgRate": 2.0,
       "CoolDown": 1.0
