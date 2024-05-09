@@ -5,7 +5,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +25,6 @@ import com.SevenEleven.RelicKing.dto.request.SignUpRequestDto;
 import com.SevenEleven.RelicKing.dto.response.LoginResponseDTO;
 import com.SevenEleven.RelicKing.dto.response.ReissueResponseDto;
 import com.SevenEleven.RelicKing.dto.response.StageResponseDTO;
-import com.SevenEleven.RelicKing.dto.response.model.StageDifficultyDTO;
 import com.SevenEleven.RelicKing.entity.Member;
 import com.SevenEleven.RelicKing.entity.Record;
 import com.SevenEleven.RelicKing.entity.RefreshToken;
@@ -160,35 +161,36 @@ public class MemberService {
 		Member member = memberRepository.findByEmail(email);
 		StageResponseDTO stageResponseDTO = stageService.getClassAndRelics(member);
 
-		StageDifficultyDTO stageDifficultyDTO = getDifficulty(member);
+		Map<String, Integer> stageDifficultyInfo = getDifficulty(member);
 
 		return LoginResponseDTO.builder()
 			.accessToken(accessToken)
 			.refreshToken(refreshToken)
 			.memberId(member.getMemberId())
 			.nickname(member.getNickname())
-			.stageData(stageDifficultyDTO)
+			.stageData(stageDifficultyInfo)
 			.currentClassNo(stageResponseDTO.getCurrentClassNo())
 			.relicList(stageResponseDTO.getRelicList())
 			.build();
 	}
 
 	@Transactional(readOnly = true)
-	public StageDifficultyDTO getDifficulty(Member member) {
+	public Map<String, Integer> getDifficulty(Member member) {
 
-		int[] array = new int[Constant.MAX_STAGE];
-		Arrays.fill(array, 0);
+		int[] stageInfo = new int[Constant.MAX_STAGE];
+		Arrays.fill(stageInfo, 0);
 
 		List<Record> recordList = recordRepository.findByMember(member);
 		recordList.forEach(record -> {
-			array[record.getStage() - 1] = record.getDifficulty();
+			stageInfo[record.getStage() - 1] = record.getDifficulty();
 		});
 
-		return StageDifficultyDTO.builder()
-			.stage1(array[0])
-			.stage2(array[1])
-			.stage3(array[2])
-			.build();
+		Map<String, Integer> result = new LinkedHashMap<>();
+		for (int i = 0; i < stageInfo.length; i++) {
+			result.put("stage" + (i + 1), stageInfo[i]);
+		}
+
+		return result;
 
 	}
 
