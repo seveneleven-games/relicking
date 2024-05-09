@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-
+// Todo 삭제
 @Tag(name = "Test", description = "더미 사용자 정보 제공하는 테스트용 API")
 @RestController
 @RequiredArgsConstructor

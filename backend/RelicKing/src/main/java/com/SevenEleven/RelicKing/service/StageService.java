@@ -118,28 +118,6 @@ public class StageService {
 				record.addRecordRelic(recordRelic.getRelicNo(), recordRelic.getLevel(), recordRelic.getSlot());
 			}
 
-		// Todo 주석 지우기
-		// ArrayList<String> slotList = new ArrayList<>(List.of("1", "2", "3", "4", "5", "6"));
-		// ArrayList<RecordRelic> recordRelics = new ArrayList<>(6);
-		//
-		// for (MemberRelic memberRelic: memberRelics) {
-		// 	if (memberRelic.getSlot() > 0) {
-		// 		recordRelics.add(new RecordRelic(memberRelic.getRelicNo(), memberRelic.getLevel(), memberRelic.getSlot()));
-		// 		slotList.remove(Integer.toString(memberRelic.getSlot()));
-		// 	}
-		// }
-		//
-		// for (String slot: slotList) {
-		// 	recordRelics.add(new RecordRelic(0, 0, Integer.parseInt(slot)));
-		// }
-		//
-		// recordRelics.sort(RecordRelic::compareTo);
-		//
-		// for (RecordRelic recordRelic: recordRelics) {
-		// 	record.addRecordRelic(recordRelic.getRelicNo(), recordRelic.getLevel(), recordRelic.getSlot());
-		// }
-		//
-
 		for (SkillDTO skillDTO: stageRequestDTO.getSkillList()) {
 			record.addRecordSkill(skillDTO.getSkillNo(), skillDTO.getLevel(), skillDTO.getSlot());
 		}
