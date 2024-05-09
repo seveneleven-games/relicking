@@ -74,6 +74,10 @@ public class DataManager
                 return Managers.Data.SkillDic[templateId].PrefabName;
             case "MeteorShadowData":
                 return Managers.Data.SkillDic[templateId].PrefabName;
+            case "ShurikenData":
+                return Managers.Data.SkillDic[templateId].PrefabName;
+            case "StormBladeData":
+                return Managers.Data.SkillDic[templateId].PrefabName;
             default:
                 return null;
         }

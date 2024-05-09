@@ -384,9 +384,7 @@ public class PlayerController : CreatureController
                 case "ChainLightning":
                     for (int i = 0; i < skillData.ProjectileNum; i++)
                     {
-                        Debug.Log("원래 데미지임 : " + Managers.Data.SkillDic[skillId].Damage);
                         int toInt = Mathf.RoundToInt(Managers.Data.SkillDic[skillId].Damage * Atk);
-                        Debug.Log("나중 데미지임 : " + toInt);
                         List<MonsterController> chainMonsters = new List<MonsterController>();
                         Collider2D[] chainColliders = Physics2D.OverlapCircleAll(transform.position, 10f);
                         foreach (Collider2D collider in chainColliders)
@@ -409,6 +407,23 @@ public class PlayerController : CreatureController
                             startPoint = endPoint;
                         }
                     }
+                    break;
+                
+                case "Shuriken":
+                    for (int i = 0; i < skillData.ProjectileNum; i++)
+                    {
+                        Debug.Log("수리검 발사~");
+                        float randomAngle = Random.Range(0f, 360f);
+                        Vector3 direction = Quaternion.Euler(0f, 0f, randomAngle) * Vector3.up;
+                        
+                        ShurikenController shuriken = Managers.Object.Spawn<ShurikenController>(transform.position, skillId);
+                        shuriken.SetOwner(this);
+                        
+                        shuriken.SetMoveDirection(direction);
+                    }
+                    break;
+                
+                case "StormBlade":
                     break;
             }
         }

@@ -16,6 +16,7 @@ namespace Data
         public string PrefabName;
         public string ThumbnailName;
         public string Name;
+        public string Description;
         public int MaxHp;
         public int Atk;
         public float Speed;

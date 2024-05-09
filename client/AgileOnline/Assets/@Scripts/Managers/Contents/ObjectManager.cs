@@ -27,6 +27,10 @@ public class ObjectManager
     public HashSet<MeteorShadowController> MeteorShadows { get; } = new HashSet<MeteorShadowController>();
 
     public HashSet<ChainLightningController> ChainLightnings { get; } = new HashSet<ChainLightningController>();
+
+    public HashSet<ShurikenController> Shurikens { get; } = new HashSet<ShurikenController>();
+
+    public HashSet<StormBladeController> StormBlades { get; } = new HashSet<StormBladeController>();
     
     #region Roots
 
@@ -107,6 +111,16 @@ public class ObjectManager
     public Transform ChainLightningRoot
     {
         get { return GetRootTransform("@ChainLightning"); }
+    }
+
+    public Transform ShurikenRoot
+    {
+        get { return GetRootTransform("@Shuriken"); }
+    }
+
+    public Transform StormBladeRoot
+    {
+        get { return GetRootTransform("@StormBlade"); }
     }
 
     #endregion
@@ -251,6 +265,20 @@ public class ObjectManager
                     ChainLightnings.Add(clc);
                     clc.InitSkill(templateId, startPoint, endPoint);
                     break;
+                
+                case ESkillType.Shuriken:
+                    sc.transform.parent = ShurikenRoot;
+                    ShurikenController skc = sc.GetComponent<ShurikenController>();
+                    Shurikens.Add(skc);
+                    skc.InitSkill(templateId);
+                    break;
+                
+                case ESkillType.StormBlade:
+                    sc.transform.parent = StormBladeRoot;
+                    StormBladeController sbc = sc.GetComponent<StormBladeController>();
+                    StormBlades.Add(sbc);
+                    sbc.InitSkill(templateId);
+                    break;
             }
         }
 
@@ -331,6 +359,16 @@ public class ObjectManager
                 case ESkillType.ChainLightning:
                     ChainLightningController clc = sc as ChainLightningController;
                     ChainLightnings.Remove(clc);
+                    break;
+                
+                case ESkillType.Shuriken:
+                    ShurikenController skc = sc as ShurikenController;
+                    Shurikens.Remove(skc);
+                    break;
+                
+                case ESkillType.StormBlade:
+                    StormBladeController sbc = sc as StormBladeController;
+                    StormBlades.Remove(sbc);
                     break;
             }
         }
