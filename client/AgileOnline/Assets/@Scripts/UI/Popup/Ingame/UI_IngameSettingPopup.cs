@@ -26,9 +26,9 @@ public class UI_IngameSettingPopup : UI_Popup
     enum Texts
     {
         BGMONText,
-        BGMOFFText,
         SFXONText,
-        SFXOFFText
+        BGMOFFText,
+        SFXOFFText,
     }
 
     enum Buttons
@@ -66,11 +66,14 @@ public class UI_IngameSettingPopup : UI_Popup
         GetButton((int)Buttons.ExitButton).gameObject.BindEvent(ShowConfirmPopup);
         GetButton((int)Buttons.CloseButton).gameObject.BindEvent(ClosePopupUI);
 
+
         SetInfo();
 
         //todo(전지환) : 설정 정보에 따라 toggle 싱크 맞춰줘야 함
         GetText((int)Texts.BGMOFFText).gameObject.SetActive(false);
         GetText((int)Texts.SFXOFFText).gameObject.SetActive(false);
+
+        //todo(전지환) : 설정 정보에 따라 toggle 싱크 맞춰줘야 함
 
         return true;
     }
@@ -124,12 +127,12 @@ public class UI_IngameSettingPopup : UI_Popup
                 Transform realTransform = maskTransform.transform.Find("Image");
                 Image skillImage = realTransform.GetComponent<Image>();
                 skillImage.sprite = skillSprite;
+                skillImage.color = new Color(1,1,1,1);
                 skillImage.gameObject.SetActive(true);
                 
-                Transform skillLevelTextTransform = skillSlot.transform.Find("SkillLevelText");
-                TextMeshProUGUI skillLevelText = skillLevelTextTransform.GetComponent<TextMeshProUGUI>();
-                skillLevelText.text = "Level " + Managers.Data.SkillDic[skillId].SkillId % 10;
-                skillLevelText.gameObject.SetActive(true);
+                GameObject levelTextParent = Util.FindChild(GetObject(i), "SkillLevelText");
+                levelTextParent.SetActive(true);
+                Util.FindChild<TMP_Text>(levelTextParent, "LevelText").text = (skillId % 10).ToString();
             }
         }
 
