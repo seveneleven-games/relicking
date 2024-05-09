@@ -63,7 +63,7 @@ public class CreatureController : BaseController
         return isCritical;
     }
 
-    protected virtual void OnDead()
+    public virtual void OnDead()
     {
         CreatureState = ECreatureState.Dead;
     }

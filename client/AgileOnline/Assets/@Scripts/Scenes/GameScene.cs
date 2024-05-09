@@ -72,6 +72,7 @@ public class GameScene : BaseScene
         _player = Managers.Object.CreatePlayer(_classId);
 
         _player.StopSkills();
+        _player.OnBossKilled += OnGameClear;
         CameraController camera = Camera.main.GetOrAddComponent<CameraController>();
         camera.Target = _player;
 
@@ -199,9 +200,28 @@ public class GameScene : BaseScene
                 StartCoroutine(SpawnBossMonsters(normalMonsters, eliteMonsters, bossMonsters));
                 break;
         }
-        
-        //todo(전지환) : 테스트 끝나면 원래 시간으로 돌려놓기 (30f)
-        _timerCoroutine = StartCoroutine(StartTimer(30f));
+
+        if (_isBossNode)
+        {
+            _timerCoroutine = StartCoroutine(StartBossTimer(30f));
+        }
+        else
+        {
+            _timerCoroutine = StartCoroutine(StartTimer(30f));
+        }
+    }
+    
+    private IEnumerator StartBossTimer(float duration)
+    {
+        float timer = duration;
+
+        while (timer > 0f)
+        {
+            timer -= Time.deltaTime;
+            yield return null;
+        }
+
+        _player.OnDead();
     }
     
     private IEnumerator StartTimer(float duration)
@@ -219,20 +239,19 @@ public class GameScene : BaseScene
     private void OnGameClear()
     {
         StopAllCoroutines();
-
+        _inGame.ClosePopupUI();
+        
         if (_isBossNode)
         {
             ClearServerCommunication();
             Managers.UI.ShowPopupUI<UI_ClearPopup>();
-            return;
         }
-        
-        _inGame.ClosePopupUI();
-        _player.GetComponent<CircleCollider2D>().enabled = false;
-
-        EnableNodeMap(_nodeNo);
-        _store = InstantiateStore();
-        
+        else
+        {
+            _player.GetComponent<CircleCollider2D>().enabled = false;
+            EnableNodeMap(_nodeNo);
+            _store = InstantiateStore();
+        }
         
         #region 플레이어 설정
         
