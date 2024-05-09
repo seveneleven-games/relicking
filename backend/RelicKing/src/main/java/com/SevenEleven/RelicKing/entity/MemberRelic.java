@@ -64,15 +64,15 @@ public class MemberRelic {
 	}
 
 	public void plusExp(int exp) {
-		if (this.level != 10){
+		if (this.level != Constant.LEVEL_EXP_TABLE.size()){
 			this.exp += exp;
 			setLevel();
 		}
 	}
 
 	private void setLevel() {
-		if (this.level < 10) {
-			for (int i = 0; i < 10; i++) {
+		if (this.level < Constant.LEVEL_EXP_TABLE.size()) {
+			for (int i = 0; i < Constant.LEVEL_EXP_TABLE.size(); i++) {
 				if (this.exp < Constant.LEVEL_EXP_TABLE.get(i)) {
 					this.level = i + 1;
 					break;
