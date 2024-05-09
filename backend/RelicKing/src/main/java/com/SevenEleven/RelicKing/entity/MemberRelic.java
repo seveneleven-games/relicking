@@ -24,7 +24,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
-public class MemberRelic {
+public class MemberRelic implements Comparable<MemberRelic> {
 	@Id
 	@Column(name = "member_relic_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -79,5 +79,15 @@ public class MemberRelic {
 				}
 			}
 		}
+	}
+
+	@Override
+	public int compareTo(MemberRelic memberRelic) {
+		if (memberRelic.getRelicNo() > relicNo) {
+			return 1;
+		} else if (memberRelic.getRelicNo() < relicNo) {
+			return -1;
+		}
+		return 0;
 	}
 }
