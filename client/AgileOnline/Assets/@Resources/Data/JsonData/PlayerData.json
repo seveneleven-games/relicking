@@ -8,7 +8,7 @@
       "Description": "가장 기본적인 캐릭터입니다.",
       "MaxHp": 100,
       "Atk": 10,
-      "Speed": 5.0,
+      "Speed": 300.0,
       "CritRate": 0.7,
       "CritDmgRate": 2.0,
       "CoolDown": 1.0
@@ -21,7 +21,7 @@
       "Description": "최대 생명력이 150%",
       "MaxHp": 150,
       "Atk": 10,
-      "Speed": 5.0,
+      "Speed": 300.0,
       "CritRate": 0.7,
       "CritDmgRate": 2.0,
       "CoolDown": 1.0
@@ -34,7 +34,7 @@
       "Description": "최대 생명력 300%",
       "MaxHp": 300,
       "Atk": 10,
-      "Speed": 5.0,
+      "Speed": 350.0,
       "CritRate": 0.7,
       "CritDmgRate": 2.0,
       "CoolDown": 1.0
@@ -47,7 +47,7 @@
       "Description": "체력은 낮지만 빠르고 강합니다.",
       "MaxHp": 80,
       "Atk": 30,
-      "Speed": 8.0,
+      "Speed": 450.0,
       "CritRate": 0.8,
       "CritDmgRate": 2.0,
       "CoolDown": 1.0

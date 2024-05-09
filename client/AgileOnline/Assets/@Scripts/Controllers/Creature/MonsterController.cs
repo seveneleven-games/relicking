@@ -42,7 +42,7 @@ public class MonsterController : CreatureController
     {
         MonsterData data = Managers.Data.MonsterDic[templateId];
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
-        int difficulty = _templateData.difficulty;
+        int difficulty = _templateData.Difficulty;
 
         MonsterId = data.MonsterId;
         PrefabName = data.PrefabName;
@@ -136,24 +136,24 @@ public class MonsterController : CreatureController
     {
         while (true)
         {
-            int damage = Atk;
+            float damage = Atk;
             target.OnDamaged(this, ref damage);
             yield return new WaitForSeconds(0.1f);
         }
     }
     
-    public override bool OnDamaged(BaseController attacker, ref int damage)
+    public override bool OnDamaged(BaseController attacker, ref float damage)
     {
         bool isCritical = base.OnDamaged(attacker, ref damage);
         if (isCritical)
         {
             Debug.Log("크리티컬임!!");   
         }
-        UI_World.Instance.ShowDamage(damage, transform.position + Vector3.up * 1f, isCritical);
+        UI_World.Instance.ShowDamage((int) damage, transform.position + Vector3.up * 1f, isCritical);
         return isCritical;
     }
     
-    protected override void OnDead()
+    public override void OnDead()
     {
         base.OnDead();
         
@@ -161,6 +161,11 @@ public class MonsterController : CreatureController
             StopCoroutine(_coDotDamage);
         _coDotDamage = null;
 
+        if (MonsterType == 2)
+        {
+            _player.IsBossKilled = true;
+        }
+        
         GoldController gc = Managers.Object.Spawn<GoldController>(transform.position, MonsterId);
         gc.InitGold(MonsterId);
         

@@ -42,7 +42,6 @@ public class UI_StorePopup : UI_Popup
     private bool _isSkillPoolFixed = false;
     
     private HashSet<int> _maxSkillTypes = new();
-    private bool _skillPoolFixedInit = false;
     
     // 골드 관련 변수
     private int _gold;
@@ -153,9 +152,9 @@ public class UI_StorePopup : UI_Popup
         else
             skill.SkillId = fixedSkillType*10 + nowLevel;
 
-        if (_isSkillPoolFixed && !_skillPoolFixedInit)
+        if (_isSkillPoolFixed && !_player.SkillPoolFixedInit)
         {
-            _skillPoolFixedInit = true;
+            _player.SkillPoolFixedInit = true;
             
             for (int i = 0; i < 3; i++)
             {

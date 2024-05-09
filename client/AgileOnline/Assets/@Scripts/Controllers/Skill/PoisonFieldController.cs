@@ -7,7 +7,7 @@ using static Define;
 public class PoisonFieldController : SkillController
 {
     private CreatureController _owner;
-    private float _damageInterval = 0.5f;
+    private float _damageInterval = 0.2f;
     private float _lastDamageTime;
 
     private float _scaleUpDuration = 1f;
@@ -21,7 +21,7 @@ public class PoisonFieldController : SkillController
     public string Description { get; private set; }
     public string IconName { get; private set; }
     public float CoolTime { get; private set; }
-    public int Damage { get; private set; }
+    public float Damage { get; private set; }
     public float LifeTime { get; private set; } = 10;
     public float Speed { get; private set; }
     public int ProjectileNum { get; private set; }
@@ -97,8 +97,9 @@ public class PoisonFieldController : SkillController
             MonsterController monster = collider.GetComponent<MonsterController>();
             if (monster != null && monster.IsValid())
             {
-                int damage = Damage;
-                monster.OnDamaged(_owner, ref damage);
+                PlayerController pc = _owner as PlayerController;
+                float realDamage = (Damage * pc.Atk);
+                monster.OnDamaged(_owner, ref realDamage);
             }
         }
     }

@@ -92,6 +92,11 @@ public static class Define
     public static int MY_SKILL_LEVEL = 0;
     
     public static string BASE_URI = "https://k10d211.p.ssafy.io/api/";
+    
+    public static int MIN_SPEED = 1;
+    public static int SPEED_RATE = 600;
+    public static int RANGE = 9;
+
     #endregion
 
 }
