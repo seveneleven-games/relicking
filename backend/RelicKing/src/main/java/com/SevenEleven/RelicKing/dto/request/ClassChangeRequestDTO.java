@@ -15,6 +15,6 @@ public class ClassChangeRequestDTO {
 
     @NotNull
     @Positive
-    private int classNo;
+    private Integer classNo;
 
 }

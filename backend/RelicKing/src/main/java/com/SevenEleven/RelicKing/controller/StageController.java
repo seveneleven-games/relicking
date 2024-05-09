@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -55,7 +56,7 @@ public class StageController {
 		content = @Content(schema = @Schema(implementation = boolean.class))
 	)
 	@PatchMapping()
-	public Response clearStage(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody StageRequestDTO stageRequestDTO) {
+	public Response clearStage(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody @Valid StageRequestDTO stageRequestDTO) {
 		stageService.patchRelicAndRecord(customUserDetails.getMember(), stageRequestDTO);
 		return new Response(HttpStatus.OK.value(), "게임이 클리어 되었습니다.", true);
 	}

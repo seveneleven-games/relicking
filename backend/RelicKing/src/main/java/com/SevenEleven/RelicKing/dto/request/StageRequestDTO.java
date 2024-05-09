@@ -2,38 +2,36 @@ package com.SevenEleven.RelicKing.dto.request;
 
 import java.util.List;
 
+import com.SevenEleven.RelicKing.common.Constant;
 import com.SevenEleven.RelicKing.dto.request.model.SkillDTO;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class StageRequestDTO {
 
 	@PositiveOrZero
-	@NotNull
-	private int eliteKill;
+	private Integer eliteKill;
 
 	@PositiveOrZero
-	@NotNull
-	private int normalKill;
+	private Integer normalKill;
 
-	@PositiveOrZero
+	@Positive
 	@NotNull
-	private int stage;
-
-	@PositiveOrZero
-	@NotNull
-	private int difficulty;
+	@Max(Constant.MAX_STAGE)
+	private Integer stage;
 
 	@NotNull
+	@Positive
+	private Integer difficulty;
+
+	@NotNull
+	@Valid
 	private List<SkillDTO> skillList;
 
 }
