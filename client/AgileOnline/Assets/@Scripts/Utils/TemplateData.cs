@@ -13,6 +13,7 @@ public class TemplateData : ScriptableObject
     public int playerId = 0;
     public int difficulty = 1;
 
+    public List<InventoryRelicDataRes> OwnedRelics;
     public event Action<int, int[]> OnPlayerStatusChagned;
     private int selectedClassId = 1;
     public int SelectedClassId
