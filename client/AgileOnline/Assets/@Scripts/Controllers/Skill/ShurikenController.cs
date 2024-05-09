@@ -49,6 +49,13 @@ public class ShurikenController : SkillController
         StartDestroy(LifeTime);
     }
     
+    public override void UpdateController()
+    {
+        base.UpdateController();
+
+        transform.position += _moveDir * Speed * Time.deltaTime;
+    }
+    
     public void SetOwner(CreatureController owner)
     {
         _owner = owner;
@@ -57,7 +64,21 @@ public class ShurikenController : SkillController
     public void SetMoveDirection(Vector3 direction)
     {
         _moveDir = direction.normalized;
-        float angle = Mathf.Atan2(_moveDir.y, _moveDir.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0f, 0f, angle - 90);
+    }
+    
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (this.IsValid() == false)
+            return;
+
+        MonsterController monster = collision.gameObject.GetComponent<MonsterController>();
+
+        if (monster.IsValid() == false)
+            return;
+        
+        int damage = Damage;
+        monster.OnDamaged(_owner, ref damage);
+        
+        Managers.Object.Despawn(this);
     }
 }

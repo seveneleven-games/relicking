@@ -412,14 +412,12 @@ public class PlayerController : CreatureController
                 case "Shuriken":
                     for (int i = 0; i < skillData.ProjectileNum; i++)
                     {
-                        Debug.Log("수리검 발사~");
+                        ShurikenController skc = Managers.Object.Spawn<ShurikenController>(transform.position, skillId);
+                        skc.SetOwner(this);
                         float randomAngle = Random.Range(0f, 360f);
-                        Vector3 direction = Quaternion.Euler(0f, 0f, randomAngle) * Vector3.up;
+                        Vector3 moveDirection = Quaternion.Euler(0f, 0f, randomAngle * Mathf.Rad2Deg) * _indicator.up;
                         
-                        ShurikenController shuriken = Managers.Object.Spawn<ShurikenController>(transform.position, skillId);
-                        shuriken.SetOwner(this);
-                        
-                        shuriken.SetMoveDirection(direction);
+                        skc.SetMoveDirection(moveDirection);
                     }
                     break;
                 
