@@ -224,7 +224,7 @@ public class UI_InvenPopup : UI_Popup
         {
             MaxHp += Managers.Data.RelicDic[i].MaxHp;
             Atk += Managers.Data.RelicDic[i].Atk;
-            Speed += Managers.Data.RelicDic[i].Speed / 100f;
+            Speed += Managers.Data.RelicDic[i].Speed;
             CoolDown -= Managers.Data.RelicDic[i].CoolTime / 100f;
         }
 
