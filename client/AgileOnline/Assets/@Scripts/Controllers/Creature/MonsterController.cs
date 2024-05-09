@@ -161,7 +161,7 @@ public class MonsterController : CreatureController
             StopCoroutine(_coDotDamage);
         _coDotDamage = null;
 
-        if (MonsterType == 3)
+        if (MonsterType == 2)
         {
             _player.IsBossKilled = true;
         }
