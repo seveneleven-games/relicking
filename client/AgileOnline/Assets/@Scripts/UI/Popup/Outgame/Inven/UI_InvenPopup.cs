@@ -270,8 +270,11 @@ public class UI_InvenPopup : UI_Popup
             if (inventoryDataRes.status == 200)
             {
                 _templateData.SelectedClassId = inventoryDataRes.data.currentClassNo;
+                Debug.Log($"before clear {_templateData.OwnedRelics.Count}");
                 _templateData.OwnedRelics.Clear();
+                Debug.Log($"after clear {_templateData.OwnedRelics.Count}");
                 _templateData.OwnedRelics = inventoryDataRes.data.myRelicList;
+                Debug.Log($"new input applyed {_templateData.OwnedRelics.Count}");
                 foreach (var OwnedRelic in _templateData.OwnedRelics)
                 {
                     if (OwnedRelic.slot != 0)
@@ -281,6 +284,12 @@ public class UI_InvenPopup : UI_Popup
                 }
 
                 SetClassDetailStatus(_templateData.SelectedClassId, _templateData.EquipedRelicIds);
+
+                GameObject RelicListObject = GetObject((int)EGameObjects.RelicListObject);
+                foreach (Transform child in RelicListObject.transform)
+                {
+                    GameObject.Destroy(child.gameObject);
+                }
 
                 foreach (var OwnedRelic in _templateData.OwnedRelics)
                 {
