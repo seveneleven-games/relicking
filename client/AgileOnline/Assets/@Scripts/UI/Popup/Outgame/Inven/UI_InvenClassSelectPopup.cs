@@ -87,6 +87,8 @@ public class UI_InvenClassSelectPopup : UI_Popup
             int currentClassId = i + 1;
             GameObject ClassObject = Managers.Resource.Instantiate("UI_ClassObject", GetObject((int)EGameObjects.ClassListObject).transform);
             ClassObject.name = $"ClassObject{currentClassId}";
+            Sprite spr = Managers.Resource.Load<Sprite>(Managers.Data.PlayerDic[currentClassId].ThumbnailName);
+            Util.FindChild<Image>(ClassObject, "ClassImage").sprite = spr;
             ClassObject.BindEvent(() => OnClickClassSelectButton(currentClassId));
         }
 

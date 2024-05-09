@@ -14,6 +14,7 @@ public class TemplateData : ScriptableObject
     public int difficulty = 1;
 
     public List<InventoryRelicDataRes> OwnedRelics;
+    public event Action<int> OnSelectedClassIdChanged;
     public event Action<int, int[]> OnPlayerStatusChagned;
     private int selectedClassId = 1;
     public int SelectedClassId
@@ -24,6 +25,7 @@ public class TemplateData : ScriptableObject
             if (selectedClassId != value)
             {
                 selectedClassId = value;
+                OnSelectedClassIdChanged?.Invoke(selectedClassId);
                 OnPlayerStatusChagned?.Invoke(selectedClassId, equipedRelicIds);
             }
         }
