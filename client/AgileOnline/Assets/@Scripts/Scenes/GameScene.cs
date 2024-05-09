@@ -201,7 +201,7 @@ public class GameScene : BaseScene
         }
         
         //todo(전지환) : 테스트 끝나면 원래 시간으로 돌려놓기 (30f)
-        _timerCoroutine = StartCoroutine(StartTimer(5f));
+        _timerCoroutine = StartCoroutine(StartTimer(30f));
     }
     
     private IEnumerator StartTimer(float duration)
