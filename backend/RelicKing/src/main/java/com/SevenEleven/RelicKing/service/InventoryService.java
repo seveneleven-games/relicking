@@ -30,7 +30,9 @@ public class InventoryService {
 
 	@Transactional(readOnly = true)
 	public InventoryResponseDTO getInventoryInfo(Member member) {
-		List<MemberRelic> memberRelicList = member.getMemberRelics().stream().toList();
+		List<MemberRelic> memberRelicList = new java.util.ArrayList<>(member.getMemberRelics().stream().toList());
+
+		memberRelicList.sort(MemberRelic::compareTo);
 
 		return InventoryResponseDTO.builder()
 			.currentClassNo(member.getCurrentClassNo())
