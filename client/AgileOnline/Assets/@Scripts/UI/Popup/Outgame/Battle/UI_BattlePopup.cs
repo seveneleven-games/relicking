@@ -301,8 +301,9 @@ public class UI_BattlePopup : UI_Popup
         Debug.Log("go Game");
         _templateData.StageId = Managers.Game.CurrentSelectStage.StageId;
 
-        StartCoroutine(Util.GetRequest("/stages", res =>
+        StartCoroutine(Util.JWTGetRequest("stages", res =>
         {
+            Debug.Log(res);
             EnterStageRes enterStageRes = JsonUtility.FromJson<EnterStageRes>(res);
 
             if (enterStageRes != null)
