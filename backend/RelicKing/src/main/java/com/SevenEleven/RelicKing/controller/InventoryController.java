@@ -74,6 +74,9 @@ public class InventoryController {
 	)
 	@PostMapping("/relics") // Todo 유물 비어있을 때 바꾸는 로직
 	public Response changeRelic(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody RelicChangeRequestDTO relicChangeRequestDTO) {
+		log.info("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		log.info(relicChangeRequestDTO);
+		log.info("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		inventoryService.changeRelic(customUserDetails.getMember(), relicChangeRequestDTO);
 		return new Response(HttpStatus.OK.value(), "유물이 변경되었습니다.", true);
 	}
