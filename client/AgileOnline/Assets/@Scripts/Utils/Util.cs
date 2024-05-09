@@ -26,6 +26,11 @@ public static class Util
         return component;
     }
 
+    public static float UnitySpeed(float speed)
+    {
+        return MIN_SPEED + (speed/SPEED_RATE) * RANGE;
+    }
+
     public static GameObject FindChild(GameObject go, string name = null, bool recursive = false)
     {
         Transform transform = FindChild<Transform>(go, name, recursive);

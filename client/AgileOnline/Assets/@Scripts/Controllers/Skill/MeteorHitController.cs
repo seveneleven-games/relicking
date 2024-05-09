@@ -15,7 +15,7 @@ public class MeteorHitController : SkillController
     public string Description { get; private set; }
     public string IconName { get; private set; }
     public float CoolTime { get; private set; }
-    public int Damage { get; private set; }
+    public float Damage { get; private set; }
     public float LifeTime { get; private set; } = 10;
     public float Speed { get; private set; }
     public int ProjectileNum { get; private set; }
@@ -65,8 +65,9 @@ public class MeteorHitController : SkillController
             MonsterController monster = collider.GetComponent<MonsterController>();
             if (monster != null)
             {
-                int damage = Damage;
-                monster.OnDamaged(_owner, ref damage);
+                PlayerController pc = _owner as PlayerController;
+                float realDamage = (Damage * pc.Atk);
+                monster.OnDamaged(_owner, ref realDamage);
             }
         }
     }

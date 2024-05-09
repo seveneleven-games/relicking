@@ -70,8 +70,7 @@ public class PlayerController : CreatureController
 
         PlayerSkillList = new List<int>(new int[6]);
         PlayerRelicList = new List<int>(new int[6]);
-
-        // 보는 방향 정해주는 더미 오브젝트
+        
         GameObject indicatorObject = new GameObject("Indicator");
         indicatorObject.transform.SetParent(transform);
         indicatorObject.transform.localPosition = Vector3.zero;
@@ -100,21 +99,25 @@ public class PlayerController : CreatureController
         CritDmgRate = data.CritDmgRate;
         CoolDown = data.CoolDown;
         
-        Debug.Log("현재 공격력은~ : " + Atk);
-        
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
         
         int[] relicIds = _templateData.EquipedRelicIds;
         foreach (int relicId in relicIds)
         {
             RelicData relicData = Managers.Data.RelicDic[relicId];
-            Atk *= 1 + (relicData.Atk / 100f);
+            Atk += relicData.Atk;
+            MaxHp += relicData.MaxHp;
+            Speed += relicData.Speed;
+            CoolDown -= relicData.CoolTime / 100f;
         }
+
+        if (CoolDown < 0.1)
+            CoolDown = 0.1f;
     }
 
     private void Update()
     {
-        Vector3 dir = _moveDir * Time.deltaTime * Speed;
+        Vector3 dir = _moveDir * Time.deltaTime * Util.UnitySpeed(Speed);
 
         transform.TranslateEx(dir);
 
@@ -180,7 +183,7 @@ public class PlayerController : CreatureController
             popup.UpdateRemainGoldText(PlayerGold);
     }
 
-    public override bool OnDamaged(BaseController attacker,ref int damage)
+    public override bool OnDamaged(BaseController attacker,ref float damage)
     {
         base.OnDamaged(attacker, ref damage);
         UI_World.Instance.UpdatePlayerHealth(Hp, MaxHp);
@@ -240,7 +243,7 @@ public class PlayerController : CreatureController
     IEnumerator CoStartSkill(int skillId)
     {
         SkillData skillData = Managers.Data.SkillDic[skillId];
-        WaitForSeconds coolTimeWait = new WaitForSeconds(skillData.CoolTime);
+        WaitForSeconds coolTimeWait = new WaitForSeconds(skillData.CoolTime * CoolDown);
 
         while (true)
         {
@@ -382,7 +385,9 @@ public class PlayerController : CreatureController
                 case "ChainLightning":
                     for (int i = 0; i < skillData.ProjectileNum; i++)
                     {
-                        int toInt = Mathf.RoundToInt(Managers.Data.SkillDic[skillId].Damage * Atk);
+                        float damageFloat = Managers.Data.SkillDic[skillId].Damage;
+                        float realDamage = (damageFloat * Atk);
+                        
                         List<MonsterController> chainMonsters = new List<MonsterController>();
                         Collider2D[] chainColliders = Physics2D.OverlapCircleAll(transform.position, 10f);
                         foreach (Collider2D collider in chainColliders)
@@ -399,7 +404,7 @@ public class PlayerController : CreatureController
                         Vector3 startPoint = transform.position;
                         foreach (MonsterController monster in chainTargetMonsters)
                         {
-                            monster.OnDamaged(this, ref toInt);
+                            monster.OnDamaged(this, ref realDamage);
                             Vector3 endPoint = monster.transform.position;
                             Managers.Object.Spawn<ChainLightningController>(startPoint, skillId, new object[] { startPoint, endPoint });
                             startPoint = endPoint;
