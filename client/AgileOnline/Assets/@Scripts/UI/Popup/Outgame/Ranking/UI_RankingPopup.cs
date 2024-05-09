@@ -90,6 +90,17 @@ public class UI_RankingPopup : UI_Popup
 
     private int _wantStage = 1; 
     
+    
+    void OnEnable() 
+    {
+        UI_StageSelectPopup.OnStageSelected += UpdateStage;
+    }
+
+    void OnDisable() 
+    {
+        UI_StageSelectPopup.OnStageSelected -= UpdateStage;
+    }
+    
     public override bool Init()
     {
         if (base.Init() == false)
@@ -105,7 +116,6 @@ public class UI_RankingPopup : UI_Popup
 
         #endregion
 
-        UI_StageSelectPopup.OnStageSelected += UpdateStage;
         
         GetRankingInfo();
         Refresh();
@@ -115,7 +125,7 @@ public class UI_RankingPopup : UI_Popup
     
     void OnDestroy()
     {
-        UI_StageSelectPopup.OnStageSelected -= UpdateStage;
+        
     }
     
     private void UpdateStage(int stage)
@@ -201,7 +211,7 @@ public class UI_RankingPopup : UI_Popup
         Managers.UI.ShowPopupUI<UI_StageSelectPopup>();
         
     }
-
+    
     void OnClickRankingDetailButton(MyRankingInfo myRankingInfo)
     {
         Debug.Log("RankingDetail");
