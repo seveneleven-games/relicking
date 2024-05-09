@@ -66,6 +66,7 @@ public class RankingService {
 
         data.put("eliteKill", record.getEliteKill());
         data.put("normalKill", record.getNormalKill());
+        data.put("updatedDate", record.getUpdatedDate());
         data.put("relicList", record.getRecordRelics());
         data.put("skillList", record.getRecordSkills());
 
