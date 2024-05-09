@@ -11,11 +11,13 @@ import com.SevenEleven.RelicKing.dto.response.LoginResponseDTO;
 import com.SevenEleven.RelicKing.service.TestService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-
-@Tag(name = "Test", description = "더미 사용자 정보 제공하는 API")
+// Todo 삭제
+@Tag(name = "Test", description = "더미 사용자 정보 제공하는 테스트용 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/test")
@@ -28,8 +30,8 @@ public class TestController {
 		description = "더미 사용자 정보 반환"
 	)
 	@ApiResponse(
-		responseCode = "200",
-		description = "로그인 되었습니다."
+		responseCode = "200", description = "로그인 되었습니다.",
+		content = @Content(schema = @Schema(implementation = LoginResponseDTO.class))
 	)
 	@GetMapping("/login")
 	public Response testLogin() {
@@ -42,8 +44,8 @@ public class TestController {
 		description = "더미 사용자 인벤토리 정보 반환"
 	)
 	@ApiResponse(
-		responseCode = "200",
-		description = "인벤토리 정보 조회에 성공했습니다."
+		responseCode = "200", description = "인벤토리 정보 조회에 성공했습니다.",
+		content = @Content(schema = @Schema(implementation = InventoryResponseDTO.class))
 	)
 	@GetMapping("/inventories")
 	public Response getInventory() {

@@ -1,6 +1,9 @@
 package com.SevenEleven.RelicKing.dto.response;
 
-import com.SevenEleven.RelicKing.dto.response.model.StageDifficultyDTO;
+import java.util.List;
+import java.util.Map;
+
+import com.SevenEleven.RelicKing.dto.model.RelicDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,5 +26,10 @@ public class LoginResponseDTO {
 
 	private String nickname;
 
-	private StageDifficultyDTO stageData;
+	private Map<String, Integer> stageData;
+
+	private int currentClassNo;
+
+	private List<RelicDTO> relicList;
+
 }

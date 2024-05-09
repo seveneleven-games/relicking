@@ -1,6 +1,6 @@
 package com.SevenEleven.RelicKing.entity;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +18,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,7 +29,7 @@ import lombok.ToString;
 @Getter
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(exclude = {"recordRelics", "recordSkills"})
 @EntityListeners(AuditingEntityListener.class)
 public class Record {
@@ -60,14 +61,14 @@ public class Record {
 	@LastModifiedDate
 	@Column(nullable = false)
 	@Builder.Default
-	private LocalDate updatedDate = LocalDate.now();
+	private LocalDateTime updatedDate = LocalDateTime.now();
 
-	@ElementCollection(fetch = FetchType.EAGER)
+	@ElementCollection(fetch = FetchType.LAZY)
 	@CollectionTable(name = "record_relic", joinColumns = @JoinColumn(name = "record_id"))
 	@Builder.Default
 	private List<RecordRelic> recordRelics = new ArrayList<>(6);
 
-	@ElementCollection(fetch = FetchType.EAGER)
+	@ElementCollection(fetch = FetchType.LAZY)
 	@CollectionTable(name = "record_skill", joinColumns = @JoinColumn(name = "record_id"))
 	@Builder.Default
 	private List<RecordSkill> recordSkills = new ArrayList<>(6);

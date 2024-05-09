@@ -1,10 +1,16 @@
 package com.SevenEleven.RelicKing.Repository;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.IntStream;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.SevenEleven.RelicKing.common.Constant;
 import com.SevenEleven.RelicKing.entity.Member;
 import com.SevenEleven.RelicKing.entity.MemberRelic;
 import com.SevenEleven.RelicKing.repository.MemberRelicRepository;
@@ -32,15 +38,24 @@ public class MemberRelicRepositoryTests {
 
 	@Test
 	public void insertTest() {
-		Member member = memberRepository.findById(1).orElseThrow();
-		for (int i = 1; i <= 6; i++ ) {
-			MemberRelic memberRelic = MemberRelic.builder()
-				.member(member)
-				.relicNo(i)
-				.slot(i)
-				.build();
+		for (int i = 1; i <= 100; i++) {
+			Member member = memberRepository.findByMemberId(i).orElseThrow();
 
-			memberRelicRepository.save(memberRelic);
+			List<Integer> relicNoList = new java.util.ArrayList<>(
+				IntStream.rangeClosed(1, Constant.THE_NUMBER_OF_C).boxed().toList());
+			Collections.shuffle(relicNoList);
+
+			Random rand = new Random();
+
+			for (int j = 1; j <= rand.nextInt(Constant.THE_NUMBER_OF_C) + 1; j++ ) {
+				MemberRelic memberRelic = MemberRelic.builder()
+					.member(member)
+					.relicNo(relicNoList.get(j - 1))
+					.slot(j > 6 ? 0 : j)
+					.build();
+				memberRelic.plusExp(Constant.LEVEL_EXP_TABLE.get(rand.nextInt(10)) - 1);
+				memberRelicRepository.save(memberRelic);
+			}
 		}
 	}
 

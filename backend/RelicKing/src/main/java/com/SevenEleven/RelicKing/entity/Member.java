@@ -1,7 +1,8 @@
 package com.SevenEleven.RelicKing.entity;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -16,8 +17,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,62 +29,114 @@ import lombok.ToString;
 @Getter
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(exclude = {"memberRelics", "records"})
 @EntityListeners(AuditingEntityListener.class)
-public class Member {
+public class Member { // Todo 엔티티 빌더 빼고 생성자 만들기
 
 	@Id
 	@Column(name = "member_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int memberId;
 
-	@Column(unique = true)
-	@NotNull
+	@Column(unique = true, nullable = false)
 	@Email
 	@Size(min = 3, max = 255)
 	private String email;
 
-	@Column(unique = true)
-	@NotNull
+	@Column(unique = true, nullable = false)
 	@Size(max = 12)
 	private String nickname;
 
-	@NotNull
+	@Column(nullable = false)
 	private String password;
 
 	@Builder.Default
-	@NotNull
+	@Column(nullable = false)
 	private int gacha = 0;
 
 	@Builder.Default
-	@NotNull
-	private int currentClassNo = 0;
+	@Column(nullable = false)
+	private int currentClassNo = 1;
 
 	@Builder.Default
-	@NotNull
-	private int cumulativeLockTime = 0;
+	@Column(nullable = false)
+	private int todayLockTime = 0;
 
 	@Builder.Default
-	@NotNull
+	@Column(nullable = false)
+	private int yesterdayLockTime = 0;
+
+	@Builder.Default
+	@Column(nullable = false)
+	private int totalLockTime = 0;
+
+	@Builder.Default
+	@Column(nullable = false)
 	private int continuousLockDate = 0;
+
+	@Builder.Default
+	@Column(nullable = false)
+	private int continuousLockDatePrev = 0;
 
 	private LocalDate lastLockDate;
 
-	@NotNull
+	@Column(nullable = false)
 	private boolean withdrawalYn;
 
 	@CreatedDate
-	@Column(updatable = false)
-	@NotNull
+	@Column(updatable = false, nullable = false)
 	private LocalDate createdDate;
 
-	@NotNull
+	@Column(nullable = false)
 	private boolean lockYn;
 
-	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<MemberRelic> memberRelics;
+	@Column(nullable = false)
+	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@Builder.Default
+	private Set<MemberRelic> memberRelics = new LinkedHashSet<>();
 
-	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<Record> records;
+	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@Builder.Default
+	private Set<Record> records = new LinkedHashSet<>();
+
+	public void changeCurrentClassNo(int classNo) {
+		this.currentClassNo = classNo;
+	}
+
+	public void changeGacha(int gacha) {
+		this.gacha = gacha;
+	}
+
+	public void updateTodayLockTime(int todayLockTimeAfterLock) {
+		this.todayLockTime = todayLockTimeAfterLock;
+	}
+
+	public void updateYesterdayLockTime(int yesterdayLockTimeAfterLock) {
+		this.yesterdayLockTime = yesterdayLockTimeAfterLock;
+	}
+
+	public void updateTotalLockTimeAfterLock(int totalLockTimeAfterLock) {
+		this.totalLockTime = totalLockTimeAfterLock;
+	}
+
+	public void updateLastLockDate() {
+		this.lastLockDate = LocalDate.now();
+	}
+
+	public void addContinuousLockDate() {
+		this.continuousLockDate = this.continuousLockDatePrev + 1;
+	}
+
+	public void addContinuousLockDatePrev() {
+		this.continuousLockDatePrev++;
+	}
+
+	public void updateNickname(String newNickname) {
+		this.nickname = newNickname;
+	}
+
+	public void updatePassword(String newEncryptedPassword) {
+		this.password = newEncryptedPassword;
+	}
 }

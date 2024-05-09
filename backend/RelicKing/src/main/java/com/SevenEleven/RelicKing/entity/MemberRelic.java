@@ -1,5 +1,6 @@
 package com.SevenEleven.RelicKing.entity;
 
+import com.SevenEleven.RelicKing.common.Constant;
 import com.SevenEleven.RelicKing.dto.model.MemberRelicDTO;
 
 import jakarta.persistence.Column;
@@ -10,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,7 +22,7 @@ import lombok.ToString;
 @Getter
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 public class MemberRelic {
 	@Id
@@ -33,7 +35,7 @@ public class MemberRelic {
 	private Member member;
 
 	@Builder.Default
-	@Column(nullable = false)
+	@Column(nullable = false, updatable = false)
 	private int relicNo = 0;
 
 	@Builder.Default
@@ -55,5 +57,27 @@ public class MemberRelic {
 			.exp(memberRelic.getExp())
 			.slot(memberRelic.getSlot())
 			.build();
+	}
+
+	public void changeSlot(int slot) {
+		this.slot = slot;
+	}
+
+	public void plusExp(int exp) {
+		if (this.level != Constant.LEVEL_EXP_TABLE.size()){
+			this.exp += exp;
+			setLevel();
+		}
+	}
+
+	private void setLevel() {
+		if (this.level < Constant.LEVEL_EXP_TABLE.size()) {
+			for (int i = 0; i < Constant.LEVEL_EXP_TABLE.size(); i++) {
+				if (this.exp < Constant.LEVEL_EXP_TABLE.get(i)) {
+					this.level = i + 1;
+					break;
+				}
+			}
+		}
 	}
 }
