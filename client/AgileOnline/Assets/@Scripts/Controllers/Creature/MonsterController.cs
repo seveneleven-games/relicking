@@ -42,7 +42,7 @@ public class MonsterController : CreatureController
     {
         MonsterData data = Managers.Data.MonsterDic[templateId];
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
-        int difficulty = _templateData.difficulty;
+        int difficulty = _templateData.Difficulty;
 
         MonsterId = data.MonsterId;
         PrefabName = data.PrefabName;
@@ -153,7 +153,7 @@ public class MonsterController : CreatureController
         return isCritical;
     }
     
-    protected override void OnDead()
+    public override void OnDead()
     {
         base.OnDead();
         
@@ -161,6 +161,11 @@ public class MonsterController : CreatureController
             StopCoroutine(_coDotDamage);
         _coDotDamage = null;
 
+        if (MonsterType == 2)
+        {
+            _player.IsBossKilled = true;
+        }
+        
         GoldController gc = Managers.Object.Spawn<GoldController>(transform.position, MonsterId);
         gc.InitGold(MonsterId);
         

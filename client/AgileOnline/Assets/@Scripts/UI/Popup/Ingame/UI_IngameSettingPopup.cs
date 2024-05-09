@@ -88,7 +88,7 @@ public class UI_IngameSettingPopup : UI_Popup
             Debug.Log(skillId);
         }
 
-        for (int i = (int)GameObjects.RelicSlot1; i <= (int)GameObjects.RelicSlot5; i++)
+        for (int i = (int)GameObjects.RelicSlot1; i <= (int)GameObjects.RelicSlot6; i++)
         {
             GameObject relicSlot = GetObject(i);
             int relicIndex = i - (int)GameObjects.RelicSlot1;
@@ -105,7 +105,7 @@ public class UI_IngameSettingPopup : UI_Popup
             }
         }
 
-        for (int i = (int)GameObjects.SkillSlot1; i <= (int)GameObjects.SkillSlot5; i++)
+        for (int i = (int)GameObjects.SkillSlot1; i <= (int)GameObjects.SkillSlot6; i++)
         {
             GameObject skillSlot = GetObject(i);
             int skillIndex = i - (int)GameObjects.SkillSlot1;

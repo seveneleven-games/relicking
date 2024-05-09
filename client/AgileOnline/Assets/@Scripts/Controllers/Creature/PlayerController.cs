@@ -22,6 +22,23 @@ public class PlayerController : CreatureController
 
     private int playerGold = INITIAL_GOLD;
 
+    // 스킬풀 플래그 변수
+    public bool SkillPoolFixedInit { get; set; } = false;
+
+    // 보스킬 플래그 변수
+    public event Action OnBossKilled;
+    private bool _isBossKilled = false;
+
+    public bool IsBossKilled
+    {
+        get {return _isBossKilled; }
+        set
+        {
+            _isBossKilled = value;
+            OnBossKilled?.Invoke();
+        }
+    }
+    
     public int PlayerGold
     {
         get { return playerGold; }
@@ -490,7 +507,7 @@ public class PlayerController : CreatureController
 
     #region OnDead -> Lobby
 
-    protected override void OnDead()
+    public override void OnDead()
     {
         base.OnDead();
         
@@ -545,7 +562,7 @@ public class PlayerController : CreatureController
         }
     }
 
-    private void DestroyObjects(string name)
+    public void DestroyObjects(string name)
     {
         GameObject obj = GameObject.Find(name);
         if (obj != null)
