@@ -285,7 +285,7 @@ public class GameScene : BaseScene
         clearDataReq.eliteKill = 0;
         clearDataReq.normalKill = 0;
         clearDataReq.stage = Int32.Parse(_nodeMap._stageNo);
-        clearDataReq.difficulty = _templateData.difficulty;
+        clearDataReq.difficulty = _templateData.Difficulty;
             
         List<Skill> skillList = _player.PlayerSkillList
             .Select((skillId, index) => new Skill

@@ -6,17 +6,23 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "TemplateData", menuName = "Custom/TemplateData", order = 1)]
 public class TemplateData : ScriptableObject
 {
-    public int[] TemplateIds;
-    public int[] RelicIds;
-    public int StageId;
     public int TempNodeNum = 0;
-    public int playerId = 0;
-    public int difficulty = 1;
+    
+    
+    public int StageId;
+    public int Difficulty = 1;
 
+    
     public List<InventoryRelicDataRes> OwnedRelics;
+    
+    
     public event Action<int> OnSelectedClassIdChanged;
+    
+    
     public event Action<int, int[]> OnPlayerStatusChagned;
     private int selectedClassId = 1;
+    
+    
     public int SelectedClassId
     {
         get => selectedClassId;
@@ -30,10 +36,15 @@ public class TemplateData : ScriptableObject
             }
         }
     }
+    
+    
     public int SelectedRelicId = 0;
 
+    
     public event Action<int[]> OnEquipedRelicIdsChanged;
     private int[] equipedRelicIds = new int[6];
+    
+    
     public int[] EquipedRelicIds
     {
         get => equipedRelicIds;
@@ -46,6 +57,8 @@ public class TemplateData : ScriptableObject
             }
         }
     }
+    
+    
     private bool AreArraysEqual(int[] a, int[] b)
     {
         if (a.Length != b.Length)
@@ -63,6 +76,7 @@ public class TemplateData : ScriptableObject
         return true;
     }
 
+    
     public void SetRelicAt(int index, int relicId)
     {
         if (index < 0 || index >= equipedRelicIds.Length)

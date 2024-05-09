@@ -129,7 +129,7 @@ public class UI_DifficultySelectPopup : UI_Popup
         // {
         //     Debug.LogError("Stage ID not found in DicStageClearInfo");
         // }
-        _templateData.difficulty = level;
+        _templateData.Difficulty = level;
         _clearInfo.SelectedDifficulty = level;
         OnDifficultyChanged?.Invoke(level); // 이벤트 발생
         

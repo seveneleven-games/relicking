@@ -22,6 +22,8 @@ public class PlayerController : CreatureController
 
     private int playerGold = INITIAL_GOLD;
 
+    public bool SkillPoolFixedInit { get; set; } = false;
+
     public int PlayerGold
     {
         get { return playerGold; }

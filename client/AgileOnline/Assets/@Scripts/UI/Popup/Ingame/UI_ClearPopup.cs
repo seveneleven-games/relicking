@@ -61,12 +61,13 @@ public class UI_ClearPopup : UI_Popup
         
         GetImage((int)Images.BG).gameObject.BindEvent(ClosePopupUI);
 
+        GetText((int)Texts.StageInfo).text = _templateData.StageId.ToString();
+        GetText((int)Texts.DifficultyInfo).text = _templateData.Difficulty.ToString();
         
         
         //todo(전지환) : 클래스 이미지 스프라이트 추가되면 이미지 바꿔줄 것.
-        
-        // GetImage((int)Images.ClassImage).sprite =
-        //     Managers.Data.PlayerDic[_templateData.playerId].대충스프라이트이름;
+        GetImage((int)Images.ClassImage).sprite = Managers.Resource.Load<Sprite>(
+            Managers.Data.PlayerDic[_templateData.SelectedClassId].ThumbnailName);
 
         for (int i = 0; i < 6; i++)
         {
