@@ -1063,7 +1063,7 @@
       "CoolTime": 3,
       "Damage": 5,
       "LifeTime": 2,
-      "Speed": 7.0,
+      "Speed": 15.0,
       "ProjectileNum": 3
     },
     {
@@ -1076,7 +1076,7 @@
       "CoolTime": 3,
       "Damage": 5,
       "LifeTime": 2,
-      "Speed": 7.0,
+      "Speed": 15.0,
       "ProjectileNum": 3
     },
     {
@@ -1089,7 +1089,7 @@
       "CoolTime": 3,
       "Damage": 5,
       "LifeTime": 2,
-      "Speed": 7.0,
+      "Speed": 15.0,
       "ProjectileNum": 3
     },
     {
@@ -1102,7 +1102,7 @@
       "CoolTime": 3,
       "Damage": 5,
       "LifeTime": 2,
-      "Speed": 7.0,
+      "Speed": 15.0,
       "ProjectileNum": 3
     },
     {
@@ -1115,7 +1115,7 @@
       "CoolTime": 3,
       "Damage": 5,
       "LifeTime": 2,
-      "Speed": 7.0,
+      "Speed": 15.0,
       "ProjectileNum": 3
     },
     {
@@ -1128,7 +1128,7 @@
       "CoolTime": 3,
       "Damage": 5,
       "LifeTime": 2,
-      "Speed": 7.0,
+      "Speed": 15.0,
       "ProjectileNum": 3
     },
     {
@@ -1141,7 +1141,7 @@
       "CoolTime": 3,
       "Damage": 5,
       "LifeTime": 2,
-      "Speed": 7.0,
+      "Speed": 15.0,
       "ProjectileNum": 3
     },
     {
@@ -1154,7 +1154,7 @@
       "CoolTime": 3,
       "Damage": 5,
       "LifeTime": 2,
-      "Speed": 7.0,
+      "Speed": 15.0,
       "ProjectileNum": 3
     },
     {
@@ -1167,7 +1167,7 @@
       "CoolTime": 3,
       "Damage": 5,
       "LifeTime": 2,
-      "Speed": 7.0,
+      "Speed": 15.0,
       "ProjectileNum": 3
     },
     {
