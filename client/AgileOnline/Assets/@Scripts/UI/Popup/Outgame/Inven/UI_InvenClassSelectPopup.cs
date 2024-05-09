@@ -1,14 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using static Util;
 
+[Serializable]
 public class ClassSelectDataReq
 {
     public int classNo;
 }
 
+[Serializable]
 public class ClassSelectDataRes
 {
     public int status;
@@ -16,6 +19,7 @@ public class ClassSelectDataRes
     public ClassSelectRes data;
 }
 
+[Serializable]
 public class ClassSelectRes
 {
     public bool result;
@@ -83,6 +87,8 @@ public class UI_InvenClassSelectPopup : UI_Popup
             int currentClassId = i + 1;
             GameObject ClassObject = Managers.Resource.Instantiate("UI_ClassObject", GetObject((int)EGameObjects.ClassListObject).transform);
             ClassObject.name = $"ClassObject{currentClassId}";
+            Sprite spr = Managers.Resource.Load<Sprite>(Managers.Data.PlayerDic[currentClassId].ThumbnailName);
+            Util.FindChild<Image>(ClassObject, "ClassImage").sprite = spr;
             ClassObject.BindEvent(() => OnClickClassSelectButton(currentClassId));
         }
 
