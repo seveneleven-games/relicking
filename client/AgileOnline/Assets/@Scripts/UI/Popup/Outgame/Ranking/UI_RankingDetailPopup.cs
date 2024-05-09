@@ -316,6 +316,7 @@ public class UI_RankingDetailPopup : UI_Popup
     void OnClickCloseButton()
     {
         Debug.Log("CloseRankingDetail");
-        Managers.UI.ClosePopupUI(this);
+        // 현재 팝업을 비활성화
+        gameObject.SetActive(false);
     }
 }

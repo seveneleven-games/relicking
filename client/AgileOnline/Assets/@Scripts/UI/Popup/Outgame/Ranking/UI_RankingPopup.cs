@@ -88,6 +88,8 @@ public class UI_RankingPopup : UI_Popup
     // 객체관련 두는 곳
     RankingDataRes _rankingDataRes;
 
+    UI_RankingDetailPopup _uiRankingDetailPopup; // 계속 생성되는 것을 방지하기 위해
+
     private int _wantStage = 1; 
     
     
@@ -113,7 +115,11 @@ public class UI_RankingPopup : UI_Popup
         BindText(typeof(ETexts));
 
         GetButton((int)EButtons.StageSelectButton).gameObject.BindEvent(OnClickStageSelectButton);
-
+        
+        // 계속 생성되는 것을 방지하기 위해
+        _uiRankingDetailPopup = Managers.UI.ShowPopupUI<UI_RankingDetailPopup>();
+        _uiRankingDetailPopup.gameObject.SetActive(false);
+        
         #endregion
 
         
@@ -123,10 +129,6 @@ public class UI_RankingPopup : UI_Popup
         return true;
     }
     
-    void OnDestroy()
-    {
-        
-    }
     
     private void UpdateStage(int stage)
     {
@@ -215,8 +217,8 @@ public class UI_RankingPopup : UI_Popup
     void OnClickRankingDetailButton(MyRankingInfo myRankingInfo)
     {
         Debug.Log("RankingDetail");
-        UI_RankingDetailPopup popup = Managers.UI.ShowPopupUI<UI_RankingDetailPopup>();
         // 디테일 쪽에 내 랭킹 정보 그대로 보내줘야됨....(정보를 쬐매만 줌.) -> 원하는 스테이지 정보도 같이 보내주기!!
-        popup.SetMyRankingInfo(myRankingInfo);
+        _uiRankingDetailPopup.gameObject.SetActive(true);
+        _uiRankingDetailPopup.SetMyRankingInfo(myRankingInfo);
     }
 }
