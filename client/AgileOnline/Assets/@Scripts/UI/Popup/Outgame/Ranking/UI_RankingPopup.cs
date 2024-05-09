@@ -126,7 +126,7 @@ public class UI_RankingPopup : UI_Popup
     {
         GetText((int)ETexts.MyRank).text = $"{_rankingDataRes.data.stage1.myRank.rank}";
         GetText((int)ETexts.MyNickName).text = _rankingDataRes.data.stage1.myRank.nickname;
-        GetText((int)ETexts.MyClass).text = $"{_rankingDataRes.data.stage1.myRank.classNo}"; // 임시
+        GetText((int)ETexts.MyClass).text = Managers.Data.PlayerDic[_rankingDataRes.data.stage1.myRank.classNo].Name;
         GetText((int)ETexts.MyDifficulty).text = $"{_rankingDataRes.data.stage1.myRank.difficulty}";
         GetButton((int)EButtons.MyRankingButton).gameObject.BindEvent(() => OnClickRankingDetailButton(_rankingDataRes.data.stage1.myRank));
     }

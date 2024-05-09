@@ -437,8 +437,26 @@ public class PlayerController : CreatureController
                     break;
                 
                 case "StormBlade":
+                    StartCoroutine(ShootStormBlades(skillData.ProjectileNum, skillId));
                     break;
             }
+        }
+    }
+    
+    private IEnumerator ShootStormBlades(int projectileNum, int skillId)
+    {
+        for (int i = 0; i < projectileNum; i++)
+        {
+            StormBladeController sbc =
+                Managers.Object.Spawn<StormBladeController>(transform.position, skillId);
+            sbc.SetOwner(this);
+
+            float angle = 0;
+
+            Vector3 moveDirection = Quaternion.Euler(0f, 0f, angle * Mathf.Rad2Deg) * _indicator.up;
+            sbc.SetMoveDirection(moveDirection);
+
+            yield return new WaitForSeconds(0.1f);
         }
     }
     

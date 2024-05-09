@@ -11,7 +11,7 @@ public class UI_InvenRelicInfoPopup : UI_Popup
     enum EGameObjects
     {
         ContentObjet,
-        RelicExpSliderObject,
+        //RelicExpSliderObject,
     }
 
     enum EButtons
@@ -24,7 +24,7 @@ public class UI_InvenRelicInfoPopup : UI_Popup
 
     enum ETexts
     {
-        LevelText,
+        RelicLevelText,
         RelicNameText,
         RelicDescriptionText,
     }
@@ -67,7 +67,9 @@ public class UI_InvenRelicInfoPopup : UI_Popup
         RelicData relicData = Managers.Data.RelicDic[_templateData.SelectedRelicId];
 
         GetText((int)ETexts.RelicNameText).text = relicData.Name;
-        GetText((int)ETexts.RelicDescriptionText).text = relicData.Description;
+        GetText((int)ETexts.RelicDescriptionText).text = relicData.Description + $"\n\n공격력 +{relicData.Atk}  쿨타임 {relicData.CoolTime}%감소 \n최대체력 +{relicData.MaxHp}  이동속도 0.{relicData.Speed} 증가";
+        string levelText = _templateData.SelectedRelicId % 10 == 9 ? "Max" : (_templateData.SelectedRelicId % 10).ToString();
+        GetText((int)ETexts.RelicLevelText).text = "Lv." + levelText;
         Sprite spr = Managers.Resource.Load<Sprite>(relicData.ThumbnailName);
         GetImage((int)EImages.RelicImage).sprite = spr;
 
