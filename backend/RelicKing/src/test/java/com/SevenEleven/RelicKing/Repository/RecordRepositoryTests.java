@@ -42,7 +42,7 @@ public class RecordRepositoryTests {
 
 		for (int i = 1; i <= 100; i++) {
 			Member member = memberRepository.findByMemberId(i).orElseThrow();
-			for (int k = 1; k <= 3; k++) {
+			for (int k = 1; k <= Constant.MAX_STAGE; k++) {
 
 				Random rand = new Random();
 				if (rand.nextInt(3) % 3 == 0) {
