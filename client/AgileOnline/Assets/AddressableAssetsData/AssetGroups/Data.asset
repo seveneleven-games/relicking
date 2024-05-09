@@ -54,6 +54,12 @@ MonoBehaviour:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 43cbac1c86704ebcaa0b81a4374be6b2
+    m_Address: RelicDataOld
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e9811c7642f20ca49aeda06759a6543c
     m_Address: RelicData
     m_ReadOnly: 0
     m_SerializedLabels:
