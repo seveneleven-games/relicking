@@ -268,7 +268,7 @@ public class UI_LobbyScene : UI_Scene
     }
     void OnClickRankingToggle()
     {
-        GetImage((int)EImages.Backgroundimage).color = Util.HexToColor("525DAD"); // 배경 색상 변경 (변화필요)
+        GetImage((int)EImages.Backgroundimage).color = Util.HexToColor("87A9AF"); // 배경 색상 변경 (변화필요)
         if (_isSelectedRanking == true) // 활성화 후 토글 클릭 방지
             return;
         
