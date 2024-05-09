@@ -1498,6 +1498,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6074444933491071382, guid: c7f102fcd0d515641b04d9407f5bc9fc, type: 3}
+      propertyPath: m_fontSize
+      value: 48
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074444933491071382, guid: c7f102fcd0d515641b04d9407f5bc9fc, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 48
+      objectReference: {fileID: 0}
     - target: {fileID: 7526213400144560244, guid: c7f102fcd0d515641b04d9407f5bc9fc, type: 3}
       propertyPath: m_Name
       value: RelicSlot3

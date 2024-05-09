@@ -49,6 +49,10 @@ public class UI_ClearPopup : UI_Popup
         if (base.Init() == false)
             return false;
 
+        _templateData = Resources.Load<TemplateData>("GameTemplateData");
+        Debug.Log("받아오니?" + _templateData);
+        _player = Managers.Object.Player;
+        
         BindObject(typeof(GameObjects));
         BindText(typeof(Texts));
         BindButton(typeof(Buttons));
@@ -57,8 +61,7 @@ public class UI_ClearPopup : UI_Popup
         
         GetImage((int)Images.BG).gameObject.BindEvent(ClosePopupUI);
 
-        _templateData = Managers.Resource.Load<TemplateData>("GameTemplateData");
-        _player = Managers.Game.Player;
+        
         
         //todo(전지환) : 클래스 이미지 스프라이트 추가되면 이미지 바꿔줄 것.
         
@@ -67,7 +70,9 @@ public class UI_ClearPopup : UI_Popup
 
         for (int i = 0; i < 6; i++)
         {
-            int relicId = _templateData.RelicIds[i];
+            Debug.Log((_templateData));
+            Debug.Log(_templateData.EquipedRelicIds);
+            int relicId = _templateData.EquipedRelicIds[i];
 
             if (relicId == 0) continue;
             

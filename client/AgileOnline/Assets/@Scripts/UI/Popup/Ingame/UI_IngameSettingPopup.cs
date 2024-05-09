@@ -127,12 +127,12 @@ public class UI_IngameSettingPopup : UI_Popup
                 Transform realTransform = maskTransform.transform.Find("Image");
                 Image skillImage = realTransform.GetComponent<Image>();
                 skillImage.sprite = skillSprite;
+                skillImage.color = new Color(1,1,1,1);
                 skillImage.gameObject.SetActive(true);
                 
-                Transform skillLevelTextTransform = skillSlot.transform.Find("SkillLevelText");
-                TextMeshProUGUI skillLevelText = skillLevelTextTransform.GetComponent<TextMeshProUGUI>();
-                skillLevelText.text = "Level " + Managers.Data.SkillDic[skillId].SkillId % 10;
-                skillLevelText.gameObject.SetActive(true);
+                GameObject levelTextParent = Util.FindChild(GetObject(i), "SkillLevelText");
+                levelTextParent.SetActive(true);
+                Util.FindChild<TMP_Text>(levelTextParent, "LevelText").text = (skillId % 10).ToString();
             }
         }
 
