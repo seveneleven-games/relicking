@@ -14,6 +14,7 @@ namespace Data
     {
         public int PlayerId;
         public string PrefabName;
+        public string ThumbnailName;
         public string Name;
         public int MaxHp;
         public int Atk;
