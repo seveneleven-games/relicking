@@ -81,8 +81,9 @@ public class ElectronicFieldController : SkillController
             MonsterController monster = collider.GetComponent<MonsterController>();
             if (monster != null)
             {
-                float damage = Damage;
-                monster.OnDamaged(_owner, ref damage);
+                PlayerController pc = _owner as PlayerController;
+                float realDamage = (Damage * pc.Atk);
+                monster.OnDamaged(_owner, ref realDamage);
             }
         }
     }

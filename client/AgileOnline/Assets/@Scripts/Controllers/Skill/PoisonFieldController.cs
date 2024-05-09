@@ -7,7 +7,7 @@ using static Define;
 public class PoisonFieldController : SkillController
 {
     private CreatureController _owner;
-    private float _damageInterval = 0.5f;
+    private float _damageInterval = 0.2f;
     private float _lastDamageTime;
 
     private float _scaleUpDuration = 1f;
