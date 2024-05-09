@@ -1,14 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using static Util;
 
+[Serializable]
 public class ClassSelectDataReq
 {
     public int classNo;
 }
 
+[Serializable]
 public class ClassSelectDataRes
 {
     public int status;
@@ -16,6 +19,7 @@ public class ClassSelectDataRes
     public ClassSelectRes data;
 }
 
+[Serializable]
 public class ClassSelectRes
 {
     public bool result;
