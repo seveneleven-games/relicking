@@ -22,6 +22,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -73,7 +74,7 @@ public class InventoryController {
 		content = @Content(schema = @Schema(implementation = boolean.class))
 	)
 	@PostMapping("/relics") // Todo 유물 비어있을 때 바꾸는 로직
-	public Response changeRelic(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody RelicChangeRequestDTO relicChangeRequestDTO) {
+	public Response changeRelic(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody @Valid RelicChangeRequestDTO relicChangeRequestDTO) {
 		inventoryService.changeRelic(customUserDetails.getMember(), relicChangeRequestDTO);
 		return new Response(HttpStatus.OK.value(), "유물이 변경되었습니다.", true);
 	}
