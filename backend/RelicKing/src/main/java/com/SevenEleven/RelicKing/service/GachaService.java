@@ -1,5 +1,7 @@
 package com.SevenEleven.RelicKing.service;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.*;
 
 import com.SevenEleven.RelicKing.common.Constant;
@@ -41,8 +43,6 @@ public class GachaService {
 
 		List<Map<String, Object>> results = new ArrayList<>();
 
-		Random rand = new Random();
-
 		int raritySize = Constant.RELIC_INFO_TABLE.length;
 		int[][] gachaResult = new int[raritySize][];
 		for (int i = 0; i < raritySize; i++) {
@@ -51,30 +51,26 @@ public class GachaService {
 			gachaResult[i] = rarityCountingArray;
 		}
 
-		for (int i = 0; i < gachaRequestDTO.getGachaNum().getValue(); i++) {
-			double w = Math.random();
-			System.out.println("===========================");
-			System.out.println(w);
-			if (w <= 0.6) {
-				gachaResult[0][rand.nextInt(Constant.RELIC_INFO_TABLE[0]) + 1]++;
-			} else if (w <= 0.9) {
-				gachaResult[1][rand.nextInt(Constant.RELIC_INFO_TABLE[1]) + 1]++;
-			} else if (w <= 0.98) {
-				gachaResult[2][rand.nextInt(Constant.RELIC_INFO_TABLE[2]) + 1]++;
-			} else if (w <= 0.9999) {
-				gachaResult[3][rand.nextInt(Constant.RELIC_INFO_TABLE[3]) + 1]++;
-			} else {
-				gachaResult[4][rand.nextInt(Constant.RELIC_INFO_TABLE[4]) + 1]++;
+		try {
+			Random rand = SecureRandom.getInstanceStrong();
+			for (int i = 0; i < gachaRequestDTO.getGachaNum().getValue(); i++) {
+				double w = rand.nextDouble();
+				if (w <= 0.6) {
+					gachaResult[0][rand.nextInt(Constant.RELIC_INFO_TABLE[0]) + 1]++;
+				} else if (w <= 0.9) {
+					gachaResult[1][rand.nextInt(Constant.RELIC_INFO_TABLE[1]) + 1]++;
+				} else if (w <= 0.98) {
+					gachaResult[2][rand.nextInt(Constant.RELIC_INFO_TABLE[2]) + 1]++;
+				} else if (w <= 0.9999) {
+					gachaResult[3][rand.nextInt(Constant.RELIC_INFO_TABLE[3]) + 1]++;
+				} else {
+					gachaResult[4][rand.nextInt(Constant.RELIC_INFO_TABLE[4]) + 1]++;
+				}
 			}
+		} catch (NoSuchAlgorithmException e) {
+			throw new RuntimeException(e);
 		}
 
-		// int[] counting = new int[Constant.THE_NUMBER_OF_C + 1];
-		// Arrays.fill(counting, 0);
-		//
-		// for (int i = 0; i < gachaRequestDTO.getGachaNum().getValue(); i++) {
-		// 	counting[rand.nextInt(Constant.THE_NUMBER_OF_C) + 1]++;
-		// }
-		
 		Set<MemberRelic> memberRelics = member.getMemberRelics();
 		memberRelics.forEach(memberRelic -> {
 			int rarity = memberRelic.getRelicNo()/100;
@@ -125,27 +121,6 @@ public class GachaService {
 				}
 			}
 		}
-
-		// for (int i = 1; i <= Constant.THE_NUMBER_OF_C; i++) {
-		// 	if (counting[i] > 0) {
-		// 		MemberRelic memberRelic = MemberRelic.builder()
-		// 				.member(member)
-		// 				.relicNo(i)
-		// 				.build();
-		// 		int before = memberRelic.getLevel();
-		// 		memberRelic.plusExp(Constant.EXP_GACHA * (counting[i] - 1));
-		// 		int after = memberRelic.getLevel();
-		// 		memberRelicRepository.save(memberRelic);
-		//
-		// 		Map<String, Object> relic = new LinkedHashMap<>();
-		// 		relic.put("relicNo", memberRelic.getRelicNo());
-		// 		relic.put("level", after);
-		// 		relic.put("levelUpYn", after > before);
-		// 		relic.put("newYn", true);
-		//
-		// 		results.add(relic);
-		// 	}
-		// }
 
 		Collections.shuffle(results);
 
