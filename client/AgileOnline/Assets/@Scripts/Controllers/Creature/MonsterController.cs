@@ -60,12 +60,12 @@ public class MonsterController : CreatureController
         MonsterSkillList = new List<int>(new int[3]);
         if (MonsterType == 1)
         {
-            MonsterSkillList[0] = 1000;
+            MonsterSkillList[0] = 1001;
         }
         else if (MonsterType == 2)
         {
-            MonsterSkillList[0] = 1000;
-            MonsterSkillList[1] = 1001;
+            MonsterSkillList[0] = 1001;
+            MonsterSkillList[1] = 1011;
             transform.localScale = new Vector3(3, 3, 1);
         }
     }

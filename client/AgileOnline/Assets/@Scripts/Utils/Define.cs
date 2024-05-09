@@ -63,7 +63,9 @@ public static class Define
         MeteorHit,
         Meteor,
         MeteorShadow,
-        ChainLightning
+        ChainLightning,
+        Shuriken,
+        StormBlade
     }
 
     public enum EJoystickState
