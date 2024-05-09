@@ -1,5 +1,6 @@
 package com.SevenEleven.RelicKing.service;
 
+import com.SevenEleven.RelicKing.common.Constant;
 import com.SevenEleven.RelicKing.common.exception.CustomException;
 import com.SevenEleven.RelicKing.common.exception.ExceptionType;
 import com.SevenEleven.RelicKing.entity.Member;
@@ -21,12 +22,12 @@ public class RankingService {
     private final RecordRepository recordRepository;
 
     public Map<String, Object> getRankings(Member member) {
-        Record[] myRecord = new Record[3];
+        Record[] myRecord = new Record[Constant.MAX_STAGE];
         Arrays.fill(myRecord, Record.builder().member(member).recordId(-1).difficulty(-1).build());
         List<Record> myRecordList = recordRepository.findByMember(member);
         myRecordList.forEach(record -> myRecord[record.getStage() - 1] = record);
         Map<String, Object> data = new LinkedHashMap<>();
-        for (int i = 1; i <= 3; i++) {
+        for (int i = 1; i <= Constant.MAX_STAGE; i++) {
             Map<String, Object> stage = new LinkedHashMap<>();
 
             Map<String, Object> myRank = new LinkedHashMap<>();

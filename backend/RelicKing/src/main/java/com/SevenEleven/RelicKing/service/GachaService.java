@@ -57,11 +57,11 @@ public class GachaService {
 			System.out.println(w);
 			if (w <= 0.6) {
 				gachaResult[0][rand.nextInt(Constant.RELIC_INFO_TABLE[0]) + 1]++;
-			} else if (w <= 0.85) {
+			} else if (w <= 0.9) {
 				gachaResult[1][rand.nextInt(Constant.RELIC_INFO_TABLE[1]) + 1]++;
-			} else if (w <= 0.95) {
+			} else if (w <= 0.98) {
 				gachaResult[2][rand.nextInt(Constant.RELIC_INFO_TABLE[2]) + 1]++;
-			} else if (w <= 0.99) {
+			} else if (w <= 0.9999) {
 				gachaResult[3][rand.nextInt(Constant.RELIC_INFO_TABLE[3]) + 1]++;
 			} else {
 				gachaResult[4][rand.nextInt(Constant.RELIC_INFO_TABLE[4]) + 1]++;
