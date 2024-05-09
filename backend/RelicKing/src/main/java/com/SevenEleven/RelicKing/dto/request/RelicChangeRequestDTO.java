@@ -17,10 +17,10 @@ public class RelicChangeRequestDTO {
 	@NotNull
 	@PositiveOrZero
 	@Max(6)
-	private int slot;
+	private Integer slot;
 
 	@NotNull
 	@PositiveOrZero
-	private int relicNo;
+	private Integer relicNo;
 
 }

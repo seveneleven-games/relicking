@@ -1,10 +1,13 @@
 package com.SevenEleven.RelicKing.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.SevenEleven.RelicKing.common.exception.CustomException;
+import com.SevenEleven.RelicKing.common.exception.ExceptionType;
 import com.SevenEleven.RelicKing.dto.request.RelicChangeRequestDTO;
 import com.SevenEleven.RelicKing.dto.response.InventoryResponseDTO;
 import com.SevenEleven.RelicKing.entity.Member;
@@ -27,20 +30,7 @@ public class InventoryService {
 
 	@Transactional(readOnly = true)
 	public InventoryResponseDTO getInventoryInfo(Member member) {
-		List<MemberRelic> memberRelicList = memberRelicRepository.findByMember(member);
-
-		// Todo 주석 지우기
-		// MemberRelicDTO[] memberRelicDTOS = new MemberRelicDTO[Constant.THE_NUMBER_OF_RELICS];
-		// Arrays.setAll(memberRelicDTOS, i -> new MemberRelicDTO(i + 1, 0, 0, 0));
-		//
-		// memberRelicList.forEach(memberRelic -> {
-		// 	memberRelicDTOS[memberRelic.getRelicNo() - 1] =
-		// 			new MemberRelicDTO(
-		// 					memberRelic.getRelicNo(),
-		// 					memberRelic.getLevel(),
-		// 					memberRelic.getExp(),
-		// 					memberRelic.getSlot());
-		// });
+		List<MemberRelic> memberRelicList = member.getMemberRelics().stream().toList();
 
 		return InventoryResponseDTO.builder()
 			.currentClassNo(member.getCurrentClassNo())
@@ -54,14 +44,24 @@ public class InventoryService {
 	}
 
 	public void changeRelic(Member member, RelicChangeRequestDTO relicChangeRequestDTO) {
-		member.getMemberRelics().forEach(memberRelic -> {
-			if (memberRelic.getSlot() == relicChangeRequestDTO.getSlot()) {
+		int requestRelicNo = relicChangeRequestDTO.getRelicNo();
+		int requestSlotNo = relicChangeRequestDTO.getSlot();
+		Set<MemberRelic> memberRelics = member.getMemberRelics();
+
+		if (requestRelicNo != 0 &&
+			memberRelics.stream().
+				noneMatch(relic -> relic.getRelicNo() == requestRelicNo)) {
+			throw new CustomException(ExceptionType.NO_SUCH_RELIC);
+		}
+
+		memberRelics.forEach(memberRelic -> {
+			if (memberRelic.getSlot() == requestSlotNo) {
 				memberRelic.changeSlot(0);
 				memberRelicRepository.save(memberRelic);
 			}
 
-			if (memberRelic.getRelicNo() == relicChangeRequestDTO.getRelicNo()) {
-				memberRelic.changeSlot(relicChangeRequestDTO.getSlot());
+			if (memberRelic.getRelicNo() == requestRelicNo) {
+				memberRelic.changeSlot(requestSlotNo);
 				memberRelicRepository.save(memberRelic);
 			}
 		});

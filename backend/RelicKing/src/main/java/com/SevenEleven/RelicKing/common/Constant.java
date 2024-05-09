@@ -21,7 +21,7 @@ public interface Constant {
 	// relic
 	List<Integer> LEVEL_EXP_TABLE = Arrays.asList(2000000, 4000000, 8000000, 16000000, 32000000, 64000000, 128000000, 256000000, 512000000, 1024000000);
 	int THE_NUMBER_OF_C = 6;
-	int[] RELIC_INFO_TABLE = {6, 5, 4, 2, 1};
+	int[] RELIC_INFO_TABLE = {4, 5, 5, 6, 1};
 
 	int EXP_GACHA = 1000;
 
