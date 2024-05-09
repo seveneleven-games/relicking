@@ -20,6 +20,7 @@ public class RankingDetail
 {
     public int eliteKill;
     public int normalKill;
+    public string updatedDate;
     public List<RelicDetail> relicList;
     public List<SkillDetail> skillList;
 }
@@ -63,7 +64,7 @@ public class UI_RankingDetailPopup : UI_Popup
     {
         TitleText,
         PlayerName,
-        RecordDate, // 이건 백에서 제공을 안해주는데??
+        RecordDate, 
         DifficultyText,
         EliteKillText,
         KillText,
@@ -138,6 +139,7 @@ public class UI_RankingDetailPopup : UI_Popup
         BindObject(typeof(EGameObjects));
         BindButton(typeof(EButtons));
         BindText(typeof(ETexts));
+        BindImage(typeof(EImages));
 
         GetButton((int)EButtons.ButtonBG).gameObject.BindEvent(OnClickCloseButton);
         GetButton((int)EButtons.CloseButton).gameObject.BindEvent(OnClickCloseButton);
@@ -178,18 +180,24 @@ public class UI_RankingDetailPopup : UI_Popup
                 GetText((int)ETexts.TitleText).text = $"{_myRankingInfo.rank}위 기록";
                 GetText((int)ETexts.PlayerName).text = _myRankingInfo.nickname;
                 GetText((int)ETexts.DifficultyText).text = $"{_myRankingInfo.difficulty}";
+                
+                GetImage((int)EImages.ClassImage).sprite =
+                    Managers.Resource.Load<Sprite>(Managers.Data.PlayerDic[_myRankingInfo.classNo].ThumbnailName);
             }
             else
             {
                 GetText((int)ETexts.TitleText).text = $"{_rank}위 기록";
                 GetText((int)ETexts.PlayerName).text = _rankingInfo.nickname;
                 GetText((int)ETexts.DifficultyText).text = $"{_rankingInfo.difficulty}";
-                
+                GetImage((int)EImages.ClassImage).sprite =
+                    Managers.Resource.Load<Sprite>(Managers.Data.PlayerDic[_rankingInfo.classNo].ThumbnailName);
             }
-            
+
+            GetText((int)ETexts.RecordDate).text = _detailRankingDataRes.data.updatedDate;
             GetText((int)ETexts.EliteKillText).text = $"{_detailRankingDataRes.data.eliteKill}";
             GetText((int)ETexts.KillText).text = $"{_detailRankingDataRes.data.normalKill}";
-
+            
+            
             // 유물 관련 갱신
             foreach (RelicDetail relicDetail in _detailRankingDataRes.data.relicList)
             {

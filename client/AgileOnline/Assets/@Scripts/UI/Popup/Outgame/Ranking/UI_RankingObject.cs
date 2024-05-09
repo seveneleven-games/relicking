@@ -66,9 +66,9 @@ public class UI_RankingObject : UI_Base
     {
         GetText((int)ETexts.Rank).text = $"{rank}";
         GetText((int)ETexts.NickName).text = rankingInfo.nickname;
-        GetText((int)ETexts.Class).text = $"{rankingInfo.classNo}"; // юс╫ц
+        GetText((int)ETexts.Class).text = Managers.Data.PlayerDic[rankingInfo.classNo].Name;
         GetText((int)ETexts.Difficulty).text = $"{rankingInfo.difficulty}";
-        GetButton((int)EButtons.RankingDetailButton).gameObject.BindEvent(()=> OnClickRankingDetailButton(rankingInfo, rank));
+        GetButton((int)EButtons.RankingDetailButton).onClick.AddListener(()=> OnClickRankingDetailButton(rankingInfo, rank));
     }
 
     void OnClickRankingDetailButton(RankingInfo rankingInfo, int rank)
