@@ -10,6 +10,7 @@ import org.springframework.aop.AopInvocationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -63,10 +64,12 @@ public class RankingService {
             .orElseThrow(() -> new CustomException(ExceptionType.NO_SUCH_RECORD));
 
         Map<String, Object> data = new LinkedHashMap<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
+        String formattedDateTime = record.getUpdatedDate().format(formatter);
 
         data.put("eliteKill", record.getEliteKill());
         data.put("normalKill", record.getNormalKill());
-        data.put("updatedDate", record.getUpdatedDate());
+        data.put("updatedDate", formattedDateTime);
         data.put("relicList", record.getRecordRelics());
         data.put("skillList", record.getRecordSkills());
 
