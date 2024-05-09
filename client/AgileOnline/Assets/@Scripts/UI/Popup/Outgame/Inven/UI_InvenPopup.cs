@@ -241,8 +241,12 @@ public class UI_InvenPopup : UI_Popup
 
     void SetClassImage(int num)
     {
-        Sprite spr = Managers.Resource.Load<Sprite>(Managers.Data.PlayerDic[_templateData.SelectedClassId].ThumbnailName);
-        GetImage((int)EImages.ClassImage).sprite = spr;
+        Image image = GetImage((int)EImages.ClassImage);
+        if (image != null)
+        {
+            Sprite spr = Managers.Resource.Load<Sprite>(Managers.Data.PlayerDic[num].ThumbnailName);
+            image.sprite = spr;
+        }
     }
 
     void SetEquipedRelicImages(int[] nums)
