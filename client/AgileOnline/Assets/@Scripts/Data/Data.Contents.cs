@@ -117,7 +117,7 @@ namespace Data
         public string Description;
         public string IconName; 
         public float CoolTime;
-        public int Damage;
+        public float Damage;
         public float LifeTime;
         public float Speed;
         public int ProjectileNum;

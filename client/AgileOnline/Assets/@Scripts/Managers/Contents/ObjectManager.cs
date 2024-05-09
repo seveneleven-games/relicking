@@ -254,7 +254,6 @@ public class ObjectManager
                     sc.transform.parent = MeteorHitRoot;
                     MeteorHitController mhc = sc.GetComponent<MeteorHitController>();
                     MeteorHits.Add(mhc);
-                    mhc.InitSkill(templateId);
                     break;
                 
                 case ESkillType.ChainLightning:

@@ -136,20 +136,20 @@ public class MonsterController : CreatureController
     {
         while (true)
         {
-            int damage = Atk;
+            float damage = Atk;
             target.OnDamaged(this, ref damage);
             yield return new WaitForSeconds(0.1f);
         }
     }
     
-    public override bool OnDamaged(BaseController attacker, ref int damage)
+    public override bool OnDamaged(BaseController attacker, ref float damage)
     {
         bool isCritical = base.OnDamaged(attacker, ref damage);
         if (isCritical)
         {
             Debug.Log("크리티컬임!!");   
         }
-        UI_World.Instance.ShowDamage(damage, transform.position + Vector3.up * 1f, isCritical);
+        UI_World.Instance.ShowDamage((int) damage, transform.position + Vector3.up * 1f, isCritical);
         return isCritical;
     }
     

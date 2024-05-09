@@ -34,7 +34,7 @@ public class CreatureController : BaseController
         return true;
     }
 
-    public virtual bool OnDamaged(BaseController attacker, ref int damage)
+    public virtual bool OnDamaged(BaseController attacker, ref float damage)
     {
         bool isCritical = false;
         
@@ -53,7 +53,7 @@ public class CreatureController : BaseController
             Debug.Log("플레이어 아님..");
         }
         
-        Hp -= damage;
+        Hp -= (int) damage;
         if (Hp <= 0)
         {
             Hp = 0;
