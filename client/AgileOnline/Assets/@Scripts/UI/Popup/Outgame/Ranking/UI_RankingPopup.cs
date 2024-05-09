@@ -88,6 +88,7 @@ public class UI_RankingPopup : UI_Popup
     // 객체관련 두는 곳
     RankingDataRes _rankingDataRes;
 
+    private int _wantStage = 1; 
     
     public override bool Init()
     {
@@ -104,18 +105,35 @@ public class UI_RankingPopup : UI_Popup
 
         #endregion
 
+        UI_StageSelectPopup.OnStageSelected += UpdateStage;
+        
         GetRankingInfo();
         Refresh();
 
         return true;
     }
-
+    
+    void OnDestroy()
+    {
+        UI_StageSelectPopup.OnStageSelected -= UpdateStage;
+    }
+    
+    private void UpdateStage(int stage)
+    {
+        _wantStage = stage;
+        Refresh();
+        GetRankingInfo();
+    }
+    
     void GetRankingInfo()
     {
         StartCoroutine(JWTGetRequest("rankings", res =>
         {
             // json -> 객체로 변환
             _rankingDataRes = JsonUtility.FromJson<RankingDataRes>(res);
+
+            GetText((int)ETexts.StageText).text = $"Stage {_wantStage}";
+            
             SetMyInfo();
             GenerateRankingList();
         }));
@@ -124,13 +142,29 @@ public class UI_RankingPopup : UI_Popup
     // 자기 정보 가져오기
     void SetMyInfo()
     {
-        GetText((int)ETexts.MyRank).text = $"{_rankingDataRes.data.stage1.myRank.rank}";
-        GetText((int)ETexts.MyNickName).text = _rankingDataRes.data.stage1.myRank.nickname;
-        GetText((int)ETexts.MyClass).text = Managers.Data.PlayerDic[_rankingDataRes.data.stage1.myRank.classNo].Name;
-        GetText((int)ETexts.MyDifficulty).text = $"{_rankingDataRes.data.stage1.myRank.difficulty}";
-        GetButton((int)EButtons.MyRankingButton).gameObject.BindEvent(() => OnClickRankingDetailButton(_rankingDataRes.data.stage1.myRank));
+        StageRanking currentRanking = GetCurrentStageRanking();
+        GetText((int)ETexts.MyRank).text = $"{currentRanking.myRank.rank}";
+        GetText((int)ETexts.MyNickName).text = currentRanking.myRank.nickname;
+        GetText((int)ETexts.MyClass).text = Managers.Data.PlayerDic[currentRanking.myRank.classNo].Name;
+        GetText((int)ETexts.MyDifficulty).text = $"{currentRanking.myRank.difficulty}";
+        GetButton((int)EButtons.MyRankingButton).gameObject.BindEvent(() => OnClickRankingDetailButton(currentRanking.myRank));
     }
     
+    
+    StageRanking GetCurrentStageRanking()
+    {
+        switch (_wantStage)
+        {
+            case 1:
+                return _rankingDataRes.data.stage1;
+            case 2:
+                return _rankingDataRes.data.stage2;
+            case 3:
+                return _rankingDataRes.data.stage3;
+            default:
+                return _rankingDataRes.data.stage1;
+        }
+    }
     
     // 랭킹 리스트 만들기
     void GenerateRankingList()
@@ -139,11 +173,11 @@ public class UI_RankingPopup : UI_Popup
             GameObject container = GetObject((int)EGameObjects.Content);
             container.DestroyChilds();
 
-            StageRanking stageRanking = _rankingDataRes.data.stage1;
+            StageRanking currentRanking = GetCurrentStageRanking();
             
-            for (int i = 0; i < stageRanking.rankList.Count; i++)
+            for (int i = 0; i < currentRanking.rankList.Count; i++)
             {
-                RankingInfo info = stageRanking.rankList[i];
+                RankingInfo info = currentRanking.rankList[i];
                 
                 int rank = i + 1; // 등수 만들어주기.
                 
@@ -164,13 +198,15 @@ public class UI_RankingPopup : UI_Popup
     void OnClickStageSelectButton()
     {
         Debug.Log("StageSelect");
+        Managers.UI.ShowPopupUI<UI_StageSelectPopup>();
+        
     }
 
     void OnClickRankingDetailButton(MyRankingInfo myRankingInfo)
     {
         Debug.Log("RankingDetail");
         UI_RankingDetailPopup popup = Managers.UI.ShowPopupUI<UI_RankingDetailPopup>();
-        // 디테일 쪽에 내 랭킹 정보 그대로 보내줘야됨....(정보를 쬐매만 줌.)
+        // 디테일 쪽에 내 랭킹 정보 그대로 보내줘야됨....(정보를 쬐매만 줌.) -> 원하는 스테이지 정보도 같이 보내주기!!
         popup.SetMyRankingInfo(myRankingInfo);
     }
 }
