@@ -77,9 +77,7 @@ public class UI_InvenClassSelectPopup : UI_Popup
 
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
 
-        GetText((int)ETexts.ClassNameText).text = Managers.Data.PlayerDic[_templateData.SelectedClassId].Name;
-        GetText((int)ETexts.ClassDescriptionText).text = $"{_templateData.SelectedClassId} description";
-
+        OnClickClassSelectButton(_templateData.SelectedClassId);
 
         int ClassCount = Managers.Data.PlayerDic.Count;
         for (int i = 0; i < ClassCount; i++)
@@ -122,7 +120,7 @@ public class UI_InvenClassSelectPopup : UI_Popup
         Debug.Log(num);
         TempClassId = num;
         GetText((int)ETexts.ClassNameText).text = Managers.Data.PlayerDic[num].Name;
-        GetText((int)ETexts.ClassDescriptionText).text = $"{num} description";
+        GetText((int)ETexts.ClassDescriptionText).text = Managers.Data.PlayerDic[num].Description;
     }
 
     void ClassSelect()
