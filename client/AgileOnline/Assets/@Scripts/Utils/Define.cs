@@ -87,7 +87,7 @@ public static class Define
     public static int INITIAL_REROLL_COST = 0;
     
     //todo(전지환) : 총 스킬 개수 
-    public static int TOTAL_PLAYER_SKILL_NUMBER = 8;
+    public static int TOTAL_PLAYER_SKILL_NUMBER = 9;
     public static int TEST_SKILL_COST = 100;
     public static int MY_SKILL_LEVEL = 0;
     
