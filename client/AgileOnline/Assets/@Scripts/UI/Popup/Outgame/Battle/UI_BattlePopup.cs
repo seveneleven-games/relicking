@@ -14,6 +14,21 @@ using Random = UnityEngine.Random;
 // Managers.Game.CurrentSelectStage : 유저 정보 내의 객체
 // Managers.Data.StageDic : json으로 부터 가져온 전체 스테이지 정보
 
+[Serializable]
+public class EnterStageRes
+{
+    public int status;
+    public string message;
+    public EnterStageData data;
+}
+
+[Serializable]
+public class EnterStageData
+{
+    public int currentClassNo;
+    public List<RelicList> relicList;
+}
+
 public class UI_BattlePopup : UI_Popup
 {
 
@@ -285,8 +300,32 @@ public class UI_BattlePopup : UI_Popup
         // 임시
         Debug.Log("go Game");
         _templateData.StageId = Managers.Game.CurrentSelectStage.StageId;
-        
-        Managers.Scene.LoadScene(Define.EScene.GameScene);
+
+        StartCoroutine(Util.JWTGetRequest("stages", res =>
+        {
+            Debug.Log(res);
+            EnterStageRes enterStageRes = JsonUtility.FromJson<EnterStageRes>(res);
+
+            if (enterStageRes != null)
+            {
+                _templateData.SelectedClassId = enterStageRes.data.currentClassNo;
+                enterStageRes.data.relicList.ForEach(relic =>
+                {
+                    int index = relic.slot - 1;
+                    if (index >= 0 && index < _templateData.EquipedRelicIds.Length)
+                    {
+                        _templateData.EquipedRelicIds[index] = relic.relicNo * 10 + relic.level;
+                    }
+                });
+                foreach (int relicId in _templateData.EquipedRelicIds)
+                {
+                    Debug.Log("relic id is : " + relicId);
+                }
+
+                if (enterStageRes.status == 200)
+                    Managers.Scene.LoadScene(Define.EScene.GameScene);
+            }
+        }));
     }
 
     void OnChangeStage(int index)

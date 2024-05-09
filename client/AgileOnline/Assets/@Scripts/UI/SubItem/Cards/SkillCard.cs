@@ -36,7 +36,7 @@ public class SkillCard : UI_Base
         set
         {
             OnSkillIdChanged?.Invoke(value);
-            _skillId = value;
+            _skillId = value + 1;
         }
     }
 
@@ -55,9 +55,7 @@ public class SkillCard : UI_Base
 
     public void Refresh(int skillId)
     {
-        _skillId = skillId;
-        
-        SkillData data = Managers.Data.SkillDic[skillId];
+        SkillData data = Managers.Data.SkillDic[skillId + 1];
         
         GetText((int)Texts.SkillName).gameObject.SetActive(true);
         GetText((int)Texts.SkillCost).gameObject.SetActive(true);
@@ -68,8 +66,8 @@ public class SkillCard : UI_Base
         GetText((int)Texts.SkillInfo).color = new Color(50/255f, 50/255f, 50/255f, 1.0f);
         
         GetText((int)Texts.SkillName).text = data.Name;
-        GetText((int)Texts.NowLv).text = (skillId % 10 - 1).ToString();
-        GetText((int)Texts.NextLv).text = (skillId % 10).ToString();
+        GetText((int)Texts.NowLv).text = (skillId % 10).ToString();
+        GetText((int)Texts.NextLv).text = (skillId % 10 + 1).ToString();
         GetText((int)Texts.SkillInfo).text = data.Description;
         GetImage((int)Images.SkillImage).sprite = Managers.Resource.Load<Sprite>(data.IconName);
 
