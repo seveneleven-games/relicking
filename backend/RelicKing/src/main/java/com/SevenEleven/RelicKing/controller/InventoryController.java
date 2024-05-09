@@ -1,11 +1,9 @@
 package com.SevenEleven.RelicKing.controller;
 
 import com.SevenEleven.RelicKing.common.security.CustomUserDetails;
-import com.SevenEleven.RelicKing.common.validation.ValidationSequence;
 import com.SevenEleven.RelicKing.dto.request.ClassChangeRequestDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -60,7 +58,7 @@ public class InventoryController {
 		content = @Content(schema = @Schema(implementation = boolean.class))
 	)
 	@PostMapping("/classes")
-	public Response changeClass(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody @Validated(ValidationSequence.class) ClassChangeRequestDTO classChangeRequestDTO) {
+	public Response changeClass(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody @Valid ClassChangeRequestDTO classChangeRequestDTO) {
 		inventoryService.changeClass(customUserDetails.getMember(), classChangeRequestDTO.getClassNo());
 		return new Response(HttpStatus.OK.value(), "클래스가 변경되었습니다.", true);
 	}
