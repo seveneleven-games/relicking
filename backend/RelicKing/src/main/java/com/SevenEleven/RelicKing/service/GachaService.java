@@ -78,25 +78,30 @@ public class GachaService {
 		Set<MemberRelic> memberRelics = member.getMemberRelics();
 		memberRelics.forEach(memberRelic -> {
 			int rarity = memberRelic.getRelicNo()/100;
-			if (gachaResult[rarity][memberRelic.getRelicNo() % 100] > 0) {
-				// 경험치 더하고 레벨업 여부 따로 계산
-				int before = memberRelic.getLevel();
-				memberRelic.plusExp(Constant.EXP_GACHA * gachaResult[rarity][memberRelic.getRelicNo() % 100]);
-				int after = memberRelic.getLevel();
+			try {
+				if (gachaResult[rarity][memberRelic.getRelicNo() % 100] > 0) {
+					// 경험치 더하고 레벨업 여부 따로 계산
+					int before = memberRelic.getLevel();
+					memberRelic.plusExp(Constant.EXP_GACHA * gachaResult[rarity][memberRelic.getRelicNo() % 100]);
+					int after = memberRelic.getLevel();
 
-				// save
-				memberRelicRepository.save(memberRelic);
+					// save
+					memberRelicRepository.save(memberRelic);
 
-				// results에 Map add
-				Map<String, Object> relic = new LinkedHashMap<>();
-				relic.put("relicNo", memberRelic.getRelicNo());
-				relic.put("level", after);
-				relic.put("levelUpYn", after > before);
-				relic.put("newYn", false);
+					// results에 Map add
+					Map<String, Object> relic = new LinkedHashMap<>();
+					relic.put("relicNo", memberRelic.getRelicNo());
+					relic.put("level", after);
+					relic.put("levelUpYn", after > before);
+					relic.put("newYn", false);
 
-				results.add(relic);
-				gachaResult[rarity][memberRelic.getRelicNo() % 100] = 0;
+					results.add(relic);
+					gachaResult[rarity][memberRelic.getRelicNo() % 100] = 0;
+				}
+			} catch (ArrayIndexOutOfBoundsException e) {
+				// db에 남아있는 과거의 유물 때문
 			}
+
 		});
 
 		for (int i = 0; i < raritySize; i++) {
