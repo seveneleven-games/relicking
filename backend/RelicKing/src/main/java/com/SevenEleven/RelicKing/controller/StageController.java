@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.SevenEleven.RelicKing.common.response.Response;
 import com.SevenEleven.RelicKing.common.security.CustomUserDetails;
 import com.SevenEleven.RelicKing.dto.request.StageRequestDTO;
-import com.SevenEleven.RelicKing.dto.response.GetLockInfoResponseDto;
 import com.SevenEleven.RelicKing.dto.response.StageResponseDTO;
 import com.SevenEleven.RelicKing.service.StageService;
 
@@ -42,6 +41,8 @@ public class StageController {
 	)
 	@GetMapping()
 	public Response getInfoBeforeEnterStage(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+		log.info("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		log.info("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		return new Response(HttpStatus.OK.value(),
 			"스테이지에 진입하여 정보를 불러옵니다.",
 			stageService.getClassAndRelics(customUserDetails.getMember()));
