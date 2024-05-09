@@ -151,6 +151,7 @@ public class UIManager
 
 		if (_popupStack.Peek() != popup)
 		{
+			Debug.Log(popup);
 			Debug.Log(_popupStack.Peek());
 			Debug.Log("Close Popup Failed!");
 			return;
