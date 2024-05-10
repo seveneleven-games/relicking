@@ -20,10 +20,11 @@ public interface Constant {
 
 	// relic
 	List<Integer> LEVEL_EXP_TABLE = Arrays.asList(2000000, 4000000, 8000000, 16000000, 32000000, 64000000, 128000000, 256000000, 512000000);
-	int THE_NUMBER_OF_C = 6;
+
 	int[] RELIC_INFO_TABLE = {4, 5, 5, 6, 1};
 
 	int EXP_GACHA = 1000;
+	double[] GACHA_POSSIBILITY = {0, 0.6, 0.9, 0.98, 0.9999, 1};
 
 	// email
 	String AUTH_CODE_PREFIX = "AuthCode ";
