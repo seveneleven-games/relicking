@@ -87,8 +87,6 @@ public class UI_NicknamePopup : UI_Popup
     private string password;
     private bool isDuplicateNickname = false;
     
-    private KeyboardAdjuster keyboardAdjuster;
-    
     private void Awake()
     {
         Init();
@@ -115,12 +113,7 @@ public class UI_NicknamePopup : UI_Popup
         
         // 중복 체크 결과 텍스트
         GetText((int)ETexts.NicknameResultText).gameObject.SetActive(false);
-
-
-        // Keyboard Adjuster 설정
-        TMP_InputField nicknameInput = GetInputField((int)EInputFields.NicknameInputField);
-        keyboardAdjuster = nicknameInput.gameObject.AddComponent<KeyboardAdjuster>();
-        keyboardAdjuster.inputFieldRectTransform = nicknameInput.GetComponent<RectTransform>();
+        
         
         
         #endregion
