@@ -290,8 +290,18 @@ public class UI_RankingDetailPopup : UI_Popup
         }
     }
     
+    private bool _isRequestingDetail = false;  // 현재 상세 랭킹 정보를 요청 중인지 확인하는 플래그
+
+    // 무한 증폭의 원인이었다!!!!
     IEnumerator GetDetailRankingInfo(int recordId, Action onCompleted)
     {
+        if (_isRequestingDetail) {
+            Debug.LogWarning("Detail ranking request is already in progress.");
+            yield break;  // 이미 요청 중이면 새 요청을 중단
+        }
+
+        _isRequestingDetail = true;  // 요청 시작 플래그 설정
+
         bool isDone = false;
         StartCoroutine(JWTGetRequest($"rankings/{recordId}", res =>
         {
@@ -304,8 +314,9 @@ public class UI_RankingDetailPopup : UI_Popup
 
         // 완료 콜백 호출
         onCompleted?.Invoke();
+
+        _isRequestingDetail = false;  // 요청 완료 플래그 해제
     }
-    
     
     // 갱신
     void Refresh()
@@ -316,6 +327,7 @@ public class UI_RankingDetailPopup : UI_Popup
     void OnClickCloseButton()
     {
         Debug.Log("CloseRankingDetail");
-        Managers.UI.ClosePopupUI(this);
+        // 현재 팝업을 비활성화
+        gameObject.SetActive(false);
     }
 }
