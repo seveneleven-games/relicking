@@ -68,6 +68,7 @@ public class MonsterController : CreatureController
         {
             MonsterSkillList[0] = 1001;
             MonsterSkillList[1] = 1011;
+            MonsterSkillList[2] = 1021;
             transform.localScale = new Vector3(3, 3, 1);
         }
     }
@@ -82,9 +83,12 @@ public class MonsterController : CreatureController
         if (_player == null)
             return;
 
-        if (!_isUsingSkill || !_isChasing)
+        if (CreatureState != ECreatureState.Dead)
         {
-            ChasePlayer();
+            if (!_isUsingSkill || !_isChasing)
+            {
+                ChasePlayer();
+            }
         }
 
         if (!_isUsingSkill && MonsterType != 0)
@@ -152,12 +156,30 @@ public class MonsterController : CreatureController
     {
         bool isCritical = base.OnDamaged(attacker, ref damage);
         UI_World.Instance.ShowDamage((int)damage, transform.position + Vector3.up * 1f, isCritical);
+        if (gameObject.activeSelf)
+        {
+            StartCoroutine(HitStun(0.2f));
+        }
         return isCritical;
+    }
+    
+    private IEnumerator HitStun(float duration)
+    {
+        CreatureState = ECreatureState.Idle;
+        float originalSpeed = Speed;
+        Speed = 0f;
+
+        yield return new WaitForSeconds(duration);
+
+        Speed = originalSpeed;
+
+        yield return null;
     }
 
     public override void OnDead()
     {
         base.OnDead();
+        CreatureState = ECreatureState.Dead;
 
         if (_coDotDamage != null)
             StopCoroutine(_coDotDamage);
@@ -170,6 +192,13 @@ public class MonsterController : CreatureController
 
         GoldController gc = Managers.Object.Spawn<GoldController>(transform.position, MonsterId);
         gc.InitGold(MonsterId);
+
+        StartCoroutine(DelayDespawn());
+    }
+    
+    private IEnumerator DelayDespawn()
+    {
+        yield return new WaitForSeconds(0.5f);
 
         Managers.Object.Despawn(this);
     }
@@ -204,19 +233,40 @@ public class MonsterController : CreatureController
         switch (skillData.PrefabName)
         {
             case "EliteMonsterProjectile":
-                int empProjectileNum = skillData.ProjectileNum;
-                float angleStep = 360f / empProjectileNum;
-
-                for (int i = 0; i < empProjectileNum; i++)
+                if (MonsterType == 1)
                 {
-                    float angle = i * angleStep;
-                    Vector3 direction = Quaternion.Euler(0f, 0f, angle) * Vector3.up;
-                    EliteMonsterProjectileController emp =
-                        Managers.Object.Spawn<EliteMonsterProjectileController>(transform.position, skillId);
-                    emp.SetMoveDirection(direction);
+                    int empProjectileNum = skillData.ProjectileNum;
+                    float angleStep1 = 360f / empProjectileNum;
+
+                    for (int i = 0; i < empProjectileNum; i++)
+                    {
+                        float angle = i * angleStep1;
+                        Vector3 direction = Quaternion.Euler(0f, 0f, angle) * Vector3.up;
+                        EliteMonsterProjectileController emp =
+                            Managers.Object.Spawn<EliteMonsterProjectileController>(transform.position, skillId);
+                        emp.SetMoveDirection(direction);
+                    }
                 }
 
+                else if (MonsterType == 2)
+                {
+                    int bossProjectileNum = skillData.ProjectileNum;
+                    float angleStep2 = 360f / bossProjectileNum;
+
+                    for (int j = 0; j < 3; j++)
+                    {
+                        for (int i = 0; i < bossProjectileNum; i++)
+                        {
+                            float angle = i * angleStep2;
+                            Vector3 direction = Quaternion.Euler(0f, 0f, angle) * Vector3.up;
+                            EliteMonsterProjectileController emp =
+                                Managers.Object.Spawn<EliteMonsterProjectileController>(transform.position, skillId);
+                            emp.SetMoveDirection(direction);
+                        }   
+                    }
+                }
                 break;
+
 
             case "BossMonsterCharge":
                 Vector3 originalPlayerPosition = _player.transform.position;
@@ -234,6 +284,7 @@ public class MonsterController : CreatureController
                 }
 
                 Speed = originalSpeed;
+                
                 break;
         }
 
