@@ -96,6 +96,8 @@ public class UI_InvenPopup : UI_Popup
 
     public void OnDestroy()
     {
+        Debug.Log("OnDestroy");
+        
         if (Managers.Game != null)
             Managers.Game.OnResourcesChanged -= Refresh;
 
@@ -106,6 +108,8 @@ public class UI_InvenPopup : UI_Popup
     // 초기 세팅
     public override bool Init()
     {
+        Debug.Log("Init");
+
         if (base.Init() == false)
             return false;
 
@@ -131,12 +135,10 @@ public class UI_InvenPopup : UI_Popup
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
 
         #endregion
-
-        //GetRelicInfo();
+        
         ToggleInit();
         OnClickRelicToggle();
         GetRelicInfo();
-        SetEquiped(_templateData.EquipedRelicIds);
 
         Managers.Game.OnResourcesChanged += Refresh;
         _templateData.OnPlayerStatusChagned += SetClassDetailStatus;
@@ -150,16 +152,23 @@ public class UI_InvenPopup : UI_Popup
     // 갱신
     void Refresh()
     {
+        Debug.Log("Refresh");
+
         
     }
 
     private void OnEnable()
     {
+        Debug.Log("OnEnable");
+
         GetRelicInfo();
+        Debug.Log("활성화 시 함수 발생!"); 
     }
 
     void ToggleInit()
     {
+        Debug.Log("ToggleInit");
+
         // 선택여부 초기화
         _isSelectedEquip = false;
         _isSelectedStat = false;
@@ -174,6 +183,9 @@ public class UI_InvenPopup : UI_Popup
 
     void OnClickRelicToggle()
     {
+        Debug.Log("OnClickRelicToggle");
+
+        
         ToggleInit();
         GetImage((int)EImages.RelicToggleBGImage).color = Util.HexToColor("B38C61");
         if (_isSelectedEquip == true)
@@ -185,6 +197,9 @@ public class UI_InvenPopup : UI_Popup
 
     void OnClickStatToggle()
     {
+        Debug.Log("OnClickStatToggle");
+
+        
         ToggleInit();
         GetImage((int)EImages.StatToggleBGImage).color = Util.HexToColor("B38C61");
         if (_isSelectedStat == true)
@@ -196,11 +211,15 @@ public class UI_InvenPopup : UI_Popup
 
     void OnClickClassSelectButton()
     {
+        Debug.Log("OnClickClassSelectButton");
+        
         Managers.UI.ShowPopupUI<UI_InvenClassSelectPopup>();
     }
 
     void OnClickRelicInfoButton(int num)
     {
+        Debug.Log("OnClickRelicInfoButton");
+        
         Debug.Log(num);
         _templateData.SelectedRelicId = num;
         Managers.UI.ShowPopupUI<UI_InvenRelicInfoPopup>();
@@ -208,6 +227,8 @@ public class UI_InvenPopup : UI_Popup
 
     void OnClickEquipedRelicButton(int num)
     {
+        Debug.Log("OnClickEquipedRelicButton");
+        
         if (_templateData.EquipedRelicIds[num] == 0)
             return;
 
@@ -216,6 +237,8 @@ public class UI_InvenPopup : UI_Popup
 
     void SetClassDetailStatus(int num, int[] nums)
     {
+        Debug.Log("SetClassDetailStatus");
+
         int MaxHp = Managers.Data.PlayerDic[num].MaxHp;
         int Atk = Managers.Data.PlayerDic[num].Atk;
         float Speed = Managers.Data.PlayerDic[num].Speed;
@@ -245,6 +268,8 @@ public class UI_InvenPopup : UI_Popup
 
     void SetClassImage(int num)
     {
+        Debug.Log("SetClassImage");
+
         Image image = GetImage((int)EImages.ClassImage);
         if (image != null)
         {
@@ -255,6 +280,8 @@ public class UI_InvenPopup : UI_Popup
 
     void SetEquipedRelicImages(int[] nums)
     {
+        Debug.Log("SetEquipedRelicImages");
+
         for (int i = 0; i < nums.Length; i++)
         {
             Image image = GetImage(i + 2);
@@ -278,10 +305,13 @@ public class UI_InvenPopup : UI_Popup
         }
     }
 
+    private int cnt = 0;
     void SetEquiped(int[] nums)
     {
+        Debug.Log("SetEquiped");
+
         GameObject relicListObject = GetObject((int)EGameObjects.RelicListObject);
-        List<int> equipedRelics = new();
+        HashSet<int> equipedRelics = new();
         for (int i = 0; i < nums.Length; i++)
         {
             for (int j = 0; j < relicListObject.transform.childCount; j++)
@@ -295,25 +325,30 @@ public class UI_InvenPopup : UI_Popup
             }
         }
         // HashSet 쓰면 더 편하게 할 수 있음.
-        equipedRelics.Sort();
-        int idx = 0;
+        // int idx = 0;
         for (int i = 0; i < relicListObject.transform.childCount; i++)
         {
             Transform child = relicListObject.transform.GetChild(i);
-            if (idx < equipedRelics.Count && i == equipedRelics[idx])
+            if (equipedRelics.Contains(i))
             {
                 child.gameObject.SetActive(false);
-                idx++;
             }
             else
             {
                 child.gameObject.SetActive(true);
             }
         }
+        
+        Debug.Log("얘가 몇 번 도는지 알려줘 : 네 알겠습니다. " + cnt++ 
+                                               + "개 "
+                                               + string.Join(", ", nums));
     }
 
     void GetRelicInfo()
     {
+        Debug.Log("GetRelicInfo");
+
+        
         StartCoroutine(JWTGetRequest("inventories", res =>
         {
             InventoryDataRes inventoryDataRes = JsonUtility.FromJson<InventoryDataRes>(res);
@@ -356,7 +391,12 @@ public class UI_InvenPopup : UI_Popup
                 SetClassImage(_templateData.SelectedClassId);
                 SetEquipedRelicImages(_templateData.EquipedRelicIds);
                 
-                Debug.Log("야호!! 들어있니!!" + _templateData.EquipedRelicIds);
+                Debug.Log("야호!! 들어있니!!" + _templateData.EquipedRelicIds[0]
+                                        + _templateData.EquipedRelicIds[1]
+                                        + _templateData.EquipedRelicIds[2]
+                                        + _templateData.EquipedRelicIds[3]
+                                        + _templateData.EquipedRelicIds[4]
+                                        + _templateData.EquipedRelicIds[5]);
                 SetEquiped(_templateData.EquipedRelicIds);
             }
         }));
