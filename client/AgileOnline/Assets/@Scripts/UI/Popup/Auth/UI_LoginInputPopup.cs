@@ -120,8 +120,10 @@ public class UI_LoginInputPopup : UI_Popup
             return false;
         
         
+        Debug.Log(GetComponent<RectTransform>());
+        
         // 키보드 관련 설정하기
-        keyboardAdjuster.targetRectTransform = GetComponent<RectTransform>();
+        // keyboardAdjuster.targetRectTransform = GetComponent<RectTransform>();
         
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
 
