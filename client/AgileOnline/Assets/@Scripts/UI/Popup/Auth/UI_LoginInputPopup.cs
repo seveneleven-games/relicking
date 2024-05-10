@@ -32,7 +32,7 @@ public class UserRes
     public string refreshToken;
     public int memberId;
     public string nickname;
-    public StageRes stageRes;
+    public StageRes stageData;
     public int currentClassNo;
     public List<RelicList> relicList;
 }
@@ -104,6 +104,8 @@ public class UI_LoginInputPopup : UI_Popup
     
     // 객체 관련 두는 곳
 
+    public KeyboardAdjuster keyboardAdjuster; // 키보드 조정
+    
     private TemplateData _templateData;
     
     private void Awake()
@@ -116,6 +118,10 @@ public class UI_LoginInputPopup : UI_Popup
     {
         if (base.Init() == false)
             return false;
+        
+        
+        // 키보드 관련 설정하기
+        keyboardAdjuster.targetRectTransform = GetComponent<RectTransform>();
         
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
 
@@ -205,8 +211,9 @@ public class UI_LoginInputPopup : UI_Popup
                 Managers.Game._gameData.accessToken = loginDataRes.data.accessToken;
                 Managers.Game._gameData.refreshToken = loginDataRes.data.refreshToken;
                 
+                
                 // 스테이지별 난이도 정보 업데이트
-                Managers.Game.UpdateStageClearInfo(loginDataRes.data.stageRes);
+                Managers.Game.UpdateStageClearInfo(loginDataRes.data.stageData);
                 _templateData.SelectedClassId = loginDataRes.data.currentClassNo;
                 loginDataRes.data.relicList.ForEach(relic =>
                 {

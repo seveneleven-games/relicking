@@ -36,12 +36,18 @@ public class UI_RankingObject : UI_Base
     
     #endregion
     
+    // 객체 관련
+    
+    // Show를 하면 새로 생성을 하는 것이어서 계속 증폭하는 현상이 발생해서 이렇게 키고 끄는 형식으로 변경!!!
+    private UI_RankingDetailPopup _uiRankingDetailPopup; 
     
     private void Awake()
     {
         Init();
     }
 
+    
+    
     // 초기 세팅
     public override bool Init()
     {
@@ -55,6 +61,12 @@ public class UI_RankingObject : UI_Base
         BindText(typeof(ETexts));
         BindToggle(typeof(EToggles));
         BindImage(typeof(EImages)); 
+        
+        
+        // 계속 생성되는 것을 방지하기 위해
+        _uiRankingDetailPopup = Managers.UI.ShowPopupUI<UI_RankingDetailPopup>();
+        _uiRankingDetailPopup.gameObject.SetActive(false);
+        
         #endregion
         
         
@@ -73,8 +85,8 @@ public class UI_RankingObject : UI_Base
 
     void OnClickRankingDetailButton(RankingInfo rankingInfo, int rank)
     {
-        UI_RankingDetailPopup popup = Managers.UI.ShowPopupUI<UI_RankingDetailPopup>();
-        popup.SetRankingInfo(rankingInfo, rank);
+        _uiRankingDetailPopup.gameObject.SetActive(true);
+        _uiRankingDetailPopup.SetRankingInfo(rankingInfo, rank);
     }
     
 }
