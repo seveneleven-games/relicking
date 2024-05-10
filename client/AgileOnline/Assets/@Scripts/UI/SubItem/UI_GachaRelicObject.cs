@@ -84,19 +84,19 @@ public class UI_GachaRelicObject : UI_Base
         switch (Managers.Data.RelicDic[relic.relicNo * 10 + relic.level].Rarity)
         {
             case 0:
-                GetImage((int)EImages.RelicBGImage).color = RelicUIColors.GradeC;
+                GetImage((int)EImages.RelicBGImage).sprite = Managers.Resource.Load<Sprite>("RelicFrame_C.sprite");
                 break;
             case 1:
-                GetImage((int)EImages.RelicBGImage).color = RelicUIColors.GradeB;
+                GetImage((int)EImages.RelicBGImage).sprite = Managers.Resource.Load<Sprite>("RelicFrame_B.sprite");
                 break;
             case 2:
-                GetImage((int)EImages.RelicBGImage).color = RelicUIColors.GradeA;
+                GetImage((int)EImages.RelicBGImage).sprite = Managers.Resource.Load<Sprite>("RelicFrame_A.sprite");
                 break;
             case 3:
-                GetImage((int)EImages.RelicBGImage).color = RelicUIColors.GradeS;
+                GetImage((int)EImages.RelicBGImage).sprite = Managers.Resource.Load<Sprite>("RelicFrame_S.sprite");
                 break;
             case 4:
-                GetImage((int)EImages.RelicBGImage).color = RelicUIColors.GradeSSS;
+                GetImage((int)EImages.RelicBGImage).sprite = Managers.Resource.Load<Sprite>("RelicFrame_SSS.sprite");
                 break;
             
             default:
