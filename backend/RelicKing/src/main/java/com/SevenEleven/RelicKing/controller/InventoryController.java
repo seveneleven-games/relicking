@@ -41,7 +41,7 @@ public class InventoryController {
 		responseCode = "200", description = "인벤토리 정보 조회 성공",
 		content = @Content(schema = @Schema(implementation = InventoryResponseDTO.class))
 	)
-	@GetMapping("/inventories") // Todo 유물 비어있을 때 번호 0짜리 새 유물 객체 넘기기
+	@GetMapping("/inventories")
 	public Response getInventory(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
 		return new Response(
 			HttpStatus.OK.value(),
@@ -71,7 +71,7 @@ public class InventoryController {
 		responseCode = "200", description = "유물 변경 성공",
 		content = @Content(schema = @Schema(implementation = boolean.class))
 	)
-	@PostMapping("/relics") // Todo 유물 비어있을 때 바꾸는 로직
+	@PostMapping("/relics")
 	public Response changeRelic(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody @Valid RelicChangeRequestDTO relicChangeRequestDTO) {
 		inventoryService.changeRelic(customUserDetails.getMember(), relicChangeRequestDTO);
 		return new Response(HttpStatus.OK.value(), "유물이 변경되었습니다.", true);

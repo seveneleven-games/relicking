@@ -19,7 +19,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,8 +26,6 @@ import lombok.ToString;
 
 @Entity
 @Getter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(exclude = {"recordRelics", "recordSkills"})
 @EntityListeners(AuditingEntityListener.class)
@@ -50,28 +47,33 @@ public class Record {
 	private int difficulty;
 
 	@Column(nullable = false)
-	private int eliteKill;
+	private int eliteKill = 0;
 
 	@Column(nullable = false)
-	private int normalKill;
+	private int normalKill = 0;
 
 	@Column(nullable = false)
 	private int classNo;
 
 	@LastModifiedDate
 	@Column(nullable = false)
-	@Builder.Default
 	private LocalDateTime updatedDate = LocalDateTime.now();
 
 	@ElementCollection(fetch = FetchType.LAZY)
 	@CollectionTable(name = "record_relic", joinColumns = @JoinColumn(name = "record_id"))
-	@Builder.Default
 	private List<RecordRelic> recordRelics = new ArrayList<>(6);
 
 	@ElementCollection(fetch = FetchType.LAZY)
 	@CollectionTable(name = "record_skill", joinColumns = @JoinColumn(name = "record_id"))
-	@Builder.Default
 	private List<RecordSkill> recordSkills = new ArrayList<>(6);
+
+	@Builder
+	public Record(Member member, int stage, int difficulty, int classNo) {
+		this.member = member;
+		this.stage = stage;
+		this.difficulty = difficulty;
+		this.classNo = classNo;
+	}
 
 	public void addRecordRelic(int relicNo, int level, int slot) {
 

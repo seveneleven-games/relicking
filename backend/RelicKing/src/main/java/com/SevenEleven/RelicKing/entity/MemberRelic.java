@@ -12,16 +12,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
 @Getter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 public class MemberRelic implements Comparable<MemberRelic> {
@@ -34,21 +30,22 @@ public class MemberRelic implements Comparable<MemberRelic> {
 	@JoinColumn(name = "member_id", referencedColumnName = "member_id", nullable = false)
 	private Member member;
 
-	@Builder.Default
 	@Column(nullable = false, updatable = false)
 	private int relicNo = 0;
 
-	@Builder.Default
 	@Column(nullable = false)
 	private int level = 1;
 
-	@Builder.Default
 	@Column(nullable = false)
 	private int exp = 0;
 
-	@Builder.Default
 	@Column(nullable = false)
 	private int slot = 0;
+
+	public MemberRelic(Member member, int relicNo) {
+		this.member = member;
+		this.relicNo = relicNo;
+	}
 
 	public static MemberRelicDTO entityToDTO(MemberRelic memberRelic) {
 		return MemberRelicDTO.builder()

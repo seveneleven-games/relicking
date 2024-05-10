@@ -55,18 +55,15 @@ public class StageService {
 
 	public void patchRelicAndRecord(Member member, StageRequestDTO stageRequestDTO) {
 		// member relic 레벨, 경험치 갱신
-		patchRelic(member,
-			stageRequestDTO.getEliteKill(),
-			stageRequestDTO.getNormalKill(),
-			stageRequestDTO.getDifficulty());
+		patchRelic(member, stageRequestDTO.getDifficulty());
 		// 랭킹 최신화
 		patchRecord(member, stageRequestDTO);
 	}
 
-	private void patchRelic(Member member, int eliteKill, int normalKill, int difficulty) {
+	private void patchRelic(Member member, int difficulty) {
 		member.getMemberRelics().forEach(memberRelic -> {
 			if (memberRelic.getSlot() > 0) {
-				int earnedExp = (1000 / difficulty) + eliteKill * 10 * difficulty + normalKill * difficulty;
+				int earnedExp = 10000 * difficulty * memberRelic.getLevel();
 				memberRelic.plusExp(earnedExp);
 				memberRelicRepository.save(memberRelic);
 			}
@@ -92,8 +89,6 @@ public class StageService {
 			.member(member)
 			.stage(stageRequestDTO.getStage())
 			.difficulty(stageRequestDTO.getDifficulty())
-			.eliteKill(stageRequestDTO.getEliteKill())
-			.normalKill(stageRequestDTO.getNormalKill())
 			.classNo(member.getCurrentClassNo())
 			.build();
 

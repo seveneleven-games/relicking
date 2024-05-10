@@ -28,7 +28,6 @@ public class MemberRepositoryTests {
 					.email("test" + i + "@test.com")
 					.nickname("test" + i)
 					.password(bCryptPasswordEncoder.encode("abcd1234!" + i))
-					.gacha(1000)
 					.build();
 
 			memberRepository.save(member);

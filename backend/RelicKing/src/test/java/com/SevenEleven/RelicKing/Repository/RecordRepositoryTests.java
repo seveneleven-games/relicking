@@ -46,8 +46,6 @@ public class RecordRepositoryTests {
 						.member(member)
 						.stage(stage)
 						.difficulty(difficulty)
-						.eliteKill(10)
-						.normalKill(200)
 						.classNo(member.getCurrentClassNo())
 						.build();
 
