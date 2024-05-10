@@ -130,6 +130,7 @@ public class PlayerController : CreatureController
 
         if (CoolDown < 0.1)
             CoolDown = 0.1f;
+        
     }
 
     private void Update()
