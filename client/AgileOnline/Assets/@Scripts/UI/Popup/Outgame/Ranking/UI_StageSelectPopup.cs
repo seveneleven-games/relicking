@@ -36,7 +36,6 @@ public class UI_StageSelectPopup : UI_Popup
     #endregion
 
     // °´Ã¼ °ü·Ã
-    
     public static event Action<int> OnStageSelected;
     
     public override bool Init()
@@ -63,7 +62,6 @@ public class UI_StageSelectPopup : UI_Popup
         
         return true;
     }
-    
     
     void OnClickStageButton1()
     {
