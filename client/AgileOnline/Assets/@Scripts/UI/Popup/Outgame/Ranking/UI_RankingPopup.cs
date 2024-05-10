@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using static Util;
 
 
@@ -121,7 +122,6 @@ public class UI_RankingPopup : UI_Popup
         _uiRankingDetailPopup.gameObject.SetActive(false);
         
         #endregion
-
         
         GetRankingInfo();
         Refresh();
@@ -146,6 +146,7 @@ public class UI_RankingPopup : UI_Popup
 
             GetText((int)ETexts.StageText).text = $"Stage {_wantStage}";
             
+            
             SetMyInfo();
             GenerateRankingList();
         }));
@@ -159,7 +160,13 @@ public class UI_RankingPopup : UI_Popup
         GetText((int)ETexts.MyNickName).text = currentRanking.myRank.nickname;
         GetText((int)ETexts.MyClass).text = Managers.Data.PlayerDic[currentRanking.myRank.classNo].Name;
         GetText((int)ETexts.MyDifficulty).text = $"{currentRanking.myRank.difficulty}";
-        GetButton((int)EButtons.MyRankingButton).gameObject.BindEvent(() => OnClickRankingDetailButton(currentRanking.myRank));
+        
+        // 기존 이벤트 리스너 제거
+        Button myRankingButton = GetButton((int)EButtons.MyRankingButton).gameObject.GetComponent<Button>();
+        myRankingButton.onClick.RemoveAllListeners();
+
+        // 새 이벤트 리스너 추가
+        myRankingButton.onClick.AddListener(() => OnClickRankingDetailButton(currentRanking.myRank));
     }
     
     
