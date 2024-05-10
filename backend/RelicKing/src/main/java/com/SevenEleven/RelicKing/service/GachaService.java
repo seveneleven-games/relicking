@@ -74,7 +74,7 @@ public class GachaService {
 				if (gachaResult[rarity][memberRelic.getRelicNo() % 100] > 0) {
 					// 경험치 더하고 레벨업 여부 따로 계산
 					int before = memberRelic.getLevel();
-					memberRelic.plusExp(Constant.EXP_GACHA * gachaResult[rarity][memberRelic.getRelicNo() % 100]);
+					memberRelic.plusExp(Constant.EXP_GACHA * memberRelic.getLevel() * gachaResult[rarity][memberRelic.getRelicNo() % 100]);
 					int after = memberRelic.getLevel();
 
 					memberRelicList.add(memberRelic);
@@ -101,7 +101,7 @@ public class GachaService {
 						.member(member)
 						.relicNo(i * 100 + j)
 						.build();
-					memberRelic.plusExp(Constant.EXP_GACHA * (gachaResult[i][j] - 1));
+					memberRelic.plusExp(Constant.EXP_GACHA * memberRelic.getLevel() * (gachaResult[i][j] - 1));
 					int after = memberRelic.getLevel();
 					memberRelicList.add(memberRelic);
 
