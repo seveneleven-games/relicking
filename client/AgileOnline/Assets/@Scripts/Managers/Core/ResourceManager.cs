@@ -79,8 +79,9 @@ public class ResourceManager
 		opHandle.Completed += (op) =>
 		{
 			int loadCount = 0;
-			int totalCount = op.Result.Count;
-
+			// int totalCount = op.Result.Count;
+			int totalCount = 112;
+			
 			foreach (var result in op.Result)
 			{
 				if (result.PrimaryKey.Contains(".sprite"))

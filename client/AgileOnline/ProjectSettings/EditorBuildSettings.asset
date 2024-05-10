@@ -18,6 +18,8 @@ EditorBuildSettings:
     path: Assets/@Scenes/IdleScene.unity
     guid: ac794e331b8be4f759a83920cdd7a126
   m_configObjects:
+    com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: e099db7e793d1a9478c0d500b79ce9e5, type: 2}
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: e832e73ddbb2b434cb26072090206eed, type: 2}
+    com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000, guid: c9f52907e0faf70439b3a8ffac05a525, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 5faf6261ff46ad4499b0e8ecfe1447b7, type: 2}
     com.unity.addressableassets: {fileID: 11400000, guid: da048a96ad951264781b905c5f7c25e6, type: 2}
