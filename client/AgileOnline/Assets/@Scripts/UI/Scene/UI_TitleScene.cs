@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static Define;
@@ -12,7 +13,7 @@ public class UI_TitleScene : UI_Scene
 
     enum EGameObjects
     {
-        
+        LoadingSlide
     }
     
     enum EButtons
@@ -32,8 +33,9 @@ public class UI_TitleScene : UI_Scene
     
     // 로그인 관련 팝업 작성
     UI_LoginPopup _loginPopupUI;
+    private GameObject _loadingSlide;
+    private float _loadingValue = 0f;
     
-
     public override bool Init()
     {
         if (base.Init() == false)
@@ -43,6 +45,8 @@ public class UI_TitleScene : UI_Scene
         BindButton(typeof(EButtons));
         BindText(typeof(ETexts));
 
+        _loadingSlide = GetObject((int)EGameObjects.LoadingSlide);
+        
         // 아무곳이나 누르면 씬 변환하는 버튼 생성
         GetButton((int)EButtons.StartButton).gameObject.BindEvent(() =>
         {
@@ -79,7 +83,13 @@ public class UI_TitleScene : UI_Scene
     {
         Managers.Resource.LoadAllAsync<Object>("PreLoad", (key, count, totalCount) =>
         {
+            //로딩바 적용
+
+            _loadingValue = _loadingSlide.GetComponent<Slider>().value = (1000 * count / totalCount) / 10f;
+            Util.FindChild<TMP_Text>(_loadingSlide, "Text").text = $"Loading...{_loadingValue}%";
+            
             Debug.Log($"{key} {count}/{totalCount}");
+            
             Debug.Log("잘 되고 있음!!");
             
             if (count == totalCount)
@@ -90,6 +100,7 @@ public class UI_TitleScene : UI_Scene
                 Managers.Data.Init();
                 Managers.Game.Init();
                 
+                _loadingSlide.SetActive(false);
                 GetButton((int)EButtons.StartButton).gameObject.SetActive(true);
                 GetText((int)ETexts.StartText).text = "터치하여 시작하기";
             }

@@ -80,7 +80,7 @@ public class ResourceManager
 		{
 			int loadCount = 0;
 			// int totalCount = op.Result.Count;
-			int totalCount = 112;
+			int totalCount = Define.ADDRESSABLE_COUNT;
 			
 			foreach (var result in op.Result)
 			{

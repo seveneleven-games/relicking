@@ -1,4 +1,4 @@
-Library: C:\Users\SSAFY\Desktop\0510\S10P31D211\client\AgileOnline\Temp\BurstOutput\tempburstlibs\armeabi-v7a\lib_burst_generated
+Library: C:\Users\SSAFY\Desktop\Final\D211\S10P31D211\client\AgileOnline\Temp\BurstOutput\tempburstlibs\armeabi-v7a\lib_burst_generated
 --platform=Android
 --backend=burst-llvm-16
 --target=ARMV7A_NEON32
@@ -40,10 +40,10 @@ Library: C:\Users\SSAFY\Desktop\0510\S10P31D211\client\AgileOnline\Temp\BurstOut
 --assembly-defines=UnityEngine;
 --assembly-defines=UnityUIExtensions;
 --generate-link-xml=Temp\burst.link.xml
---temp-folder=C:\Users\SSAFY\Desktop\0510\S10P31D211\client\AgileOnline\Temp\Burst
+--temp-folder=C:\Users\SSAFY\Desktop\Final\D211\S10P31D211\client\AgileOnline\Temp\Burst
 --key-folder=C:/Program Files/Unity/Hub/Editor/2022.3.23f1/Editor/Data/PlaybackEngines/AndroidPlayer
---decode-folder=C:\Users\SSAFY\Desktop\0510\S10P31D211\client\AgileOnline\Library\Burst
---output=C:\Users\SSAFY\Desktop\0510\S10P31D211\client\AgileOnline\Temp\BurstOutput\tempburstlibs\armeabi-v7a\lib_burst_generated
+--decode-folder=C:\Users\SSAFY\Desktop\Final\D211\S10P31D211\client\AgileOnline\Library\Burst
+--output=C:\Users\SSAFY\Desktop\Final\D211\S10P31D211\client\AgileOnline\Temp\BurstOutput\tempburstlibs\armeabi-v7a\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 
 --method=Unity.Burst.BurstCompiler+BurstCompilerHelper, Unity.Burst, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::IsBurstEnabled()--8c2be93e18276203cbd918daa2748a10
