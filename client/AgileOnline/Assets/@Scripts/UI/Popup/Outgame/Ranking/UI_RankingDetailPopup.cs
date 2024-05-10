@@ -293,21 +293,27 @@ public class UI_RankingDetailPopup : UI_Popup
     private bool _isRequestingDetail = false;  // 현재 상세 랭킹 정보를 요청 중인지 확인하는 플래그
 
     // 무한 증폭의 원인이었다!!!!
+    IEnumerator currentDetailRequest;
     IEnumerator GetDetailRankingInfo(int recordId, Action onCompleted)
     {
         if (_isRequestingDetail) {
             Debug.LogWarning("Detail ranking request is already in progress.");
-            yield break;  // 이미 요청 중이면 새 요청을 중단
+            // 기존 요청 중이면 중단
+            if (currentDetailRequest != null)
+            {
+                StopCoroutine(currentDetailRequest);
+            }
         }
 
         _isRequestingDetail = true;  // 요청 시작 플래그 설정
 
         bool isDone = false;
-        StartCoroutine(JWTGetRequest($"rankings/{recordId}", res =>
+        currentDetailRequest = JWTGetRequest($"rankings/{recordId}", res =>
         {
             _detailRankingDataRes = JsonUtility.FromJson<DetailRankingDataRes>(res);
             isDone = true;
-        }));
+        });
+        StartCoroutine(currentDetailRequest);
 
         // 요청이 완료될 때까지 대기
         yield return new WaitUntil(() => isDone);

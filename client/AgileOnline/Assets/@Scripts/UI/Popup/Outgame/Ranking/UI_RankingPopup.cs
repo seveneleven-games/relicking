@@ -146,9 +146,9 @@ public class UI_RankingPopup : UI_Popup
 
             GetText((int)ETexts.StageText).text = $"Stage {_wantStage}";
             
-            
             SetMyInfo();
             GenerateRankingList();
+            
         }));
     }
 
@@ -162,11 +162,10 @@ public class UI_RankingPopup : UI_Popup
         GetText((int)ETexts.MyDifficulty).text = $"{currentRanking.myRank.difficulty}";
         
         // 기존 이벤트 리스너 제거
-        Button myRankingButton = GetButton((int)EButtons.MyRankingButton).gameObject.GetComponent<Button>();
-        myRankingButton.onClick.RemoveAllListeners();
+        GetButton((int)EButtons.MyRankingButton).onClick.RemoveAllListeners();
 
         // 새 이벤트 리스너 추가
-        myRankingButton.onClick.AddListener(() => OnClickRankingDetailButton(currentRanking.myRank));
+        GetButton((int)EButtons.MyRankingButton).onClick.AddListener(() => OnClickRankingDetailButton(currentRanking.myRank));
     }
     
     
@@ -181,7 +180,7 @@ public class UI_RankingPopup : UI_Popup
             case 3:
                 return _rankingDataRes.data.stage3;
             default:
-                return _rankingDataRes.data.stage1;
+                return null;
         }
     }
     
@@ -196,11 +195,12 @@ public class UI_RankingPopup : UI_Popup
             
             for (int i = 0; i < currentRanking.rankList.Count; i++)
             {
+                
                 RankingInfo info = currentRanking.rankList[i];
                 
                 int rank = i + 1; // 등수 만들어주기.
                 
-                UI_RankingObject item = Managers.Resource.Instantiate("UI_RankingObject", pooling: true)
+                UI_RankingObject item = Managers.Resource.Instantiate("UI_RankingObject", pooling: false)
                     .GetOrAddComponent<UI_RankingObject>();
                 item.transform.SetParent(container.transform);
                 
