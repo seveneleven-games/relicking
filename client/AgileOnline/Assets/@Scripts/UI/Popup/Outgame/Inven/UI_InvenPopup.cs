@@ -2,6 +2,7 @@ using Data;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static Util;
@@ -129,16 +130,16 @@ public class UI_InvenPopup : UI_Popup
 
         #endregion
 
-        GetRelicInfo();
+        //GetRelicInfo();
         ToggleInit();
         OnClickRelicToggle();
-        //SetEquipedRelicImages(_templateData.EquipedRelicIds);
-
+        GetRelicInfo();
 
         Managers.Game.OnResourcesChanged += Refresh;
         _templateData.OnPlayerStatusChagned += SetClassDetailStatus;
         _templateData.OnEquipedRelicIdsChanged += SetEquipedRelicImages;
         _templateData.OnSelectedClassIdChanged += SetClassImage;
+        _templateData.OnEquipedRelicIdsChanged += SetEquiped;
 
         return true;
     }
@@ -267,9 +268,25 @@ public class UI_InvenPopup : UI_Popup
                    tempColor.a = 1f;
                    image.color = tempColor;
                    string SprName = Managers.Data.RelicDic[nums[i]].ThumbnailName;
-                    Debug.Log(SprName);
-                    Sprite spr = Managers.Resource.Load<Sprite>(SprName);
+                   Sprite spr = Managers.Resource.Load<Sprite>(SprName);
                    image.sprite = spr;
+                }
+            }
+        }
+    }
+
+    void SetEquiped(int[] nums)
+    {
+        for (int i = 0; i < nums.Length; i++)
+        {
+            GameObject relicListObject = GetObject((int)EGameObjects.RelicListObject);
+            foreach (Transform relic in relicListObject.transform)
+            {
+                GameObject relicObject = relic.gameObject;
+                if (relicObject.name == $"RelicObject{nums[i]}")
+                {
+                    relicObject.SetActive(false);
+                    break;
                 }
             }
         }
@@ -283,11 +300,9 @@ public class UI_InvenPopup : UI_Popup
             if (inventoryDataRes.status == 200)
             {
                 _templateData.SelectedClassId = inventoryDataRes.data.currentClassNo;
-                Debug.Log($"before clear {_templateData.OwnedRelics.Count}");
                 _templateData.OwnedRelics.Clear();
-                Debug.Log($"after clear {_templateData.OwnedRelics.Count}");
                 _templateData.OwnedRelics = inventoryDataRes.data.myRelicList;
-                Debug.Log($"new input applyed {_templateData.OwnedRelics.Count}");
+
                 foreach (var OwnedRelic in _templateData.OwnedRelics)
                 {
                     if (OwnedRelic.slot != 0)
@@ -313,13 +328,16 @@ public class UI_InvenPopup : UI_Popup
                     int RelicId = OwnedRelic.relicNo * 10 + OwnedRelic.level;
                     GameObject RelicObject = Managers.Resource.Instantiate("UI_RelicDetailObject", GetObject((int)EGameObjects.RelicListObject).transform);
                     RelicObject.name = $"RelicObject{RelicId}";
+                    RelicObject.GetComponent<Button>().onClick.AddListener(() => OnClickRelicInfoButton(RelicId));
                     Sprite spr = Managers.Resource.Load<Sprite>(Managers.Data.RelicDic[RelicId].ThumbnailName);
                     Util.FindChild<Image>(RelicObject, "RelicImage").sprite = spr;
-                    RelicObject.BindEvent(() => OnClickRelicInfoButton(RelicId));
+                    //RelicObject.BindEvent(onClick.AddListener(() => OnClickRelicInfoButton(RelicId)));
+                    //GetButton((int)EButtons.RankingDetailButton).onClick.AddListener(() => OnClickRankingDetailButton(rankingInfo, rank));
                 }
 
                 SetClassImage(_templateData.SelectedClassId);
                 SetEquipedRelicImages(_templateData.EquipedRelicIds);
+                SetEquiped(_templateData.EquipedRelicIds);
             }
         }));
     }

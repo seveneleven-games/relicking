@@ -326,6 +326,9 @@ public class GameScene : BaseScene
                 if (clearDataRes != null && clearDataRes.status == 200)
                 {
                     Debug.Log(clearDataRes.message);
+                    
+                    // 성공 했으면 데이터 갱신해주기 (로그인때만 스테이지 정보를 가져오므로)
+                    Managers.Game.UpdateStageDifficulty(clearDataReq.stage, clearDataReq.difficulty);
                 }
                 else
                 {

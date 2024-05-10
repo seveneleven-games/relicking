@@ -32,7 +32,7 @@ public class UserRes
     public string refreshToken;
     public int memberId;
     public string nickname;
-    public StageRes stageRes;
+    public StageRes stageData;
     public int currentClassNo;
     public List<RelicList> relicList;
 }
@@ -205,8 +205,9 @@ public class UI_LoginInputPopup : UI_Popup
                 Managers.Game._gameData.accessToken = loginDataRes.data.accessToken;
                 Managers.Game._gameData.refreshToken = loginDataRes.data.refreshToken;
                 
+                
                 // 스테이지별 난이도 정보 업데이트
-                Managers.Game.UpdateStageClearInfo(loginDataRes.data.stageRes);
+                Managers.Game.UpdateStageClearInfo(loginDataRes.data.stageData);
                 _templateData.SelectedClassId = loginDataRes.data.currentClassNo;
                 loginDataRes.data.relicList.ForEach(relic =>
                 {
