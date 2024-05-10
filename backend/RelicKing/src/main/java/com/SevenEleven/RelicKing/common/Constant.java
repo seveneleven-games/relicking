@@ -30,5 +30,5 @@ public interface Constant {
 	String AUTH_CODE_PREFIX = "AuthCode ";
 
 	// skill
-	int THE_NUMBER_OF_SKILL = 7;
+	int THE_NUMBER_OF_SKILL = 10;
 }
