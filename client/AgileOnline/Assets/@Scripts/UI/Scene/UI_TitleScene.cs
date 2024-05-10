@@ -80,9 +80,12 @@ public class UI_TitleScene : UI_Scene
         Managers.Resource.LoadAllAsync<Object>("PreLoad", (key, count, totalCount) =>
         {
             Debug.Log($"{key} {count}/{totalCount}");
-
+            Debug.Log("잘 되고 있음!!");
+            
             if (count == totalCount)
             {
+                Debug.Log("카운트랑 토탈 카운트가 같음!!");
+                
                 isPreload = true;
                 Managers.Data.Init();
                 Managers.Game.Init();

@@ -180,7 +180,7 @@ public class UI_InvenRelicInfoPopup : UI_Popup
         }
         if (data.Speed > 0)
         {
-            result += $"\n이동속도 {data.CoolTime}% 증가";
+            result += $"\n이동속도 +{data.Speed}";
         }
 
         return result;
