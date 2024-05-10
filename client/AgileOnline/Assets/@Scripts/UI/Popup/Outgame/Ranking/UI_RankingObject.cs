@@ -20,7 +20,6 @@ public class UI_RankingObject : UI_Base
     {
         Rank,
         NickName,
-        Class,
         Difficulty
     }
     
@@ -78,7 +77,6 @@ public class UI_RankingObject : UI_Base
     {
         GetText((int)ETexts.Rank).text = $"{rank}";
         GetText((int)ETexts.NickName).text = rankingInfo.nickname;
-        GetText((int)ETexts.Class).text = Managers.Data.PlayerDic[rankingInfo.classNo].Name;
         GetText((int)ETexts.Difficulty).text = $"{rankingInfo.difficulty}";
         GetButton((int)EButtons.RankingDetailButton).onClick.AddListener(()=> OnClickRankingDetailButton(rankingInfo, rank));
     }

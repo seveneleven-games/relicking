@@ -3,7 +3,7 @@ using UnityEngine;
 public class KeyboardAdjuster : MonoBehaviour
 {
     public RectTransform targetRectTransform; // 조정할 RectTransform
-    private Vector2 originalPosition; // 원래 위치 저장
+    public Vector2 originalPosition; // 원래 위치 저장
 
     void Start()
     {
