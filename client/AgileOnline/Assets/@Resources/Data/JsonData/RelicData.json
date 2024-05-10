@@ -2203,10 +2203,10 @@
       "ThumbnailName": "Relic_4011.sprite",
       "Description": "YOU ARE THE RELICKING.",
       "Rarity": 4,
-      "Atk": 60,
-      "MaxHp": 60,
+      "Atk": 600,
+      "MaxHp": 600,
       "CoolTime": 19,
-      "Speed": 60
+      "Speed": 600
     },
     {
       "RelicId": 4014,
@@ -2215,10 +2215,10 @@
       "ThumbnailName": "Relic_4011.sprite",
       "Description": "YOU ARE THE RELICKING.",
       "Rarity": 4,
-      "Atk": 65,
-      "MaxHp": 65,
+      "Atk": 650,
+      "MaxHp": 650,
       "CoolTime": 21,
-      "Speed": 65
+      "Speed": 650
     },
     {
       "RelicId": 4015,
@@ -2227,10 +2227,10 @@
       "ThumbnailName": "Relic_4011.sprite",
       "Description": "YOU ARE THE RELICKING.",
       "Rarity": 4,
-      "Atk": 70,
-      "MaxHp": 70,
+      "Atk": 700,
+      "MaxHp": 700,
       "CoolTime": 23,
-      "Speed": 70
+      "Speed": 700
     },
     {
       "RelicId": 4016,
@@ -2239,10 +2239,10 @@
       "ThumbnailName": "Relic_4011.sprite",
       "Description": "YOU ARE THE RELICKING.",
       "Rarity": 4,
-      "Atk": 75,
-      "MaxHp": 75,
+      "Atk": 750,
+      "MaxHp": 750,
       "CoolTime": 25,
-      "Speed": 75
+      "Speed": 750
     },
     {
       "RelicId": 4017,
@@ -2251,10 +2251,10 @@
       "ThumbnailName": "Relic_4011.sprite",
       "Description": "YOU ARE THE RELICKING.",
       "Rarity": 4,
-      "Atk": 80,
-      "MaxHp": 80,
+      "Atk": 800,
+      "MaxHp": 800,
       "CoolTime": 27,
-      "Speed": 80
+      "Speed": 800
     },
     {
       "RelicId": 4018,
@@ -2263,10 +2263,10 @@
       "ThumbnailName": "Relic_4011.sprite",
       "Description": "YOU ARE THE RELICKING.",
       "Rarity": 4,
-      "Atk": 85,
-      "MaxHp": 85,
+      "Atk": 850,
+      "MaxHp": 850,
       "CoolTime": 29,
-      "Speed": 85
+      "Speed": 850
     },
     {
       "RelicId": 4019,
@@ -2275,10 +2275,10 @@
       "ThumbnailName": "Relic_4011.sprite",
       "Description": "YOU ARE THE RELICKING.",
       "Rarity": 4,
-      "Atk": 90,
-      "MaxHp": 90,
+      "Atk": 900,
+      "MaxHp": 900,
       "CoolTime": 31,
-      "Speed": 90
+      "Speed": 900
     }
   ]
 }
