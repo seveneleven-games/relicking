@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using static Util;
 
@@ -112,6 +113,8 @@ public class UI_NicknamePopup : UI_Popup
         
         // 중복 체크 결과 텍스트
         GetText((int)ETexts.NicknameResultText).gameObject.SetActive(false);
+        
+        
         
         #endregion
 

@@ -130,6 +130,7 @@ public class PlayerController : CreatureController
 
         if (CoolDown < 0.1)
             CoolDown = 0.1f;
+        
     }
 
     private void Update()
@@ -188,8 +189,6 @@ public class PlayerController : CreatureController
             UpdateRemainGoldText();
 
             Destroy(collision.gameObject);
-
-            Debug.Log($"획득한 골드: {goldValue}, 현재 골드 량: {PlayerGold}");
         }
     }
 

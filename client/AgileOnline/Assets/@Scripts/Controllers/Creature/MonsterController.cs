@@ -9,7 +9,7 @@ using static Define;
 public class MonsterController : CreatureController
 {
     private PlayerController _player;
-    
+
     public int MonsterId { get; private set; }
     public string PrefabName { get; private set; }
     public int MonsterType { get; private set; }
@@ -19,11 +19,12 @@ public class MonsterController : CreatureController
     public float CritRate { get; private set; }
     public float CritDmgRate { get; private set; }
     public float CoolDown { get; private set; }
-    
+
     public List<int> MonsterSkillList { get; private set; }
-    
+
     private Coroutine _skillCoroutine;
     private bool _isUsingSkill;
+    private bool _isChasing;
 
     private TemplateData _templateData;
 
@@ -37,12 +38,13 @@ public class MonsterController : CreatureController
 
         return true;
     }
-    
+
     public void InitMonster(int templateId)
     {
         MonsterData data = Managers.Data.MonsterDic[templateId];
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
-        int difficulty = _templateData.Difficulty;
+        int stageId = _templateData.StageId;
+        int difficulty = Managers.Game.DicStageClearInfo[stageId].SelectedDifficulty;
 
         MonsterId = data.MonsterId;
         PrefabName = data.PrefabName;
@@ -56,7 +58,7 @@ public class MonsterController : CreatureController
         CritRate = data.CritRate;
         CritDmgRate = data.CritDmgRate;
         CoolDown = data.CoolDown;
-        
+
         MonsterSkillList = new List<int>(new int[3]);
         if (MonsterType == 1)
         {
@@ -79,9 +81,12 @@ public class MonsterController : CreatureController
     {
         if (_player == null)
             return;
-        
-        ChasePlayer();
-        
+
+        if (!_isUsingSkill || !_isChasing)
+        {
+            ChasePlayer();
+        }
+
         if (!_isUsingSkill && MonsterType != 0)
         {
             StartRandomSkill();
@@ -112,7 +117,7 @@ public class MonsterController : CreatureController
             return;
         if (this.IsValid() == false)
             return;
-        
+
         if (_coDotDamage != null)
             StopCoroutine(_coDotDamage);
 
@@ -132,6 +137,7 @@ public class MonsterController : CreatureController
     }
 
     private Coroutine _coDotDamage;
+
     public IEnumerator CoStartDotDamage(PlayerController target)
     {
         while (true)
@@ -141,22 +147,18 @@ public class MonsterController : CreatureController
             yield return new WaitForSeconds(0.1f);
         }
     }
-    
+
     public override bool OnDamaged(BaseController attacker, ref float damage)
     {
         bool isCritical = base.OnDamaged(attacker, ref damage);
-        if (isCritical)
-        {
-            Debug.Log("크리티컬임!!");   
-        }
-        UI_World.Instance.ShowDamage((int) damage, transform.position + Vector3.up * 1f, isCritical);
+        UI_World.Instance.ShowDamage((int)damage, transform.position + Vector3.up * 1f, isCritical);
         return isCritical;
     }
-    
+
     public override void OnDead()
     {
         base.OnDead();
-        
+
         if (_coDotDamage != null)
             StopCoroutine(_coDotDamage);
         _coDotDamage = null;
@@ -165,15 +167,15 @@ public class MonsterController : CreatureController
         {
             _player.IsBossKilled = true;
         }
-        
+
         GoldController gc = Managers.Object.Spawn<GoldController>(transform.position, MonsterId);
         gc.InitGold(MonsterId);
-        
+
         Managers.Object.Despawn(this);
     }
 
     #region Skill
-    
+
     void StartRandomSkill()
     {
         if (_skillCoroutine != null)
@@ -189,10 +191,12 @@ public class MonsterController : CreatureController
             _skillCoroutine = StartCoroutine(CoStartSkill(skillId));
         }
     }
-    
+
+
     IEnumerator CoStartSkill(int skillId)
     {
         _isUsingSkill = true;
+        _isChasing = true;
 
         SkillData skillData = Managers.Data.SkillDic[skillId];
         WaitForSeconds coolTimeWait = new WaitForSeconds(5f);
@@ -207,25 +211,38 @@ public class MonsterController : CreatureController
                 {
                     float angle = i * angleStep;
                     Vector3 direction = Quaternion.Euler(0f, 0f, angle) * Vector3.up;
-                    EliteMonsterProjectileController emp = Managers.Object.Spawn<EliteMonsterProjectileController>(transform.position, skillId);
+                    EliteMonsterProjectileController emp =
+                        Managers.Object.Spawn<EliteMonsterProjectileController>(transform.position, skillId);
                     emp.SetMoveDirection(direction);
                 }
+
                 break;
-            
+
             case "BossMonsterCharge":
+                Vector3 originalPlayerPosition = _player.transform.position;
+                yield return new WaitForSeconds(2f);
+
                 float originalSpeed = Speed;
                 Speed = 15f;
-                yield return new WaitForSeconds(0.5f);
+
+                while (Vector3.Distance(transform.position, originalPlayerPosition) > 0.1f)
+                {
+                    Vector3 dir = (originalPlayerPosition - transform.position).normalized;
+                    CreatureState = ECreatureState.Move;
+                    TranslateEx(dir * Time.deltaTime * Speed);
+                    yield return null;
+                }
+
                 Speed = originalSpeed;
                 break;
         }
 
-        yield return coolTimeWait;
+        _isChasing = false;
 
+        yield return coolTimeWait;
+        
         _isUsingSkill = false;
     }
-    
 
     #endregion
-
 }

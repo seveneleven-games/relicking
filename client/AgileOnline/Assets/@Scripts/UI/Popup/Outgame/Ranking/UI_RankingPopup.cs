@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using static Util;
 
 
@@ -88,7 +89,20 @@ public class UI_RankingPopup : UI_Popup
     // 객체관련 두는 곳
     RankingDataRes _rankingDataRes;
 
+    UI_RankingDetailPopup _uiRankingDetailPopup; // 계속 생성되는 것을 방지하기 위해
+
     private int _wantStage = 1; 
+    
+    
+    void OnEnable() 
+    {
+        UI_StageSelectPopup.OnStageSelected += UpdateStage;
+    }
+
+    void OnDisable() 
+    {
+        UI_StageSelectPopup.OnStageSelected -= UpdateStage;
+    }
     
     public override bool Init()
     {
@@ -102,10 +116,12 @@ public class UI_RankingPopup : UI_Popup
         BindText(typeof(ETexts));
 
         GetButton((int)EButtons.StageSelectButton).gameObject.BindEvent(OnClickStageSelectButton);
-
+        
+        // 계속 생성되는 것을 방지하기 위해
+        _uiRankingDetailPopup = Managers.UI.ShowPopupUI<UI_RankingDetailPopup>();
+        _uiRankingDetailPopup.gameObject.SetActive(false);
+        
         #endregion
-
-        UI_StageSelectPopup.OnStageSelected += UpdateStage;
         
         GetRankingInfo();
         Refresh();
@@ -113,10 +129,6 @@ public class UI_RankingPopup : UI_Popup
         return true;
     }
     
-    void OnDestroy()
-    {
-        UI_StageSelectPopup.OnStageSelected -= UpdateStage;
-    }
     
     private void UpdateStage(int stage)
     {
@@ -136,6 +148,7 @@ public class UI_RankingPopup : UI_Popup
             
             SetMyInfo();
             GenerateRankingList();
+            
         }));
     }
 
@@ -147,7 +160,12 @@ public class UI_RankingPopup : UI_Popup
         GetText((int)ETexts.MyNickName).text = currentRanking.myRank.nickname;
         GetText((int)ETexts.MyClass).text = Managers.Data.PlayerDic[currentRanking.myRank.classNo].Name;
         GetText((int)ETexts.MyDifficulty).text = $"{currentRanking.myRank.difficulty}";
-        GetButton((int)EButtons.MyRankingButton).gameObject.BindEvent(() => OnClickRankingDetailButton(currentRanking.myRank));
+        
+        // 기존 이벤트 리스너 제거
+        GetButton((int)EButtons.MyRankingButton).onClick.RemoveAllListeners();
+
+        // 새 이벤트 리스너 추가
+        GetButton((int)EButtons.MyRankingButton).onClick.AddListener(() => OnClickRankingDetailButton(currentRanking.myRank));
     }
     
     
@@ -162,7 +180,7 @@ public class UI_RankingPopup : UI_Popup
             case 3:
                 return _rankingDataRes.data.stage3;
             default:
-                return _rankingDataRes.data.stage1;
+                return null;
         }
     }
     
@@ -177,11 +195,12 @@ public class UI_RankingPopup : UI_Popup
             
             for (int i = 0; i < currentRanking.rankList.Count; i++)
             {
+                
                 RankingInfo info = currentRanking.rankList[i];
                 
                 int rank = i + 1; // 등수 만들어주기.
                 
-                UI_RankingObject item = Managers.Resource.Instantiate("UI_RankingObject", pooling: true)
+                UI_RankingObject item = Managers.Resource.Instantiate("UI_RankingObject", pooling: false)
                     .GetOrAddComponent<UI_RankingObject>();
                 item.transform.SetParent(container.transform);
                 
@@ -201,12 +220,12 @@ public class UI_RankingPopup : UI_Popup
         Managers.UI.ShowPopupUI<UI_StageSelectPopup>();
         
     }
-
+    
     void OnClickRankingDetailButton(MyRankingInfo myRankingInfo)
     {
         Debug.Log("RankingDetail");
-        UI_RankingDetailPopup popup = Managers.UI.ShowPopupUI<UI_RankingDetailPopup>();
         // 디테일 쪽에 내 랭킹 정보 그대로 보내줘야됨....(정보를 쬐매만 줌.) -> 원하는 스테이지 정보도 같이 보내주기!!
-        popup.SetMyRankingInfo(myRankingInfo);
+        _uiRankingDetailPopup.gameObject.SetActive(true);
+        _uiRankingDetailPopup.SetMyRankingInfo(myRankingInfo);
     }
 }
