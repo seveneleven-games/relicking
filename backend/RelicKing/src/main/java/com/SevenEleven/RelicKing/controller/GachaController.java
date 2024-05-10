@@ -10,6 +10,7 @@ import com.SevenEleven.RelicKing.common.security.CustomUserDetails;
 import com.SevenEleven.RelicKing.service.GachaService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Tag(name = "Gacha", description = "가챠 API")
@@ -26,7 +27,7 @@ public class GachaController {
 	}
 
 	@PostMapping()
-	public Response doGacha(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody GachaRequestDTO gachaRequestDTO) {
+	public Response doGacha(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody @Valid GachaRequestDTO gachaRequestDTO) {
 		return new Response(HttpStatus.OK.value(), "가챠 뽑기에 성공했습니다.", gachaService.doGacha(customUserDetails.getMember(), gachaRequestDTO));
 	}
 

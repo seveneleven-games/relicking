@@ -11,7 +11,6 @@ import java.util.Random;
 import java.util.Stack;
 import java.util.stream.IntStream;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,14 +32,6 @@ public class MemberRelicRepositoryTests {
 
 	@Autowired
 	private MemberRepository memberRepository;
-
-	@Test
-	public void test1() {
-		Assertions.assertNotNull(memberRelicRepository);
-		log.info("--------------------------------------------------------------");
-		log.info(memberRelicRepository.getClass().getName());
-		log.info("--------------------------------------------------------------");
-	}
 
 	@Test
 	public void insertTest() {
