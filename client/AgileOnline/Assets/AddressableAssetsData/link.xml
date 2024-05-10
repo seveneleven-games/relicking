@@ -22,6 +22,7 @@
     <type fullname="UI_ClearPopup" preserve="all" />
     <type fullname="UI_DeadPopup" preserve="all" />
     <type fullname="UI_DifficultySelectPopup" preserve="all" />
+    <type fullname="UI_GachaNoTicketPopup" preserve="all" />
     <type fullname="UI_GachaRelicObject" preserve="all" />
     <type fullname="UI_GachaResultPopup" preserve="all" />
     <type fullname="UI_GameExitConfirmPopup" preserve="all" />
