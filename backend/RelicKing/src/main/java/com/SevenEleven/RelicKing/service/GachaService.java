@@ -55,22 +55,18 @@ public class GachaService {
 			Random rand = SecureRandom.getInstanceStrong();
 			for (int i = 0; i < gachaRequestDTO.getGachaNum().getValue(); i++) {
 				double w = rand.nextDouble();
-				if (w <= 0.6) {
-					gachaResult[0][rand.nextInt(Constant.RELIC_INFO_TABLE[0]) + 1]++;
-				} else if (w <= 0.9) {
-					gachaResult[1][rand.nextInt(Constant.RELIC_INFO_TABLE[1]) + 1]++;
-				} else if (w <= 0.98) {
-					gachaResult[2][rand.nextInt(Constant.RELIC_INFO_TABLE[2]) + 1]++;
-				} else if (w <= 0.9999) {
-					gachaResult[3][rand.nextInt(Constant.RELIC_INFO_TABLE[3]) + 1]++;
-				} else {
-					gachaResult[4][rand.nextInt(Constant.RELIC_INFO_TABLE[4]) + 1]++;
+				for (int k = 1; k < Constant.GACHA_POSSIBILITY.length; k++) {
+					if (Constant.GACHA_POSSIBILITY[k - 1] <= w && w < Constant.GACHA_POSSIBILITY[k]) {
+						gachaResult[k - 1][rand.nextInt(Constant.RELIC_INFO_TABLE[k - 1]) + 1]++;
+						break;
+					}
 				}
 			}
 		} catch (NoSuchAlgorithmException e) {
 			throw new RuntimeException(e);
 		}
 
+		List<MemberRelic> memberRelicList = new ArrayList<>();
 		Set<MemberRelic> memberRelics = member.getMemberRelics();
 		memberRelics.forEach(memberRelic -> {
 			int rarity = memberRelic.getRelicNo()/100;
@@ -81,8 +77,7 @@ public class GachaService {
 					memberRelic.plusExp(Constant.EXP_GACHA * gachaResult[rarity][memberRelic.getRelicNo() % 100]);
 					int after = memberRelic.getLevel();
 
-					// save
-					memberRelicRepository.save(memberRelic);
+					memberRelicList.add(memberRelic);
 
 					// results에 Map add
 					Map<String, Object> relic = new LinkedHashMap<>();
@@ -97,7 +92,6 @@ public class GachaService {
 			} catch (ArrayIndexOutOfBoundsException e) {
 				// db에 남아있는 과거의 유물 때문
 			}
-
 		});
 
 		for (int i = 0; i < raritySize; i++) {
@@ -109,7 +103,7 @@ public class GachaService {
 						.build();
 					memberRelic.plusExp(Constant.EXP_GACHA * (gachaResult[i][j] - 1));
 					int after = memberRelic.getLevel();
-					memberRelicRepository.save(memberRelic);
+					memberRelicList.add(memberRelic);
 
 					Map<String, Object> relic = new LinkedHashMap<>();
 					relic.put("relicNo", memberRelic.getRelicNo());
@@ -122,6 +116,7 @@ public class GachaService {
 			}
 		}
 
+		memberRelicRepository.saveAll(memberRelicList);
 		Collections.shuffle(results);
 
 		return results;
