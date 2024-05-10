@@ -220,7 +220,7 @@ public class MonsterController : CreatureController
 
             case "BossMonsterCharge":
                 Vector3 originalPlayerPosition = _player.transform.position;
-                yield return new WaitForSeconds(2f);
+                yield return new WaitForSeconds(1.5f);
 
                 float originalSpeed = Speed;
                 Speed = 15f;
