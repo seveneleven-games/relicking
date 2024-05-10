@@ -28,7 +28,6 @@ public class GachaService {
 	private final MemberRepository memberRepository;
 	private final MemberRelicRepository memberRelicRepository;
 
-	// Todo 주석 지우기
 	public Map<String, Integer> getGachaInfo(Member member) {
 		return Map.of("gacha", member.getGacha());
 	}
@@ -97,10 +96,7 @@ public class GachaService {
 		for (int i = 0; i < raritySize; i++) {
 			for (int j = 1; j < gachaResult[i].length; j++) {
 				if (gachaResult[i][j] > 0) {
-					MemberRelic memberRelic = MemberRelic.builder()
-						.member(member)
-						.relicNo(i * 100 + j)
-						.build();
+					MemberRelic memberRelic = new MemberRelic(member, i * 100 + j);
 					memberRelic.plusExp(Constant.EXP_GACHA * memberRelic.getLevel() * (gachaResult[i][j] - 1));
 					int after = memberRelic.getLevel();
 					memberRelicList.add(memberRelic);

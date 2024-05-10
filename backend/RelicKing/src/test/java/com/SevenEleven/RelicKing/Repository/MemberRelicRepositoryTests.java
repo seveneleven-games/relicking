@@ -57,10 +57,7 @@ public class MemberRelicRepositoryTests {
 					for (int k = 1; k < Constant.GACHA_POSSIBILITY.length; k++) {
 						if (relicNoList[k - 1].isEmpty()) continue;
 						if (Constant.GACHA_POSSIBILITY[k - 1] <= w && w < Constant.GACHA_POSSIBILITY[k]) {
-							MemberRelic memberRelic = MemberRelic.builder()
-									.member(member)
-									.relicNo(relicNoList[k - 1].pop() + 100 * (k - 1))
-									.build();
+							MemberRelic memberRelic = new MemberRelic(member, relicNoList[k - 1].pop() + 100 * (k - 1));
 							newMemberRelics.add(memberRelic);
 							break;
 						}

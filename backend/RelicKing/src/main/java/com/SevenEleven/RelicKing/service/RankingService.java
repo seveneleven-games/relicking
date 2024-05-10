@@ -23,8 +23,8 @@ public class RankingService {
 
     public Map<String, Object> getRankings(Member member) {
         Record[] myRecord = new Record[Constant.MAX_STAGE];
-        Arrays.fill(myRecord, Record.builder().member(member).recordId(-1).difficulty(-1).build());
-        List<Record> myRecordList = recordRepository.findByMember(member);
+        Arrays.fill(myRecord, Record.builder().member(member).difficulty(0).build());
+        List<Record> myRecordList = member.getRecords().stream().toList();
         myRecordList.forEach(record -> myRecord[record.getStage() - 1] = record);
         Map<String, Object> data = new LinkedHashMap<>();
         for (int i = 1; i <= Constant.MAX_STAGE; i++) {
@@ -35,7 +35,7 @@ public class RankingService {
             try {
                 myRank.put("rank", recordRepository.findRankByMemberAndStage(member.getMemberId(), i));
             } catch (AopInvocationException e) {
-                myRank.put("rank", -1);
+                myRank.put("rank", 0);
             }
             myRank.put("nickname", member.getNickname());
             myRank.put("classNo", member.getCurrentClassNo());
