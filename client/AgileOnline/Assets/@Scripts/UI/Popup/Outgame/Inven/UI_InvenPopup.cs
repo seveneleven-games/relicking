@@ -294,6 +294,7 @@ public class UI_InvenPopup : UI_Popup
                 }
             }
         }
+        // HashSet 쓰면 더 편하게 할 수 있음.
         equipedRelics.Sort();
         int idx = 0;
         for (int i = 0; i < relicListObject.transform.childCount; i++)
@@ -354,6 +355,8 @@ public class UI_InvenPopup : UI_Popup
 
                 SetClassImage(_templateData.SelectedClassId);
                 SetEquipedRelicImages(_templateData.EquipedRelicIds);
+                
+                Debug.Log("야호!! 들어있니!!" + _templateData.EquipedRelicIds);
                 SetEquiped(_templateData.EquipedRelicIds);
             }
         }));
