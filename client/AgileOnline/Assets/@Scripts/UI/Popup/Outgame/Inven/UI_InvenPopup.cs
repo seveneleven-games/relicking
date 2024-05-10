@@ -2,7 +2,9 @@ using Data;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using static Util;
@@ -134,6 +136,7 @@ public class UI_InvenPopup : UI_Popup
         ToggleInit();
         OnClickRelicToggle();
         GetRelicInfo();
+        SetEquiped(_templateData.EquipedRelicIds);
 
         Managers.Game.OnResourcesChanged += Refresh;
         _templateData.OnPlayerStatusChagned += SetClassDetailStatus;
@@ -277,17 +280,33 @@ public class UI_InvenPopup : UI_Popup
 
     void SetEquiped(int[] nums)
     {
+        GameObject relicListObject = GetObject((int)EGameObjects.RelicListObject);
+        List<int> equipedRelics = new();
         for (int i = 0; i < nums.Length; i++)
         {
-            GameObject relicListObject = GetObject((int)EGameObjects.RelicListObject);
-            foreach (Transform relic in relicListObject.transform)
+            for (int j = 0; j < relicListObject.transform.childCount; j++)
             {
-                GameObject relicObject = relic.gameObject;
-                if (relicObject.name == $"RelicObject{nums[i]}")
+                Transform child = relicListObject.transform.GetChild(j);
+                if (child.gameObject.name == $"RelicObject{nums[i]}")
                 {
-                    relicObject.SetActive(false);
+                    equipedRelics.Add(j);
                     break;
                 }
+            }
+        }
+        equipedRelics.Sort();
+        int idx = 0;
+        for (int i = 0; i < relicListObject.transform.childCount; i++)
+        {
+            Transform child = relicListObject.transform.GetChild(i);
+            if (idx < equipedRelics.Count && i == equipedRelics[idx])
+            {
+                child.gameObject.SetActive(false);
+                idx++;
+            }
+            else
+            {
+                child.gameObject.SetActive(true);
             }
         }
     }
@@ -321,7 +340,7 @@ public class UI_InvenPopup : UI_Popup
 
                 foreach (var OwnedRelic in _templateData.OwnedRelics)
                 {
-
+                    
                     if (OwnedRelic.relicNo == 0)
                         continue;
 
@@ -331,8 +350,6 @@ public class UI_InvenPopup : UI_Popup
                     RelicObject.GetComponent<Button>().onClick.AddListener(() => OnClickRelicInfoButton(RelicId));
                     Sprite spr = Managers.Resource.Load<Sprite>(Managers.Data.RelicDic[RelicId].ThumbnailName);
                     Util.FindChild<Image>(RelicObject, "RelicImage").sprite = spr;
-                    //RelicObject.BindEvent(onClick.AddListener(() => OnClickRelicInfoButton(RelicId)));
-                    //GetButton((int)EButtons.RankingDetailButton).onClick.AddListener(() => OnClickRankingDetailButton(rankingInfo, rank));
                 }
 
                 SetClassImage(_templateData.SelectedClassId);
