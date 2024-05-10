@@ -348,6 +348,14 @@ public class UI_InvenPopup : UI_Popup
                     GameObject RelicObject = Managers.Resource.Instantiate("UI_RelicDetailObject", GetObject((int)EGameObjects.RelicListObject).transform);
                     RelicObject.name = $"RelicObject{RelicId}";
                     RelicObject.GetComponent<Button>().onClick.AddListener(() => OnClickRelicInfoButton(RelicId));
+                    RelicObject.GetComponent<Image>().sprite = RelicId switch
+                    {
+                        < 1000 => Managers.Resource.Load<Sprite>("RelicFrame_C.sprite"),
+                        < 2000 => Managers.Resource.Load<Sprite>("RelicFrame_B.sprite"),
+                        < 3000 => Managers.Resource.Load<Sprite>("RelicFrame_A.sprite"),
+                        < 4000 => Managers.Resource.Load<Sprite>("RelicFrame_S.sprite"),
+                        _ => Managers.Resource.Load<Sprite>("RelicFrame_SSS.sprite"),
+                    };
                     Sprite spr = Managers.Resource.Load<Sprite>(Managers.Data.RelicDic[RelicId].ThumbnailName);
                     Util.FindChild<Image>(RelicObject, "RelicImage").sprite = spr;
                 }
