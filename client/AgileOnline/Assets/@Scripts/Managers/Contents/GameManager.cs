@@ -191,7 +191,7 @@ public class GameManager
         UpdateStageDifficulty(3, stageRes.stage3);
     }
 
-    private void UpdateStageDifficulty(int stageId, int difficulty)
+    public void UpdateStageDifficulty(int stageId, int difficulty)
     {
         if (_gameData.DicStageClearInfo.ContainsKey(stageId))
         {
