@@ -43,7 +43,8 @@ public class MonsterController : CreatureController
     {
         MonsterData data = Managers.Data.MonsterDic[templateId];
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
-        int difficulty = _templateData.Difficulty;
+        int stageId = _templateData.StageId;
+        int difficulty = Managers.Game.DicStageClearInfo[stageId].SelectedDifficulty;
 
         MonsterId = data.MonsterId;
         PrefabName = data.PrefabName;
