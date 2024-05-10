@@ -246,27 +246,27 @@ public class UI_RankingDetailPopup : UI_Popup
                 {
                     case 1:
                         GetText((int)ETexts.SkillLevelText1).text = $"Lv.{skillDetail.level}";
-                        GetImage((int)EImages.Image1).sprite = Managers.Resource.Load<Sprite>(Managers.Data.SkillDic[skillDetail.skillNo].IconName);
+                        GetImage((int)EImages.Image1).sprite = Managers.Resource.Load<Sprite>(Managers.Data.SkillDic[skillDetail.skillNo * 10 + skillDetail.level].IconName);
                         break;
                     case 2:
                         GetText((int)ETexts.SkillLevelText2).text = $"Lv.{skillDetail.level}";
-                        GetImage((int)EImages.Image2).sprite = Managers.Resource.Load<Sprite>(Managers.Data.SkillDic[skillDetail.skillNo].IconName);
+                        GetImage((int)EImages.Image2).sprite = Managers.Resource.Load<Sprite>(Managers.Data.SkillDic[skillDetail.skillNo * 10 + skillDetail.level].IconName);
                         break;
                     case 3:
                         GetText((int)ETexts.SkillLevelText3).text = $"Lv.{skillDetail.level}";
-                        GetImage((int)EImages.Image3).sprite = Managers.Resource.Load<Sprite>(Managers.Data.SkillDic[skillDetail.skillNo].IconName);
+                        GetImage((int)EImages.Image3).sprite = Managers.Resource.Load<Sprite>(Managers.Data.SkillDic[skillDetail.skillNo * 10 + skillDetail.level].IconName);
                         break;
                     case 4:
                         GetText((int)ETexts.SkillLevelText4).text = $"Lv.{skillDetail.level}";
-                        GetImage((int)EImages.Image4).sprite = Managers.Resource.Load<Sprite>(Managers.Data.SkillDic[skillDetail.skillNo].IconName);
+                        GetImage((int)EImages.Image4).sprite = Managers.Resource.Load<Sprite>(Managers.Data.SkillDic[skillDetail.skillNo * 10 + skillDetail.level].IconName);
                         break;
                     case 5:
                         GetText((int)ETexts.SkillLevelText5).text = $"Lv.{skillDetail.level}";
-                        GetImage((int)EImages.Image5).sprite = Managers.Resource.Load<Sprite>(Managers.Data.SkillDic[skillDetail.skillNo].IconName);
+                        GetImage((int)EImages.Image5).sprite = Managers.Resource.Load<Sprite>(Managers.Data.SkillDic[skillDetail.skillNo * 10 + skillDetail.level].IconName);
                         break;
                     case 6:
                         GetText((int)ETexts.SkillLevelText6).text = $"Lv.{skillDetail.level}";
-                        GetImage((int)EImages.Image6).sprite = Managers.Resource.Load<Sprite>(Managers.Data.SkillDic[skillDetail.skillNo].IconName);
+                        GetImage((int)EImages.Image6).sprite = Managers.Resource.Load<Sprite>(Managers.Data.SkillDic[skillDetail.skillNo * 10 + skillDetail.level].IconName);
                         break;
                     
                     default:
