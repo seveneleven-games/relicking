@@ -80,7 +80,6 @@ public class UI_RankingPopup : UI_Popup
         StageText,
         MyRank,
         MyNickName,
-        MyClass,
         MyDifficulty,
     }
 
@@ -158,7 +157,6 @@ public class UI_RankingPopup : UI_Popup
         StageRanking currentRanking = GetCurrentStageRanking();
         GetText((int)ETexts.MyRank).text = $"{currentRanking.myRank.rank}";
         GetText((int)ETexts.MyNickName).text = currentRanking.myRank.nickname;
-        GetText((int)ETexts.MyClass).text = Managers.Data.PlayerDic[currentRanking.myRank.classNo].Name;
         GetText((int)ETexts.MyDifficulty).text = $"{currentRanking.myRank.difficulty}";
         
         // 기존 이벤트 리스너 제거

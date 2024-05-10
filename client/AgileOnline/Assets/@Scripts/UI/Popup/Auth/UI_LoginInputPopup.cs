@@ -103,8 +103,6 @@ public class UI_LoginInputPopup : UI_Popup
     #endregion
     
     // 객체 관련 두는 곳
-
-    public KeyboardAdjuster keyboardAdjuster; // 키보드 조정
     
     private TemplateData _templateData;
     
@@ -118,12 +116,6 @@ public class UI_LoginInputPopup : UI_Popup
     {
         if (base.Init() == false)
             return false;
-        
-        
-        Debug.Log(GetComponent<RectTransform>());
-        
-        // 키보드 관련 설정하기
-        // keyboardAdjuster.targetRectTransform = GetComponent<RectTransform>();
         
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
 
