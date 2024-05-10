@@ -47,7 +47,7 @@ public class UI_World : MonoBehaviour
 
         TextMeshProUGUI damageText = damageTextObject.AddComponent<TextMeshProUGUI>();
         damageText.text = damage.ToString();
-        damageText.fontSize = 35;
+        damageText.fontSize = isCritical ? 55 : 45;
         damageText.color = isCritical ? Color.red : Color.white;
         damageText.alignment = TextAlignmentOptions.Center;
         damageText.font = damageTextFont;
@@ -57,7 +57,7 @@ public class UI_World : MonoBehaviour
         Vector2 canvasPosition;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(_canvasRectTransform, screenPosition, _canvas.worldCamera, out canvasPosition);
         rectTransform.anchoredPosition = canvasPosition;
-        rectTransform.sizeDelta = new Vector2(300, 50);
+        rectTransform.sizeDelta = new Vector2(600, 100);
         
         StartCoroutine(MoveDamageText(damageTextObject));
     }

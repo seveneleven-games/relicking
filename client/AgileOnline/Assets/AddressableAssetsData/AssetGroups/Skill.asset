@@ -41,7 +41,7 @@ MonoBehaviour:
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c28d31d1f79e71d4db3044b9602b5b06
+  - m_GUID: b8b77612b4de7a84d85d4643d91b26f5
     m_Address: EliteMonsterProjectile
     m_ReadOnly: 0
     m_SerializedLabels:
