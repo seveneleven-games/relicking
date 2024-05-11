@@ -7,6 +7,7 @@
     <type fullname="FrozenHeartController" preserve="all" />
     <type fullname="GoldController" preserve="all" />
     <type fullname="IceArrowController" preserve="all" />
+    <type fullname="KeyboardAdjuster" preserve="all" />
     <type fullname="MeteorController" preserve="all" />
     <type fullname="MeteorHitController" preserve="all" />
     <type fullname="MeteorShadowController" preserve="all" />
