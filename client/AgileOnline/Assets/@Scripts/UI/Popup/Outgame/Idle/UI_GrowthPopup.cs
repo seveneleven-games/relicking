@@ -93,6 +93,14 @@ public class UI_GrowthPopup : UI_Popup
 
         GetButton((int)EButtons.IdleSettingButton).gameObject.BindEvent(OnClickIdleSettingButton);
         GetButton((int)EButtons.StartIdleButton).gameObject.BindEvent(OnClickStartIdleButton);
+        
+        // 처음엔 전부 비활성화 상태로
+        GetText((int)ETexts.TotalGrowthContent).gameObject.SetActive(false);
+        GetText((int)ETexts.TodayGrowthContent).gameObject.SetActive(false);
+        GetText((int)ETexts.OneWeekStreakDays).gameObject.SetActive(false);
+        GetText((int)ETexts.StreakBonusText).gameObject.SetActive(false);
+        GetImage((int)EImages.StreakGraphContent).gameObject.SetActive(false);
+        
 
         #endregion
 
@@ -101,7 +109,7 @@ public class UI_GrowthPopup : UI_Popup
         Managers.Game.OnResourcesChanged += Refresh;
         Refresh();
         
-        //ShowIdleRewardDialog();
+       
 
         return true;
     }
@@ -130,13 +138,14 @@ public class UI_GrowthPopup : UI_Popup
 
     void UpdateGrowthUI(GrowthStaticRes data)
     {
-        // Debug.Log("데이터 잘 가져왔음 : " + data.continuousLockDate);
-        // Debug.Log("데이터 잘 가져왔음 : " + data.todayLockTime);
-        // Debug.Log("데이터 잘 가져왔음 : " + data.totalLockTime);
-
+        
         GetText((int)ETexts.TotalGrowthContent).text = FormatTime(data.totalLockTime);
         GetText((int)ETexts.TodayGrowthContent).text = FormatTime(data.todayLockTime);
         GetText((int)ETexts.OneWeekStreakDays).text = $"{data.continuousLockDate}일";
+        
+        GetText((int)ETexts.TotalGrowthContent).gameObject.SetActive(true);
+        GetText((int)ETexts.TodayGrowthContent).gameObject.SetActive(true);
+        GetText((int)ETexts.OneWeekStreakDays).gameObject.SetActive(true);
 
         if (data.continuousLockDate > 0)
         {
