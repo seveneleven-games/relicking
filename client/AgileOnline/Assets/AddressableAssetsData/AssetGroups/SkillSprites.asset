@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Sprites
+  m_Name: SkillSprites
   m_EditorClassIdentifier: 
-  m_GroupName: Sprites
+  m_GroupName: SkillSprites
   m_Data:
     m_SerializedData: []
   m_GUID: bc4bf56497c9f9a4ea1fe705cb88f0e9
@@ -71,56 +71,8 @@ MonoBehaviour:
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8a28f4fcf45f3b34f88b071fa80ddaf0
-    m_Address: Player3_img.sprite
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - PreLoad
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 3ad912a8e1a198d4caae5ad9123e6440
-    m_Address: Player4_img.sprite
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - PreLoad
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 693716b7bff021646afaea17e35771b5
-    m_Address: Player2_img.sprite
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - PreLoad
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 4c454a4cc929b5241ac94ddf798aa757
-    m_Address: Player1_img.sprite
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - PreLoad
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 15a168279db45824fa7c218d69658e51
-    m_Address: RelicFrame_SSS.sprite
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - PreLoad
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: e660975ec32b6a545a00df2449a578e1
-    m_Address: RelicFrame_S.sprite
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - PreLoad
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 322775f6d0679a44f96175debf32472f
-    m_Address: RelicFrame_A.sprite
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - PreLoad
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 690b1263dfbe7c34d80b9c35bf034ddf
-    m_Address: RelicFrame_B.sprite
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - PreLoad
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 3b096a0b5ab908c4fbf35811a5b7f7fe
-    m_Address: RelicFrame_C.sprite
+  - m_GUID: cac203b8c09b9ba44a18195e7f5155af
+    m_Address: Shuriken_icon
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
