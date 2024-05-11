@@ -74,7 +74,6 @@ public class UI_LoginInputPopup : UI_Popup
     
     enum EButtons
     {
-        KakaoLoginButton,
         LoginButton,
         BackButton,
     }
@@ -132,9 +131,6 @@ public class UI_LoginInputPopup : UI_Popup
         // 뒤로가기 버튼
         GetButton((int)EButtons.BackButton).gameObject.BindEvent(OnClickBackButton);
         
-        // Kakao 로그인 버튼
-        GetButton((int)EButtons.KakaoLoginButton).gameObject.BindEvent(OnClickKakaoLoginButton);
-        
         // 로그인하기 버튼
         GetButton((int)EButtons.LoginButton).gameObject.BindEvent(OnClickLoginButton);
 
@@ -166,18 +162,6 @@ public class UI_LoginInputPopup : UI_Popup
         Managers.UI.ShowPopupUI<UI_LoginPopup>();
     }
     
-    void OnClickKakaoLoginButton()
-    {
-        Debug.Log("OnClickKakaoLoginButton");
-        
-        // 웹통신 테스트 -> 성공
-        StartCoroutine(GetRequest("test/login", data =>
-        {
-            Debug.Log("test해봅시다!!! " + data);
-        }));
-
-    }
-
     void OnClickLoginButton()
     {
         

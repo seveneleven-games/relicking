@@ -3,35 +3,35 @@ using UnityEngine;
 
 public class KeyboardAdjuster : MonoBehaviour
 {
-    public RectTransform targetRectTransform; // Á¶Á¤ÇÒ RectTransform
-    public Vector2 originalPosition; // ¿ø·¡ À§Ä¡ ÀúÀå
+    public RectTransform targetRectTransform; // ì¡°ì •í•  RectTransform
+    public Vector2 originalPosition; // ì›ë˜ ìœ„ì¹˜ ì €ì¥
 
     void Start()
     {
-        // ¿ø·¡ À§Ä¡ ÀúÀå
+        // ì›ë˜ ìœ„ì¹˜ ì €ì¥
         originalPosition = targetRectTransform.anchoredPosition;
-        StartCoroutine(AdjustForKeyboard()); // ÄÚ·çÆ¾ ½ÃÀÛ
+        StartCoroutine(AdjustForKeyboard()); // ì½”ë£¨í‹´ ì‹œì‘
     }
 
     private IEnumerator AdjustForKeyboard()
     {
         while (true)
         {
-            // Å°º¸µå°¡ º¸ÀÏ ¶§±îÁö ´ë±â
+            // í‚¤ë³´ë“œê°€ ë³´ì¼ ë•Œê¹Œì§€ ëŒ€ê¸°
             yield return new WaitUntil(() => TouchScreenKeyboard.visible);
             float keyboardHeight = TouchScreenKeyboard.area.height;
             Debug.Log($"Keyboard visible height: {keyboardHeight}");
 
             if (keyboardHeight > 0)
             {
-                // Å°º¸µå ³ôÀÌ¿¡ ¸ÂÃç À§Ä¡ Á¶Á¤
+                // í‚¤ë³´ë“œ ë†’ì´ì— ë§ì¶° ìœ„ì¹˜ ì¡°ì •
                 targetRectTransform.anchoredPosition = new Vector2(originalPosition.x, originalPosition.y + keyboardHeight);
             }
 
-            // Å°º¸µå°¡ »ç¶óÁú ¶§±îÁö ´ë±â
+            // í‚¤ë³´ë“œê°€ ì‚¬ë¼ì§ˆ ë•Œê¹Œì§€ ëŒ€ê¸°
             yield return new WaitUntil(() => !TouchScreenKeyboard.visible);
             Debug.Log($"Keyboard visible height: {keyboardHeight}");
-            // ¿ø·¡ À§Ä¡·Î º¹¿ø
+            // ì›ë˜ ìœ„ì¹˜ë¡œ ë³µì›
             targetRectTransform.anchoredPosition = originalPosition;
         }
     }
