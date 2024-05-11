@@ -42,7 +42,7 @@ public class UI_GachaRelicObject : UI_Base
         Init();
     }
 
-    // ÃÊ±â ¼¼ÆÃ
+    // ì´ˆê¸° ì„¸íŒ…
     public override bool Init()
     {
         if (base.Init() == false)
@@ -61,42 +61,42 @@ public class UI_GachaRelicObject : UI_Base
         return true;
     }
 
-    // UI_GachaResultPopup¿¡¼­ È£ÃâÇÒ °ÍÀÓ.
+    // UI_GachaResultPopupì—ì„œ í˜¸ì¶œí•  ê²ƒì„.
     public void SetInfo(GachaRelic relic)
     {
         
-        // z À§Ä¡ 0À¸·Î ¹Ù²Ù±â
+        // z ìœ„ì¹˜ 0ìœ¼ë¡œ ë°”ê¾¸ê¸°
         RectTransform rectTransform = GetComponent<RectTransform>();
         Vector3 localPosition = rectTransform.localPosition;
         localPosition.z = 0;
         rectTransform.localPosition = localPosition;
         
-        // ½ºÄÉÀÏ ¼³Á¤
+        // ìŠ¤ì¼€ì¼ ì„¤ì •
         transform.localScale = Vector3.one;
         
-        // ·¹º§ Ç¥½Ã -> ·¹º§Àº ID·Î µû·Î °ü¸®¸¦ ¾ÈÇÏ³×??
+        // ë ˆë²¨ í‘œì‹œ -> ë ˆë²¨ì€ IDë¡œ ë”°ë¡œ ê´€ë¦¬ë¥¼ ì•ˆí•˜ë„¤??
         GetText((int)ETexts.RelicLevelText).text = "LV. " + relic.level.ToString();
         
-        #region ·¹¾î¸®Æ¼ Ç¥½Ã
+        #region ë ˆì–´ë¦¬í‹° í‘œì‹œ
 
-        // ·¹¾î¸®Æ¼ Ç¥½Ã (BG »ö±ò ¹Ù²Ù±â) -> ID¸¦ ÅëÇØ¼­ ºĞ¼®
-        // 0 : C±Ş, 1 : B±Ş, 2 : A±Ş, 3 : S±Ş, 4 : SSS±Ş (ÀÓ½Ã, ³ªÁß¿¡ ENUMÀ¸·Î ¹Ù²Ù°Å³ª ÇÒ °Í!)
+        // ë ˆì–´ë¦¬í‹° í‘œì‹œ (BG ìƒ‰ê¹” ë°”ê¾¸ê¸°) -> IDë¥¼ í†µí•´ì„œ ë¶„ì„
+        // 0 : Cê¸‰, 1 : Bê¸‰, 2 : Aê¸‰, 3 : Sê¸‰, 4 : SSSê¸‰ (ì„ì‹œ, ë‚˜ì¤‘ì— ENUMìœ¼ë¡œ ë°”ê¾¸ê±°ë‚˜ í•  ê²ƒ!)
         switch (Managers.Data.RelicDic[relic.relicNo * 10 + relic.level].Rarity)
         {
             case 0:
-                GetImage((int)EImages.RelicBGImage).color = RelicUIColors.GradeC;
+                GetImage((int)EImages.RelicBGImage).sprite = Managers.Resource.Load<Sprite>("RelicFrame_C.sprite");
                 break;
             case 1:
-                GetImage((int)EImages.RelicBGImage).color = RelicUIColors.GradeB;
+                GetImage((int)EImages.RelicBGImage).sprite = Managers.Resource.Load<Sprite>("RelicFrame_B.sprite");
                 break;
             case 2:
-                GetImage((int)EImages.RelicBGImage).color = RelicUIColors.GradeA;
+                GetImage((int)EImages.RelicBGImage).sprite = Managers.Resource.Load<Sprite>("RelicFrame_A.sprite");
                 break;
             case 3:
-                GetImage((int)EImages.RelicBGImage).color = RelicUIColors.GradeS;
+                GetImage((int)EImages.RelicBGImage).sprite = Managers.Resource.Load<Sprite>("RelicFrame_S.sprite");
                 break;
             case 4:
-                GetImage((int)EImages.RelicBGImage).color = RelicUIColors.GradeSSS;
+                GetImage((int)EImages.RelicBGImage).sprite = Managers.Resource.Load<Sprite>("RelicFrame_SSS.sprite");
                 break;
             
             default:
@@ -105,28 +105,28 @@ public class UI_GachaRelicObject : UI_Base
 
         #endregion
         
-        // À¯¹° ÀÌ¹ÌÁö °¡Á®¿À±â
+        // ìœ ë¬¼ ì´ë¯¸ì§€ ê°€ì ¸ì˜¤ê¸°
         GetImage((int)EImages.RelicImage).sprite = Managers.Resource.Load<Sprite>(Managers.Data.RelicDic[relic.relicNo * 10 + relic.level].ThumbnailName);
 
-        #region ½Å±Ô¿Í ·¹º§¾÷ ¿©ºÎ
+        #region ì‹ ê·œì™€ ë ˆë²¨ì—… ì—¬ë¶€
 
-        // ½Å±Ô + ·¹º§¾÷
+        // ì‹ ê·œ + ë ˆë²¨ì—…
         if (relic.newYn && relic.levelUpYn)
         {
-            GetText((int)ETexts.RelicStateText).text = "NEW! EXP UP!";
+            GetText((int)ETexts.RelicStateText).text = "NEW! Level UP!";
             GetText((int)ETexts.RelicStateText).color = HexToColor("FFA500");
         }
-        // ½Å±Ô¸¸
+        // ì‹ ê·œë§Œ
         else if (relic.newYn)
         {
             GetText((int)ETexts.RelicStateText).text = "NEW!";
             GetText((int)ETexts.RelicStateText).color = Color.red;
         }
         
-        // ·¹º§¾÷¸¸
+        // ë ˆë²¨ì—…ë§Œ
         else if (relic.levelUpYn)
         {
-            GetText((int)ETexts.RelicStateText).text = "EXP UP!";
+            GetText((int)ETexts.RelicStateText).text = "Level UP!";
             GetText((int)ETexts.RelicStateText).color = Color.blue;
         }
         

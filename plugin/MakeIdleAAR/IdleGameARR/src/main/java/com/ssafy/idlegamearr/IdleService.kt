@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
-import com.ssafy.idlegamearr.R
 import com.unity3d.player.UnityPlayer
 
 class IdleService : Service() {

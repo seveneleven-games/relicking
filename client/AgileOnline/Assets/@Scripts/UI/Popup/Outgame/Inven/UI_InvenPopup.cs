@@ -365,11 +365,17 @@ public class UI_InvenPopup : UI_Popup
             
             RelicObject.name = $"RelicObject{RelicId}";
             RelicObject.GetComponent<Button>().onClick.AddListener(() => OnClickRelicInfoButton(RelicId));
+            RelicObject.GetComponent<Image>().sprite = RelicId switch
+            {
+                < 1000 => Managers.Resource.Load<Sprite>("RelicFrame_C.sprite"),
+                < 2000 => Managers.Resource.Load<Sprite>("RelicFrame_B.sprite"),
+                < 3000 => Managers.Resource.Load<Sprite>("RelicFrame_A.sprite"),
+                < 4000 => Managers.Resource.Load<Sprite>("RelicFrame_S.sprite"),
+                _ => Managers.Resource.Load<Sprite>("RelicFrame_SSS.sprite"),
+            };
             FindChild<Image>(RelicObject, "RelicImage").sprite = Managers.Resource.Load<Sprite>(
                 Managers.Data.RelicDic[RelicId].ThumbnailName);
-            
         }
-        
         foreach (var OwnedRelic in _templateData.OwnedRelics)
         {
             if (OwnedRelic.slot != 0)
@@ -377,6 +383,7 @@ public class UI_InvenPopup : UI_Popup
                 _templateData.SetRelicAt(OwnedRelic.slot - 1, OwnedRelic.relicNo * 10 + OwnedRelic.level);
             }
         }
+        
     }
     
 }

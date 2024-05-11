@@ -74,7 +74,6 @@ public class UI_LoginInputPopup : UI_Popup
     
     enum EButtons
     {
-        KakaoLoginButton,
         LoginButton,
         BackButton,
     }
@@ -103,8 +102,6 @@ public class UI_LoginInputPopup : UI_Popup
     #endregion
     
     // 객체 관련 두는 곳
-
-    public KeyboardAdjuster keyboardAdjuster; // 키보드 조정
     
     private TemplateData _templateData;
     
@@ -118,12 +115,6 @@ public class UI_LoginInputPopup : UI_Popup
     {
         if (base.Init() == false)
             return false;
-        
-        
-        Debug.Log(GetComponent<RectTransform>());
-        
-        // 키보드 관련 설정하기
-        // keyboardAdjuster.targetRectTransform = GetComponent<RectTransform>();
         
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
 
@@ -139,9 +130,6 @@ public class UI_LoginInputPopup : UI_Popup
         
         // 뒤로가기 버튼
         GetButton((int)EButtons.BackButton).gameObject.BindEvent(OnClickBackButton);
-        
-        // Kakao 로그인 버튼
-        GetButton((int)EButtons.KakaoLoginButton).gameObject.BindEvent(OnClickKakaoLoginButton);
         
         // 로그인하기 버튼
         GetButton((int)EButtons.LoginButton).gameObject.BindEvent(OnClickLoginButton);
@@ -174,18 +162,6 @@ public class UI_LoginInputPopup : UI_Popup
         Managers.UI.ShowPopupUI<UI_LoginPopup>();
     }
     
-    void OnClickKakaoLoginButton()
-    {
-        Debug.Log("OnClickKakaoLoginButton");
-        
-        // 웹통신 테스트 -> 성공
-        StartCoroutine(GetRequest("test/login", data =>
-        {
-            Debug.Log("test해봅시다!!! " + data);
-        }));
-
-    }
-
     void OnClickLoginButton()
     {
         
