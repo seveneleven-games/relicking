@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class KeyboardAdjuster : MonoBehaviour
@@ -9,25 +10,28 @@ public class KeyboardAdjuster : MonoBehaviour
     {
         // 원래 위치 저장
         originalPosition = targetRectTransform.anchoredPosition;
+        StartCoroutine(AdjustForKeyboard()); // 코루틴 시작
     }
 
-    void Update()
+    private IEnumerator AdjustForKeyboard()
     {
-        AdjustForKeyboard();
-    }
-
-    private void AdjustForKeyboard()
-    {
-        if (TouchScreenKeyboard.visible)
+        while (true)
         {
-            if (TouchScreenKeyboard.area.height > 0)
+            // 키보드가 보일 때까지 대기
+            yield return new WaitUntil(() => TouchScreenKeyboard.visible);
+            float keyboardHeight = TouchScreenKeyboard.area.height;
+            Debug.Log($"Keyboard visible height: {keyboardHeight}");
+
+            if (keyboardHeight > 0)
             {
-                float keyboardHeight = TouchScreenKeyboard.area.height;
+                // 키보드 높이에 맞춰 위치 조정
                 targetRectTransform.anchoredPosition = new Vector2(originalPosition.x, originalPosition.y + keyboardHeight);
             }
-        }
-        else
-        {
+
+            // 키보드가 사라질 때까지 대기
+            yield return new WaitUntil(() => !TouchScreenKeyboard.visible);
+            Debug.Log($"Keyboard visible height: {keyboardHeight}");
+            // 원래 위치로 복원
             targetRectTransform.anchoredPosition = originalPosition;
         }
     }
