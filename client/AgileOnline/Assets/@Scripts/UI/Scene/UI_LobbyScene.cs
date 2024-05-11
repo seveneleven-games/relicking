@@ -227,6 +227,7 @@ public class UI_LobbyScene : UI_Scene
             GetObject((int)EGameObjects.CheckInventoryImage));
         _isSelectedInventory = true;
     }
+    
     void OnClickGachaToggle()
     {
         GetImage((int)EImages.Backgroundimage).color = Util.HexToColor("525DAD"); // 배경 색상 변경
@@ -239,6 +240,7 @@ public class UI_LobbyScene : UI_Scene
             GetObject((int)EGameObjects.CheckGachaImage));
         _isSelectedGacha = true;
     }
+    
     void OnClickBattleToggle()
     {
         GetImage((int)EImages.Backgroundimage).color = Util.HexToColor("1F5FA0"); // 배경 색상 변경
@@ -252,6 +254,7 @@ public class UI_LobbyScene : UI_Scene
             GetObject((int)EGameObjects.CheckBattleImage));
         _isSelectedBattle = true;
     }
+    
     void OnClickGrowthToggle()
     {
         GetImage((int)EImages.Backgroundimage).color = Util.HexToColor("C48152"); // 배경 색상 변경 
@@ -266,6 +269,7 @@ public class UI_LobbyScene : UI_Scene
             GetObject((int)EGameObjects.CheckGrowthImage));
         _isSelectedGrowth = true;
     }
+    
     void OnClickRankingToggle()
     {
         GetImage((int)EImages.Backgroundimage).color = Util.HexToColor("87A9AF"); // 배경 색상 변경 (변화필요)

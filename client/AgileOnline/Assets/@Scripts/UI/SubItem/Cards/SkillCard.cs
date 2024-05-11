@@ -29,16 +29,23 @@ public class SkillCard : UI_Base
 
     public event Action<int> OnSkillIdChanged;
     private int _skillId;
+    private int _skillCost;
     
     public int SkillId
     {
-        get { return _skillId; }
+        get => _skillId;
         set
         {
-            OnSkillIdChanged?.Invoke(value);
             _skillId = value + 1;
+
+            int totalCost = Define.INITIAL_SKILL_COST;
+            for (int i = 0; i < value % 10; i++) totalCost *= 2;
+            _skillCost = totalCost ;
+            
+            OnSkillIdChanged?.Invoke(value);
         }
     }
+    public int SkillCost => _skillCost;
 
     public override bool Init()
     {
@@ -49,6 +56,8 @@ public class SkillCard : UI_Base
         BindText(typeof(Texts));
         BindImage(typeof(Images));
         OnSkillIdChanged += Refresh;
+
+        // _skillCost = Define.INITIAL_SKILL_COST;
         
         return true;
     }
@@ -72,7 +81,7 @@ public class SkillCard : UI_Base
         GetImage((int)Images.SkillImage).sprite = Managers.Resource.Load<Sprite>(data.IconName);
 
         //todo(전지환) : 스킬 코스트를 각 스킬 별로 설정해주어야 할 것.
-        GetText((int)Texts.SkillCost).text = Define.TEST_SKILL_COST.ToString();
+        GetText((int)Texts.SkillCost).text = _skillCost.ToString();
     }
 
     public void RefreshNull()
