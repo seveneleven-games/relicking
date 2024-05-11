@@ -143,6 +143,8 @@ public class UI_StorePopup : UI_Popup
 
         //GameScene에서 구독한 BuySkill 함수 실행 & 싱크 작업
         DataSync(_player.AddSkill(skill.SkillId));
+        _player.PlayerGold -= skill.SkillCost;
+        Gold -= skill.SkillCost;
         
         int fixedSkillType = GetFixedSkillType(_skillCards.IndexOf(skill),GetRandomSkillIdList(3));
         int nowLevel = GetNowLevel(fixedSkillType);
@@ -168,10 +170,6 @@ public class UI_StorePopup : UI_Popup
                 _skillCards[i].SkillId = skillType * 10 + level;
             }
         }
-
-        //todo(전지환) : 스킬 데이터에 맞는 코스트로 빼주기
-        _player.PlayerGold -= skill.SkillCost;
-        Gold -= skill.SkillCost;
     }
 
     int GetFixedSkillType(int selectedCardIdx, int[] candidates)
