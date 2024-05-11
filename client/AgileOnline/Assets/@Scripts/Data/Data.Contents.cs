@@ -52,7 +52,7 @@ namespace Data
         public int MonsterType;
         public string Name;
         public int MaxHp;
-        public int Atk;
+        public float Atk;
         public float Speed;
         public int DropGold;
         public float CritRate;
