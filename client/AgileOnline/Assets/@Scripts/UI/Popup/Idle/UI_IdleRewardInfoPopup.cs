@@ -74,6 +74,11 @@ public class UI_IdleRewardInfoPopup: UI_Popup
         BindText(typeof(ETexts));
 
         GetButton((int)EButtons.CloseButton).gameObject.BindEvent(OnClickCloseButton);
+        
+        // 초기 비활성화
+        GetText((int)ETexts.TotalIdleContent).gameObject.SetActive(false);
+        GetText((int)ETexts.RewardBonusText).gameObject.SetActive(false);
+        GetText((int)ETexts.Tickets).gameObject.SetActive(false);
 
         #endregion
 
@@ -117,6 +122,10 @@ public class UI_IdleRewardInfoPopup: UI_Popup
         GetText((int)ETexts.TotalIdleContent).text = FormatTime(Managers.Game.idleRewardTime);
         GetText((int)ETexts.RewardBonusText).text = $"스트릭 누적 보너스 {data.bonusGacha}%";
         GetText((int)ETexts.Tickets).text = data.earnedGacha.ToString();
+        
+        GetText((int)ETexts.TotalIdleContent).gameObject.SetActive(true);
+        GetText((int)ETexts.RewardBonusText).gameObject.SetActive(true);
+        GetText((int)ETexts.Tickets).gameObject.SetActive(true);
 
         if (data.bonusGacha > 0)
         {

@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.ssafy.idlegamearr"
-    compileSdk = 34
+    compileSdk = 33
 
     defaultConfig {
         minSdk = 24

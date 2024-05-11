@@ -122,7 +122,8 @@ public class UI_IdleProceedPopup : UI_Popup
         GetButton((int)EButtons.ExitIdleButton).gameObject.BindEvent(OnClickExitIdleButton);
 
         #endregion
-
+        
+        // 안드로이드 서비스 플러그인 실행해주기 
         StartStopwatch();
         
         Managers.Game.OnResourcesChanged += Refresh;

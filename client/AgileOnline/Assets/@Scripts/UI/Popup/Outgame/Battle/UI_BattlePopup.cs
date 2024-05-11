@@ -335,7 +335,6 @@ public class UI_BattlePopup : UI_Popup
         Debug.Log(_stageData.StageId);
 
         StageInfoRefresh();
-        UIRefresh();
     }
 
     // 난이도 선택 팝업 열기
