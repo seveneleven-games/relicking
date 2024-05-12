@@ -14,7 +14,7 @@ public class MonsterController : CreatureController
     public string PrefabName { get; private set; }
     public int MonsterType { get; private set; }
     public string Name { get; private set; }
-    public int Atk { get; private set; }
+    public float Atk { get; private set; }
     public float DropGold { get; private set; }
     public float CritRate { get; private set; }
     public float CritDmgRate { get; private set; }
@@ -24,7 +24,6 @@ public class MonsterController : CreatureController
 
     private Coroutine _skillCoroutine;
     private bool _isUsingSkill;
-    private bool _isChasing;
 
     private TemplateData _templateData;
 
@@ -67,8 +66,6 @@ public class MonsterController : CreatureController
         else if (MonsterType == 2)
         {
             MonsterSkillList[0] = 1001;
-            MonsterSkillList[1] = 1011;
-            MonsterSkillList[2] = 1021;
             transform.localScale = new Vector3(3, 3, 1);
         }
     }
@@ -82,19 +79,11 @@ public class MonsterController : CreatureController
     {
         if (_player == null)
             return;
-
-        if (CreatureState != ECreatureState.Dead)
-        {
-            if (!_isUsingSkill || !_isChasing)
-            {
-                ChasePlayer();
-            }
-        }
+        
+        ChasePlayer();
 
         if (!_isUsingSkill && MonsterType != 0)
-        {
             StartRandomSkill();
-        }
     }
 
     private void ChasePlayer()
@@ -160,9 +149,10 @@ public class MonsterController : CreatureController
         {
             StartCoroutine(HitStun(0.2f));
         }
+
         return isCritical;
     }
-    
+
     private IEnumerator HitStun(float duration)
     {
         CreatureState = ECreatureState.Idle;
@@ -195,7 +185,7 @@ public class MonsterController : CreatureController
 
         StartCoroutine(DelayDespawn());
     }
-    
+
     private IEnumerator DelayDespawn()
     {
         yield return new WaitForSeconds(0.5f);
@@ -225,7 +215,6 @@ public class MonsterController : CreatureController
     IEnumerator CoStartSkill(int skillId)
     {
         _isUsingSkill = true;
-        _isChasing = true;
 
         SkillData skillData = Managers.Data.SkillDic[skillId];
         WaitForSeconds coolTimeWait = new WaitForSeconds(5f);
@@ -233,6 +222,7 @@ public class MonsterController : CreatureController
         switch (skillData.PrefabName)
         {
             case "EliteMonsterProjectile":
+
                 if (MonsterType == 1)
                 {
                     int empProjectileNum = skillData.ProjectileNum;
@@ -244,54 +234,36 @@ public class MonsterController : CreatureController
                         Vector3 direction = Quaternion.Euler(0f, 0f, angle) * Vector3.up;
                         EliteMonsterProjectileController emp =
                             Managers.Object.Spawn<EliteMonsterProjectileController>(transform.position, skillId);
+                        emp.SetOwner(this);
                         emp.SetMoveDirection(direction);
                     }
                 }
-
-                else if (MonsterType == 2)
+                
+                if (MonsterType == 2)
                 {
-                    int bossProjectileNum = skillData.ProjectileNum;
-                    float angleStep2 = 360f / bossProjectileNum;
+                    int empProjectileNum = skillData.ProjectileNum;
+                    float angleStep1 = 360f / empProjectileNum;
 
                     for (int j = 0; j < 3; j++)
                     {
-                        for (int i = 0; i < bossProjectileNum; i++)
+                        for (int i = 0; i < empProjectileNum; i++)
                         {
-                            float angle = i * angleStep2;
+                            float angle = i * angleStep1;
                             Vector3 direction = Quaternion.Euler(0f, 0f, angle) * Vector3.up;
                             EliteMonsterProjectileController emp =
                                 Managers.Object.Spawn<EliteMonsterProjectileController>(transform.position, skillId);
+                            emp.SetOwner(this);
                             emp.SetMoveDirection(direction);
-                        }   
+                        }
+                        yield return new WaitForSeconds(0.5f);
                     }
                 }
-                break;
-
-
-            case "BossMonsterCharge":
-                Vector3 originalPlayerPosition = _player.transform.position;
-                yield return new WaitForSeconds(1.5f);
-
-                float originalSpeed = Speed;
-                Speed = 15f;
-
-                while (Vector3.Distance(transform.position, originalPlayerPosition) > 0.1f)
-                {
-                    Vector3 dir = (originalPlayerPosition - transform.position).normalized;
-                    CreatureState = ECreatureState.Move;
-                    TranslateEx(dir * Time.deltaTime * Speed);
-                    yield return null;
-                }
-
-                Speed = originalSpeed;
                 
                 break;
         }
 
-        _isChasing = false;
-
         yield return coolTimeWait;
-        
+
         _isUsingSkill = false;
     }
 
