@@ -5,6 +5,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 using static Define;
+using UnityEngine;
 
 [Serializable]
 public class DataRes
@@ -16,7 +17,6 @@ public class DataRes
 
 public static class Util
 {
-    
     public static T GetOrAddComponent<T>(GameObject go) where T : Component
     {
         T component = go.GetComponent<T>();
@@ -74,12 +74,12 @@ public static class Util
     {
         return (T)Enum.Parse(typeof(T), value, true);
     }
-    
+
     // 색깔 관련
     public static Color HexToColor(string color)
     {
         Color parsedColor;
-        ColorUtility.TryParseHtmlString("#"+color, out parsedColor);
+        ColorUtility.TryParseHtmlString("#" + color, out parsedColor);
 
         return parsedColor;
     }
@@ -89,15 +89,15 @@ public static class Util
     // Get (json 형식으로)
     public static IEnumerator GetRequest(string uri, Action<string> callback)
     {
-        
         string finalUri = BASE_URI + uri;
-        
+
         using (UnityWebRequest webRequest = UnityWebRequest.Get(finalUri))
         {
             // 요청 보내기
             yield return webRequest.SendWebRequest();
-            
-            if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
+
+            if (webRequest.result == UnityWebRequest.Result.ConnectionError ||
+                webRequest.result == UnityWebRequest.Result.ProtocolError)
             {
                 Debug.LogError(webRequest.error);
             }
@@ -109,8 +109,8 @@ public static class Util
             }
         }
     }
-    
-    
+
+
     // POST 요청 (json 형식으로)
     public static IEnumerator PostRequest(string uri, string jsonData, Action<string> callback)
     {
@@ -125,10 +125,11 @@ public static class Util
             // 요청 보내기
             yield return webRequest.SendWebRequest();
 
-            if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
+            if (webRequest.result == UnityWebRequest.Result.ConnectionError ||
+                webRequest.result == UnityWebRequest.Result.ProtocolError)
             {
                 Debug.LogError(webRequest.error);
-                Debug.LogError($"Server Response: {webRequest.downloadHandler.text}");  // 서버 응답 로깅
+                Debug.LogError($"Server Response: {webRequest.downloadHandler.text}"); // 서버 응답 로깅
                 // callback(null);
             }
             else
@@ -138,7 +139,7 @@ public static class Util
             }
         }
     }
-    
+
     // PATCH 요청
     public static IEnumerator PatchRequest(string uri, string jsonData, Action<string> callback)
     {
@@ -153,7 +154,8 @@ public static class Util
             // 요청 보내기
             yield return webRequest.SendWebRequest();
 
-            if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
+            if (webRequest.result == UnityWebRequest.Result.ConnectionError ||
+                webRequest.result == UnityWebRequest.Result.ProtocolError)
             {
                 Debug.LogError(webRequest.error);
                 // callback(null); // 오류 시 콜백을 null로 호출할 경우 주석을 해제
@@ -169,14 +171,14 @@ public static class Util
     #endregion
 
     #region JWT 통신
-    
+
     // 토큰 재발급 요청
     private static IEnumerator RequestNewToken()
     {
         string tokenUri = BASE_URI + "members/reissue";
 
         string refreshToken = Managers.Game.RefreshToken;
-        
+
         string jsonData = JsonUtility.ToJson(new { refreshToken = refreshToken });
 
         using (UnityWebRequest webRequest = new UnityWebRequest(BASE_URI + tokenUri, "POST"))
@@ -205,24 +207,23 @@ public static class Util
         string finalUri = BASE_URI + uri;
 
         string accessToken = Managers.Game.AccessToken;
-        
+
         using (UnityWebRequest webRequest = UnityWebRequest.Get(finalUri))
         {
             webRequest.SetRequestHeader("Authorization", "Bearer " + accessToken);
-            
+
             yield return webRequest.SendWebRequest();
 
-            if (webRequest.result == UnityWebRequest.Result.ConnectionError || 
+            if (webRequest.result == UnityWebRequest.Result.ConnectionError ||
                 webRequest.result == UnityWebRequest.Result.ProtocolError)
             {
-                
                 Debug.LogError(webRequest.error);
-                
+
                 // json -> 객체로 변환
                 DataRes dataRes = JsonUtility.FromJson<DataRes>(webRequest.downloadHandler.text);
-                
+
                 // 토큰이 만료되었다면?
-                if (dataRes.message == "JWT가 만료되었습니다.") 
+                if (dataRes.message == "JWT가 만료되었습니다.")
                 {
                     yield return RequestNewToken(); // 토큰 재발급 요청
                     yield return JWTGetRequest(uri, callback); // 요청 재시도
@@ -236,88 +237,177 @@ public static class Util
         }
     }
 
-public static IEnumerator JWTPostRequest(string uri, string jsonData, Action<string> callback)
-{
-    string finalUri = BASE_URI + uri;
-    
-    string accessToken = Managers.Game.AccessToken;
-    
-    using (UnityWebRequest webRequest = new UnityWebRequest(finalUri, "POST"))
+    public static IEnumerator JWTPostRequest(string uri, string jsonData, Action<string> callback)
     {
-        byte[] jsonToSend = new UTF8Encoding().GetBytes(jsonData);
-        webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
-        webRequest.downloadHandler = new DownloadHandlerBuffer();
-        webRequest.SetRequestHeader("Content-Type", "application/json");
-        webRequest.SetRequestHeader("Authorization", "Bearer " + accessToken);
+        string finalUri = BASE_URI + uri;
 
-        yield return webRequest.SendWebRequest();
+        string accessToken = Managers.Game.AccessToken;
 
-        if (webRequest.result == UnityWebRequest.Result.ConnectionError || 
-            webRequest.result == UnityWebRequest.Result.ProtocolError)
+        using (UnityWebRequest webRequest = new UnityWebRequest(finalUri, "POST"))
         {
-            Debug.LogError(webRequest.error);
-            Debug.LogError($"Server Response: {webRequest.downloadHandler.text}");
-            
-            // json -> 객체로 변환
-            DataRes dataRes = JsonUtility.FromJson<DataRes>(webRequest.downloadHandler.text);
-            
-            // 토큰이 만료되었다면?
-            if (dataRes.message == "JWT가 만료되었습니다.") 
+            byte[] jsonToSend = new UTF8Encoding().GetBytes(jsonData);
+            webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
+            webRequest.downloadHandler = new DownloadHandlerBuffer();
+            webRequest.SetRequestHeader("Content-Type", "application/json");
+            webRequest.SetRequestHeader("Authorization", "Bearer " + accessToken);
+
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.ConnectionError ||
+                webRequest.result == UnityWebRequest.Result.ProtocolError)
             {
-                yield return RequestNewToken(); // 토큰 재발급 요청
-                yield return JWTPostRequest(uri, jsonData, callback); // 요청 재시도
+                Debug.LogError(webRequest.error);
+                Debug.LogError($"Server Response: {webRequest.downloadHandler.text}");
+
+                // json -> 객체로 변환
+                DataRes dataRes = JsonUtility.FromJson<DataRes>(webRequest.downloadHandler.text);
+
+                // 토큰이 만료되었다면?
+                if (dataRes.message == "JWT가 만료되었습니다.")
+                {
+                    yield return RequestNewToken(); // 토큰 재발급 요청
+                    yield return JWTPostRequest(uri, jsonData, callback); // 요청 재시도
+                }
+            }
+            else
+            {
+                Debug.Log("Received: " + webRequest.downloadHandler.text);
+                callback(webRequest.downloadHandler.text);
             }
         }
-        else
-        {
-            Debug.Log("Received: " + webRequest.downloadHandler.text);
-            callback(webRequest.downloadHandler.text);
-        }
     }
-}
 
-public static IEnumerator JWTPatchRequest(string uri, string jsonData, Action<string> callback)
-{
-    string finalUri = BASE_URI + uri;
-    
-    string accessToken = Managers.Game.AccessToken;
-    
-    using (UnityWebRequest webRequest = new UnityWebRequest(finalUri, "PATCH"))
+    public static IEnumerator JWTPatchRequest(string uri, string jsonData, Action<string> callback)
     {
-        byte[] jsonToSend = new UTF8Encoding().GetBytes(jsonData);
-        webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
-        webRequest.downloadHandler = new DownloadHandlerBuffer();
-        webRequest.SetRequestHeader("Content-Type", "application/json");
-        webRequest.SetRequestHeader("Authorization", "Bearer " + accessToken);
+        string finalUri = BASE_URI + uri;
 
-        yield return webRequest.SendWebRequest();
+        string accessToken = Managers.Game.AccessToken;
 
-        if (webRequest.result == UnityWebRequest.Result.ConnectionError || 
-            webRequest.result == UnityWebRequest.Result.ProtocolError)
+        using (UnityWebRequest webRequest = new UnityWebRequest(finalUri, "PATCH"))
         {
-            Debug.LogError(webRequest.error);
-            Debug.LogError($"Server Response: {webRequest.downloadHandler.text}");
-            
-            // json -> 객체로 변환
-            DataRes dataRes = JsonUtility.FromJson<DataRes>(webRequest.downloadHandler.text);
-            
-            // 토큰이 완료되었다면?
-            if (dataRes.message == "JWT가 만료되었습니다.") 
+            byte[] jsonToSend = new UTF8Encoding().GetBytes(jsonData);
+            webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
+            webRequest.downloadHandler = new DownloadHandlerBuffer();
+            webRequest.SetRequestHeader("Content-Type", "application/json");
+            webRequest.SetRequestHeader("Authorization", "Bearer " + accessToken);
+
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.ConnectionError ||
+                webRequest.result == UnityWebRequest.Result.ProtocolError)
             {
-                yield return RequestNewToken(); // 토큰 재발급 요청
-                yield return JWTPostRequest(uri, jsonData, callback); // 요청 재시도
+                Debug.LogError(webRequest.error);
+                Debug.LogError($"Server Response: {webRequest.downloadHandler.text}");
+
+                // json -> 객체로 변환
+                DataRes dataRes = JsonUtility.FromJson<DataRes>(webRequest.downloadHandler.text);
+
+                // 토큰이 완료되었다면?
+                if (dataRes.message == "JWT가 만료되었습니다.")
+                {
+                    yield return RequestNewToken(); // 토큰 재발급 요청
+                    yield return JWTPostRequest(uri, jsonData, callback); // 요청 재시도
+                }
+            }
+            else
+            {
+                Debug.Log("Received: " + webRequest.downloadHandler.text);
+                callback(webRequest.downloadHandler.text);
             }
         }
-        else
+    }
+    
+    public static IEnumerator JWTDeleteRequest(string uri, Action<string> callback)
+    {
+        string finalUri = BASE_URI + uri;
+
+        string accessToken = Managers.Game.AccessToken;
+
+        using (UnityWebRequest webRequest = new UnityWebRequest(finalUri, "DELETE"))
         {
-            Debug.Log("Received: " + webRequest.downloadHandler.text);
-            callback(webRequest.downloadHandler.text);
+            webRequest.downloadHandler = new DownloadHandlerBuffer();
+            webRequest.SetRequestHeader("Content-Type", "application/json");
+            webRequest.SetRequestHeader("Authorization", "Bearer " + accessToken);
+
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.ConnectionError ||
+                webRequest.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError(webRequest.error);
+
+                // json -> 객체로 변환
+                DataRes dataRes = JsonUtility.FromJson<DataRes>(webRequest.downloadHandler.text);
+
+                // 토큰이 만료되었다면?
+                if (dataRes.message == "JWT가 만료되었습니다.")
+                {
+                    yield return RequestNewToken(); // 토큰 재발급 요청
+                    yield return JWTDeleteRequest(uri, callback); // 요청 재시도
+                }
+            }
+            else
+            {
+                Debug.Log(webRequest.downloadHandler.text);
+                callback(webRequest.downloadHandler.text);
+            }
         }
     }
-}
 
     #endregion
-    
-    
-    
+
+    #region 안드로이드 플러그인 통신
+
+    private static AndroidJavaObject permissionHelper;
+    private static AndroidJavaObject unityActivity;
+    private static AndroidJavaObject unityContext;
+
+    public static void InitializePlugin()
+    {
+        using (var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+        {
+            unityActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+            unityContext = unityActivity.Call<AndroidJavaObject>("getApplicationContext");
+        }
+
+        permissionHelper = new AndroidJavaObject("com.ssafy.idlegamearr.PermissionIdleHelper", unityContext);
+    }
+
+    public static void CheckAndRequestPermissions()
+    {
+        if (permissionHelper.Call<bool>("checkPermissions"))
+        {
+            //StartIdleService();
+            Debug.Log("허용 두가지 했음여");
+        }
+        else
+        {
+            permissionHelper.Call("showPermissionModal");
+            
+        }
+    }
+
+    public static void StartIdleService()
+    {
+        using (var idleService = new AndroidJavaClass("com.ssafy.idlegamearr.IdleService"))
+        {
+            idleService.CallStatic("startService", unityContext);
+        }
+    }
+
+    public static void StopIdleService()
+    {
+        using (var idleService = new AndroidJavaClass("com.ssafy.idlegamearr.IdleService"))
+        {
+            idleService.CallStatic("stopService", unityContext);
+        }
+    }
+
+    public static void OnServiceStopped(string result)
+    {
+        Debug.Log("Service stopped: " + result);
+        // Here, load your main scene or perform other actions.
+    }
+
+    #endregion
 }

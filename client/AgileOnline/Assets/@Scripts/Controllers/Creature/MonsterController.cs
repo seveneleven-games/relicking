@@ -14,7 +14,7 @@ public class MonsterController : CreatureController
     public string PrefabName { get; private set; }
     public int MonsterType { get; private set; }
     public string Name { get; private set; }
-    public int Atk { get; private set; }
+    public float Atk { get; private set; }
     public float DropGold { get; private set; }
     public float CritRate { get; private set; }
     public float CritDmgRate { get; private set; }
@@ -24,7 +24,7 @@ public class MonsterController : CreatureController
 
     private Coroutine _skillCoroutine;
     private bool _isUsingSkill;
-    private bool _isChasing;
+    private bool _isInCoolDown;
 
     private TemplateData _templateData;
 
@@ -68,7 +68,6 @@ public class MonsterController : CreatureController
         {
             MonsterSkillList[0] = 1001;
             MonsterSkillList[1] = 1011;
-            MonsterSkillList[2] = 1021;
             transform.localScale = new Vector3(3, 3, 1);
         }
     }
@@ -83,18 +82,20 @@ public class MonsterController : CreatureController
         if (_player == null)
             return;
 
-        if (CreatureState != ECreatureState.Dead)
+        if (!_isUsingSkill)
         {
-            if (!_isUsingSkill || !_isChasing)
-            {
-                ChasePlayer();
-            }
+            if (MonsterType == 2)
+                Debug.Log("플레이어 따라가는중 : " + Speed);
+            ChasePlayer();
+        }
+        else
+        {
+            if (MonsterType == 2)
+                Debug.Log("플레이어 안 따라가는중 : " + Speed);
         }
 
-        if (!_isUsingSkill && MonsterType != 0)
-        {
+        if (!_isInCoolDown && MonsterType != 0)
             StartRandomSkill();
-        }
     }
 
     private void ChasePlayer()
@@ -156,13 +157,12 @@ public class MonsterController : CreatureController
     {
         bool isCritical = base.OnDamaged(attacker, ref damage);
         UI_World.Instance.ShowDamage((int)damage, transform.position + Vector3.up * 1f, isCritical);
-        if (gameObject.activeSelf)
-        {
-            StartCoroutine(HitStun(0.2f));
-        }
+        if (gameObject.activeSelf && MonsterType != 2)
+            StartCoroutine(HitStun(0.1f));
+
         return isCritical;
     }
-    
+
     private IEnumerator HitStun(float duration)
     {
         CreatureState = ECreatureState.Idle;
@@ -193,13 +193,6 @@ public class MonsterController : CreatureController
         GoldController gc = Managers.Object.Spawn<GoldController>(transform.position, MonsterId);
         gc.InitGold(MonsterId);
 
-        StartCoroutine(DelayDespawn());
-    }
-    
-    private IEnumerator DelayDespawn()
-    {
-        yield return new WaitForSeconds(0.5f);
-
         Managers.Object.Despawn(this);
     }
 
@@ -208,10 +201,8 @@ public class MonsterController : CreatureController
     void StartRandomSkill()
     {
         if (_skillCoroutine != null)
-        {
             StopCoroutine(_skillCoroutine);
-        }
-
+        
         int randomIndex = UnityEngine.Random.Range(0, MonsterSkillList.Count);
         int skillId = MonsterSkillList[randomIndex];
 
@@ -224,8 +215,7 @@ public class MonsterController : CreatureController
 
     IEnumerator CoStartSkill(int skillId)
     {
-        _isUsingSkill = true;
-        _isChasing = true;
+        _isInCoolDown = true;
 
         SkillData skillData = Managers.Data.SkillDic[skillId];
         WaitForSeconds coolTimeWait = new WaitForSeconds(5f);
@@ -244,55 +234,55 @@ public class MonsterController : CreatureController
                         Vector3 direction = Quaternion.Euler(0f, 0f, angle) * Vector3.up;
                         EliteMonsterProjectileController emp =
                             Managers.Object.Spawn<EliteMonsterProjectileController>(transform.position, skillId);
+                        emp.SetOwner(this);
                         emp.SetMoveDirection(direction);
                     }
                 }
 
-                else if (MonsterType == 2)
+                if (MonsterType == 2)
                 {
-                    int bossProjectileNum = skillData.ProjectileNum;
-                    float angleStep2 = 360f / bossProjectileNum;
+                    int empProjectileNum = skillData.ProjectileNum;
+                    float angleStep1 = 360f / empProjectileNum;
 
                     for (int j = 0; j < 3; j++)
                     {
-                        for (int i = 0; i < bossProjectileNum; i++)
+                        for (int i = 0; i < empProjectileNum; i++)
                         {
-                            float angle = i * angleStep2;
+                            float angle = i * angleStep1;
                             Vector3 direction = Quaternion.Euler(0f, 0f, angle) * Vector3.up;
                             EliteMonsterProjectileController emp =
                                 Managers.Object.Spawn<EliteMonsterProjectileController>(transform.position, skillId);
+                            emp.SetOwner(this);
                             emp.SetMoveDirection(direction);
-                        }   
+                        }
+
+                        yield return new WaitForSeconds(0.5f);
                     }
                 }
+
                 break;
 
-
             case "BossMonsterCharge":
-                Vector3 originalPlayerPosition = _player.transform.position;
-                yield return new WaitForSeconds(1.5f);
+                _isUsingSkill = true;
 
-                float originalSpeed = Speed;
-                Speed = 15f;
+                yield return new WaitForSeconds(1f);
 
-                while (Vector3.Distance(transform.position, originalPlayerPosition) > 0.1f)
+                Vector3 playerDirection = (_player.transform.position - transform.position).normalized;
+
+                for (float t = 0; t < 1.5f; t += Time.deltaTime)
                 {
-                    Vector3 dir = (originalPlayerPosition - transform.position).normalized;
-                    CreatureState = ECreatureState.Move;
-                    TranslateEx(dir * Time.deltaTime * Speed);
+                    transform.position += playerDirection * 15f * Time.deltaTime;
                     yield return null;
                 }
 
-                Speed = originalSpeed;
-                
+                _isUsingSkill = false;
+
                 break;
         }
 
-        _isChasing = false;
-
         yield return coolTimeWait;
-        
-        _isUsingSkill = false;
+
+        _isInCoolDown = false;
     }
 
     #endregion

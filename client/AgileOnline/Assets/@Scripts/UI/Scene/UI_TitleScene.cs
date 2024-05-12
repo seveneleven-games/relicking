@@ -65,9 +65,16 @@ public class UI_TitleScene : UI_Scene
         });
         GetButton((int)EButtons.StartButton).gameObject.SetActive(false);
         GetText((int)ETexts.StartText).text = $"";
-        
-        
 
+        // 전에 로드를 했다면.
+        if (Managers.Game._gameData.isLoaded)
+        {
+            _loadingSlide.SetActive(false);
+            GetButton((int)EButtons.StartButton).gameObject.SetActive(true);
+            GetText((int)ETexts.StartText).text = "터치하여 시작하기";
+        }
+        
+        
         StartLoadAssets();
         
         return true;
@@ -103,6 +110,8 @@ public class UI_TitleScene : UI_Scene
                 _loadingSlide.SetActive(false);
                 GetButton((int)EButtons.StartButton).gameObject.SetActive(true);
                 GetText((int)ETexts.StartText).text = "터치하여 시작하기";
+                
+                Managers.Game._gameData.isLoaded = true;
             }
         });
     }
