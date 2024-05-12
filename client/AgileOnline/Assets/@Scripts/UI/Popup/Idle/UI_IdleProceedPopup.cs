@@ -52,6 +52,11 @@ public class UI_IdleProceedPopup : UI_Popup
         {
             Managers.Scene.LoadScene(EScene.LobbyScene);
         }
+        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Debug.Log("Back button pressed, but no action taken.");
+        }
     }
 
     public void StartStopwatch()
