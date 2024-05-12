@@ -268,6 +268,8 @@ public class MonsterController : CreatureController
                 yield return new WaitForSeconds(1f);
 
                 Vector3 playerDirection = (_player.transform.position - transform.position).normalized;
+                
+                yield return new WaitForSeconds(0.5f);
 
                 for (float t = 0; t < 1.5f; t += Time.deltaTime)
                 {
