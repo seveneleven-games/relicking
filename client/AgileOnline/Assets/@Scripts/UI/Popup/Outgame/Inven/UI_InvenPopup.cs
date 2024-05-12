@@ -273,7 +273,18 @@ public class UI_InvenPopup : UI_Popup
     {
         for (int i = 0; i < nums.Length; i++)
         {
+
             Image image = GetImage(i + 2);
+            Button button = GetButton(i + 1);
+            button.GetComponent<Image>().sprite = nums[i] switch
+            {
+                < 1 => Managers.Resource.Load<Sprite>("RelicFrame_Default.sprite"),
+                < 1000 => Managers.Resource.Load<Sprite>("RelicFrame_C.sprite"),
+                < 2000 => Managers.Resource.Load<Sprite>("RelicFrame_B.sprite"),
+                < 3000 => Managers.Resource.Load<Sprite>("RelicFrame_A.sprite"),
+                < 4000 => Managers.Resource.Load<Sprite>("RelicFrame_S.sprite"),
+                _ => Managers.Resource.Load<Sprite>("RelicFrame_SSS.sprite"),
+            };
             if (image != null)
             {
                 Color tempColor = image.color;

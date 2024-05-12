@@ -25,7 +25,7 @@ public class UI_InvenRelicInfoPopup : UI_Popup
 
     enum ETexts
     {
-        RelicLevelText,
+        //RelicLevelText,
         RelicNameText,
         RelicDescriptionText,
         RelicRarityText,
@@ -156,7 +156,7 @@ public class UI_InvenRelicInfoPopup : UI_Popup
                 break;
         }
         Debug.Log(levelValue);
-        GetText((int)ETexts.RelicLevelText).text = "Lv." + levelText;
+        //GetText((int)ETexts.RelicLevelText).text = "Lv." + levelText;
         GetText((int)ETexts.LevelText).text = "Lv." + levelText;
         Sprite spr = Managers.Resource.Load<Sprite>(relicData.ThumbnailName);
         GetImage((int)EImages.RelicImage).sprite = spr;
