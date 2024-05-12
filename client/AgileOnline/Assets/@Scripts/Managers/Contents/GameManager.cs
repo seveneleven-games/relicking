@@ -21,6 +21,7 @@ public class StageClearInfo
 // 계정에 관한 모든 정보
 public class GameData
 {
+    public bool isLoaded = false; // 리소스 로딩 관련
     
     public string UserName = "우주최강귀요미박설연";
 
