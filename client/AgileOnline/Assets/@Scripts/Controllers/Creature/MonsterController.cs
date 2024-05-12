@@ -66,7 +66,7 @@ public class MonsterController : CreatureController
         }
         else if (MonsterType == 2)
         {
-            MonsterSkillList[0] = 1001;
+            // MonsterSkillList[0] = 1001;
             MonsterSkillList[1] = 1011;
             transform.localScale = new Vector3(3, 3, 1);
         }
@@ -268,8 +268,17 @@ public class MonsterController : CreatureController
                 yield return new WaitForSeconds(1f);
 
                 Vector3 playerDirection = (_player.transform.position - transform.position).normalized;
-                
+
+                GameObject instantiate = Managers.Resource.Instantiate("LineAlert");
+                ParticleSystem ps = instantiate.GetComponent<ParticleSystem>();
+                ps.transform.position = transform.position + new Vector3(0f, 10f, 0f);
+                float psAngle = Mathf.Atan2(playerDirection.y, playerDirection.x) * Mathf.Rad2Deg;
+                ps.transform.rotation = Quaternion.AngleAxis(psAngle, Vector3.forward);
+                ps.transform.rotation *= Quaternion.Euler(0f, 0f, -90f);
+                ps.transform.localScale = new Vector3(ps.transform.localScale.x, ps.transform.localScale.y * 10f, ps.transform.localScale.z);
+
                 yield return new WaitForSeconds(0.5f);
+                Destroy(instantiate);
 
                 for (float t = 0; t < 1.5f; t += Time.deltaTime)
                 {
@@ -279,6 +288,16 @@ public class MonsterController : CreatureController
 
                 _isUsingSkill = false;
 
+                break;
+            
+            case "BossMonsterThorn":
+                for (int x = -10; x <= 10; x += 2) {
+                    for (int y = -10; y <= 10; y += 2) {
+                        Vector3 spawnPosition = new Vector3(x, y, 0);
+                        BossMonsterThornController thornController = 
+                            Managers.Object.Spawn<BossMonsterThornController>(spawnPosition, skillId);
+                    }
+                }
                 break;
         }
 

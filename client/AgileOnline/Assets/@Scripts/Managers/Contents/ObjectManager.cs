@@ -31,6 +31,8 @@ public class ObjectManager
     public HashSet<ShurikenController> Shurikens { get; } = new HashSet<ShurikenController>();
 
     public HashSet<StormBladeController> StormBlades { get; } = new HashSet<StormBladeController>();
+
+    public HashSet<BossMonsterThornController> BossMonsterThorns { get; } = new HashSet<BossMonsterThornController>();
     
     #region Roots
 
@@ -121,6 +123,11 @@ public class ObjectManager
     public Transform StormBladeRoot
     {
         get { return GetRootTransform("@StormBlade"); }
+    }
+
+    public Transform BossMonsterThornRoot
+    {
+        get { return GetRootTransform("@BossMonsterThorn"); }
     }
 
     #endregion
@@ -277,6 +284,13 @@ public class ObjectManager
                     StormBladeController sbc = sc.GetComponent<StormBladeController>();
                     StormBlades.Add(sbc);
                     sbc.InitSkill(templateId);
+                    break;
+                
+                case ESkillType.BossMonsterThorn:
+                    sc.transform.parent = BossMonsterThornRoot;
+                    BossMonsterThornController bmtc = sc.GetComponent<BossMonsterThornController>();
+                    BossMonsterThorns.Add(bmtc);
+                    bmtc.InitSkill(templateId);
                     break;
             }
         }
