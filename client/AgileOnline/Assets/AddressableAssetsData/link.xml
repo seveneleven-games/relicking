@@ -30,6 +30,7 @@
     <type fullname="UI_IdleScene" preserve="all" />
     <type fullname="UI_InGamePopup" preserve="all" />
     <type fullname="UI_IngameSettingPopup" preserve="all" />
+    <type fullname="UI_InvenPopup" preserve="all" />
     <type fullname="UI_Joystick" preserve="all" />
     <type fullname="UI_LobbyScene" preserve="all" />
     <type fullname="UI_LoginInputPopup" preserve="all" />
