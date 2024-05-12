@@ -1954,7 +1954,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c81b1674909ef8041af6f60b0fd2a447, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetRectTransform: {fileID: 8524419529188390937}
+  targetRectTransform: {fileID: 4482556978115336613}
   originalPosition: {x: 0, y: 0}
 --- !u!1 &8892131581426738407
 GameObject:
