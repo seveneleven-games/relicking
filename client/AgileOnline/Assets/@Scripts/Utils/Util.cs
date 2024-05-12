@@ -324,6 +324,7 @@ public static class Util
     private static AndroidJavaObject permissionHelper;
     private static AndroidJavaObject unityActivity;
     private static AndroidJavaObject unityContext;
+    
 
     public static void InitializePlugin()
     {
@@ -333,7 +334,7 @@ public static class Util
             unityContext = unityActivity.Call<AndroidJavaObject>("getApplicationContext");
         }
 
-        permissionHelper = new AndroidJavaObject("com.ssafy.idlegamearr.PermissionIdleHelper", unityContext);
+        permissionHelper = new AndroidJavaObject("com.ssafy.idlearr.PermissionIdleHelper", unityContext);
     }
 
     public static void CheckAndRequestPermissions()
@@ -352,7 +353,7 @@ public static class Util
 
     public static void StartIdleService()
     {
-        using (var idleService = new AndroidJavaClass("com.ssafy.idlegamearr.IdleService"))
+        using (var idleService = new AndroidJavaClass("com.ssafy.idlearr.IdleService"))
         {
             idleService.CallStatic("startService", unityContext);
         }
@@ -360,7 +361,7 @@ public static class Util
 
     public static void StopIdleService()
     {
-        using (var idleService = new AndroidJavaClass("com.ssafy.idlegamearr.IdleService"))
+        using (var idleService = new AndroidJavaClass("com.ssafy.idlearr.IdleService"))
         {
             idleService.CallStatic("stopService", unityContext);
         }
