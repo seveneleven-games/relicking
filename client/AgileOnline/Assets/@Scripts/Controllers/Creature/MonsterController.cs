@@ -24,6 +24,7 @@ public class MonsterController : CreatureController
 
     private Coroutine _skillCoroutine;
     private bool _isUsingSkill;
+    private bool _isInCoolDown;
 
     private TemplateData _templateData;
 
@@ -66,6 +67,7 @@ public class MonsterController : CreatureController
         else if (MonsterType == 2)
         {
             MonsterSkillList[0] = 1001;
+            MonsterSkillList[1] = 1011;
             transform.localScale = new Vector3(3, 3, 1);
         }
     }
@@ -79,10 +81,20 @@ public class MonsterController : CreatureController
     {
         if (_player == null)
             return;
-        
-        ChasePlayer();
 
-        if (!_isUsingSkill && MonsterType != 0)
+        if (!_isUsingSkill)
+        {
+            if (MonsterType == 2)
+                Debug.Log("플레이어 따라가는중 : " + Speed);
+            ChasePlayer();
+        }
+        else
+        {
+            if (MonsterType == 2)
+                Debug.Log("플레이어 안 따라가는중 : " + Speed);
+        }
+
+        if (!_isInCoolDown && MonsterType != 0)
             StartRandomSkill();
     }
 
@@ -145,10 +157,8 @@ public class MonsterController : CreatureController
     {
         bool isCritical = base.OnDamaged(attacker, ref damage);
         UI_World.Instance.ShowDamage((int)damage, transform.position + Vector3.up * 1f, isCritical);
-        if (gameObject.activeSelf)
-        {
-            StartCoroutine(HitStun(0.2f));
-        }
+        if (gameObject.activeSelf && MonsterType != 2)
+            StartCoroutine(HitStun(0.1f));
 
         return isCritical;
     }
@@ -183,13 +193,6 @@ public class MonsterController : CreatureController
         GoldController gc = Managers.Object.Spawn<GoldController>(transform.position, MonsterId);
         gc.InitGold(MonsterId);
 
-        StartCoroutine(DelayDespawn());
-    }
-
-    private IEnumerator DelayDespawn()
-    {
-        yield return new WaitForSeconds(0.5f);
-
         Managers.Object.Despawn(this);
     }
 
@@ -198,10 +201,8 @@ public class MonsterController : CreatureController
     void StartRandomSkill()
     {
         if (_skillCoroutine != null)
-        {
             StopCoroutine(_skillCoroutine);
-        }
-
+        
         int randomIndex = UnityEngine.Random.Range(0, MonsterSkillList.Count);
         int skillId = MonsterSkillList[randomIndex];
 
@@ -214,7 +215,7 @@ public class MonsterController : CreatureController
 
     IEnumerator CoStartSkill(int skillId)
     {
-        _isUsingSkill = true;
+        _isInCoolDown = true;
 
         SkillData skillData = Managers.Data.SkillDic[skillId];
         WaitForSeconds coolTimeWait = new WaitForSeconds(5f);
@@ -222,7 +223,6 @@ public class MonsterController : CreatureController
         switch (skillData.PrefabName)
         {
             case "EliteMonsterProjectile":
-
                 if (MonsterType == 1)
                 {
                     int empProjectileNum = skillData.ProjectileNum;
@@ -238,7 +238,7 @@ public class MonsterController : CreatureController
                         emp.SetMoveDirection(direction);
                     }
                 }
-                
+
                 if (MonsterType == 2)
                 {
                     int empProjectileNum = skillData.ProjectileNum;
@@ -255,16 +255,34 @@ public class MonsterController : CreatureController
                             emp.SetOwner(this);
                             emp.SetMoveDirection(direction);
                         }
+
                         yield return new WaitForSeconds(0.5f);
                     }
                 }
-                
+
+                break;
+
+            case "BossMonsterCharge":
+                _isUsingSkill = true;
+
+                yield return new WaitForSeconds(1f);
+
+                Vector3 playerDirection = (_player.transform.position - transform.position).normalized;
+
+                for (float t = 0; t < 1.5f; t += Time.deltaTime)
+                {
+                    transform.position += playerDirection * 15f * Time.deltaTime;
+                    yield return null;
+                }
+
+                _isUsingSkill = false;
+
                 break;
         }
 
         yield return coolTimeWait;
 
-        _isUsingSkill = false;
+        _isInCoolDown = false;
     }
 
     #endregion
