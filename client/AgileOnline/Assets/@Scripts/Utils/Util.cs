@@ -324,6 +324,7 @@ public static class Util
     private static AndroidJavaObject permissionHelper;
     private static AndroidJavaObject unityActivity;
     private static AndroidJavaObject unityContext;
+    
 
     public static void InitializePlugin()
     {
