@@ -26,7 +26,7 @@ public class UI_SignupInputPopup : UI_Popup
 
     enum EGameObjects
     {
-        
+        ContentObject,
     }
     
     enum EButtons
@@ -72,9 +72,12 @@ public class UI_SignupInputPopup : UI_Popup
 
     bool isValidateEmail = false;
     
+    private GameObject _logoImage;
+    
     private void Awake()
     {
         Init();
+        _logoImage = GameObject.Find("UI_TitleScene/LogoImage");
     }
 
     // 초기 세팅
@@ -119,6 +122,22 @@ public class UI_SignupInputPopup : UI_Popup
         GetText((int)ETexts.PasswordForm).gameObject.SetActive(false);
         GetText((int)ETexts.CheckPasswordForm).gameObject.SetActive(false);
         
+        
+        // InputField 이벤트 바인딩
+        var emailInput = GetInputField((int)EInputFields.EmailInputField);
+        var passwordInput = GetInputField((int)EInputFields.PasswordInputField);
+        var checkPasswordInput = GetInputField((int)EInputFields.CheckPasswordInputField);
+        
+        emailInput.onSelect.AddListener((_) => OnInputFieldSelected());
+        passwordInput.onSelect.AddListener((_) => OnInputFieldSelected());
+        checkPasswordInput.onSelect.AddListener((_) => OnInputFieldSelected());
+        
+        emailInput.onDeselect.AddListener((_) => OnInputFieldDeselected());
+        passwordInput.onDeselect.AddListener((_) => OnInputFieldDeselected());
+        checkPasswordInput.onDeselect.AddListener((_) => OnInputFieldDeselected());
+        
+        
+        
         #endregion
 
         Refresh();
@@ -144,7 +163,7 @@ public class UI_SignupInputPopup : UI_Popup
     void OnClickCheckEmailButton()
     {
         Debug.Log("OnClickCheckEmailButton");
-
+        
         if (!ValidateEmail(GetInputField((int)EInputFields.EmailInputField).text))
         {
             // 유효하지 않다면
@@ -282,7 +301,19 @@ public class UI_SignupInputPopup : UI_Popup
         var nicknamePopup = Managers.UI.ShowPopupUI<UI_NicknamePopup>();
         nicknamePopup.SetInfo(email, password);  // 닉네임 팝업으로 데이터 전달
         
-        
     }
+    
+    // 입력 필드가 선택될 때 호출
+    void OnInputFieldSelected()
+    {
+        _logoImage.SetActive(false);
+    }
+
+    // 입력 필드 선택이 해제될 때 호출
+    void OnInputFieldDeselected()
+    {
+        _logoImage.SetActive(true);
+    }
+
 }
 

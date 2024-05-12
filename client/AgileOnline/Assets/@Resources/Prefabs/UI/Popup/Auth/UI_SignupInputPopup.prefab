@@ -2931,6 +2931,7 @@ GameObject:
   - component: {fileID: 4800117359748159572}
   - component: {fileID: 7492510924366975872}
   - component: {fileID: 8607104492893352844}
+  - component: {fileID: 492431666910210378}
   m_Layer: 5
   m_Name: UI_SignupInputPopup
   m_TagString: Untagged
@@ -3036,6 +3037,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   email: 
   password: 
+--- !u!114 &492431666910210378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8596353282577553864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c81b1674909ef8041af6f60b0fd2a447, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetRectTransform: {fileID: 3940025895054434667}
+  originalPosition: {x: 0, y: 0}
 --- !u!1 &8851968740622384356
 GameObject:
   m_ObjectHideFlags: 0
