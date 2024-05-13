@@ -271,7 +271,7 @@ public class MonsterController : CreatureController
 
                 GameObject instantiate = Managers.Resource.Instantiate("LineAlert");
                 ParticleSystem ps = instantiate.GetComponent<ParticleSystem>();
-                ps.transform.position = transform.position + new Vector3(0f, 10f, 0f);
+                ps.transform.position = transform.position;
                 float psAngle = Mathf.Atan2(playerDirection.y, playerDirection.x) * Mathf.Rad2Deg;
                 ps.transform.rotation = Quaternion.AngleAxis(psAngle, Vector3.forward);
                 ps.transform.rotation *= Quaternion.Euler(0f, 0f, -90f);

@@ -8,7 +8,6 @@ public class TemplateData : ScriptableObject
 {
     public int TempNodeNum = 0;
     
-    
     public int StageId;
     public int Difficulty = 1;
 
