@@ -21,6 +21,7 @@ public class StageClearInfo
 // 계정에 관한 모든 정보
 public class GameData
 {
+    public bool isLoaded = false; // 리소스 로딩 관련
     
     public string UserName = "우주최강귀요미박설연";
 
@@ -197,6 +198,7 @@ public class GameManager
         {
             // 난이도가 0인 경우 최소값 1로 설정
             int validDifficulty = Math.Max(difficulty, 1);
+            
             _gameData.DicStageClearInfo[stageId].MaxDifficulty = validDifficulty;
             _gameData.DicStageClearInfo[stageId].SelectedDifficulty = difficulty + 1;
         }
