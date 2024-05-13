@@ -206,7 +206,7 @@ public class GameScene : BaseScene
         }
         else
         {
-            _timerCoroutine = StartCoroutine(StartTimer(3f));
+            _timerCoroutine = StartCoroutine(StartTimer(30f));
         }
     }
     
