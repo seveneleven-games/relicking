@@ -43,6 +43,7 @@ public class UI_ChangePopup : UI_Popup
     enum EButtons
     {
         ConfirmButton,
+        BackButton,
     }
     
     enum ETexts
@@ -110,21 +111,28 @@ public class UI_ChangePopup : UI_Popup
         BindToggle(typeof(EToggles));
         BindImage(typeof(EImages)); 
         BindInputField(typeof(EInputFields));
+
+
+        // 무조건 시작은 false
         
+        // 이메일 중복 체크 결과 텍스트
+        GetText((int)ETexts.ChangeNicknameResultText).gameObject.SetActive(false);
+        
+        // 비밀번호 유효성 결과 텍스트
+        GetText((int)ETexts.OldPasswordResultText).gameObject.SetActive(false);
+        GetText((int)ETexts.NewPasswordResultText).gameObject.SetActive(false);
+        GetText((int)ETexts.CheckNewPasswordResultText).gameObject.SetActive(false);
         
         // 확인 버튼
         GetButton((int)EButtons.ConfirmButton).gameObject.BindEvent(OnClickConfirmButton);
         
-        // 중복 체크 결과 텍스트
-        GetText((int)ETexts.ChangeNicknameResultText).gameObject.SetActive(false);
+        // 뒤로 가기 버튼
+        GetButton((int)EButtons.BackButton).gameObject.BindEvent(OnClickBackButton);
         
-        // 비밀번호 결과 텍스트
-        GetInputField((int)EInputFields.OldPasswordInputField).gameObject.SetActive(false);
-        GetInputField((int)EInputFields.NewPasswordInputField).gameObject.SetActive(false);
-        GetInputField((int)EInputFields.CheckNewPasswordInputField).gameObject.SetActive(false);
         
         
         // 신규 비밀번호 및 비밀번호 확인 필드의 값 변화에 대한 이벤트 넣기
+        GetInputField((int)EInputFields.OldPasswordInputField).onValueChanged.AddListener(OnChangeOldPassword);
         GetInputField((int)EInputFields.NewPasswordInputField).onValueChanged.AddListener(OnChangeNewPassword);
         GetInputField((int)EInputFields.CheckNewPasswordInputField).onValueChanged
             .AddListener(OnChangeCheckNewPassword);
@@ -151,25 +159,30 @@ public class UI_ChangePopup : UI_Popup
     {
         _isChangeNickname = isChangeNickname;
         
-        // 이거 위치 바꾸기 여기서 하면 느림.
+        #region 닉네임 or 비밀번호
+
+        // 닉네임과 비밀번호 관련 여부에 따른 UI 변경
+        
         if (_isChangeNickname)
         {
             // 닉네임 관련 다 킴
             GetText((int)ETexts.ChangeNicknameGuideText).gameObject.SetActive(true);
+            
             GetText((int)ETexts.ChangeNicknameText).gameObject.SetActive(true);
-            GetInputField((int)EInputFields.ChangeNicknameInputField).gameObject.SetActive(true);
+            GetObject((int)EGameObjects.ChangeNicknameInput).gameObject.SetActive(true);
             
             // 비밀번호 관련 다 끔
             GetText((int)ETexts.NewPasswordGuideText).gameObject.SetActive(false);
             
             GetText((int)ETexts.OldPasswordText).gameObject.SetActive(false);
-            GetInputField((int)EInputFields.NewPasswordInputField).gameObject.SetActive(false);
+            GetObject((int)EGameObjects.OldPasswordInput).gameObject.SetActive(false);
             
             GetText((int)ETexts.NewPasswordText).gameObject.SetActive(false);
-            GetInputField((int)EInputFields.NewPasswordInputField).gameObject.SetActive(false);
+            GetObject((int)EGameObjects.NewPasswordInput).gameObject.SetActive(false);
+            
             
             GetText((int)ETexts.CheckNewPasswordText).gameObject.SetActive(false);
-            GetInputField((int)EInputFields.CheckNewPasswordInputField).gameObject.SetActive(false);
+            GetObject((int)EGameObjects.CheckNewPasswordInput).gameObject.SetActive(false);
             
         }
         else
@@ -178,19 +191,29 @@ public class UI_ChangePopup : UI_Popup
             GetText((int)ETexts.NewPasswordGuideText).gameObject.SetActive(true);
             
             GetText((int)ETexts.OldPasswordText).gameObject.SetActive(true);
-            GetInputField((int)EInputFields.NewPasswordInputField).gameObject.SetActive(true);
-            
+            GetObject((int)EGameObjects.OldPasswordInput).gameObject.SetActive(true);
+
             GetText((int)ETexts.NewPasswordText).gameObject.SetActive(true);
-            GetInputField((int)EInputFields.NewPasswordInputField).gameObject.SetActive(true);
+            GetObject((int)EGameObjects.NewPasswordInput).gameObject.SetActive(true);
+
             
             GetText((int)ETexts.CheckNewPasswordText).gameObject.SetActive(true);
-            GetInputField((int)EInputFields.CheckNewPasswordInputField).gameObject.SetActive(true);
+            GetObject((int)EGameObjects.CheckNewPasswordInput).gameObject.SetActive(true);
+
+            
             // 닉네임 관련 다 끔
             GetText((int)ETexts.ChangeNicknameGuideText).gameObject.SetActive(false);
+            
             GetText((int)ETexts.ChangeNicknameText).gameObject.SetActive(false);
-            GetInputField((int)EInputFields.ChangeNicknameInputField).gameObject.SetActive(false);
+            GetObject((int)EGameObjects.ChangeNicknameInput).gameObject.SetActive(false);
+
 
         }
+        
+
+        #endregion
+        
+        
     }
     
     
@@ -215,6 +238,12 @@ public class UI_ChangePopup : UI_Popup
         }
         
     }
+
+    void OnClickBackButton()
+    {
+        Managers.UI.ClosePopupUI(this);
+    }
+    
 
     #region 닉네임 변경 관련
 
@@ -286,20 +315,21 @@ public class UI_ChangePopup : UI_Popup
         StartCoroutine(JWTPatchRequest("members/password", changePasswordJsonData, res =>
         {
             ChangePasswordDataRes changePasswordDataRes = JsonUtility.FromJson<ChangePasswordDataRes>(res);
-
-            if (changePasswordDataRes != null && changePasswordDataRes.status == 200)
+            
+            if (changePasswordDataRes.status == 200)
             {
                 Managers.UI.ClosePopupUI(this);
-            }
-            else if (changePasswordDataRes.message == "기존 비밀번호가 일치하지 않습니다.")
-            {
-                GetInputField((int)EInputFields.OldPasswordInputField).gameObject.SetActive(true);
             }
         }));
     }
     
 
     #endregion
+
+    void OnChangeOldPassword(string value)
+    {
+        GetText((int)ETexts.OldPasswordResultText).gameObject.SetActive(false);
+    }
     
     void OnChangeNewPassword(string value)
     {

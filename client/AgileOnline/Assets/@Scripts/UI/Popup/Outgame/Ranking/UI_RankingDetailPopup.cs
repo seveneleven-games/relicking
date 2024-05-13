@@ -66,8 +66,8 @@ public class UI_RankingDetailPopup : UI_Popup
         PlayerName,
         RecordDate, 
         DifficultyText,
-        EliteKillText,
-        KillText,
+        // EliteKillText,
+        // KillText,
         
         // 유물 관련
         LevelText1,
@@ -194,8 +194,8 @@ public class UI_RankingDetailPopup : UI_Popup
             }
 
             GetText((int)ETexts.RecordDate).text = _detailRankingDataRes.data.updatedDate;
-            GetText((int)ETexts.EliteKillText).text = $"{_detailRankingDataRes.data.eliteKill}";
-            GetText((int)ETexts.KillText).text = $"{_detailRankingDataRes.data.normalKill}";
+            // GetText((int)ETexts.EliteKillText).text = $"{_detailRankingDataRes.data.eliteKill}";
+            // GetText((int)ETexts.KillText).text = $"{_detailRankingDataRes.data.normalKill}";
             
             
             // 유물 관련 갱신

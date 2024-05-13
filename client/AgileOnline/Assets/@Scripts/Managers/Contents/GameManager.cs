@@ -198,6 +198,7 @@ public class GameManager
         {
             // 난이도가 0인 경우 최소값 1로 설정
             int validDifficulty = Math.Max(difficulty, 1);
+            
             _gameData.DicStageClearInfo[stageId].MaxDifficulty = validDifficulty;
             _gameData.DicStageClearInfo[stageId].SelectedDifficulty = difficulty + 1;
         }
