@@ -9,7 +9,8 @@
           "NodeDepth": 1,
           "MapPrefabName": "Map_01",
           "MonsterList": [
-            1
+            1,
+            3
           ]
         },
         {
