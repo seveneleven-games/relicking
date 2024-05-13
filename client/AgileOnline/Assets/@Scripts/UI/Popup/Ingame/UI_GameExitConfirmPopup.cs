@@ -36,6 +36,7 @@ public class UI_GameExitConfirmPopup : UI_Popup
         }
         StopAllCoroutines();
         Managers.Object.CleanupResources();
+        Time.timeScale = 1;
         Managers.Scene.LoadScene(EScene.LobbyScene);
     }
     
