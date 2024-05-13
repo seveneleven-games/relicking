@@ -47,6 +47,22 @@
       "SkillList": [
         0
       ]
+    },
+    {
+      "MonsterId": 4,
+      "PrefabName": "Monster4",
+      "MonsterType": 0,
+      "Name": "dmdzz",
+      "MaxHp": 50,
+      "Atk": 2.0,
+      "Speed": 2.0,
+      "DropGold": 1,
+      "CritRate": 0.0,
+      "CritDmgRate": 0.0,
+      "CoolDown": 1.0,
+      "SkillList": [
+        0
+      ]
     }
   ]
 }

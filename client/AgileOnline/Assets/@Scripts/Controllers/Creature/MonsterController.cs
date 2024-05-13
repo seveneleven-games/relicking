@@ -15,7 +15,7 @@ public class MonsterController : CreatureController
     public int MonsterType { get; private set; }
     public string Name { get; private set; }
     public float Atk { get; private set; }
-    public float DropGold { get; private set; }
+    public int DropGold { get; private set; }
     public float CritRate { get; private set; }
     public float CritDmgRate { get; private set; }
     public float CoolDown { get; private set; }
@@ -182,7 +182,7 @@ public class MonsterController : CreatureController
             _player.IsBossKilled = true;
         }
 
-        GoldController gc = Managers.Object.Spawn<GoldController>(transform.position, MonsterId);
+        GoldController gc = Managers.Object.Spawn<GoldController>(transform.position, DropGold);
         gc.InitGold(MonsterId);
 
         Managers.Object.Despawn(this);
