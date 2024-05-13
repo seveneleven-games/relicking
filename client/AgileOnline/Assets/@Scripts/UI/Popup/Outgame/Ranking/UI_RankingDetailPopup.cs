@@ -5,7 +5,7 @@ using UnityEngine;
 using static Util;
 using static Define;
 
-#region ·©Å· »ó¼¼ Á¶È¸ (DetailRankingDataRes)
+#region ë­í‚¹ ìƒì„¸ ì¡°íšŒ (DetailRankingDataRes)
 
 [Serializable]
 public class DetailRankingDataRes
@@ -69,7 +69,7 @@ public class UI_RankingDetailPopup : UI_Popup
         EliteKillText,
         KillText,
         
-        // À¯¹° °ü·Ã
+        // ìœ ë¬¼ ê´€ë ¨
         LevelText1,
         LevelText2,
         LevelText3,
@@ -77,7 +77,7 @@ public class UI_RankingDetailPopup : UI_Popup
         LevelText5,
         LevelText6,
         
-        // ½ºÅ³ °ü·Ã
+        // ìŠ¤í‚¬ ê´€ë ¨
         SkillLevelText1,
         SkillLevelText2,
         SkillLevelText3,
@@ -90,7 +90,7 @@ public class UI_RankingDetailPopup : UI_Popup
     {
         ClassImage,
         
-        // À¯¹° ¹ÙÅÁÈ­¸é °ü·Ã
+        // ìœ ë¬¼ ë°”íƒ•í™”ë©´ ê´€ë ¨
         RelicBGImage1,
         RelicBGImage2,
         RelicBGImage3,
@@ -98,7 +98,7 @@ public class UI_RankingDetailPopup : UI_Popup
         RelicBGImage5,
         RelicBGImage6,
         
-        // À¯¹° ÀÌ¹ÌÁö °ü·Ã
+        // ìœ ë¬¼ ì´ë¯¸ì§€ ê´€ë ¨
         RelicImage1,
         RelicImage2,
         RelicImage3,
@@ -106,7 +106,7 @@ public class UI_RankingDetailPopup : UI_Popup
         RelicImage5,
         RelicImage6,
         
-        // ½ºÅ³ °ü·Ã
+        // ìŠ¤í‚¬ ê´€ë ¨
         Image1,
         Image2,
         Image3,
@@ -117,18 +117,18 @@ public class UI_RankingDetailPopup : UI_Popup
 
     #endregion
     
-    // °´Ã¼ °ü·Ã
+    // ê°ì²´ ê´€ë ¨
     private MyRankingInfo _myRankingInfo;
 
     private RankingInfo _rankingInfo;
 
     private int _rank;
     
-    private int _recordId; // ÀÌ°É µĞ ÀÌÀ¯´Â ³» ·©Å© Á¶È¸¿Í ´Ù¸¥ »ç¶÷ ·©Å© Á¶È¸·Î ÇÔ¼ö°¡ µÑ·Î ³ª´²ÁüÀ» ¹æÁöÇÏ±â À§ÇØ.
+    private int _recordId; // ì´ê±¸ ë‘” ì´ìœ ëŠ” ë‚´ ë­í¬ ì¡°íšŒì™€ ë‹¤ë¥¸ ì‚¬ëŒ ë­í¬ ì¡°íšŒë¡œ í•¨ìˆ˜ê°€ ë‘˜ë¡œ ë‚˜ëˆ ì§ì„ ë°©ì§€í•˜ê¸° ìœ„í•´.
     
     private DetailRankingDataRes _detailRankingDataRes;
     
-    // ÃÊ±â ¼¼ÆÃ
+    // ì´ˆê¸° ì„¸íŒ…
     public override bool Init()
     {
         if (base.Init() == false)
@@ -177,7 +177,7 @@ public class UI_RankingDetailPopup : UI_Popup
         {
             if (_myRankingInfo != null)
             {
-                GetText((int)ETexts.TitleText).text = $"{_myRankingInfo.rank}À§ ±â·Ï";
+                GetText((int)ETexts.TitleText).text = $"{_myRankingInfo.rank}ìœ„ ê¸°ë¡";
                 GetText((int)ETexts.PlayerName).text = _myRankingInfo.nickname;
                 GetText((int)ETexts.DifficultyText).text = $"{_myRankingInfo.difficulty}";
                 
@@ -186,7 +186,7 @@ public class UI_RankingDetailPopup : UI_Popup
             }
             else
             {
-                GetText((int)ETexts.TitleText).text = $"{_rank}À§ ±â·Ï";
+                GetText((int)ETexts.TitleText).text = $"{_rank}ìœ„ ê¸°ë¡";
                 GetText((int)ETexts.PlayerName).text = _rankingInfo.nickname;
                 GetText((int)ETexts.DifficultyText).text = $"{_rankingInfo.difficulty}";
                 GetImage((int)EImages.ClassImage).sprite =
@@ -198,7 +198,7 @@ public class UI_RankingDetailPopup : UI_Popup
             GetText((int)ETexts.KillText).text = $"{_detailRankingDataRes.data.normalKill}";
             
             
-            // À¯¹° °ü·Ã °»½Å
+            // ìœ ë¬¼ ê´€ë ¨ ê°±ì‹ 
             foreach (RelicDetail relicDetail in _detailRankingDataRes.data.relicList)
             {
                 switch (relicDetail.slot)
@@ -239,7 +239,7 @@ public class UI_RankingDetailPopup : UI_Popup
                 }
             }
             
-            // ½ºÅ³ °ü·Ã °»½Å
+            // ìŠ¤í‚¬ ê´€ë ¨ ê°±ì‹ 
             foreach (SkillDetail skillDetail in _detailRankingDataRes.data.skillList)
             {
                 switch (skillDetail.slot)
@@ -286,26 +286,26 @@ public class UI_RankingDetailPopup : UI_Popup
             case 2: return RelicUIColors.GradeA;
             case 3: return RelicUIColors.GradeS;
             case 4: return RelicUIColors.GradeSSS;
-            default: return Color.white; // ±âº» »ö»ó ¹İÈ¯
+            default: return Color.white; // ê¸°ë³¸ ìƒ‰ìƒ ë°˜í™˜
         }
     }
     
-    private bool _isRequestingDetail = false;  // ÇöÀç »ó¼¼ ·©Å· Á¤º¸¸¦ ¿äÃ» ÁßÀÎÁö È®ÀÎÇÏ´Â ÇÃ·¡±×
+    private bool _isRequestingDetail = false;  // í˜„ì¬ ìƒì„¸ ë­í‚¹ ì •ë³´ë¥¼ ìš”ì²­ ì¤‘ì¸ì§€ í™•ì¸í•˜ëŠ” í”Œë˜ê·¸
 
-    // ¹«ÇÑ ÁõÆøÀÇ ¿øÀÎÀÌ¾ú´Ù!!!!
+    // ë¬´í•œ ì¦í­ì˜ ì›ì¸ì´ì—ˆë‹¤!!!!
     IEnumerator currentDetailRequest;
     IEnumerator GetDetailRankingInfo(int recordId, Action onCompleted)
     {
         if (_isRequestingDetail) {
             Debug.LogWarning("Detail ranking request is already in progress.");
-            // ±âÁ¸ ¿äÃ» ÁßÀÌ¸é Áß´Ü
+            // ê¸°ì¡´ ìš”ì²­ ì¤‘ì´ë©´ ì¤‘ë‹¨
             if (currentDetailRequest != null)
             {
                 StopCoroutine(currentDetailRequest);
             }
         }
 
-        _isRequestingDetail = true;  // ¿äÃ» ½ÃÀÛ ÇÃ·¡±× ¼³Á¤
+        _isRequestingDetail = true;  // ìš”ì²­ ì‹œì‘ í”Œë˜ê·¸ ì„¤ì •
 
         bool isDone = false;
         currentDetailRequest = JWTGetRequest($"rankings/{recordId}", res =>
@@ -315,16 +315,16 @@ public class UI_RankingDetailPopup : UI_Popup
         });
         StartCoroutine(currentDetailRequest);
 
-        // ¿äÃ»ÀÌ ¿Ï·áµÉ ¶§±îÁö ´ë±â
+        // ìš”ì²­ì´ ì™„ë£Œë  ë•Œê¹Œì§€ ëŒ€ê¸°
         yield return new WaitUntil(() => isDone);
 
-        // ¿Ï·á Äİ¹é È£Ãâ
+        // ì™„ë£Œ ì½œë°± í˜¸ì¶œ
         onCompleted?.Invoke();
 
-        _isRequestingDetail = false;  // ¿äÃ» ¿Ï·á ÇÃ·¡±× ÇØÁ¦
+        _isRequestingDetail = false;  // ìš”ì²­ ì™„ë£Œ í”Œë˜ê·¸ í•´ì œ
     }
     
-    // °»½Å
+    // ê°±ì‹ 
     void Refresh()
     {
         
@@ -333,7 +333,7 @@ public class UI_RankingDetailPopup : UI_Popup
     void OnClickCloseButton()
     {
         Debug.Log("CloseRankingDetail");
-        // ÇöÀç ÆË¾÷À» ºñÈ°¼ºÈ­
+        // í˜„ì¬ íŒì—…ì„ ë¹„í™œì„±í™”
         gameObject.SetActive(false);
     }
 }

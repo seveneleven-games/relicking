@@ -69,8 +69,8 @@ public class UI_StageInfoItem : UI_Base
         BindImage(typeof(EImages)); 
         
         // 이건 잠겨있을 경우를 위한 것임.. (스테이지 잠금이 있을 시..)
-        GetImage((int)EImages.StageLockImage).gameObject.SetActive(true);
-        GetImage((int)EImages.StageImage).color = Util.HexToColor("6D6D6D");
+        // GetImage((int)EImages.StageLockImage).gameObject.SetActive(true);
+        // GetImage((int)EImages.StageImage).color = Util.HexToColor("6D6D6D");
         
         #endregion
         
@@ -87,6 +87,7 @@ public class UI_StageInfoItem : UI_Base
     void Refresh()
     {
         GetText((int)ETexts.StageValueText).text = $"스테이지{_stageData.StageId}: {_stageData.Name}";
+        Debug.Log(_stageData.ThumbnailName);
         GetImage((int)EImages.StageImage).sprite = Managers.Resource.Load<Sprite>(_stageData.ThumbnailName);
     }
     

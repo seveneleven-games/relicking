@@ -65,7 +65,8 @@ public static class Define
         MeteorShadow,
         ChainLightning,
         Shuriken,
-        StormBlade
+        StormBlade,
+        BossMonsterThorn
     }
 
     public enum EJoystickState
@@ -83,13 +84,12 @@ public static class Define
     public static string STAGE_BG_NAME = "Stage1BG.sprite";
     
     //todo(전지환) : StorePopup 임시 데이터
-    public static int INITIAL_GOLD = 10000;
+    public static int INITIAL_GOLD = 1000;
     public static int INITIAL_REROLL_COST = 0;
     
     //todo(전지환) : 총 스킬 개수 
     public static int TOTAL_PLAYER_SKILL_NUMBER = 10;
-    public static int TEST_SKILL_COST = 100;
-    public static int MY_SKILL_LEVEL = 0;
+    public static int INITIAL_SKILL_COST = 100;
     
     public static string BASE_URI = "https://k10d211.p.ssafy.io/api/";
     
@@ -97,7 +97,7 @@ public static class Define
     public static int SPEED_RATE = 600;
     public static int RANGE = 9;
 
-    public static int ADDRESSABLE_COUNT = 114;
+    public static int ADDRESSABLE_COUNT = 125;
 
     #endregion
 

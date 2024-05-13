@@ -86,10 +86,12 @@ public class UI_NicknamePopup : UI_Popup
     private string email;
     private string password;
     private bool isDuplicateNickname = false;
+    private GameObject _logoImage;
     
     private void Awake()
     {
         Init();
+        _logoImage = GameObject.Find("UI_TitleScene/LogoImage");
     }
 
     // 초기 세팅
@@ -107,6 +109,11 @@ public class UI_NicknamePopup : UI_Popup
         BindToggle(typeof(EToggles));
         BindImage(typeof(EImages)); 
         BindInputField(typeof(EInputFields));
+        
+        // InputField 이벤트 바인딩
+        var nicknameInput = GetInputField((int)EInputFields.NicknameInputField);
+        nicknameInput.onSelect.AddListener((_) => OnInputFieldSelected());
+        nicknameInput.onDeselect.AddListener((_) => OnInputFieldDeselected());
         
         // 확인 버튼
         GetButton((int)EButtons.ConfirmButton).gameObject.BindEvent(OnClickConfirmButton);
@@ -194,9 +201,19 @@ public class UI_NicknamePopup : UI_Popup
             }
         }));
         
-        
-        
-        // Managers.UI.ClosePopupUI(this);
-        // Managers.UI.ShowPopupUI<UI_LoginInputPopup>();
+    }
+    
+    // 입력 필드가 선택될 때 호출
+    void OnInputFieldSelected()
+    {
+        _logoImage.SetActive(false);
+        GetButton((int)EButtons.ConfirmButton).gameObject.SetActive(false);
+    }
+
+    // 입력 필드 선택이 해제될 때 호출
+    void OnInputFieldDeselected()
+    {
+        _logoImage.SetActive(true);
+        GetButton((int)EButtons.ConfirmButton).gameObject.SetActive(true);
     }
 }

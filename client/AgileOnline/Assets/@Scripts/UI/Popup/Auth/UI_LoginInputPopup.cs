@@ -74,7 +74,6 @@ public class UI_LoginInputPopup : UI_Popup
     
     enum EButtons
     {
-        KakaoLoginButton,
         LoginButton,
         BackButton,
     }
@@ -105,10 +104,12 @@ public class UI_LoginInputPopup : UI_Popup
     // 객체 관련 두는 곳
     
     private TemplateData _templateData;
+    private GameObject _logoImage;
     
     private void Awake()
     {
         Init();
+        _logoImage = GameObject.Find("UI_TitleScene/LogoImage");
     }
 
     // 초기 세팅
@@ -129,15 +130,22 @@ public class UI_LoginInputPopup : UI_Popup
         BindImage(typeof(EImages)); 
         BindInputField(typeof(EInputFields));
         
+        // InputField 이벤트 바인딩
+        var emailInput = GetInputField((int)EInputFields.EmailInputField);
+        var passwordInput = GetInputField((int)EInputFields.PasswordInputField);
+        emailInput.onSelect.AddListener((_) => OnInputFieldSelected());
+        passwordInput.onSelect.AddListener((_) => OnInputFieldSelected());
+        emailInput.onDeselect.AddListener((_) => OnInputFieldDeselected());
+        passwordInput.onDeselect.AddListener((_) => OnInputFieldDeselected());
+        
+        
         // 뒤로가기 버튼
         GetButton((int)EButtons.BackButton).gameObject.BindEvent(OnClickBackButton);
         
-        // Kakao 로그인 버튼
-        GetButton((int)EButtons.KakaoLoginButton).gameObject.BindEvent(OnClickKakaoLoginButton);
-        
         // 로그인하기 버튼
         GetButton((int)EButtons.LoginButton).gameObject.BindEvent(OnClickLoginButton);
-
+        GetButton((int)EButtons.LoginButton).gameObject.SetActive(true);
+        
         #endregion
 
         Refresh();
@@ -166,18 +174,6 @@ public class UI_LoginInputPopup : UI_Popup
         Managers.UI.ShowPopupUI<UI_LoginPopup>();
     }
     
-    void OnClickKakaoLoginButton()
-    {
-        Debug.Log("OnClickKakaoLoginButton");
-        
-        // 웹통신 테스트 -> 성공
-        StartCoroutine(GetRequest("test/login", data =>
-        {
-            Debug.Log("test해봅시다!!! " + data);
-        }));
-
-    }
-
     void OnClickLoginButton()
     {
         
@@ -227,10 +223,20 @@ public class UI_LoginInputPopup : UI_Popup
             }
             
         }));
-        
-        // 임시 성공하든 안하든 로비로
-        // Managers.Scene.LoadScene(EScene.LobbyScene);
-        
+    }
+
+    // 입력 필드가 선택될 때 호출
+    void OnInputFieldSelected()
+    {
+        _logoImage.SetActive(false);
+        GetButton((int)EButtons.LoginButton).gameObject.SetActive(false);
+    }
+
+    // 입력 필드 선택이 해제될 때 호출
+    void OnInputFieldDeselected()
+    {
+        _logoImage.SetActive(true);
+        GetButton((int)EButtons.LoginButton).gameObject.SetActive(true);
     }
     
 

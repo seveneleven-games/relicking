@@ -253,7 +253,6 @@ public class GameScene : BaseScene
         }
         
         #region 플레이어 설정
-        
         // 플레이어 스킬 중지
         _player.StopSkills();
         
@@ -270,8 +269,11 @@ public class GameScene : BaseScene
                         Managers.Object.Despawn(monsterController);
                 }
             }
-            
+        
             GameObject goldPool = GameObject.Find("@Golds");
+            if (goldPool == null)
+                return;
+            
             if (monsterPool != null)
             {
                 foreach (Transform child in goldPool.transform)
@@ -287,10 +289,14 @@ public class GameScene : BaseScene
         foreach (GameObject obj in FindObjectsOfType<GameObject>())
         {
             if (obj.name.StartsWith("@BaseMap"))
-                Managers.Resource.Destroy(obj);
+            {
+                Debug.Log("맵 삭제");
+                Managers.Resource.Destroy(obj);   
+            }
         }
         
         // 플레이어 위치 초기화
+        Debug.Log("플레이어 위치 초기화 시킬게요");
         _player.transform.position = Vector3.zero;
         
         #endregion
@@ -402,8 +408,6 @@ public class GameScene : BaseScene
     {
         Vector3 bossSpawn = new Vector3(0, 4, 0);
         Managers.Object.Spawn<MonsterController>(bossSpawn, boosMonsterIds[0]);
-        Vector3 eliteSpawn = new Vector3(0, -4, 0);
-        Managers.Object.Spawn<MonsterController>(eliteSpawn, eliteMonsterIds[0]);
         while (true)
         {
             for (int i = 0; i < PER_SEC_MOSTER_GENERATION; i++)

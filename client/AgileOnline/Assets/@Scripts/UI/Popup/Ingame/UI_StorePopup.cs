@@ -135,7 +135,7 @@ public class UI_StorePopup : UI_Popup
         Debug.Log($"구매 스킬 : {Managers.Data.SkillDic[skill.SkillId].Name} {Managers.Data.SkillDic[skill.SkillId].SkillId % 10}Lv, " +
                   $"구매 클릭 슬롯 번호 : {_skillCards.IndexOf(skill) + 1}번");
 
-        if (Gold < Define.TEST_SKILL_COST)
+        if (Gold < skill.SkillCost)
         {
             Debug.Log("소유한 골드가 적어 구매할 수 없어요!");
             return;
@@ -143,6 +143,8 @@ public class UI_StorePopup : UI_Popup
 
         //GameScene에서 구독한 BuySkill 함수 실행 & 싱크 작업
         DataSync(_player.AddSkill(skill.SkillId));
+        _player.PlayerGold -= skill.SkillCost;
+        Gold -= skill.SkillCost;
         
         int fixedSkillType = GetFixedSkillType(_skillCards.IndexOf(skill),GetRandomSkillIdList(3));
         int nowLevel = GetNowLevel(fixedSkillType);
@@ -168,10 +170,6 @@ public class UI_StorePopup : UI_Popup
                 _skillCards[i].SkillId = skillType * 10 + level;
             }
         }
-
-        //todo(전지환) : 스킬 데이터에 맞는 코스트로 빼주기
-        _player.PlayerGold -= Define.TEST_SKILL_COST;
-        Gold -= Define.TEST_SKILL_COST;
     }
 
     int GetFixedSkillType(int selectedCardIdx, int[] candidates)

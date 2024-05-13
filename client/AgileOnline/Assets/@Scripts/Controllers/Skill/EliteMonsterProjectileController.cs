@@ -79,4 +79,9 @@ public class EliteMonsterProjectileController : SkillController
         
         Managers.Object.Despawn(this);
     }
+    
+    public void SetOwner(CreatureController owner)
+    {
+        _owner = owner;
+    }
 }

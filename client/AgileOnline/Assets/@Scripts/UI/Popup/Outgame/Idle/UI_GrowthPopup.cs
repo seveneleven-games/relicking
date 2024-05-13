@@ -77,6 +77,10 @@ public class UI_GrowthPopup : UI_Popup
         if (Managers.Game != null)
             Managers.Game.OnResourcesChanged -= Refresh;
     }
+    
+    
+    private AndroidJavaObject UnityInstance;
+    private AndroidJavaObject UnityActivity;
 
     // 초기 세팅
     public override bool Init()
@@ -93,6 +97,14 @@ public class UI_GrowthPopup : UI_Popup
 
         GetButton((int)EButtons.IdleSettingButton).gameObject.BindEvent(OnClickIdleSettingButton);
         GetButton((int)EButtons.StartIdleButton).gameObject.BindEvent(OnClickStartIdleButton);
+        
+        // 처음엔 전부 비활성화 상태로
+        GetText((int)ETexts.TotalGrowthContent).gameObject.SetActive(false);
+        GetText((int)ETexts.TodayGrowthContent).gameObject.SetActive(false);
+        GetText((int)ETexts.OneWeekStreakDays).gameObject.SetActive(false);
+        GetText((int)ETexts.StreakBonusText).gameObject.SetActive(false);
+        GetImage((int)EImages.StreakGraphContent).gameObject.SetActive(false);
+        
 
         #endregion
 
@@ -101,7 +113,14 @@ public class UI_GrowthPopup : UI_Popup
         Managers.Game.OnResourcesChanged += Refresh;
         Refresh();
         
-        //ShowIdleRewardDialog();
+  
+        AndroidJavaClass ajc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+        UnityActivity = ajc.GetStatic<AndroidJavaObject>("currentActivity");
+
+        AndroidJavaClass ajc2 = new AndroidJavaClass("com.ssafy.idlearr.PermissionIdleHelper");
+        UnityInstance = ajc2.CallStatic<AndroidJavaObject>("instance", UnityActivity);
+        
+       
 
         return true;
     }
@@ -130,13 +149,14 @@ public class UI_GrowthPopup : UI_Popup
 
     void UpdateGrowthUI(GrowthStaticRes data)
     {
-        // Debug.Log("데이터 잘 가져왔음 : " + data.continuousLockDate);
-        // Debug.Log("데이터 잘 가져왔음 : " + data.todayLockTime);
-        // Debug.Log("데이터 잘 가져왔음 : " + data.totalLockTime);
-
+        
         GetText((int)ETexts.TotalGrowthContent).text = FormatTime(data.totalLockTime);
         GetText((int)ETexts.TodayGrowthContent).text = FormatTime(data.todayLockTime);
         GetText((int)ETexts.OneWeekStreakDays).text = $"{data.continuousLockDate}일";
+        
+        GetText((int)ETexts.TotalGrowthContent).gameObject.SetActive(true);
+        GetText((int)ETexts.TodayGrowthContent).gameObject.SetActive(true);
+        GetText((int)ETexts.OneWeekStreakDays).gameObject.SetActive(true);
 
         if (data.continuousLockDate > 0)
         {
@@ -161,6 +181,22 @@ public class UI_GrowthPopup : UI_Popup
     void OnClickStartIdleButton()
     {
         Debug.Log("성장하러 가기(방치) 버튼 Clicked");
+        // 여기서 플러그인 허용 요청 -> 요청이 모두 잘 오면 화면 이동하기
+        // if (Managers.Android.AllPermissionFlag)
+        // {
+        //     Debug.Log("허용 잘받앗다 더블체크");
+        // }
+        // else
+        // {
+        //     Debug.Log("잘 받긴햇는데 허용은 아님요 ");
+        // }
+
+        // if (UnityInstance == null)
+        // {
+        //     Debug.Log("널이다");
+        // }
+        // Debug.Log(UnityInstance.ToString());
+        
         Managers.Scene.LoadScene(Define.EScene.IdleScene);
     }
 
@@ -170,13 +206,4 @@ public class UI_GrowthPopup : UI_Popup
         return time.ToString(@"hh\:mm\:ss");
     }
     
-    void ShowIdleRewardDialog()
-    {
-        if (Managers.Game.showIdleRewardPopup)
-        {
-            //그 리워드 관련 팝업으로 바꿔주기
-            Managers.UI.ShowPopupUI<UI_IdleRewardInfoPopup>();
-            Managers.Game.showIdleRewardPopup = false;
-        }
-    }
 }

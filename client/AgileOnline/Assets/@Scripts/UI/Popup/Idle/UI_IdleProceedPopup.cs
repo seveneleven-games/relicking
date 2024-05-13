@@ -27,7 +27,7 @@ public class UI_IdleProceedPopup : UI_Popup
     #region StopWatch
 
     private float startTime;
-    private float savedTime;
+    private DateTime savedTime;
     private bool stopwatchActive = false;
     private float elapsedTime = 0f;
     private int lastUpdatedTime = 0; // 마지막 ui 업데이트 시간 저장 
@@ -51,6 +51,11 @@ public class UI_IdleProceedPopup : UI_Popup
         if (Managers.Game.showIdleRewardPopup)
         {
             Managers.Scene.LoadScene(EScene.LobbyScene);
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Debug.Log("뒤로 못돌아간다.");
         }
     }
 
@@ -90,12 +95,26 @@ public class UI_IdleProceedPopup : UI_Popup
         if (pauseStatus)
         {
             // 앱이 백그라운드로 갈 때
-            savedTime = Time.time;
+            Debug.Log("백으로 갓단다...");
+            savedTime = DateTime.UtcNow;
+            Debug.Log("Application paused at: " + savedTime);
         }
-        else if (stopwatchActive)
+        else
         {
+            DateTime currentTime = DateTime.UtcNow;
+            TimeSpan pauseDuration = currentTime - savedTime;
+            Debug.Log("Application resumed, Pause Duration: " + pauseDuration.TotalSeconds + " seconds");
             // 앱이 포어그라운드로 돌아왔을 때
-            startTime += (Time.time - savedTime);
+            if (stopwatchActive)
+            {
+                elapsedTime += (float)pauseDuration.TotalSeconds;
+                Debug.Log($"Updated elapsedTime: {elapsedTime}");
+                startTime = Time.time - elapsedTime; // 백그라운드에서 보낸 시간만큼 elapsedTime에 추가 후 startTime 조정
+                Debug.Log($"Pause duration: {pauseDuration}, New elapsedTime: {elapsedTime}");
+                int seconds = (int)elapsedTime;
+                GetText((int)ETexts.TotalGrowthContent).text = FormatTime(seconds); // UI 업데이트
+                lastUpdatedTime = seconds;
+            }
         }
     }
 
@@ -122,7 +141,8 @@ public class UI_IdleProceedPopup : UI_Popup
         GetButton((int)EButtons.ExitIdleButton).gameObject.BindEvent(OnClickExitIdleButton);
 
         #endregion
-
+        
+        // 안드로이드 서비스 플러그인 실행해주기 
         StartStopwatch();
         
         Managers.Game.OnResourcesChanged += Refresh;
