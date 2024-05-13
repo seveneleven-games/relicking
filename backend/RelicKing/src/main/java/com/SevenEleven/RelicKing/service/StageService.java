@@ -11,7 +11,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.SevenEleven.RelicKing.dto.request.model.SkillDTO;
 import com.SevenEleven.RelicKing.dto.request.StageRequestDTO;
 import com.SevenEleven.RelicKing.dto.response.StageResponseDTO;
 import com.SevenEleven.RelicKing.dto.model.RelicDTO;
@@ -109,13 +108,13 @@ public class StageService {
 
 		recordRelics.sort(RecordRelic::compareTo);
 
-		for (RecordRelic recordRelic: recordRelics) {
-				record.addRecordRelic(recordRelic.getRelicNo(), recordRelic.getLevel(), recordRelic.getSlot());
-			}
+		recordRelics.forEach(recordRelic -> {
+			record.getRecordRelics().add(recordRelic);
+		});
 
-		for (SkillDTO skillDTO: stageRequestDTO.getSkillList()) {
+		stageRequestDTO.getSkillList().forEach(skillDTO -> {
 			record.addRecordSkill(skillDTO.getSkillNo(), skillDTO.getLevel(), skillDTO.getSlot());
-		}
+		});
 
 		recordRepository.save(record);
 	}
