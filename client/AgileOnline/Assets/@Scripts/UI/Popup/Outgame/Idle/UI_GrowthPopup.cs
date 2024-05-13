@@ -114,13 +114,16 @@ public class UI_GrowthPopup : UI_Popup
         Refresh();
         
   
-        AndroidJavaClass ajc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-        UnityActivity = ajc.GetStatic<AndroidJavaObject>("currentActivity");
-
-        AndroidJavaClass ajc2 = new AndroidJavaClass("com.ssafy.idlearr.PermissionIdleHelper");
-        UnityInstance = ajc2.CallStatic<AndroidJavaObject>("instance", UnityActivity);
-        
+        // AndroidJavaClass helperClass = new AndroidJavaClass("com.ssafy.idlearr.PermissionIdleHelper");
+        // AndroidJavaObject activity = new AndroidJavaObject("com.unity3d.player.UnityPlayer").GetStatic<AndroidJavaObject>("currentActivity");
+        // AndroidJavaObject instance = helperClass.CallStatic<AndroidJavaObject>("getInstance", activity);
+        //
+        // if (instance != null)
+        // {
+        //     Debug.Log("fdfjsakjdsafj러아럼ㄴ");
+        // }
        
+       // Managers.Android.CheckAndRequestPermissions();
 
         return true;
     }
