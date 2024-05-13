@@ -39,6 +39,10 @@ public class UI_OutgameSettingPopup : UI_Popup
         SFXSoundToggle,
     }
     
+    // 객체 관련 두는 곳
+    private bool _isSelectedBGMSound = true;
+    private bool _isSelectedSFXSound = true;
+    
     
     public override bool Init()
     {
@@ -54,6 +58,10 @@ public class UI_OutgameSettingPopup : UI_Popup
         GetText((int)Texts.BGMOFFText).gameObject.SetActive(false);
         GetText((int)Texts.SFXOFFText).gameObject.SetActive(false);
 
+        // 토글 버튼
+        GetToggle((int)Toggles.BGMSoundToggle).gameObject.BindEvent(OnClickBGMSoundToggle);
+        GetToggle((int)Toggles.SFXSoundToggle).gameObject.BindEvent(OnClickSFXSoundToggle);
+        
         // 로그아웃 버튼
         GetButton((int)Buttons.LogoutButton).gameObject.BindEvent(OnClickLogoutButton);
         
@@ -63,9 +71,50 @@ public class UI_OutgameSettingPopup : UI_Popup
         // 비밀번호 변경 버튼
         GetButton((int)Buttons.ChangePasswordButton).gameObject.BindEvent(OnClickChangePasswordButton);
         
+        
         return true;
     }
 
+    void OnClickBGMSoundToggle()
+    {
+        _isSelectedBGMSound = !_isSelectedBGMSound;
+
+        if (_isSelectedBGMSound)
+        {
+            Managers.Game.BGMOn = true;
+            GetText((int)Texts.BGMOFFText).gameObject.SetActive(false);
+            GetText((int)Texts.BGMONText).gameObject.SetActive(true);
+            
+        }
+
+        else
+        {
+            Managers.Game.BGMOn = false;
+            GetText((int)Texts.BGMOFFText).gameObject.SetActive(true);
+            GetText((int)Texts.BGMONText).gameObject.SetActive(false);
+        }
+    }
+
+    void OnClickSFXSoundToggle()
+    {
+        _isSelectedSFXSound = !_isSelectedSFXSound;
+
+        if (_isSelectedSFXSound)
+        {
+            Managers.Game.EffectSoundOn = true;
+            GetText((int)Texts.SFXOFFText).gameObject.SetActive(false);
+            GetText((int)Texts.SFXONText).gameObject.SetActive(true);
+        }
+
+        else
+        {
+            Managers.Game.EffectSoundOn = false;
+            GetText((int)Texts.SFXOFFText).gameObject.SetActive(true);
+            GetText((int)Texts.SFXONText).gameObject.SetActive(false);
+        }
+    }
+    
+    
     void OnClickLogoutButton()
     {
         StartCoroutine(JWTDeleteRequest("members/logout", res =>
@@ -82,7 +131,7 @@ public class UI_OutgameSettingPopup : UI_Popup
             }
         }));
     }
-
+    
     void OnClickChangeNicknameButton()
     {
         UI_ChangePopup popup = Managers.UI.ShowPopupUI<UI_ChangePopup>();

@@ -15,9 +15,9 @@ public class LobbyScene : BaseScene
         // UI
         Managers.UI.ShowSceneUI<UI_LobbyScene>();
        // Screen.sleepTimeout = SleepTimeout.SystemSetting;
-
         
-
+       Managers.Sound.Play(Define.ESound.Bgm,"Bgm_Lobby");
+       
         return true;
     }
 
