@@ -1208,6 +1208,19 @@
       "LifeTime": 1.5,
       "Speed": 20.0,
       "ProjectileNum": 0
+    },
+    {
+      "SkillId": 1031,
+      "NextId": -1,
+      "PrefabName": "BossMonsterJump",
+      "Name": "보스 몬스터 점프",
+      "Description": "보스 몬스터 점프 공격!",
+      "IconName": "BossMonsterJump_icon.sprite",
+      "CoolTime": 10,
+      "Damage": 4.0,
+      "LifeTime": 1.5,
+      "Speed": 20.0,
+      "ProjectileNum": 0
     }
   ]
 }
