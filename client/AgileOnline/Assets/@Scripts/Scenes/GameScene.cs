@@ -253,7 +253,6 @@ public class GameScene : BaseScene
         }
         
         #region 플레이어 설정
-        
         // 플레이어 스킬 중지
         _player.StopSkills();
         
@@ -270,7 +269,7 @@ public class GameScene : BaseScene
                         Managers.Object.Despawn(monsterController);
                 }
             }
-
+        
             GameObject goldPool = GameObject.Find("@Golds");
             if (goldPool == null)
                 return;
