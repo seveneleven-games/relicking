@@ -72,7 +72,7 @@ MonoBehaviour:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: cac203b8c09b9ba44a18195e7f5155af
-    m_Address: Shuriken_icon
+    m_Address: Shuriken_icon.sprite
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
