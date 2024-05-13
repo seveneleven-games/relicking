@@ -1195,6 +1195,19 @@
       "LifeTime": 0,
       "Speed": 20.0,
       "ProjectileNum": 0
+    },
+    {
+      "SkillId": 1021,
+      "NextId": -1,
+      "PrefabName": "BossMonsterThorn",
+      "Name": "보스 몬스터 가시",
+      "Description": "맵 전체에 가시 공격!",
+      "IconName": "BossMonsterThorn_icon.sprite",
+      "CoolTime": 10,
+      "Damage": 2.0,
+      "LifeTime": 1.5,
+      "Speed": 20.0,
+      "ProjectileNum": 0
     }
   ]
 }

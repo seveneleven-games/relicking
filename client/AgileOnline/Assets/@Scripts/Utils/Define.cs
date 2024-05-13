@@ -65,7 +65,8 @@ public static class Define
         MeteorShadow,
         ChainLightning,
         Shuriken,
-        StormBlade
+        StormBlade,
+        BossMonsterThorn
     }
 
     public enum EJoystickState
@@ -96,7 +97,7 @@ public static class Define
     public static int SPEED_RATE = 1000;
     public static int RANGE = 7;
 
-    public static int ADDRESSABLE_COUNT = 122;
+    public static int ADDRESSABLE_COUNT = 125;
 
     #endregion
 

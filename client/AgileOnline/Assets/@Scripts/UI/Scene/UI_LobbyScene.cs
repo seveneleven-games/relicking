@@ -192,11 +192,11 @@ public class UI_LobbyScene : UI_Scene
         // 팝업 버튼 사이즈 및 위치 초기화 (check 안한 상태로) -> 필요 없어짐 (툴에서 따로 처리)
         
         // 팝업버튼 밑의 글씨 비활성화
-        GetText((int)ETexts.InventoryToggleText).gameObject.SetActive(false);
-        GetText((int)ETexts.GachaToggleText).gameObject.SetActive(false);
-        GetText((int)ETexts.BattleToggleText).gameObject.SetActive(false);
-        GetText((int)ETexts.GrowthToggleText).gameObject.SetActive(false);
-        GetText((int)ETexts.RankingToggleText).gameObject.SetActive(false);
+        GetText((int)ETexts.CheckInventoryToggleText).gameObject.SetActive(false);
+        GetText((int)ETexts.CheckGachaToggleText).gameObject.SetActive(false);
+        GetText((int)ETexts.CheckBattleToggleText).gameObject.SetActive(false);
+        GetText((int)ETexts.CheckGrowthToggleText).gameObject.SetActive(false);
+        GetText((int)ETexts.CheckRankingToggleText).gameObject.SetActive(false);
     }
     
     
@@ -222,7 +222,7 @@ public class UI_LobbyScene : UI_Scene
         // ShowUI
         ShowUI(_invenPopupUI.gameObject,
             GetToggle((int)EToggles.InventoryToggle),
-            GetText((int)ETexts.InventoryToggleText),
+            GetText((int)ETexts.CheckInventoryToggleText),
             GetObject((int)EGameObjects.CheckInventoryBgImage),
             GetObject((int)EGameObjects.CheckInventoryImage));
         _isSelectedInventory = true;

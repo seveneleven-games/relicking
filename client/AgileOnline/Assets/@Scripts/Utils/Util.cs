@@ -316,6 +316,43 @@ public static class Util
             }
         }
     }
+    
+    public static IEnumerator JWTDeleteRequest(string uri, Action<string> callback)
+    {
+        string finalUri = BASE_URI + uri;
+
+        string accessToken = Managers.Game.AccessToken;
+
+        using (UnityWebRequest webRequest = new UnityWebRequest(finalUri, "DELETE"))
+        {
+            webRequest.downloadHandler = new DownloadHandlerBuffer();
+            webRequest.SetRequestHeader("Content-Type", "application/json");
+            webRequest.SetRequestHeader("Authorization", "Bearer " + accessToken);
+
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.ConnectionError ||
+                webRequest.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError(webRequest.error);
+
+                // json -> 객체로 변환
+                DataRes dataRes = JsonUtility.FromJson<DataRes>(webRequest.downloadHandler.text);
+
+                // 토큰이 만료되었다면?
+                if (dataRes.message == "JWT가 만료되었습니다.")
+                {
+                    yield return RequestNewToken(); // 토큰 재발급 요청
+                    yield return JWTDeleteRequest(uri, callback); // 요청 재시도
+                }
+            }
+            else
+            {
+                Debug.Log(webRequest.downloadHandler.text);
+                callback(webRequest.downloadHandler.text);
+            }
+        }
+    }
 
     #endregion
 
