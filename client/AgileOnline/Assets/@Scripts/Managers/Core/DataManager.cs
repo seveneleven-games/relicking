@@ -78,6 +78,8 @@ public class DataManager
                 return Managers.Data.SkillDic[templateId].PrefabName;
             case "StormBladeData":
                 return Managers.Data.SkillDic[templateId].PrefabName;
+            case "BossMonsterThornData":
+                return Managers.Data.SkillDic[templateId].PrefabName;
             default:
                 return null;
         }
