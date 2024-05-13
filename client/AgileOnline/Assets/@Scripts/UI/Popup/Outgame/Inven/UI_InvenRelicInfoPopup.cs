@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using static Util;
 
 public class UI_InvenRelicInfoPopup : UI_Popup
@@ -11,7 +12,7 @@ public class UI_InvenRelicInfoPopup : UI_Popup
     enum EGameObjects
     {
         ContentObjet,
-        //RelicExpSliderObject,
+        RelicExpSliderObject,
     }
 
     enum EButtons
@@ -24,10 +25,11 @@ public class UI_InvenRelicInfoPopup : UI_Popup
 
     enum ETexts
     {
-        RelicLevelText,
+        //RelicLevelText,
         RelicNameText,
         RelicDescriptionText,
         RelicRarityText,
+        LevelText,
     }
 
     enum EImages
@@ -93,10 +95,72 @@ public class UI_InvenRelicInfoPopup : UI_Popup
         GetText((int)ETexts.RelicNameText).text = relicData.Name;
         GetText((int)ETexts.RelicDescriptionText).text = relicData.Description + RelicDetailDescription(relicData);
         string levelText = _templateData.SelectedRelicId % 10 == 9 ? "Max" : (_templateData.SelectedRelicId % 10).ToString();
-        GetText((int)ETexts.RelicLevelText).text = "Lv." + levelText;
+        int RelicExp = 0;
+        foreach (InventoryRelicDataRes ownedRelic in _templateData.OwnedRelics)
+        {
+            if (ownedRelic.relicNo == _templateData.SelectedRelicId / 10)
+            {
+                RelicExp = ownedRelic.exp;
+                Debug.Log(RelicExp);
+            }
+        }
+        int startExp;
+        int maxExp;
+        float levelValue;
+        switch (levelText)
+        {
+            case "1":
+                startExp = 0;
+                maxExp = 20000;
+                levelValue = (RelicExp - startExp) / (float)(maxExp - startExp);
+                break;
+            case "2":
+                startExp = 20000;
+                maxExp = 40000;
+                levelValue = (RelicExp - startExp) / (float)(maxExp - startExp);
+                break;
+            case "3":
+                startExp = 40000;
+                maxExp = 80000;
+                levelValue = (RelicExp - startExp) / (float)(maxExp - startExp);
+                break;
+            case "4":
+                startExp = 80000;
+                maxExp = 160000;
+                levelValue = (RelicExp - startExp) / (float)(maxExp - startExp);
+                break;
+            case "5":
+                startExp = 160000;
+                maxExp = 320000;
+                levelValue = (RelicExp - startExp) / (float)(maxExp - startExp);
+                break;
+            case "6":
+                startExp = 320000;
+                maxExp = 640000;
+                levelValue = (RelicExp - startExp) / (float)(maxExp - startExp);
+                break;
+            case "7":
+                startExp = 640000;
+                maxExp = 1280000;
+                levelValue = (RelicExp - startExp) / (float)(maxExp - startExp);
+                break;
+            case "8":
+                startExp = 1280000;
+                maxExp = 2560000;
+                levelValue = (RelicExp - startExp) / (float)(maxExp - startExp);
+                break;
+            default:
+                startExp = 2560000;
+                maxExp = 2560000;
+                levelValue = (float)1;
+                break;
+        }
+        Debug.Log(levelValue);
+        //GetText((int)ETexts.RelicLevelText).text = "Lv." + levelText;
+        GetText((int)ETexts.LevelText).text = "Lv." + levelText;
         Sprite spr = Managers.Resource.Load<Sprite>(relicData.ThumbnailName);
         GetImage((int)EImages.RelicImage).sprite = spr;
-
+        GetObject((int)EGameObjects.RelicExpSliderObject).GetComponent<Slider>().value = levelValue;
         bool isEquip = IsRelicEquiped(_templateData.SelectedRelicId, _templateData.EquipedRelicIds);
         GetButton((int)EButtons.ButtonUnequip).gameObject.SetActive(isEquip);
         
