@@ -1181,9 +1181,6 @@
       "MaxHp": 0,
       "CoolTime": 0,
       "Speed": 0,
-      "CritRate": 0.26,
-      "CritDmgRate": 0,
-      "ExtraGold": 0
     },
     {
       "RelicId": 1057,

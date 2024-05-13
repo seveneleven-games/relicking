@@ -241,6 +241,9 @@ public class UI_InvenPopup : UI_Popup
             MaxHp += Managers.Data.RelicDic[i].MaxHp;
             Atk += Managers.Data.RelicDic[i].Atk;
             Speed += Managers.Data.RelicDic[i].Speed;
+            CoinBonus += Managers.Data.RelicDic[i].ExtraGold;
+            CritRate += Managers.Data.RelicDic[i].CritRate;
+            CritDmgRate += Managers.Data.RelicDic[i].CritDmgRate;
             CoolDown -= Managers.Data.RelicDic[i].CoolTime / 100f;
         }
         
@@ -261,6 +264,9 @@ public class UI_InvenPopup : UI_Popup
         GetText((int)ETexts.CriticalRateText).text = $"{CritRate * 100}%";
         GetText((int)ETexts.CriticalDamageText).text = $"{CritDmgRate * 100}%";
         GetText((int)ETexts.CoolDownText).text = $"{CoolDown * 100}%";
+        
+        //todo(전지환) : 유물 스탯 인게임에서도 적용시켜야 함 -> playerController확인
+        //todo(김형규) : 추가된 스탯 필드 설명창에 뜨도록 수정 필요
     }
     
     void SetClassImage(int num)
