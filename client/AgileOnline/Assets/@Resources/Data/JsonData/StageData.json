@@ -13,7 +13,7 @@
       "Name": "Stage2",
       "ThumbnailName": "Stage2_Thumbnail.sprite",
       "NodeMaps": [
-        0
+        1
       ]
     },
     {
@@ -21,7 +21,7 @@
       "Name": "Stage3",
       "ThumbnailName": "Stage3_Thumbnail.sprite",
       "NodeMaps": [
-        0
+        2
       ]
     }
   ]
