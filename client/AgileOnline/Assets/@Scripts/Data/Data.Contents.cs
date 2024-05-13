@@ -23,6 +23,7 @@ namespace Data
         public float CritRate;
         public float CritDmgRate;
         public float CoolDown;
+        public float ExtraGold;
     }
 
     [Serializable]

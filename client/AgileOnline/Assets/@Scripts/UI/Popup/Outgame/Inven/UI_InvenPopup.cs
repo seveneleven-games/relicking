@@ -1,13 +1,9 @@
-using Data;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using static Util;
+using static Extension;
 
 [Serializable]
 public class InventoryDataRes
@@ -235,7 +231,7 @@ public class UI_InvenPopup : UI_Popup
         int MaxHp = Managers.Data.PlayerDic[num].MaxHp;
         int Atk = Managers.Data.PlayerDic[num].Atk;
         float Speed = Managers.Data.PlayerDic[num].Speed;
-        int CoinBonus = 100;
+        float CoinBonus = Managers.Data.PlayerDic[num].ExtraGold;
         float CritRate = Managers.Data.PlayerDic[num].CritRate;
         float CritDmgRate = Managers.Data.PlayerDic[num].CritDmgRate;
         float CoolDown = Managers.Data.PlayerDic[num].CoolDown;
@@ -247,13 +243,21 @@ public class UI_InvenPopup : UI_Popup
             Speed += Managers.Data.RelicDic[i].Speed;
             CoolDown -= Managers.Data.RelicDic[i].CoolTime / 100f;
         }
-    
-        CoolDown = Mathf.Max(CoolDown, 0.4f);
+        
+        if (CoolDown < 0.1)
+            CoolDown = 0.1f;
 
+        //표기 반올림 처리
+        CoinBonus = RoundThird(CoinBonus);
+        CritRate = RoundThird(CritRate);
+        CritDmgRate = RoundThird(CritDmgRate);
+        CoolDown = RoundThird(CoolDown);
+
+        
         GetText((int)ETexts.MaxHealthText).text = $"{MaxHp}";
         GetText((int)ETexts.DamageText).text = $"{Atk}";
         GetText((int)ETexts.SpeedText).text = $"{Speed}";
-        GetText((int)ETexts.CoinBonusText).text = $"{CoinBonus}%";
+        GetText((int)ETexts.CoinBonusText).text = $"{CoinBonus * 100}%";
         GetText((int)ETexts.CriticalRateText).text = $"{CritRate * 100}%";
         GetText((int)ETexts.CriticalDamageText).text = $"{CritDmgRate * 100}%";
         GetText((int)ETexts.CoolDownText).text = $"{CoolDown * 100}%";

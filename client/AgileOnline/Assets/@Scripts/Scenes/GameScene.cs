@@ -37,9 +37,16 @@ public class ClearDataRes
 
 public class GameScene : BaseScene
 {
-    private const float MONSTER_SPAWN_INTERVAL = 5f;
-    private const int PER_SEC_MOSTER_GENERATION = 20;
-    private const float TARGET_SPAWN_TIME = 0.5f;
+    //todo(전지환) : 스폰 관련 수치 원복
+    /*
+     * private const float MONSTER_SPAWN_INTERVAL = 5f;
+     * private const int PER_SEC_MOSTER_GENERATION = 20;
+     * private const float TARGET_SPAWN_TIME = 0.5f;
+     * 
+     */
+    private const float MONSTER_SPAWN_INTERVAL = 2f;
+    private const int PER_SEC_MOSTER_GENERATION = 40;
+    private const float TARGET_SPAWN_TIME = 0.3f;
     private const int NORMAL_MONSTER = 0;
     private const int ELITE_MONSTER = 1;
     private const int BOSS_MONSTER = 2;
