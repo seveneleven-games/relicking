@@ -249,14 +249,14 @@ public class UI_InvenPopup : UI_Popup
         }
     
         CoolDown = Mathf.Max(CoolDown, 0.4f);
-    
-        GetText((int)ETexts.MaxHealthText).text = MaxHp.ToString();
-        GetText((int)ETexts.DamageText).text = Atk.ToString();
-        GetText((int)ETexts.SpeedText).text = Speed.ToString();
-        GetText((int)ETexts.CoinBonusText).text = CoinBonus.ToString();
-        GetText((int)ETexts.CriticalRateText).text = CritRate.ToString();
-        GetText((int)ETexts.CriticalDamageText).text = CritDmgRate.ToString();
-        GetText((int)ETexts.CoolDownText).text = CoolDown.ToString();
+
+        GetText((int)ETexts.MaxHealthText).text = $"{MaxHp}";
+        GetText((int)ETexts.DamageText).text = $"{Atk}";
+        GetText((int)ETexts.SpeedText).text = $"{Speed}";
+        GetText((int)ETexts.CoinBonusText).text = $"{CoinBonus}%";
+        GetText((int)ETexts.CriticalRateText).text = $"{CritRate * 100}%";
+        GetText((int)ETexts.CriticalDamageText).text = $"{CritDmgRate * 100}%";
+        GetText((int)ETexts.CoolDownText).text = $"{CoolDown * 100}%";
     }
     
     void SetClassImage(int num)
