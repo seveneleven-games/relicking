@@ -1204,7 +1204,7 @@
       "Description": "맵 전체에 가시 공격!",
       "IconName": "BossMonsterThorn_icon.sprite",
       "CoolTime": 10,
-      "Damage": 0.0,
+      "Damage": 2.0,
       "LifeTime": 1.5,
       "Speed": 20.0,
       "ProjectileNum": 0

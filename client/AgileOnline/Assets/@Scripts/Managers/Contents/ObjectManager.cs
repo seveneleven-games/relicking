@@ -383,6 +383,11 @@ public class ObjectManager
                     StormBladeController sbc = sc as StormBladeController;
                     StormBlades.Remove(sbc);
                     break;
+                
+                case ESkillType.BossMonsterThorn:
+                    BossMonsterThornController bmtc = sc as BossMonsterThornController;
+                    BossMonsterThorns.Remove(bmtc);
+                    break;
             }
         }
 

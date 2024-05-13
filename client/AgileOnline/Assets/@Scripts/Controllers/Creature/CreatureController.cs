@@ -38,6 +38,9 @@ public class CreatureController : BaseController
     {
         bool isCritical = false;
         
+        Debug.Log("때린놈 : " + attacker);
+        Debug.Log("데미지 : " + damage);
+        
         if (attacker is PlayerController playerAttacker)
         {
             float critRoll = UnityEngine.Random.value;

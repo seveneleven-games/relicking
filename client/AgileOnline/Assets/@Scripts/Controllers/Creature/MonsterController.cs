@@ -66,8 +66,9 @@ public class MonsterController : CreatureController
         }
         else if (MonsterType == 2)
         {
-            // MonsterSkillList[0] = 1001;
+            MonsterSkillList[0] = 1001;
             MonsterSkillList[1] = 1011;
+            MonsterSkillList[2] = 1021;
             transform.localScale = new Vector3(3, 3, 1);
         }
     }
@@ -83,17 +84,8 @@ public class MonsterController : CreatureController
             return;
 
         if (!_isUsingSkill)
-        {
-            if (MonsterType == 2)
-                Debug.Log("플레이어 따라가는중 : " + Speed);
             ChasePlayer();
-        }
-        else
-        {
-            if (MonsterType == 2)
-                Debug.Log("플레이어 안 따라가는중 : " + Speed);
-        }
-
+        
         if (!_isInCoolDown && MonsterType != 0)
             StartRandomSkill();
     }
@@ -269,16 +261,16 @@ public class MonsterController : CreatureController
 
                 Vector3 playerDirection = (_player.transform.position - transform.position).normalized;
 
-                GameObject instantiate = Managers.Resource.Instantiate("LineAlert");
-                ParticleSystem ps = instantiate.GetComponent<ParticleSystem>();
-                ps.transform.position = transform.position;
+                GameObject go1 = Managers.Resource.Instantiate("LineAlert");
+                ParticleSystem ps1 = go1.GetComponent<ParticleSystem>();
+                ps1.transform.position = transform.position;
                 float psAngle = Mathf.Atan2(playerDirection.y, playerDirection.x) * Mathf.Rad2Deg;
-                ps.transform.rotation = Quaternion.AngleAxis(psAngle, Vector3.forward);
-                ps.transform.rotation *= Quaternion.Euler(0f, 0f, -90f);
-                ps.transform.localScale = new Vector3(ps.transform.localScale.x, ps.transform.localScale.y * 10f, ps.transform.localScale.z);
+                ps1.transform.rotation = Quaternion.AngleAxis(psAngle, Vector3.forward);
+                ps1.transform.rotation *= Quaternion.Euler(0f, 0f, -90f);
+                ps1.transform.localScale = new Vector3(ps1.transform.localScale.x * 2f, ps1.transform.localScale.y * 10f, ps1.transform.localScale.z);
 
                 yield return new WaitForSeconds(0.5f);
-                Destroy(instantiate);
+                Destroy(go1);
 
                 for (float t = 0; t < 1.5f; t += Time.deltaTime)
                 {
@@ -291,11 +283,24 @@ public class MonsterController : CreatureController
                 break;
             
             case "BossMonsterThorn":
-                for (int x = -10; x <= 10; x += 2) {
-                    for (int y = -10; y <= 10; y += 2) {
+                for (int x = -8; x <= 8; x += 4) {
+                    for (int y = -8; y <= 8; y += 4) {
                         Vector3 spawnPosition = new Vector3(x, y, 0);
-                        BossMonsterThornController thornController = 
+                        GameObject go2 = Managers.Resource.Instantiate("CircleAlert");
+                        ParticleSystem ps2 = go2.GetComponent<ParticleSystem>();
+                        ps2.transform.position = spawnPosition;
+                        ps2.Play();
+                    }
+                }
+
+                yield return new WaitForSeconds(1.5f);
+                
+                for (int x = -8; x <= 8; x += 4) {
+                    for (int y = -8; y <= 8; y += 4) {
+                        Vector3 spawnPosition = new Vector3(x, y, 0);
+                        BossMonsterThornController bmtc = 
                             Managers.Object.Spawn<BossMonsterThornController>(spawnPosition, skillId);
+                        bmtc.SetOwner(this);
                     }
                 }
                 break;

@@ -48,5 +48,25 @@ public class BossMonsterThornController : SkillController
         
         StartDestroy(LifeTime);
     }
+    
+    public void SetOwner(CreatureController owner)
+    {
+        _owner = owner;
+    }
+    
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (this.IsValid() == false)
+            return;
+
+        PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+
+        if (player.IsValid() == false)
+            return;
+        
+        MonsterController mc = _owner as MonsterController;
+        float realDamage = (Damage * mc.Atk);
+        player.OnDamaged(_owner, ref realDamage);
+    }
 
 }
