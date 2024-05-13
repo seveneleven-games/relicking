@@ -68,24 +68,27 @@ public class GachaService {
 		List<MemberRelic> memberRelicList = new ArrayList<>();
 		Set<MemberRelic> memberRelics = member.getMemberRelics();
 		memberRelics.forEach(memberRelic -> {
-			int rarity = memberRelic.getRelicNo()/100;
+			int relicNo = memberRelic.getRelicNo();
+			int rarity = relicNo/100;
 			try {
-				if (gachaResult[rarity][memberRelic.getRelicNo() % 100] > 0) {
+				if (gachaResult[rarity][relicNo % 100] > 0) {
 					// 경험치 더하고 레벨업 여부 따로 계산
 					int before = memberRelic.getLevel();
-					memberRelic.plusExp(Constant.EXP_GACHA * memberRelic.getLevel() * gachaResult[rarity][memberRelic.getRelicNo() % 100]);
+					memberRelic.plusExp(Constant.EXP_GACHA * memberRelic.getLevel() * gachaResult[rarity][relicNo % 100]);
 					int after = memberRelic.getLevel();
 
 					memberRelicList.add(memberRelic);
 
 					// results에 Map add
-					Map<String, Object> relic = new LinkedHashMap<>();
-					relic.put("relicNo", memberRelic.getRelicNo());
-					relic.put("level", after);
-					relic.put("levelUpYn", after > before);
-					relic.put("newYn", false);
+					for (int i = 0; i < gachaResult[rarity][relicNo % 100]; i++) {
+						Map<String, Object> relic = new LinkedHashMap<>();
+						relic.put("relicNo", relicNo);
+						relic.put("level", after);
+						relic.put("levelUpYn", after > before);
+						relic.put("newYn", false);
+						results.add(relic);
+					}
 
-					results.add(relic);
 					gachaResult[rarity][memberRelic.getRelicNo() % 100] = 0;
 				}
 			} catch (ArrayIndexOutOfBoundsException e) {
@@ -101,13 +104,14 @@ public class GachaService {
 					int after = memberRelic.getLevel();
 					memberRelicList.add(memberRelic);
 
-					Map<String, Object> relic = new LinkedHashMap<>();
-					relic.put("relicNo", memberRelic.getRelicNo());
-					relic.put("level", after);
-					relic.put("levelUpYn", after > 1);
-					relic.put("newYn", true);
-
-					results.add(relic);
+					for (int k = 0; k < gachaResult[i][j]; k++) {
+						Map<String, Object> relic = new LinkedHashMap<>();
+						relic.put("relicNo", memberRelic.getRelicNo());
+						relic.put("level", after);
+						relic.put("levelUpYn", after > 1);
+						relic.put("newYn", true);
+						results.add(relic);
+					}
 				}
 			}
 		}
