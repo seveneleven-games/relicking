@@ -1,8 +1,6 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Data;
-using TMPro;
 using UnityEngine;
 using static Define;
 
@@ -27,6 +25,8 @@ public class MonsterController : CreatureController
     private bool _isInCoolDown;
 
     private TemplateData _templateData;
+    
+    private UI_InGamePopup _inGamePopup = Managers.UI.GetPopupUI<UI_InGamePopup>();
 
     public override bool Init()
     {
@@ -50,9 +50,9 @@ public class MonsterController : CreatureController
         PrefabName = data.PrefabName;
         MonsterType = data.MonsterType;
         Name = data.Name;
-        MaxHp = data.MaxHp * difficulty;
+        MaxHp = (int) (data.MaxHp * (1 + DIFFICULTY_COEFFICIENT * difficulty));
         Hp = MaxHp;
-        Atk = data.Atk * difficulty;
+        Atk = data.Atk * (1 + DIFFICULTY_COEFFICIENT * difficulty);
         Speed = data.Speed;
         DropGold = data.DropGold;
         CritRate = data.CritRate;
@@ -152,6 +152,8 @@ public class MonsterController : CreatureController
         UI_World.Instance.ShowDamage((int)damage, transform.position + Vector3.up * 1f, isCritical);
         // if (gameObject.activeSelf && MonsterType != 2)
         //     StartCoroutine(HitStun(0.1f));
+        if (MonsterType == 2)
+            _inGamePopup.UpdateBossHealth(Hp, MaxHp);
 
         return isCritical;
     }

@@ -135,7 +135,13 @@ public class GameScene : BaseScene
 
     // 진입한 노드 번호를 가지고 있을 변수
     private int _nodeNo;
-    private bool _isBossNode;
+    private static bool _isBossNode;
+
+    public static bool IsBossNode
+    {
+        get { return _isBossNode; }
+        set { _isBossNode = value; }
+    }
     
     public void StartGame(int nodeNo, bool isBossNode)
     {
@@ -218,9 +224,9 @@ public class GameScene : BaseScene
         }
         else
         {
-            _timerCoroutine = StartCoroutine(StartTimer(30f));
             // 인게임 사운드 넣기
             Managers.Sound.Play(Define.ESound.Bgm,"Bgm_InGame");
+            _timerCoroutine = StartCoroutine(StartTimer(3f));
         }
     }
     
