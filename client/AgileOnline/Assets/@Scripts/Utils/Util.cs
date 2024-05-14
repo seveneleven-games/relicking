@@ -356,59 +356,5 @@ public static class Util
 
     #endregion
 
-    #region 안드로이드 플러그인 통신
 
-    private static AndroidJavaObject permissionHelper;
-    private static AndroidJavaObject unityActivity;
-    private static AndroidJavaObject unityContext;
-    
-
-    public static void InitializePlugin()
-    {
-        using (var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
-        {
-            unityActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-            unityContext = unityActivity.Call<AndroidJavaObject>("getApplicationContext");
-        }
-
-        permissionHelper = new AndroidJavaObject("com.ssafy.idlearr.PermissionIdleHelper", unityContext);
-    }
-
-    public static void CheckAndRequestPermissions()
-    {
-        if (permissionHelper.Call<bool>("checkPermissions"))
-        {
-            //StartIdleService();
-            Debug.Log("허용 두가지 했음여");
-        }
-        else
-        {
-            permissionHelper.Call("showPermissionModal");
-            
-        }
-    }
-
-    public static void StartIdleService()
-    {
-        using (var idleService = new AndroidJavaClass("com.ssafy.idlearr.IdleService"))
-        {
-            idleService.CallStatic("startService", unityContext);
-        }
-    }
-
-    public static void StopIdleService()
-    {
-        using (var idleService = new AndroidJavaClass("com.ssafy.idlearr.IdleService"))
-        {
-            idleService.CallStatic("stopService", unityContext);
-        }
-    }
-
-    public static void OnServiceStopped(string result)
-    {
-        Debug.Log("Service stopped: " + result);
-        // Here, load your main scene or perform other actions.
-    }
-
-    #endregion
 }
