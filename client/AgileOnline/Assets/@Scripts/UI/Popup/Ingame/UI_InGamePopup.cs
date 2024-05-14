@@ -21,7 +21,7 @@ public class UI_InGamePopup : UI_Popup
 
     private TextMeshProUGUI timerText;
     private float remainingTime = 30f;
-    
+
 
     public override bool Init()
     {
@@ -33,6 +33,7 @@ public class UI_InGamePopup : UI_Popup
         Bind<Slider>(typeof(GameObjects));
         Slider bossSlider = Get<Slider>((int)GameObjects.BossSlider);
         bossSlider.gameObject.SetActive(false);
+        CheckBossNode();
         GetButton((int)Buttons.SettingButton).gameObject.BindEvent(ShowSettingPopup);
 
         timerText = GetText((int)GameObjects.TimerText).GetComponent<TextMeshProUGUI>();
@@ -43,19 +44,16 @@ public class UI_InGamePopup : UI_Popup
 
         return true;
     }
-    
+
     public void CheckBossNode()
     {
-        bool isBossNode = GameScene.IsBossNode; 
+        bool isBossNode = GameScene.IsBossNode;
 
         Slider bossSlider = Get<Slider>((int)GameObjects.BossSlider);
-
-        if (bossSlider != null)
-        {
-            bossSlider.gameObject.SetActive(isBossNode);
-        }
+        Debug.Log("이즈 보스 노드" + isBossNode);
+        bossSlider.gameObject.SetActive(isBossNode);
     }
-    
+
     public void UpdateBossHealth(float currentHealth, float maxHealth)
     {
         Slider bossSlider = Get<Slider>((int)GameObjects.BossSlider);

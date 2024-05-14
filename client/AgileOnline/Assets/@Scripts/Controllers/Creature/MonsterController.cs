@@ -66,7 +66,6 @@ public class MonsterController : CreatureController
         }
         else if (MonsterType == 2)
         {
-            _inGamePopup.CheckBossNode();
             MonsterSkillList[0] = 1001;
             MonsterSkillList[1] = 1011;
             MonsterSkillList[2] = 1021;
