@@ -19,13 +19,7 @@ public class UI_InGamePopup : UI_Popup
 
     private TextMeshProUGUI timerText;
     private float remainingTime = 30f;
-
-
-    private void OnEnable()
-    {
-        // 인게임 사운드 넣기
-        Managers.Sound.Play(Define.ESound.Bgm,"Bgm_InGame");
-    }
+    
 
     public override bool Init()
     {
