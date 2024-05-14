@@ -25,14 +25,15 @@ public class MonsterController : CreatureController
     private bool _isInCoolDown;
 
     private TemplateData _templateData;
-    
-    private UI_InGamePopup _inGamePopup = Managers.UI.GetPopupUI<UI_InGamePopup>();
+
+    private UI_InGamePopup _inGamePopup;
 
     public override bool Init()
     {
         if (base.Init() == false)
             return false;
 
+        _inGamePopup = Managers.UI.GetPopupUI<UI_InGamePopup>();
         ObjectType = EObjectType.Monster;
         CreatureState = ECreatureState.Idle;
 
