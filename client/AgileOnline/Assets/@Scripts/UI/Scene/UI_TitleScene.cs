@@ -52,6 +52,7 @@ public class UI_TitleScene : UI_Scene
         // 아무곳이나 누르면 씬 변환하는 버튼 생성
         GetButton((int)EButtons.StartButton).gameObject.BindEvent(() =>
         {
+            Managers.Sound.PlayButtonClick();
             if (isPreload)
             {
 
