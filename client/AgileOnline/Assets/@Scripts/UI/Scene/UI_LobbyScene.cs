@@ -70,6 +70,7 @@ public class UI_LobbyScene : UI_Scene
     bool _isSelectedGrowth = false;
     bool _isSelectedRanking = false;
 
+    private bool _isFirst = false;
     
     UI_BattlePopup _battlePopupUI;
     UI_GachaPopup _gachaPopupUI;
@@ -121,12 +122,14 @@ public class UI_LobbyScene : UI_Scene
             GetToggle((int)EToggles.GrowthToggle).gameObject.GetComponent<Toggle>().isOn = true;
             OnClickGrowthToggle();
             Managers.Game.showIdleRewardPopup = false;
+            _isFirst = true;
         }
         else
         {
             // 맨 처음은 배틀로
             GetToggle((int)EToggles.BattleToggle).gameObject.GetComponent<Toggle>().isOn = true;
             OnClickBattleToggle();
+            _isFirst = true;
         }
         
         
@@ -147,6 +150,7 @@ public class UI_LobbyScene : UI_Scene
     
     void ShowSettingPopup()
     {
+        Managers.Sound.PlayButtonClick();
         Managers.UI.ShowPopupUI<UI_OutgameSettingPopup>();
     }
     
@@ -202,6 +206,10 @@ public class UI_LobbyScene : UI_Scene
     
     void ShowUI(GameObject contentPopup, Toggle toggle, TMP_Text text, GameObject obj1, GameObject obj2, float duration = 0.1f)
     {
+        if (_isFirst)
+        {
+            Managers.Sound.PlayButtonClick();
+        }
         TogglesInit();
         
         contentPopup.SetActive(true);

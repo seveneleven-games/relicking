@@ -19,7 +19,8 @@ public class PlayerController : CreatureController
     public float CritRate { get; private set; }
     public float CritDmgRate { get; private set; }
     public float CoolDown { get; private set; }
-
+    public float CoinBonus {get; private set; }
+    
     private int playerGold = INITIAL_GOLD;
 
     // 스킬풀 플래그 변수
@@ -109,12 +110,12 @@ public class PlayerController : CreatureController
         PlayerId = data.PlayerId;
         Name = data.Name;
         MaxHp = data.MaxHp;
-        Hp = MaxHp;
         Atk = data.Atk;
         Speed = data.Speed;
         CritRate = data.CritRate;
         CritDmgRate = data.CritDmgRate;
         CoolDown = data.CoolDown;
+        CoinBonus = data.ExtraGold;
         
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
         
@@ -125,8 +126,13 @@ public class PlayerController : CreatureController
             Atk += relicData.Atk;
             MaxHp += relicData.MaxHp;
             Speed += relicData.Speed;
+            CoinBonus += relicData.ExtraGold;
+            CritRate += relicData.CritRate;
+            CritDmgRate += relicData.CritDmgRate;
             CoolDown -= relicData.CoolTime / 100f;
         }
+        
+        Hp = MaxHp;
 
         if (CoolDown < 0.1)
             CoolDown = 0.1f;
@@ -135,7 +141,7 @@ public class PlayerController : CreatureController
 
     private void Update()
     {
-        Vector3 dir = _moveDir * Time.deltaTime * Util.UnitySpeed(Speed);
+        Vector3 dir = _moveDir * (Time.deltaTime * Util.UnitySpeed(Speed));
 
         transform.TranslateEx(dir);
 

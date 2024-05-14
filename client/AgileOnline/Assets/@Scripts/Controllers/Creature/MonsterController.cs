@@ -1,8 +1,6 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Data;
-using TMPro;
 using UnityEngine;
 using static Define;
 
@@ -28,11 +26,14 @@ public class MonsterController : CreatureController
 
     private TemplateData _templateData;
 
+    private UI_InGamePopup _inGamePopup;
+
     public override bool Init()
     {
         if (base.Init() == false)
             return false;
 
+        _inGamePopup = Managers.UI.GetPopupUI<UI_InGamePopup>();
         ObjectType = EObjectType.Monster;
         CreatureState = ECreatureState.Idle;
 
@@ -50,9 +51,9 @@ public class MonsterController : CreatureController
         PrefabName = data.PrefabName;
         MonsterType = data.MonsterType;
         Name = data.Name;
-        MaxHp = data.MaxHp * difficulty;
+        MaxHp = (int) (data.MaxHp * (1 + DIFFICULTY_COEFFICIENT * difficulty));
         Hp = MaxHp;
-        Atk = data.Atk * difficulty;
+        Atk = data.Atk * (1 + DIFFICULTY_COEFFICIENT * difficulty);
         Speed = data.Speed;
         DropGold = data.DropGold;
         CritRate = data.CritRate;
@@ -66,10 +67,11 @@ public class MonsterController : CreatureController
         }
         else if (MonsterType == 2)
         {
-            MonsterSkillList[0] = 1001;
-            MonsterSkillList[1] = 1011;
-            MonsterSkillList[2] = 1021;
-            MonsterSkillList[3] = 1031;
+            int[] skillList = Managers.Data.MonsterDic[templateId].SkillList;
+            for (int i = 0; i < skillList.Length; i++)
+            {
+                MonsterSkillList[i] = skillList[i];
+            }
             transform.localScale = new Vector3(3, 3, 1);
         }
     }
@@ -152,6 +154,8 @@ public class MonsterController : CreatureController
         UI_World.Instance.ShowDamage((int)damage, transform.position + Vector3.up * 1f, isCritical);
         // if (gameObject.activeSelf && MonsterType != 2)
         //     StartCoroutine(HitStun(0.1f));
+        if (MonsterType == 2)
+            _inGamePopup.UpdateBossHealth(Hp, MaxHp);
 
         return isCritical;
     }
@@ -196,7 +200,7 @@ public class MonsterController : CreatureController
         if (_skillCoroutine != null)
             StopCoroutine(_skillCoroutine);
         
-        int randomIndex = UnityEngine.Random.Range(0, MonsterSkillList.Count);
+        int randomIndex = Random.Range(0, MonsterSkillList.Count);
         int skillId = MonsterSkillList[randomIndex];
 
         if (skillId > 0)
@@ -308,15 +312,26 @@ public class MonsterController : CreatureController
             
             case "BossMonsterJump":
                 _isUsingSkill = true;
-                Vector3 targetPosition = _player.transform.position;
+                Vector3 targetPosition1 = _player.transform.position;
                 GameObject go3 = Managers.Resource.Instantiate("CircleAlert");
                 ParticleSystem ps3 = go3.GetComponent<ParticleSystem>();
-                ps3.transform.position = targetPosition;
+                ps3.transform.position = targetPosition1;
                 ps3.transform.localScale = new Vector3(0.8f, 0.8f, 0);
                 ps3.Play();
                 yield return new WaitForSeconds(0.8f);
-                transform.position = targetPosition;
+                transform.position = targetPosition1;
                 _isUsingSkill = false;
+                break;
+            
+            case "BossMonsterSummons":
+                Vector3 targetPosition2 = _player.transform.position;
+                GameObject go4 = Managers.Resource.Instantiate("CircleAlert");
+                ParticleSystem ps4 = go4.GetComponent<ParticleSystem>();
+                ps4.transform.position = targetPosition2;
+                ps4.transform.localScale = new Vector3(0.6f, 0.6f, 0);
+                ps4.Play();
+                yield return new WaitForSeconds(1.3f);
+                GameScene.SpawnBossMonsterSkill(_player.transform.position, 6);
                 break;
         }
 

@@ -83,6 +83,7 @@ public class UI_RankingObject : UI_Base
 
     void OnClickRankingDetailButton(RankingInfo rankingInfo, int rank)
     {
+        Managers.Sound.PlayButtonClick();
         _uiRankingDetailPopup.gameObject.SetActive(true);
         _uiRankingDetailPopup.SetRankingInfo(rankingInfo, rank);
     }

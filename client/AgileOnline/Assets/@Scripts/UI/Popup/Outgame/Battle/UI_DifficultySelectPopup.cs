@@ -45,8 +45,6 @@ public class UI_DifficultySelectPopup : UI_Popup
     private int _maxDifficulty;
     private int _currentStageId;
     
-    public TemplateData _templateData;
-    
     StageClearInfo _clearInfo;
     
     public static event Action<int> OnDifficultyChanged;
@@ -65,8 +63,6 @@ public class UI_DifficultySelectPopup : UI_Popup
 
         #region Object Bind
         
-        _templateData = Resources.Load<TemplateData>("GameTemplateData");
-
         BindObject(typeof(EGameObjects));
         BindButton(typeof(EButtons));
         BindText(typeof(ETexts));
@@ -117,6 +113,7 @@ public class UI_DifficultySelectPopup : UI_Popup
     
     void SelectDifficulty(int level)
     {
+        Managers.Sound.PlayButtonClick();
         Debug.Log($"Selected Difficulty: Level {level}");
         
         // 혹시 몰라서 주석으로 남겨둠.....
@@ -129,7 +126,6 @@ public class UI_DifficultySelectPopup : UI_Popup
         // {
         //     Debug.LogError("Stage ID not found in DicStageClearInfo");
         // }
-        _templateData.Difficulty = level;
         _clearInfo.SelectedDifficulty = level;
         OnDifficultyChanged?.Invoke(level); // 이벤트 발생
         

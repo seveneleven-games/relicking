@@ -71,6 +71,8 @@ public class UI_StorePopup : UI_Popup
     {
         if (base.Init() == false)
             return false;
+
+        popupType = PopupType.InGameShop;
         
         BindObject(typeof(GameObjects));
         BindText(typeof(Texts));

@@ -104,11 +104,11 @@ public class SoundManager
 	}
 
 	// 여기에다가 자주 쓰이는 버튼 클릭이라던가 팝업 관련 사운드 넣기!!
-	// 예시
-	// public void PlayButtonClick()
-	// {
-	// 	Play(Define.ESound.Effect, "Click_CommonButton");
-	// }
+	
+	public void PlayButtonClick()
+	{
+		Play(Define.ESound.Effect, "Click_CommonButton");
+	}
 	
 	private void LoadAudioClip(string key, Action<AudioClip> callback)
 	{

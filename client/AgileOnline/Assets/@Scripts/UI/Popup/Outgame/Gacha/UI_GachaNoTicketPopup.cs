@@ -55,6 +55,7 @@ public class UI_GachaNoTicketPopup : UI_Popup
 
     void OnClickCloseButton()
     {
+        Managers.Sound.PlayButtonClick();
         Debug.Log("CloseGachaNoTicket");
         Managers.UI.ClosePopupUI(this);
     }

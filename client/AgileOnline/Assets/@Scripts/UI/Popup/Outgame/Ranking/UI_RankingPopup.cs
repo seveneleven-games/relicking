@@ -96,6 +96,7 @@ public class UI_RankingPopup : UI_Popup
     void OnEnable() 
     {
         UI_StageSelectPopup.OnStageSelected += UpdateStage;
+        GetRankingInfo();
     }
 
     void OnDisable() 
@@ -122,18 +123,19 @@ public class UI_RankingPopup : UI_Popup
         
         #endregion
         
-        GetRankingInfo();
+        
         Refresh();
 
         return true;
     }
     
     
+    
     private void UpdateStage(int stage)
     {
         _wantStage = stage;
-        Refresh();
         GetRankingInfo();
+        Refresh();
     }
     
     void GetRankingInfo()
@@ -214,6 +216,7 @@ public class UI_RankingPopup : UI_Popup
 
     void OnClickStageSelectButton()
     {
+        Managers.Sound.PlayButtonClick();
         Debug.Log("StageSelect");
         Managers.UI.ShowPopupUI<UI_StageSelectPopup>();
         
@@ -221,6 +224,7 @@ public class UI_RankingPopup : UI_Popup
     
     void OnClickRankingDetailButton(MyRankingInfo myRankingInfo)
     {
+        Managers.Sound.PlayButtonClick();
         Debug.Log("RankingDetail");
         // 디테일 쪽에 내 랭킹 정보 그대로 보내줘야됨....(정보를 쬐매만 줌.) -> 원하는 스테이지 정보도 같이 보내주기!!
         _uiRankingDetailPopup.gameObject.SetActive(true);

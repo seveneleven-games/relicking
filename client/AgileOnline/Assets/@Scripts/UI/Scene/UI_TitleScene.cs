@@ -52,6 +52,7 @@ public class UI_TitleScene : UI_Scene
         // 아무곳이나 누르면 씬 변환하는 버튼 생성
         GetButton((int)EButtons.StartButton).gameObject.BindEvent(() =>
         {
+            Managers.Sound.PlayButtonClick();
             if (isPreload)
             {
 
@@ -112,6 +113,8 @@ public class UI_TitleScene : UI_Scene
                 _loadingSlide.SetActive(false);
                 GetButton((int)EButtons.StartButton).gameObject.SetActive(true);
                 GetText((int)ETexts.StartText).text = "터치하여 시작하기";
+                
+                Managers.Sound.Play(Define.ESound.Bgm,"Bgm_Login", 0.3f);
                 
                 Managers.Game._gameData.isLoaded = true;
             }

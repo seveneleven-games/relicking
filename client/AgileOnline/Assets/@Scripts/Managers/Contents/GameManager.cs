@@ -185,9 +185,36 @@ public class GameManager
             {
                 string name = "Bgm_Lobby";
                 if (Managers.Scene.CurrentScene.SceneType == Define.EScene.GameScene)
-                    name = "Bgm_InGame";
-
-                Managers.Sound.Play(Define.ESound.Bgm, name);
+                {
+                    switch (Managers.UI.GetSecondTopPopupType())
+                    {
+                        case UI_Popup.PopupType.NodeMap:
+                            name = "Bgm_NodeMap";
+                            break;
+                        case UI_Popup.PopupType.InGameShop:
+                            name = "Bgm_NodeMap";
+                            break;
+                        case UI_Popup.PopupType.InGame:
+                            name = "Bgm_InGame";
+                            break;
+                        case UI_Popup.PopupType.InGameBoss:
+                            name = "Bgm_InGameBoss";
+                            break;
+                        default:
+                            name = "Bgm_Lobby";
+                            break;
+                    }
+                    
+                    
+                }
+                if (name == "Bgm_Lobby")
+                {
+                    Managers.Sound.Play(Define.ESound.Bgm, name,0.8f);
+                }
+                else
+                {
+                    Managers.Sound.Play(Define.ESound.Bgm, name);
+                }
             }
         }
     }
@@ -214,8 +241,6 @@ public class GameManager
             StageClearInfo info = new StageClearInfo
             {
                 StageId = stageData.StageId,
-                // MaxDifficulty = 10, // test를 위해
-                // SelectedDifficulty = 11, // test를 위해
             };
             _gameData.DicStageClearInfo.Add(stageData.StageId, info);
         }

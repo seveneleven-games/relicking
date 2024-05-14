@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using static Define;
 
 public class UI_InGamePopup : UI_Popup
@@ -9,7 +10,9 @@ public class UI_InGamePopup : UI_Popup
     enum GameObjects
     {
         TimerText,
-        RemainGold
+        RemainGold,
+        BossSlider,
+        BossName
     }
 
     enum Buttons
@@ -17,32 +20,56 @@ public class UI_InGamePopup : UI_Popup
         SettingButton
     }
 
-    private TextMeshProUGUI timerText;
-    private float remainingTime = 30f;
+    private TextMeshProUGUI _timerText;
+    private TextMeshProUGUI _bossName;
+    private float _remainingTime = 30f;
+    private TemplateData _templateData;
 
-
-    private void OnEnable()
-    {
-        // 인게임 사운드 넣기
-        Managers.Sound.Play(Define.ESound.Bgm,"Bgm_InGame");
-    }
 
     public override bool Init()
     {
         if (base.Init() == false)
             return false;
-
+        
+        popupType = GameScene.IsBossNode ? PopupType.InGameBoss : PopupType.InGame;
+        _templateData = Resources.Load<TemplateData>("GameTemplateData");
+        
         BindText(typeof(GameObjects));
         BindButton(typeof(Buttons));
+        Bind<Slider>(typeof(GameObjects));
+        Slider bossSlider = Get<Slider>((int)GameObjects.BossSlider);
+        bossSlider.gameObject.SetActive(false);
+        CheckBossNode();
         GetButton((int)Buttons.SettingButton).gameObject.BindEvent(ShowSettingPopup);
 
-        timerText = GetText((int)GameObjects.TimerText).GetComponent<TextMeshProUGUI>();
+        _timerText = GetText((int)GameObjects.TimerText).GetComponent<TextMeshProUGUI>();
         StartCoroutine(UpdateTimer());
 
         PlayerController pc = Managers.Object.Player;
         pc.UpdateRemainGoldText();
-
+        
         return true;
+    }
+
+    public void CheckBossNode()
+    {
+        bool isBossNode = GameScene.IsBossNode;
+
+        Slider bossSlider = Get<Slider>((int)GameObjects.BossSlider);
+        
+        bossSlider.gameObject.SetActive(isBossNode);
+        if (isBossNode)
+        {
+            _bossName = GetText((int)GameObjects.BossName).GetComponent<TextMeshProUGUI>();
+            _bossName.text = Managers.Data.StageDic[_templateData.StageId].Name + " BOSS";
+            Managers.Sound.Play(Define.ESound.Bgm, "Bgm_InGameBoss");
+        }
+    }
+
+    public void UpdateBossHealth(float currentHealth, float maxHealth)
+    {
+        Slider bossSlider = Get<Slider>((int)GameObjects.BossSlider);
+        bossSlider.value = currentHealth / maxHealth;
     }
 
     public void UpdateRemainGoldText(int gold)
@@ -59,14 +86,14 @@ public class UI_InGamePopup : UI_Popup
 
     private IEnumerator UpdateTimer()
     {
-        while (remainingTime > 1f)
+        while (_remainingTime > 1f)
         {
-            timerText.text = Mathf.FloorToInt(remainingTime).ToString();
-            remainingTime -= Time.deltaTime;
+            _timerText.text = Mathf.FloorToInt(_remainingTime).ToString();
+            _remainingTime -= Time.deltaTime;
             yield return null;
         }
 
-        timerText.text = "0";
+        _timerText.text = "0";
     }
 
     private void CleanupResources()

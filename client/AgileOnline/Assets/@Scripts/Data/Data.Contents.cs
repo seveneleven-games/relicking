@@ -59,6 +59,7 @@ namespace Data
         public float CritRate;
         public float CritDmgRate;
         public float CoolDown;
+        public int[] SkillList;
     }
     
     [Serializable]
@@ -122,6 +123,7 @@ namespace Data
         public float LifeTime;
         public float Speed;
         public int ProjectileNum;
+        public float Scale;
     }
     
     [Serializable]

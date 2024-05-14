@@ -86,6 +86,7 @@ public class UI_BattlePopup : UI_Popup
     public TemplateData _templateData;
     
     
+    
     // 이거 죽이면 에러 뜸
     private void Awake()
     {
@@ -160,7 +161,6 @@ public class UI_BattlePopup : UI_Popup
     {
         if (_clearInfo != null)
         {
-            _clearInfo.SelectedDifficulty = level;
             StageInfoRefresh(); // 스테이지 정보 갱신
         }
     }
@@ -273,6 +273,7 @@ public class UI_BattlePopup : UI_Popup
     // 왼쪽 버튼 클릭 함수
     void onClickLArrowButton()
     {
+        Managers.Sound.PlayButtonClick();
         if (_scrollSnap.CurrentPage > 0)
         {
             _scrollSnap.GoToScreen(_scrollSnap.CurrentPage - 1);
@@ -282,6 +283,7 @@ public class UI_BattlePopup : UI_Popup
     // 오른쪽 버튼 클릭 함수
     void onClickRArrowButton()
     {
+        Managers.Sound.PlayButtonClick();
         if (_scrollSnap.CurrentPage < _scrollSnap.ChildObjects.Length - 1)
         {
             _scrollSnap.GoToScreen(_scrollSnap.CurrentPage + 1);
@@ -290,6 +292,7 @@ public class UI_BattlePopup : UI_Popup
     
     void OnClickStartButton()
     {
+        Managers.Sound.PlayButtonClick();
         // 유저의 현재 스테이지 정보를 저장
         Managers.Game.CurrentSelectStage = _stageData;
         SetInfo(Managers.Game.CurrentSelectStage);
@@ -297,10 +300,11 @@ public class UI_BattlePopup : UI_Popup
         // 현재 난이도도 나중에 줘야 됨.
         // 여기서 게임씬으로 가는 것도 나중에 추가하기!!!
         
-        // 임시
+        // Todo -> change
         Debug.Log("go Game");
         _templateData.StageId = Managers.Game.CurrentSelectStage.StageId;
-
+        _templateData.Difficulty =
+            Managers.Game.DicStageClearInfo[Managers.Game.CurrentSelectStage.StageId].SelectedDifficulty;
         StartCoroutine(Util.JWTGetRequest("stages", res =>
         {
             Debug.Log(res);
@@ -340,6 +344,7 @@ public class UI_BattlePopup : UI_Popup
     // 난이도 선택 팝업 열기
     void onClickDifficultySelectButton()
     {
+        Managers.Sound.PlayButtonClick();
         UI_DifficultySelectPopup popup = Managers.UI.ShowPopupUI<UI_DifficultySelectPopup>();
         
         // maxDifficulty를 UI_DifficultySelectPopup으로 전달

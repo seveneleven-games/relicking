@@ -93,11 +93,15 @@ public static class Define
     
     public static string BASE_URI = "https://k10d211.p.ssafy.io/api/";
     
+    //unity speed 관련 계수
     public static int MIN_SPEED = 3;
-    public static int SPEED_RATE = 1000;
+    public static int SPEED_RATE = 500;
     public static int RANGE = 7;
 
-    public static int ADDRESSABLE_COUNT = 142;
+    //난이도 몬스터 스탯 상관계수
+    public static float DIFFICULTY_COEFFICIENT = 0.1f;
+    
+    public static int ADDRESSABLE_COUNT = 143;
 
     #endregion
 

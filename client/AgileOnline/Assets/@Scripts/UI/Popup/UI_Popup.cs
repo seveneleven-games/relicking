@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class UI_Popup : UI_Base
 {
+    
+    public enum PopupType
+    {
+        None,
+        NodeMap,
+        InGame,
+        InGameShop,
+        InGameBoss,
+    }
+
+    public PopupType popupType;
+    
     public override bool Init()
     {
         if (base.Init() == false)

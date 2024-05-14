@@ -49,6 +49,8 @@ public class UI_IngameSettingPopup : UI_Popup
     }
 
     private TemplateData _templateData;
+    private bool _isSelectedBGMSound = true;
+    private bool _isSelectedSFXSound = true;
 
     public override bool Init()
     {
@@ -63,10 +65,16 @@ public class UI_IngameSettingPopup : UI_Popup
         BindToggle(typeof(Toggles));
         BindImage(typeof(Images));
 
+        GetText((int)Texts.BGMOFFText).gameObject.SetActive(false);
+        GetText((int)Texts.SFXOFFText).gameObject.SetActive(false);
+        
         GetButton((int)Buttons.ExitButton).gameObject.BindEvent(ShowConfirmPopup);
         GetButton((int)Buttons.CloseButton).gameObject.BindEvent(ClosePopupUI);
 
-
+        // 토글 버튼
+        GetToggle((int)Toggles.BGMSoundToggle).gameObject.BindEvent(OnClickBGMSoundToggle);
+        GetToggle((int)Toggles.SFXSoundToggle).gameObject.BindEvent(OnClickSFXSoundToggle);
+        
         SetInfo();
 
         //todo(전지환) : 설정 정보에 따라 toggle 싱크 맞춰줘야 함
@@ -78,6 +86,47 @@ public class UI_IngameSettingPopup : UI_Popup
         return true;
     }
 
+    void OnClickBGMSoundToggle()
+    {
+        Managers.Sound.PlayButtonClick();
+        _isSelectedBGMSound = !_isSelectedBGMSound;
+
+        if (_isSelectedBGMSound)
+        {
+            Managers.Game.BGMOn = true;
+            GetText((int)Texts.BGMOFFText).gameObject.SetActive(false);
+            GetText((int)Texts.BGMONText).gameObject.SetActive(true);
+            
+        }
+
+        else
+        {
+            Managers.Game.BGMOn = false;
+            GetText((int)Texts.BGMOFFText).gameObject.SetActive(true);
+            GetText((int)Texts.BGMONText).gameObject.SetActive(false);
+        }
+    }
+    
+    void OnClickSFXSoundToggle()
+    {
+        Managers.Sound.PlayButtonClick();
+        _isSelectedSFXSound = !_isSelectedSFXSound;
+
+        if (_isSelectedSFXSound)
+        {
+            Managers.Game.EffectSoundOn = true;
+            GetText((int)Texts.SFXOFFText).gameObject.SetActive(false);
+            GetText((int)Texts.SFXONText).gameObject.SetActive(true);
+        }
+
+        else
+        {
+            Managers.Game.EffectSoundOn = false;
+            GetText((int)Texts.SFXOFFText).gameObject.SetActive(true);
+            GetText((int)Texts.SFXONText).gameObject.SetActive(false);
+        }
+    }
+    
     void SetInfo()
     {
         int[] relicIds = _templateData.EquipedRelicIds;
@@ -144,11 +193,13 @@ public class UI_IngameSettingPopup : UI_Popup
 
     void ShowConfirmPopup()
     {
+        Managers.Sound.PlayButtonClick();
         Managers.UI.ShowPopupUI<UI_GameExitConfirmPopup>();
     }
 
     public override void ClosePopupUI()
     {
+        Managers.Sound.PlayButtonClick();
         Time.timeScale = 1;
         base.ClosePopupUI();
     }
