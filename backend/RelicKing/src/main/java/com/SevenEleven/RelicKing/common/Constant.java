@@ -9,6 +9,7 @@ public interface Constant {
 	int MAX_STAGE = 3;
 
 	// gacha
+	int INITIAL_GACHA = 100;    // 회원가입 시 가챠권 개수
 	int SECONDS_PER_GACHA = 60;    // 가챠권 하나 얻기 위해 필요한 시간
 	int LOCK_TIME_TO_CONTINUE = 3600;    // 1시간 이상 방치해야 스트릭 유지
 	int[] BONUS_GACHA_PERCENTAGE = new int[] {0, 10, 20, 30, 40, 50, 60, 70};

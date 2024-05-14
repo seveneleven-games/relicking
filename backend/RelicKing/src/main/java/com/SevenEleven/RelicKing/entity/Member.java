@@ -7,6 +7,8 @@ import java.util.Set;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.SevenEleven.RelicKing.common.Constant;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -49,7 +51,7 @@ public class Member { // Todo 엔티티 빌더 빼고 생성자 만들기
 	private String password;
 
 	@Column(nullable = false)
-	private int gacha = 10;
+	private int gacha = Constant.INITIAL_GACHA;
 
 	@Column(nullable = false)
 	private int currentClassNo = 1;
