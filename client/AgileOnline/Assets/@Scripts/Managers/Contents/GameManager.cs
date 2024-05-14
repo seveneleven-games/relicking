@@ -194,15 +194,27 @@ public class GameManager
                         case UI_Popup.PopupType.InGameShop:
                             name = "Bgm_NodeMap";
                             break;
-                        default:
+                        case UI_Popup.PopupType.InGame:
                             name = "Bgm_InGame";
+                            break;
+                        case UI_Popup.PopupType.InGameBoss:
+                            name = "Bgm_InGameBoss";
+                            break;
+                        default:
+                            name = "Bgm_Lobby";
                             break;
                     }
                     
                     
                 }
-
-                Managers.Sound.Play(Define.ESound.Bgm, name);
+                if (name == "Bgm_Lobby")
+                {
+                    Managers.Sound.Play(Define.ESound.Bgm, name,0.8f);
+                }
+                else
+                {
+                    Managers.Sound.Play(Define.ESound.Bgm, name);
+                }
             }
         }
     }

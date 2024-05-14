@@ -27,8 +27,8 @@ public class UI_InGamePopup : UI_Popup
     {
         if (base.Init() == false)
             return false;
-
         
+        popupType = GameScene.IsBossNode ? PopupType.InGameBoss : PopupType.InGame;
         
         BindText(typeof(GameObjects));
         BindButton(typeof(Buttons));
@@ -43,7 +43,7 @@ public class UI_InGamePopup : UI_Popup
 
         PlayerController pc = Managers.Object.Player;
         pc.UpdateRemainGoldText();
-
+        
         return true;
     }
 
@@ -54,6 +54,10 @@ public class UI_InGamePopup : UI_Popup
         Slider bossSlider = Get<Slider>((int)GameObjects.BossSlider);
         Debug.Log("이즈 보스 노드" + isBossNode);
         bossSlider.gameObject.SetActive(isBossNode);
+        if (isBossNode)
+        {
+            Managers.Sound.Play(Define.ESound.Bgm, "Bgm_InGameBoss");
+        }
     }
 
     public void UpdateBossHealth(float currentHealth, float maxHealth)
