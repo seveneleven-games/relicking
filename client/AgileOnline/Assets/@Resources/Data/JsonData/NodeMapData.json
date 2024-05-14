@@ -38,8 +38,7 @@
           "NodeDepth": 5,
           "MapPrefabName": "Map_01",
           "MonsterList": [
-            3,
-            4
+            3
           ]
         }
       ]
@@ -53,36 +52,35 @@
           "NodeDepth": 1,
           "MapPrefabName": "Map_02",
           "MonsterList": [
-            1
+            5
           ]
         },
         {
           "NodeDepth": 2,
           "MapPrefabName": "Map_02",
           "MonsterList": [
-            1
+            5
           ]
         },
         {
           "NodeDepth": 3,
           "MapPrefabName": "Map_02",
           "MonsterList": [
-            1,
-            2
+            5,
+            6
           ]
         },
         {
           "NodeDepth": 4,
           "MapPrefabName": "Map_02",
           "MonsterList": [
-            4
+            7
           ]
         },
         {
           "NodeDepth": 5,
           "MapPrefabName": "Map_02",
           "MonsterList": [
-            4,
             3
           ]
         }
@@ -112,7 +110,7 @@
           "MapPrefabName": "Map_03",
           "MonsterList": [
             1,
-            2
+            8
           ]
         },
         {
@@ -126,7 +124,6 @@
           "NodeDepth": 5,
           "MapPrefabName": "Map_03",
           "MonsterList": [
-            4,
             3
           ]
         }

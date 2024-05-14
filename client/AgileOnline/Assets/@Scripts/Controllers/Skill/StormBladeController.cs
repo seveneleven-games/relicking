@@ -78,8 +78,9 @@ public class StormBladeController : SkillController
         if (monster.IsValid() == false)
             return;
         
-        float damage = Damage;
-        monster.OnDamaged(_owner, ref damage);
+        PlayerController pc = _owner as PlayerController;
+        float realDamage = (Damage * pc.Atk);
+        monster.OnDamaged(_owner, ref realDamage);
         
         Managers.Object.Despawn(this);
     }

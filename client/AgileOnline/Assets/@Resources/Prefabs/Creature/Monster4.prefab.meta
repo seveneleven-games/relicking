@@ -1,6 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:client/AgileOnline/Assets/plugins/Android.meta
+guid: af75b8a2903e4eb46a22eca772a6d79a
+folderAsset: yes
+DefaultImporter:
+========
 guid: 0e31a21be8641cd40b85180581848612
 PrefabImporter:
+>>>>>>>> refs/heads/fe-develop:client/AgileOnline/Assets/@Resources/Prefabs/Creature/Monster4.prefab.meta
   externalObjects: {}
   userData: 
   assetBundleName: 

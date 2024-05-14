@@ -41,6 +41,8 @@ public class UI_ToBeContinuedPopup : UI_Popup
 
         Managers.Game.OnResourcesChanged += Refresh;
         Refresh();
+        
+        
 
         return true;
     }
@@ -54,6 +56,7 @@ public class UI_ToBeContinuedPopup : UI_Popup
     void OnClickCloseButton()
     {
         Debug.Log("모달 닫힘");
+        
         Managers.UI.ClosePopupUI(this);
     }
 }

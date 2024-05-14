@@ -10,7 +10,10 @@
       "Atk": 0,
       "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 11,
@@ -19,10 +22,13 @@
       "ThumbnailName": "Relic_11.sprite",
       "Description": "자주빛이 도는 신비로운 영약.",
       "Rarity": 0,
-      "Atk": 10,
+      "Atk": 6,
       "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 12,
@@ -31,10 +37,13 @@
       "ThumbnailName": "Relic_11.sprite",
       "Description": "자주빛이 도는 신비로운 영약.",
       "Rarity": 0,
-      "Atk": 12,
+      "Atk": 8,
       "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 13,
@@ -43,10 +52,13 @@
       "ThumbnailName": "Relic_11.sprite",
       "Description": "자주빛이 도는 신비로운 영약.",
       "Rarity": 0,
-      "Atk": 14,
+      "Atk": 10,
       "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 14,
@@ -55,10 +67,13 @@
       "ThumbnailName": "Relic_11.sprite",
       "Description": "자주빛이 도는 신비로운 영약.",
       "Rarity": 0,
-      "Atk": 16,
+      "Atk": 12,
       "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 15,
@@ -67,10 +82,13 @@
       "ThumbnailName": "Relic_11.sprite",
       "Description": "자주빛이 도는 신비로운 영약.",
       "Rarity": 0,
-      "Atk": 18,
+      "Atk": 14,
       "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 16,
@@ -79,10 +97,13 @@
       "ThumbnailName": "Relic_11.sprite",
       "Description": "자주빛이 도는 신비로운 영약.",
       "Rarity": 0,
-      "Atk": 20,
+      "Atk": 16,
       "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 17,
@@ -91,10 +112,13 @@
       "ThumbnailName": "Relic_11.sprite",
       "Description": "자주빛이 도는 신비로운 영약.",
       "Rarity": 0,
-      "Atk": 22,
+      "Atk": 18,
       "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 18,
@@ -103,10 +127,13 @@
       "ThumbnailName": "Relic_11.sprite",
       "Description": "자주빛이 도는 신비로운 영약.",
       "Rarity": 0,
-      "Atk": 24,
+      "Atk": 20,
       "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 19,
@@ -115,10 +142,13 @@
       "ThumbnailName": "Relic_11.sprite",
       "Description": "자주빛이 도는 신비로운 영약.",
       "Rarity": 0,
-      "Atk": 26,
+      "Atk": 22,
       "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 21,
@@ -130,7 +160,10 @@
       "Atk": 0,
       "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 10
+      "Speed": 10,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 22,
@@ -142,7 +175,10 @@
       "Atk": 0,
       "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 20
+      "Speed": 12,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 23,
@@ -154,7 +190,10 @@
       "Atk": 0,
       "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 30
+      "Speed": 14,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 24,
@@ -166,7 +205,10 @@
       "Atk": 0,
       "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 40
+      "Speed": 16,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 25,
@@ -178,7 +220,10 @@
       "Atk": 0,
       "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 50
+      "Speed": 18,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 26,
@@ -190,7 +235,10 @@
       "Atk": 0,
       "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 60
+      "Speed": 20,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 27,
@@ -202,7 +250,10 @@
       "Atk": 0,
       "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 70
+      "Speed": 22,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 28,
@@ -214,7 +265,10 @@
       "Atk": 0,
       "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 80
+      "Speed": 24,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 29,
@@ -226,7 +280,10 @@
       "Atk": 0,
       "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 90
+      "Speed": 26,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 31,
@@ -237,8 +294,11 @@
       "Rarity": 0,
       "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 10,
-      "Speed": 0
+      "CoolTime": 1,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 32,
@@ -249,8 +309,11 @@
       "Rarity": 0,
       "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 12,
-      "Speed": 0
+      "CoolTime": 2,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 33,
@@ -261,8 +324,11 @@
       "Rarity": 0,
       "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 14,
-      "Speed": 0
+      "CoolTime": 2,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 34,
@@ -273,8 +339,11 @@
       "Rarity": 0,
       "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 16,
-      "Speed": 0
+      "CoolTime": 3,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 35,
@@ -285,8 +354,11 @@
       "Rarity": 0,
       "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 18,
-      "Speed": 0
+      "CoolTime": 3,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 36,
@@ -297,8 +369,11 @@
       "Rarity": 0,
       "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 20,
-      "Speed": 0
+      "CoolTime": 4,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 37,
@@ -309,8 +384,11 @@
       "Rarity": 0,
       "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 22,
-      "Speed": 0
+      "CoolTime": 4,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 38,
@@ -321,8 +399,11 @@
       "Rarity": 0,
       "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 24,
-      "Speed": 0
+      "CoolTime": 5,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 39,
@@ -333,8 +414,11 @@
       "Rarity": 0,
       "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 26,
-      "Speed": 0
+      "CoolTime": 5,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 41,
@@ -344,9 +428,12 @@
       "Description": "순수와 선의의 상징. 자비와 용서의 기운이 느껴진다.",
       "Rarity": 0,
       "Atk": 0,
-      "MaxHp": 100,
+      "MaxHp": 60,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 42,
@@ -356,9 +443,12 @@
       "Description": "순수와 선의의 상징. 자비와 용서의 기운이 느껴진다.",
       "Rarity": 0,
       "Atk": 0,
-      "MaxHp": 120,
+      "MaxHp": 70,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 43,
@@ -368,9 +458,12 @@
       "Description": "순수와 선의의 상징. 자비와 용서의 기운이 느껴진다.",
       "Rarity": 0,
       "Atk": 0,
-      "MaxHp": 140,
+      "MaxHp": 80,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 44,
@@ -380,9 +473,12 @@
       "Description": "순수와 선의의 상징. 자비와 용서의 기운이 느껴진다.",
       "Rarity": 0,
       "Atk": 0,
-      "MaxHp": 160,
+      "MaxHp": 90,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 45,
@@ -392,9 +488,12 @@
       "Description": "순수와 선의의 상징. 자비와 용서의 기운이 느껴진다.",
       "Rarity": 0,
       "Atk": 0,
-      "MaxHp": 180,
+      "MaxHp": 100,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 46,
@@ -404,9 +503,12 @@
       "Description": "순수와 선의의 상징. 자비와 용서의 기운이 느껴진다.",
       "Rarity": 0,
       "Atk": 0,
-      "MaxHp": 200,
+      "MaxHp": 110,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 47,
@@ -416,9 +518,12 @@
       "Description": "순수와 선의의 상징. 자비와 용서의 기운이 느껴진다.",
       "Rarity": 0,
       "Atk": 0,
-      "MaxHp": 220,
+      "MaxHp": 120,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 48,
@@ -428,9 +533,12 @@
       "Description": "순수와 선의의 상징. 자비와 용서의 기운이 느껴진다.",
       "Rarity": 0,
       "Atk": 0,
-      "MaxHp": 240,
+      "MaxHp": 130,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 49,
@@ -440,9 +548,12 @@
       "Description": "순수와 선의의 상징. 자비와 용서의 기운이 느껴진다.",
       "Rarity": 0,
       "Atk": 0,
-      "MaxHp": 260,
+      "MaxHp": 140,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1011,
@@ -451,10 +562,13 @@
       "ThumbnailName": "Relic_1011.sprite",
       "Description": "푸른빛이 도는 신성한 영약.",
       "Rarity": 1,
-      "Atk": 15,
+      "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 10,
-      "Speed": 0
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0.1,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1012,
@@ -463,10 +577,13 @@
       "ThumbnailName": "Relic_1011.sprite",
       "Description": "푸른빛이 도는 신성한 영약.",
       "Rarity": 1,
-      "Atk": 20,
+      "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 11,
-      "Speed": 0
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0.14,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1013,
@@ -475,10 +592,13 @@
       "ThumbnailName": "Relic_1011.sprite",
       "Description": "푸른빛이 도는 신성한 영약.",
       "Rarity": 1,
-      "Atk": 25,
+      "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 12,
-      "Speed": 0
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0.18,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1014,
@@ -487,10 +607,13 @@
       "ThumbnailName": "Relic_1011.sprite",
       "Description": "푸른빛이 도는 신성한 영약.",
       "Rarity": 1,
-      "Atk": 30,
+      "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 13,
-      "Speed": 0
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0.22,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1015,
@@ -499,10 +622,13 @@
       "ThumbnailName": "Relic_1011.sprite",
       "Description": "푸른빛이 도는 신성한 영약.",
       "Rarity": 1,
-      "Atk": 35,
+      "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 14,
-      "Speed": 0
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0.26,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1016,
@@ -511,10 +637,13 @@
       "ThumbnailName": "Relic_1011.sprite",
       "Description": "푸른빛이 도는 신성한 영약.",
       "Rarity": 1,
-      "Atk": 40,
+      "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 15,
-      "Speed": 0
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0.3,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1017,
@@ -523,10 +652,13 @@
       "ThumbnailName": "Relic_1011.sprite",
       "Description": "푸른빛이 도는 신성한 영약.",
       "Rarity": 1,
-      "Atk": 45,
+      "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 16,
-      "Speed": 0
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0.34,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1018,
@@ -535,10 +667,13 @@
       "ThumbnailName": "Relic_1011.sprite",
       "Description": "푸른빛이 도는 신성한 영약.",
       "Rarity": 1,
-      "Atk": 50,
+      "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 17,
-      "Speed": 0
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0.38,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1019,
@@ -547,10 +682,13 @@
       "ThumbnailName": "Relic_1011.sprite",
       "Description": "푸른빛이 도는 신성한 영약.",
       "Rarity": 1,
-      "Atk": 55,
+      "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 18,
-      "Speed": 0
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0.42,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1021,
@@ -561,8 +699,11 @@
       "Rarity": 1,
       "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 10,
-      "Speed": 100
+      "CoolTime": 1,
+      "Speed": 10,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1022,
@@ -573,8 +714,11 @@
       "Rarity": 1,
       "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 11,
-      "Speed": 110
+      "CoolTime": 2,
+      "Speed": 12,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1023,
@@ -585,8 +729,11 @@
       "Rarity": 1,
       "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 12,
-      "Speed": 120
+      "CoolTime": 2,
+      "Speed": 14,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1024,
@@ -597,8 +744,11 @@
       "Rarity": 1,
       "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 13,
-      "Speed": 130
+      "CoolTime": 3,
+      "Speed": 16,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1025,
@@ -609,8 +759,11 @@
       "Rarity": 1,
       "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 14,
-      "Speed": 140
+      "CoolTime": 3,
+      "Speed": 18,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1026,
@@ -621,8 +774,11 @@
       "Rarity": 1,
       "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 15,
-      "Speed": 150
+      "CoolTime": 4,
+      "Speed": 20,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1027,
@@ -633,8 +789,11 @@
       "Rarity": 1,
       "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 16,
-      "Speed": 160
+      "CoolTime": 4,
+      "Speed": 22,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1028,
@@ -645,8 +804,11 @@
       "Rarity": 1,
       "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 17,
-      "Speed": 170
+      "CoolTime": 5,
+      "Speed": 24,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1029,
@@ -657,8 +819,11 @@
       "Rarity": 1,
       "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 18,
-      "Speed": 180
+      "CoolTime": 5,
+      "Speed": 26,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1031,
@@ -667,10 +832,13 @@
       "ThumbnailName": "Relic_1031.sprite",
       "Description": "과거나 미래로의 여행 시 유용한 물품들로 가득 찬 배낭.",
       "Rarity": 1,
-      "Atk": 0,
-      "MaxHp": 200,
+      "Atk": 6,
+      "MaxHp": 60,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1032,
@@ -679,10 +847,13 @@
       "ThumbnailName": "Relic_1031.sprite",
       "Description": "과거나 미래로의 여행 시 유용한 물품들로 가득 찬 배낭.",
       "Rarity": 1,
-      "Atk": 0,
-      "MaxHp": 220,
+      "Atk": 8,
+      "MaxHp": 70,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1033,
@@ -691,10 +862,13 @@
       "ThumbnailName": "Relic_1031.sprite",
       "Description": "과거나 미래로의 여행 시 유용한 물품들로 가득 찬 배낭.",
       "Rarity": 1,
-      "Atk": 0,
-      "MaxHp": 240,
+      "Atk": 10,
+      "MaxHp": 80,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1034,
@@ -703,10 +877,13 @@
       "ThumbnailName": "Relic_1031.sprite",
       "Description": "과거나 미래로의 여행 시 유용한 물품들로 가득 찬 배낭.",
       "Rarity": 1,
-      "Atk": 0,
-      "MaxHp": 260,
+      "Atk": 12,
+      "MaxHp": 90,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1035,
@@ -715,10 +892,13 @@
       "ThumbnailName": "Relic_1031.sprite",
       "Description": "과거나 미래로의 여행 시 유용한 물품들로 가득 찬 배낭.",
       "Rarity": 1,
-      "Atk": 0,
-      "MaxHp": 280,
+      "Atk": 14,
+      "MaxHp": 100,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1036,
@@ -727,10 +907,13 @@
       "ThumbnailName": "Relic_1031.sprite",
       "Description": "과거나 미래로의 여행 시 유용한 물품들로 가득 찬 배낭.",
       "Rarity": 1,
-      "Atk": 0,
-      "MaxHp": 300,
+      "Atk": 16,
+      "MaxHp": 110,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1037,
@@ -739,10 +922,13 @@
       "ThumbnailName": "Relic_1031.sprite",
       "Description": "과거나 미래로의 여행 시 유용한 물품들로 가득 찬 배낭.",
       "Rarity": 1,
-      "Atk": 0,
-      "MaxHp": 320,
+      "Atk": 18,
+      "MaxHp": 120,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1038,
@@ -751,10 +937,13 @@
       "ThumbnailName": "Relic_1031.sprite",
       "Description": "과거나 미래로의 여행 시 유용한 물품들로 가득 찬 배낭.",
       "Rarity": 1,
-      "Atk": 0,
-      "MaxHp": 340,
+      "Atk": 20,
+      "MaxHp": 130,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1039,
@@ -763,10 +952,13 @@
       "ThumbnailName": "Relic_1031.sprite",
       "Description": "과거나 미래로의 여행 시 유용한 물품들로 가득 찬 배낭.",
       "Rarity": 1,
-      "Atk": 0,
-      "MaxHp": 360,
+      "Atk": 22,
+      "MaxHp": 140,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1041,
@@ -775,10 +967,13 @@
       "ThumbnailName": "Relic_1041.sprite",
       "Description": "할로윈에 전통적으로 사용되는 호박등. 전설에 따르면 잭이라는 사나운 영혼이 갇혀져 있다.",
       "Rarity": 1,
-      "Atk": 10,
-      "MaxHp": 100,
+      "Atk": 0,
+      "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0.2
     },
     {
       "RelicId": 1042,
@@ -787,10 +982,13 @@
       "ThumbnailName": "Relic_1041.sprite",
       "Description": "할로윈에 전통적으로 사용되는 호박등. 전설에 따르면 잭이라는 사나운 영혼이 갇혀져 있다.",
       "Rarity": 1,
-      "Atk": 15,
-      "MaxHp": 110,
+      "Atk": 0,
+      "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0.22
     },
     {
       "RelicId": 1043,
@@ -799,10 +997,13 @@
       "ThumbnailName": "Relic_1041.sprite",
       "Description": "할로윈에 전통적으로 사용되는 호박등. 전설에 따르면 잭이라는 사나운 영혼이 갇혀져 있다.",
       "Rarity": 1,
-      "Atk": 20,
-      "MaxHp": 120,
+      "Atk": 0,
+      "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0.24
     },
     {
       "RelicId": 1044,
@@ -811,10 +1012,13 @@
       "ThumbnailName": "Relic_1041.sprite",
       "Description": "할로윈에 전통적으로 사용되는 호박등. 전설에 따르면 잭이라는 사나운 영혼이 갇혀져 있다.",
       "Rarity": 1,
-      "Atk": 25,
-      "MaxHp": 130,
+      "Atk": 0,
+      "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0.26
     },
     {
       "RelicId": 1045,
@@ -823,10 +1027,13 @@
       "ThumbnailName": "Relic_1041.sprite",
       "Description": "할로윈에 전통적으로 사용되는 호박등. 전설에 따르면 잭이라는 사나운 영혼이 갇혀져 있다.",
       "Rarity": 1,
-      "Atk": 30,
-      "MaxHp": 140,
+      "Atk": 0,
+      "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0.28
     },
     {
       "RelicId": 1046,
@@ -835,10 +1042,13 @@
       "ThumbnailName": "Relic_1041.sprite",
       "Description": "할로윈에 전통적으로 사용되는 호박등. 전설에 따르면 잭이라는 사나운 영혼이 갇혀져 있다.",
       "Rarity": 1,
-      "Atk": 35,
-      "MaxHp": 150,
+      "Atk": 0,
+      "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0.3
     },
     {
       "RelicId": 1047,
@@ -847,10 +1057,13 @@
       "ThumbnailName": "Relic_1041.sprite",
       "Description": "할로윈에 전통적으로 사용되는 호박등. 전설에 따르면 잭이라는 사나운 영혼이 갇혀져 있다.",
       "Rarity": 1,
-      "Atk": 40,
-      "MaxHp": 160,
+      "Atk": 0,
+      "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0.32
     },
     {
       "RelicId": 1048,
@@ -859,10 +1072,13 @@
       "ThumbnailName": "Relic_1041.sprite",
       "Description": "할로윈에 전통적으로 사용되는 호박등. 전설에 따르면 잭이라는 사나운 영혼이 갇혀져 있다.",
       "Rarity": 1,
-      "Atk": 45,
-      "MaxHp": 170,
+      "Atk": 0,
+      "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0.34
     },
     {
       "RelicId": 1049,
@@ -871,10 +1087,13 @@
       "ThumbnailName": "Relic_1041.sprite",
       "Description": "할로윈에 전통적으로 사용되는 호박등. 전설에 따르면 잭이라는 사나운 영혼이 갇혀져 있다.",
       "Rarity": 1,
-      "Atk": 50,
-      "MaxHp": 180,
+      "Atk": 0,
+      "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0.36
     },
     {
       "RelicId": 1051,
@@ -885,8 +1104,11 @@
       "Rarity": 1,
       "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 20,
-      "Speed": 0
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0.06,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1052,
@@ -897,8 +1119,11 @@
       "Rarity": 1,
       "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 22,
-      "Speed": 0
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0.1,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1053,
@@ -909,8 +1134,11 @@
       "Rarity": 1,
       "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 24,
-      "Speed": 0
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0.14,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1054,
@@ -921,8 +1149,11 @@
       "Rarity": 1,
       "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 26,
-      "Speed": 0
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0.18,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1055,
@@ -933,8 +1164,11 @@
       "Rarity": 1,
       "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 28,
-      "Speed": 0
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0.22,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1056,
@@ -945,8 +1179,8 @@
       "Rarity": 1,
       "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 30,
-      "Speed": 0
+      "CoolTime": 0,
+      "Speed": 0,
     },
     {
       "RelicId": 1057,
@@ -957,8 +1191,11 @@
       "Rarity": 1,
       "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 32,
-      "Speed": 0
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0.3,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1058,
@@ -969,8 +1206,11 @@
       "Rarity": 1,
       "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 34,
-      "Speed": 0
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0.34,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 1059,
@@ -981,8 +1221,11 @@
       "Rarity": 1,
       "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 36,
-      "Speed": 0
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0.38,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2011,
@@ -991,10 +1234,13 @@
       "ThumbnailName": "Relic_2011.sprite",
       "Description": "고대 저명한 전사가 착용했던 투구. 투쟁의 무게가 느껴진다.",
       "Rarity": 2,
-      "Atk": 0,
-      "MaxHp": 300,
+      "Atk": 6,
+      "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 20,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2012,
@@ -1003,10 +1249,13 @@
       "ThumbnailName": "Relic_2011.sprite",
       "Description": "고대 저명한 전사가 착용했던 투구. 투쟁의 무게가 느껴진다.",
       "Rarity": 2,
-      "Atk": 0,
-      "MaxHp": 330,
+      "Atk": 8,
+      "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 24,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2013,
@@ -1015,10 +1264,13 @@
       "ThumbnailName": "Relic_2011.sprite",
       "Description": "고대 저명한 전사가 착용했던 투구. 투쟁의 무게가 느껴진다.",
       "Rarity": 2,
-      "Atk": 0,
-      "MaxHp": 360,
+      "Atk": 10,
+      "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 28,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2014,
@@ -1027,10 +1279,13 @@
       "ThumbnailName": "Relic_2011.sprite",
       "Description": "고대 저명한 전사가 착용했던 투구. 투쟁의 무게가 느껴진다.",
       "Rarity": 2,
-      "Atk": 0,
-      "MaxHp": 390,
+      "Atk": 12,
+      "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 32,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2015,
@@ -1039,10 +1294,13 @@
       "ThumbnailName": "Relic_2011.sprite",
       "Description": "고대 저명한 전사가 착용했던 투구. 투쟁의 무게가 느껴진다.",
       "Rarity": 2,
-      "Atk": 0,
-      "MaxHp": 420,
+      "Atk": 14,
+      "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 36,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2016,
@@ -1051,10 +1309,13 @@
       "ThumbnailName": "Relic_2011.sprite",
       "Description": "고대 저명한 전사가 착용했던 투구. 투쟁의 무게가 느껴진다.",
       "Rarity": 2,
-      "Atk": 0,
-      "MaxHp": 450,
+      "Atk": 16,
+      "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 40,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2017,
@@ -1063,10 +1324,13 @@
       "ThumbnailName": "Relic_2011.sprite",
       "Description": "고대 저명한 전사가 착용했던 투구. 투쟁의 무게가 느껴진다.",
       "Rarity": 2,
-      "Atk": 0,
-      "MaxHp": 480,
+      "Atk": 18,
+      "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 44,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2018,
@@ -1075,10 +1339,13 @@
       "ThumbnailName": "Relic_2011.sprite",
       "Description": "고대 저명한 전사가 착용했던 투구. 투쟁의 무게가 느껴진다.",
       "Rarity": 2,
-      "Atk": 0,
-      "MaxHp": 510,
+      "Atk": 20,
+      "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 48,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2019,
@@ -1087,10 +1354,13 @@
       "ThumbnailName": "Relic_2011.sprite",
       "Description": "고대 저명한 전사가 착용했던 투구. 투쟁의 무게가 느껴진다.",
       "Rarity": 2,
-      "Atk": 0,
-      "MaxHp": 540,
+      "Atk": 22,
+      "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 52,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2021,
@@ -1099,10 +1369,13 @@
       "ThumbnailName": "Relic_2021.sprite",
       "Description": "어디에 쓰이는지 모르는 의문의 열쇠. '유일한 실마리'라고 각인되어 있다.",
       "Rarity": 2,
-      "Atk": 30,
-      "MaxHp": 70,
+      "Atk": 0,
+      "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 150
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0.1,
+      "ExtraGold": 0.1
     },
     {
       "RelicId": 2022,
@@ -1111,10 +1384,13 @@
       "ThumbnailName": "Relic_2021.sprite",
       "Description": "어디에 쓰이는지 모르는 의문의 열쇠. '유일한 실마리'라고 각인되어 있다.",
       "Rarity": 2,
-      "Atk": 40,
-      "MaxHp": 80,
+      "Atk": 0,
+      "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 160
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0.14,
+      "ExtraGold": 0.11
     },
     {
       "RelicId": 2023,
@@ -1123,10 +1399,13 @@
       "ThumbnailName": "Relic_2021.sprite",
       "Description": "어디에 쓰이는지 모르는 의문의 열쇠. '유일한 실마리'라고 각인되어 있다.",
       "Rarity": 2,
-      "Atk": 50,
-      "MaxHp": 90,
+      "Atk": 0,
+      "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 170
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0.18,
+      "ExtraGold": 0.12
     },
     {
       "RelicId": 2024,
@@ -1135,10 +1414,13 @@
       "ThumbnailName": "Relic_2021.sprite",
       "Description": "어디에 쓰이는지 모르는 의문의 열쇠. '유일한 실마리'라고 각인되어 있다.",
       "Rarity": 2,
-      "Atk": 60,
-      "MaxHp": 100,
+      "Atk": 0,
+      "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 180
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0.22,
+      "ExtraGold": 0.13
     },
     {
       "RelicId": 2025,
@@ -1147,10 +1429,13 @@
       "ThumbnailName": "Relic_2021.sprite",
       "Description": "어디에 쓰이는지 모르는 의문의 열쇠. '유일한 실마리'라고 각인되어 있다.",
       "Rarity": 2,
-      "Atk": 70,
-      "MaxHp": 110,
+      "Atk": 0,
+      "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 190
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0.26,
+      "ExtraGold": 0.14
     },
     {
       "RelicId": 2026,
@@ -1159,10 +1444,13 @@
       "ThumbnailName": "Relic_2021.sprite",
       "Description": "어디에 쓰이는지 모르는 의문의 열쇠. '유일한 실마리'라고 각인되어 있다.",
       "Rarity": 2,
-      "Atk": 80,
-      "MaxHp": 120,
+      "Atk": 0,
+      "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 200
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0.3,
+      "ExtraGold": 0.15
     },
     {
       "RelicId": 2027,
@@ -1171,10 +1459,13 @@
       "ThumbnailName": "Relic_2021.sprite",
       "Description": "어디에 쓰이는지 모르는 의문의 열쇠. '유일한 실마리'라고 각인되어 있다.",
       "Rarity": 2,
-      "Atk": 90,
-      "MaxHp": 130,
+      "Atk": 0,
+      "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 210
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0.34,
+      "ExtraGold": 0.16
     },
     {
       "RelicId": 2028,
@@ -1183,10 +1474,13 @@
       "ThumbnailName": "Relic_2021.sprite",
       "Description": "어디에 쓰이는지 모르는 의문의 열쇠. '유일한 실마리'라고 각인되어 있다.",
       "Rarity": 2,
-      "Atk": 100,
-      "MaxHp": 140,
+      "Atk": 0,
+      "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 220
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0.38,
+      "ExtraGold": 0.17
     },
     {
       "RelicId": 2029,
@@ -1195,10 +1489,13 @@
       "ThumbnailName": "Relic_2021.sprite",
       "Description": "어디에 쓰이는지 모르는 의문의 열쇠. '유일한 실마리'라고 각인되어 있다.",
       "Rarity": 2,
-      "Atk": 110,
-      "MaxHp": 150,
+      "Atk": 0,
+      "MaxHp": 0,
       "CoolTime": 0,
-      "Speed": 230
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0.42,
+      "ExtraGold": 0.18
     },
     {
       "RelicId": 2031,
@@ -1207,10 +1504,13 @@
       "ThumbnailName": "Relic_2031.sprite",
       "Description": "선조로부터 전해 내려오는 편지. 아직 첫 문장만이 해석되었다.",
       "Rarity": 2,
-      "Atk": 0,
+      "Atk": 12,
       "MaxHp": 0,
-      "CoolTime": 30,
-      "Speed": 0
+      "CoolTime": 0,
+      "Speed": 10,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2032,
@@ -1219,10 +1519,13 @@
       "ThumbnailName": "Relic_2031.sprite",
       "Description": "선조로부터 전해 내려오는 편지. 아직 첫 문장만이 해석되었다.",
       "Rarity": 2,
-      "Atk": 0,
+      "Atk": 16,
       "MaxHp": 0,
-      "CoolTime": 33,
-      "Speed": 0
+      "CoolTime": 0,
+      "Speed": 12,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2033,
@@ -1231,10 +1534,13 @@
       "ThumbnailName": "Relic_2031.sprite",
       "Description": "선조로부터 전해 내려오는 편지. 아직 첫 문장만이 해석되었다.",
       "Rarity": 2,
-      "Atk": 0,
+      "Atk": 20,
       "MaxHp": 0,
-      "CoolTime": 36,
-      "Speed": 0
+      "CoolTime": 0,
+      "Speed": 14,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2034,
@@ -1243,10 +1549,13 @@
       "ThumbnailName": "Relic_2031.sprite",
       "Description": "선조로부터 전해 내려오는 편지. 아직 첫 문장만이 해석되었다.",
       "Rarity": 2,
-      "Atk": 0,
+      "Atk": 24,
       "MaxHp": 0,
-      "CoolTime": 39,
-      "Speed": 0
+      "CoolTime": 0,
+      "Speed": 16,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2035,
@@ -1255,10 +1564,13 @@
       "ThumbnailName": "Relic_2031.sprite",
       "Description": "선조로부터 전해 내려오는 편지. 아직 첫 문장만이 해석되었다.",
       "Rarity": 2,
-      "Atk": 0,
+      "Atk": 28,
       "MaxHp": 0,
-      "CoolTime": 42,
-      "Speed": 0
+      "CoolTime": 0,
+      "Speed": 18,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2036,
@@ -1267,10 +1579,13 @@
       "ThumbnailName": "Relic_2031.sprite",
       "Description": "선조로부터 전해 내려오는 편지. 아직 첫 문장만이 해석되었다.",
       "Rarity": 2,
-      "Atk": 0,
+      "Atk": 32,
       "MaxHp": 0,
-      "CoolTime": 45,
-      "Speed": 0
+      "CoolTime": 0,
+      "Speed": 20,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2037,
@@ -1279,10 +1594,13 @@
       "ThumbnailName": "Relic_2031.sprite",
       "Description": "선조로부터 전해 내려오는 편지. 아직 첫 문장만이 해석되었다.",
       "Rarity": 2,
-      "Atk": 0,
+      "Atk": 36,
       "MaxHp": 0,
-      "CoolTime": 48,
-      "Speed": 0
+      "CoolTime": 0,
+      "Speed": 22,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2038,
@@ -1291,10 +1609,13 @@
       "ThumbnailName": "Relic_2031.sprite",
       "Description": "선조로부터 전해 내려오는 편지. 아직 첫 문장만이 해석되었다.",
       "Rarity": 2,
-      "Atk": 0,
+      "Atk": 40,
       "MaxHp": 0,
-      "CoolTime": 51,
-      "Speed": 0
+      "CoolTime": 0,
+      "Speed": 24,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2039,
@@ -1303,10 +1624,13 @@
       "ThumbnailName": "Relic_2031.sprite",
       "Description": "선조로부터 전해 내려오는 편지. 아직 첫 문장만이 해석되었다.",
       "Rarity": 2,
-      "Atk": 0,
+      "Atk": 44,
       "MaxHp": 0,
-      "CoolTime": 54,
-      "Speed": 0
+      "CoolTime": 0,
+      "Speed": 26,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2041,
@@ -1315,10 +1639,13 @@
       "ThumbnailName": "Relic_2041.sprite",
       "Description": "속을 알 수 없는 보따리. 예언자 외에 보따리를 푸는 것은 금기시되어있다.",
       "Rarity": 2,
-      "Atk": 70,
+      "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 7,
-      "Speed": 150
+      "CoolTime": 3,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2042,
@@ -1327,10 +1654,13 @@
       "ThumbnailName": "Relic_2041.sprite",
       "Description": "속을 알 수 없는 보따리. 예언자 외에 보따리를 푸는 것은 금기시되어있다.",
       "Rarity": 2,
-      "Atk": 80,
+      "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 8,
-      "Speed": 160
+      "CoolTime": 6,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2043,
@@ -1339,10 +1669,13 @@
       "ThumbnailName": "Relic_2041.sprite",
       "Description": "속을 알 수 없는 보따리. 예언자 외에 보따리를 푸는 것은 금기시되어있다.",
       "Rarity": 2,
-      "Atk": 90,
+      "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 9,
-      "Speed": 170
+      "CoolTime": 6,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2044,
@@ -1351,10 +1684,13 @@
       "ThumbnailName": "Relic_2041.sprite",
       "Description": "속을 알 수 없는 보따리. 예언자 외에 보따리를 푸는 것은 금기시되어있다.",
       "Rarity": 2,
-      "Atk": 100,
+      "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 10,
-      "Speed": 180
+      "CoolTime": 9,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2045,
@@ -1363,10 +1699,13 @@
       "ThumbnailName": "Relic_2041.sprite",
       "Description": "속을 알 수 없는 보따리. 예언자 외에 보따리를 푸는 것은 금기시되어있다.",
       "Rarity": 2,
-      "Atk": 110,
+      "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 11,
-      "Speed": 190
+      "CoolTime": 9,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2046,
@@ -1375,10 +1714,13 @@
       "ThumbnailName": "Relic_2041.sprite",
       "Description": "속을 알 수 없는 보따리. 예언자 외에 보따리를 푸는 것은 금기시되어있다.",
       "Rarity": 2,
-      "Atk": 120,
+      "Atk": 0,
       "MaxHp": 0,
       "CoolTime": 12,
-      "Speed": 200
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2047,
@@ -1387,10 +1729,13 @@
       "ThumbnailName": "Relic_2041.sprite",
       "Description": "속을 알 수 없는 보따리. 예언자 외에 보따리를 푸는 것은 금기시되어있다.",
       "Rarity": 2,
-      "Atk": 130,
+      "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 13,
-      "Speed": 210
+      "CoolTime": 12,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2048,
@@ -1399,10 +1744,13 @@
       "ThumbnailName": "Relic_2041.sprite",
       "Description": "속을 알 수 없는 보따리. 예언자 외에 보따리를 푸는 것은 금기시되어있다.",
       "Rarity": 2,
-      "Atk": 140,
+      "Atk": 0,
       "MaxHp": 0,
-      "CoolTime": 14,
-      "Speed": 220
+      "CoolTime": 15,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2049,
@@ -1411,10 +1759,13 @@
       "ThumbnailName": "Relic_2041.sprite",
       "Description": "속을 알 수 없는 보따리. 예언자 외에 보따리를 푸는 것은 금기시되어있다.",
       "Rarity": 2,
-      "Atk": 150,
+      "Atk": 0,
       "MaxHp": 0,
       "CoolTime": 15,
-      "Speed": 230
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2051,
@@ -1423,10 +1774,13 @@
       "ThumbnailName": "Relic_2051.sprite",
       "Description": "굳게 잠겨진 자물쇠. 중대한 비밀과 강력한 힘이 봉인되어 있다.",
       "Rarity": 2,
-      "Atk": 150,
-      "MaxHp": 0,
+      "Atk": 0,
+      "MaxHp": 180,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2052,
@@ -1435,10 +1789,13 @@
       "ThumbnailName": "Relic_2051.sprite",
       "Description": "굳게 잠겨진 자물쇠. 중대한 비밀과 강력한 힘이 봉인되어 있다.",
       "Rarity": 2,
-      "Atk": 180,
-      "MaxHp": 0,
+      "Atk": 0,
+      "MaxHp": 210,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2053,
@@ -1447,10 +1804,13 @@
       "ThumbnailName": "Relic_2051.sprite",
       "Description": "굳게 잠겨진 자물쇠. 중대한 비밀과 강력한 힘이 봉인되어 있다.",
       "Rarity": 2,
-      "Atk": 200,
-      "MaxHp": 0,
+      "Atk": 0,
+      "MaxHp": 240,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2054,
@@ -1459,10 +1819,13 @@
       "ThumbnailName": "Relic_2051.sprite",
       "Description": "굳게 잠겨진 자물쇠. 중대한 비밀과 강력한 힘이 봉인되어 있다.",
       "Rarity": 2,
-      "Atk": 220,
-      "MaxHp": 0,
+      "Atk": 0,
+      "MaxHp": 270,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2055,
@@ -1471,10 +1834,13 @@
       "ThumbnailName": "Relic_2051.sprite",
       "Description": "굳게 잠겨진 자물쇠. 중대한 비밀과 강력한 힘이 봉인되어 있다.",
       "Rarity": 2,
-      "Atk": 240,
-      "MaxHp": 0,
+      "Atk": 0,
+      "MaxHp": 300,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2056,
@@ -1483,10 +1849,13 @@
       "ThumbnailName": "Relic_2051.sprite",
       "Description": "굳게 잠겨진 자물쇠. 중대한 비밀과 강력한 힘이 봉인되어 있다.",
       "Rarity": 2,
-      "Atk": 260,
-      "MaxHp": 0,
+      "Atk": 0,
+      "MaxHp": 330,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2057,
@@ -1495,10 +1864,13 @@
       "ThumbnailName": "Relic_2051.sprite",
       "Description": "굳게 잠겨진 자물쇠. 중대한 비밀과 강력한 힘이 봉인되어 있다.",
       "Rarity": 2,
-      "Atk": 280,
-      "MaxHp": 0,
+      "Atk": 0,
+      "MaxHp": 360,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2058,
@@ -1507,10 +1879,13 @@
       "ThumbnailName": "Relic_2051.sprite",
       "Description": "굳게 잠겨진 자물쇠. 중대한 비밀과 강력한 힘이 봉인되어 있다.",
       "Rarity": 2,
-      "Atk": 300,
-      "MaxHp": 0,
+      "Atk": 0,
+      "MaxHp": 390,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 2059,
@@ -1519,10 +1894,13 @@
       "ThumbnailName": "Relic_2051.sprite",
       "Description": "굳게 잠겨진 자물쇠. 중대한 비밀과 강력한 힘이 봉인되어 있다.",
       "Rarity": 2,
-      "Atk": 320,
-      "MaxHp": 0,
+      "Atk": 0,
+      "MaxHp": 420,
       "CoolTime": 0,
-      "Speed": 0
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3011,
@@ -1531,10 +1909,13 @@
       "ThumbnailName": "Relic_3011.sprite",
       "Description": "붉은빛이 도는 걸쭉한 영약. 현존하는 영약 중 가장 위험하고 강력하다.",
       "Rarity": 3,
-      "Atk": 200,
-      "MaxHp": 0,
-      "CoolTime": 0,
-      "Speed": 0
+      "Atk": 0,
+      "MaxHp": 60,
+      "CoolTime": 3,
+      "Speed": 10,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3012,
@@ -1543,10 +1924,13 @@
       "ThumbnailName": "Relic_3011.sprite",
       "Description": "붉은빛이 도는 걸쭉한 영약. 현존하는 영약 중 가장 위험하고 강력하다.",
       "Rarity": 3,
-      "Atk": 220,
-      "MaxHp": 0,
-      "CoolTime": 0,
-      "Speed": 0
+      "Atk": 0,
+      "MaxHp": 70,
+      "CoolTime": 6,
+      "Speed": 12,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3013,
@@ -1555,10 +1939,13 @@
       "ThumbnailName": "Relic_3011.sprite",
       "Description": "붉은빛이 도는 걸쭉한 영약. 현존하는 영약 중 가장 위험하고 강력하다.",
       "Rarity": 3,
-      "Atk": 240,
-      "MaxHp": 0,
-      "CoolTime": 0,
-      "Speed": 0
+      "Atk": 0,
+      "MaxHp": 80,
+      "CoolTime": 6,
+      "Speed": 14,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3014,
@@ -1567,10 +1954,13 @@
       "ThumbnailName": "Relic_3011.sprite",
       "Description": "붉은빛이 도는 걸쭉한 영약. 현존하는 영약 중 가장 위험하고 강력하다.",
       "Rarity": 3,
-      "Atk": 260,
-      "MaxHp": 0,
-      "CoolTime": 0,
-      "Speed": 0
+      "Atk": 0,
+      "MaxHp": 90,
+      "CoolTime": 9,
+      "Speed": 16,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3015,
@@ -1579,10 +1969,13 @@
       "ThumbnailName": "Relic_3011.sprite",
       "Description": "붉은빛이 도는 걸쭉한 영약. 현존하는 영약 중 가장 위험하고 강력하다.",
       "Rarity": 3,
-      "Atk": 280,
-      "MaxHp": 0,
-      "CoolTime": 0,
-      "Speed": 0
+      "Atk": 0,
+      "MaxHp": 100,
+      "CoolTime": 9,
+      "Speed": 18,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3016,
@@ -1591,10 +1984,13 @@
       "ThumbnailName": "Relic_3011.sprite",
       "Description": "붉은빛이 도는 걸쭉한 영약. 현존하는 영약 중 가장 위험하고 강력하다.",
       "Rarity": 3,
-      "Atk": 300,
-      "MaxHp": 0,
-      "CoolTime": 0,
-      "Speed": 0
+      "Atk": 0,
+      "MaxHp": 110,
+      "CoolTime": 12,
+      "Speed": 20,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3017,
@@ -1603,10 +1999,13 @@
       "ThumbnailName": "Relic_3011.sprite",
       "Description": "붉은빛이 도는 걸쭉한 영약. 현존하는 영약 중 가장 위험하고 강력하다.",
       "Rarity": 3,
-      "Atk": 320,
-      "MaxHp": 0,
-      "CoolTime": 0,
-      "Speed": 0
+      "Atk": 0,
+      "MaxHp": 120,
+      "CoolTime": 12,
+      "Speed": 22,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3018,
@@ -1615,10 +2014,13 @@
       "ThumbnailName": "Relic_3011.sprite",
       "Description": "붉은빛이 도는 걸쭉한 영약. 현존하는 영약 중 가장 위험하고 강력하다.",
       "Rarity": 3,
-      "Atk": 340,
-      "MaxHp": 0,
-      "CoolTime": 0,
-      "Speed": 0
+      "Atk": 0,
+      "MaxHp": 130,
+      "CoolTime": 15,
+      "Speed": 24,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3019,
@@ -1627,10 +2029,13 @@
       "ThumbnailName": "Relic_3011.sprite",
       "Description": "붉은빛이 도는 걸쭉한 영약. 현존하는 영약 중 가장 위험하고 강력하다.",
       "Rarity": 3,
-      "Atk": 360,
-      "MaxHp": 0,
-      "CoolTime": 0,
-      "Speed": 0
+      "Atk": 0,
+      "MaxHp": 140,
+      "CoolTime": 15,
+      "Speed": 26,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3021,
@@ -1640,9 +2045,12 @@
       "Description": "전설적인 기사의 공을 기리는 기념비적인 황금 트로피. 용기와 헌신을 상징한다.",
       "Rarity": 3,
       "Atk": 0,
-      "MaxHp": 200,
+      "MaxHp": 180,
       "CoolTime": 0,
-      "Speed": 200
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0.2
     },
     {
       "RelicId": 3022,
@@ -1652,9 +2060,12 @@
       "Description": "전설적인 기사의 공을 기리는 기념비적인 황금 트로피. 용기와 헌신을 상징한다.",
       "Rarity": 3,
       "Atk": 0,
-      "MaxHp": 220,
+      "MaxHp": 210,
       "CoolTime": 0,
-      "Speed": 220
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0.22
     },
     {
       "RelicId": 3023,
@@ -1666,7 +2077,10 @@
       "Atk": 0,
       "MaxHp": 240,
       "CoolTime": 0,
-      "Speed": 240
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0.24
     },
     {
       "RelicId": 3024,
@@ -1676,9 +2090,12 @@
       "Description": "전설적인 기사의 공을 기리는 기념비적인 황금 트로피. 용기와 헌신을 상징한다.",
       "Rarity": 3,
       "Atk": 0,
-      "MaxHp": 260,
+      "MaxHp": 270,
       "CoolTime": 0,
-      "Speed": 260
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0.26
     },
     {
       "RelicId": 3025,
@@ -1688,9 +2105,12 @@
       "Description": "전설적인 기사의 공을 기리는 기념비적인 황금 트로피. 용기와 헌신을 상징한다.",
       "Rarity": 3,
       "Atk": 0,
-      "MaxHp": 280,
+      "MaxHp": 300,
       "CoolTime": 0,
-      "Speed": 280
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0.28
     },
     {
       "RelicId": 3026,
@@ -1700,9 +2120,12 @@
       "Description": "전설적인 기사의 공을 기리는 기념비적인 황금 트로피. 용기와 헌신을 상징한다.",
       "Rarity": 3,
       "Atk": 0,
-      "MaxHp": 300,
+      "MaxHp": 330,
       "CoolTime": 0,
-      "Speed": 300
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0.3
     },
     {
       "RelicId": 3027,
@@ -1712,9 +2135,12 @@
       "Description": "전설적인 기사의 공을 기리는 기념비적인 황금 트로피. 용기와 헌신을 상징한다.",
       "Rarity": 3,
       "Atk": 0,
-      "MaxHp": 320,
+      "MaxHp": 360,
       "CoolTime": 0,
-      "Speed": 320
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0.32
     },
     {
       "RelicId": 3028,
@@ -1724,9 +2150,12 @@
       "Description": "전설적인 기사의 공을 기리는 기념비적인 황금 트로피. 용기와 헌신을 상징한다.",
       "Rarity": 3,
       "Atk": 0,
-      "MaxHp": 340,
+      "MaxHp": 390,
       "CoolTime": 0,
-      "Speed": 340
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0.34
     },
     {
       "RelicId": 3029,
@@ -1736,9 +2165,12 @@
       "Description": "전설적인 기사의 공을 기리는 기념비적인 황금 트로피. 용기와 헌신을 상징한다.",
       "Rarity": 3,
       "Atk": 0,
-      "MaxHp": 360,
+      "MaxHp": 420,
       "CoolTime": 0,
-      "Speed": 360
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0.36
     },
     {
       "RelicId": 3031,
@@ -1747,10 +2179,13 @@
       "ThumbnailName": "Relic_3031.sprite",
       "Description": "천지창조 시 쓰였던 주사위. 오직 신만이 굴릴 수 있다.",
       "Rarity": 3,
-      "Atk": 50,
-      "MaxHp": 500,
-      "CoolTime": 15,
-      "Speed": 150
+      "Atk": 0,
+      "MaxHp": 0,
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0.12,
+      "CritDmgRate": 0.05,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3032,
@@ -1759,10 +2194,13 @@
       "ThumbnailName": "Relic_3031.sprite",
       "Description": "천지창조 시 쓰였던 주사위. 오직 신만이 굴릴 수 있다.",
       "Rarity": 3,
-      "Atk": 60,
-      "MaxHp": 600,
-      "CoolTime": 16,
-      "Speed": 160
+      "Atk": 0,
+      "MaxHp": 0,
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0.2,
+      "CritDmgRate": 0.07,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3033,
@@ -1771,10 +2209,13 @@
       "ThumbnailName": "Relic_3031.sprite",
       "Description": "천지창조 시 쓰였던 주사위. 오직 신만이 굴릴 수 있다.",
       "Rarity": 3,
-      "Atk": 70,
-      "MaxHp": 700,
-      "CoolTime": 17,
-      "Speed": 170
+      "Atk": 0,
+      "MaxHp": 0,
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0.28,
+      "CritDmgRate": 0.09,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3034,
@@ -1783,10 +2224,13 @@
       "ThumbnailName": "Relic_3031.sprite",
       "Description": "천지창조 시 쓰였던 주사위. 오직 신만이 굴릴 수 있다.",
       "Rarity": 3,
-      "Atk": 80,
-      "MaxHp": 800,
-      "CoolTime": 18,
-      "Speed": 180
+      "Atk": 0,
+      "MaxHp": 0,
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0.36,
+      "CritDmgRate": 0.11,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3035,
@@ -1795,10 +2239,13 @@
       "ThumbnailName": "Relic_3031.sprite",
       "Description": "천지창조 시 쓰였던 주사위. 오직 신만이 굴릴 수 있다.",
       "Rarity": 3,
-      "Atk": 90,
-      "MaxHp": 900,
-      "CoolTime": 19,
-      "Speed": 190
+      "Atk": 0,
+      "MaxHp": 0,
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0.44,
+      "CritDmgRate": 0.13,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3036,
@@ -1807,10 +2254,13 @@
       "ThumbnailName": "Relic_3031.sprite",
       "Description": "천지창조 시 쓰였던 주사위. 오직 신만이 굴릴 수 있다.",
       "Rarity": 3,
-      "Atk": 100,
-      "MaxHp": 1000,
-      "CoolTime": 20,
-      "Speed": 200
+      "Atk": 0,
+      "MaxHp": 0,
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0.52,
+      "CritDmgRate": 0.15,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3037,
@@ -1819,10 +2269,13 @@
       "ThumbnailName": "Relic_3031.sprite",
       "Description": "천지창조 시 쓰였던 주사위. 오직 신만이 굴릴 수 있다.",
       "Rarity": 3,
-      "Atk": 110,
-      "MaxHp": 1100,
-      "CoolTime": 21,
-      "Speed": 210
+      "Atk": 0,
+      "MaxHp": 0,
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0.6,
+      "CritDmgRate": 0.17,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3038,
@@ -1831,10 +2284,13 @@
       "ThumbnailName": "Relic_3031.sprite",
       "Description": "천지창조 시 쓰였던 주사위. 오직 신만이 굴릴 수 있다.",
       "Rarity": 3,
-      "Atk": 120,
-      "MaxHp": 1200,
-      "CoolTime": 22,
-      "Speed": 220
+      "Atk": 0,
+      "MaxHp": 0,
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0.68,
+      "CritDmgRate": 0.19,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3039,
@@ -1843,10 +2299,13 @@
       "ThumbnailName": "Relic_3031.sprite",
       "Description": "천지창조 시 쓰였던 주사위. 오직 신만이 굴릴 수 있다.",
       "Rarity": 3,
-      "Atk": 130,
-      "MaxHp": 1300,
-      "CoolTime": 23,
-      "Speed": 230
+      "Atk": 0,
+      "MaxHp": 0,
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0.76,
+      "CritDmgRate": 0.21,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3041,
@@ -1855,10 +2314,13 @@
       "ThumbnailName": "Relic_3041.sprite",
       "Description": "영겁의 시간이 흘러도 절대로 변치 않는 점술사의 굳건한 신념.",
       "Rarity": 3,
-      "Atk": 150,
-      "MaxHp": 1500,
-      "CoolTime": 5,
-      "Speed": 50
+      "Atk": 0,
+      "MaxHp": 60,
+      "CoolTime": 1,
+      "Speed": 30,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3042,
@@ -1867,10 +2329,13 @@
       "ThumbnailName": "Relic_3041.sprite",
       "Description": "영겁의 시간이 흘러도 절대로 변치 않는 점술사의 굳건한 신념.",
       "Rarity": 3,
-      "Atk": 160,
-      "MaxHp": 1600,
-      "CoolTime": 6,
-      "Speed": 60
+      "Atk": 0,
+      "MaxHp": 70,
+      "CoolTime": 2,
+      "Speed": 36,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3043,
@@ -1879,10 +2344,13 @@
       "ThumbnailName": "Relic_3041.sprite",
       "Description": "영겁의 시간이 흘러도 절대로 변치 않는 점술사의 굳건한 신념.",
       "Rarity": 3,
-      "Atk": 170,
-      "MaxHp": 1700,
-      "CoolTime": 7,
-      "Speed": 70
+      "Atk": 0,
+      "MaxHp": 80,
+      "CoolTime": 2,
+      "Speed": 42,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3044,
@@ -1891,10 +2359,13 @@
       "ThumbnailName": "Relic_3041.sprite",
       "Description": "영겁의 시간이 흘러도 절대로 변치 않는 점술사의 굳건한 신념.",
       "Rarity": 3,
-      "Atk": 180,
-      "MaxHp": 1800,
-      "CoolTime": 8,
-      "Speed": 80
+      "Atk": 0,
+      "MaxHp": 90,
+      "CoolTime": 3,
+      "Speed": 48,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3045,
@@ -1903,10 +2374,13 @@
       "ThumbnailName": "Relic_3041.sprite",
       "Description": "영겁의 시간이 흘러도 절대로 변치 않는 점술사의 굳건한 신념.",
       "Rarity": 3,
-      "Atk": 190,
-      "MaxHp": 1900,
-      "CoolTime": 9,
-      "Speed": 90
+      "Atk": 0,
+      "MaxHp": 100,
+      "CoolTime": 3,
+      "Speed": 54,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3046,
@@ -1915,10 +2389,13 @@
       "ThumbnailName": "Relic_3041.sprite",
       "Description": "영겁의 시간이 흘러도 절대로 변치 않는 점술사의 굳건한 신념.",
       "Rarity": 3,
-      "Atk": 200,
-      "MaxHp": 2000,
-      "CoolTime": 10,
-      "Speed": 100
+      "Atk": 0,
+      "MaxHp": 110,
+      "CoolTime": 4,
+      "Speed": 60,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3047,
@@ -1927,10 +2404,13 @@
       "ThumbnailName": "Relic_3041.sprite",
       "Description": "영겁의 시간이 흘러도 절대로 변치 않는 점술사의 굳건한 신념.",
       "Rarity": 3,
-      "Atk": 210,
-      "MaxHp": 2100,
-      "CoolTime": 11,
-      "Speed": 110
+      "Atk": 0,
+      "MaxHp": 120,
+      "CoolTime": 4,
+      "Speed": 66,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3048,
@@ -1939,10 +2419,13 @@
       "ThumbnailName": "Relic_3041.sprite",
       "Description": "영겁의 시간이 흘러도 절대로 변치 않는 점술사의 굳건한 신념.",
       "Rarity": 3,
-      "Atk": 220,
-      "MaxHp": 2200,
-      "CoolTime": 12,
-      "Speed": 120
+      "Atk": 0,
+      "MaxHp": 130,
+      "CoolTime": 5,
+      "Speed": 72,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3049,
@@ -1951,10 +2434,13 @@
       "ThumbnailName": "Relic_3041.sprite",
       "Description": "영겁의 시간이 흘러도 절대로 변치 않는 점술사의 굳건한 신념.",
       "Rarity": 3,
-      "Atk": 230,
-      "MaxHp": 2300,
-      "CoolTime": 13,
-      "Speed": 130
+      "Atk": 0,
+      "MaxHp": 140,
+      "CoolTime": 5,
+      "Speed": 78,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3051,
@@ -1963,10 +2449,13 @@
       "ThumbnailName": "Relic_3051.sprite",
       "Description": "신비로운 기운이 느껴지는 모래시계. 상단과 하단에 모래가 무한히 흐르고 있다.",
       "Rarity": 3,
-      "Atk": 0,
+      "Atk": 6,
       "MaxHp": 0,
-      "CoolTime": 25,
-      "Speed": 0
+      "CoolTime": 2,
+      "Speed": 20,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3052,
@@ -1975,10 +2464,13 @@
       "ThumbnailName": "Relic_3051.sprite",
       "Description": "신비로운 기운이 느껴지는 모래시계. 상단과 하단에 모래가 무한히 흐르고 있다.",
       "Rarity": 3,
-      "Atk": 0,
+      "Atk": 8,
       "MaxHp": 0,
-      "CoolTime": 27,
-      "Speed": 0
+      "CoolTime": 4,
+      "Speed": 24,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3053,
@@ -1987,10 +2479,13 @@
       "ThumbnailName": "Relic_3051.sprite",
       "Description": "신비로운 기운이 느껴지는 모래시계. 상단과 하단에 모래가 무한히 흐르고 있다.",
       "Rarity": 3,
-      "Atk": 0,
+      "Atk": 10,
       "MaxHp": 0,
-      "CoolTime": 29,
-      "Speed": 0
+      "CoolTime": 4,
+      "Speed": 28,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3054,
@@ -1999,10 +2494,13 @@
       "ThumbnailName": "Relic_3051.sprite",
       "Description": "신비로운 기운이 느껴지는 모래시계. 상단과 하단에 모래가 무한히 흐르고 있다.",
       "Rarity": 3,
-      "Atk": 0,
+      "Atk": 12,
       "MaxHp": 0,
-      "CoolTime": 31,
-      "Speed": 0
+      "CoolTime": 6,
+      "Speed": 32,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3055,
@@ -2011,10 +2509,13 @@
       "ThumbnailName": "Relic_3051.sprite",
       "Description": "신비로운 기운이 느껴지는 모래시계. 상단과 하단에 모래가 무한히 흐르고 있다.",
       "Rarity": 3,
-      "Atk": 0,
+      "Atk": 14,
       "MaxHp": 0,
-      "CoolTime": 33,
-      "Speed": 0
+      "CoolTime": 6,
+      "Speed": 36,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3056,
@@ -2023,10 +2524,13 @@
       "ThumbnailName": "Relic_3051.sprite",
       "Description": "신비로운 기운이 느껴지는 모래시계. 상단과 하단에 모래가 무한히 흐르고 있다.",
       "Rarity": 3,
-      "Atk": 0,
+      "Atk": 16,
       "MaxHp": 0,
-      "CoolTime": 35,
-      "Speed": 0
+      "CoolTime": 8,
+      "Speed": 40,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3057,
@@ -2035,10 +2539,13 @@
       "ThumbnailName": "Relic_3051.sprite",
       "Description": "신비로운 기운이 느껴지는 모래시계. 상단과 하단에 모래가 무한히 흐르고 있다.",
       "Rarity": 3,
-      "Atk": 0,
+      "Atk": 18,
       "MaxHp": 0,
-      "CoolTime": 37,
-      "Speed": 0
+      "CoolTime": 8,
+      "Speed": 44,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3058,
@@ -2047,10 +2554,13 @@
       "ThumbnailName": "Relic_3051.sprite",
       "Description": "신비로운 기운이 느껴지는 모래시계. 상단과 하단에 모래가 무한히 흐르고 있다.",
       "Rarity": 3,
-      "Atk": 0,
+      "Atk": 20,
       "MaxHp": 0,
-      "CoolTime": 39,
-      "Speed": 0
+      "CoolTime": 10,
+      "Speed": 48,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3059,
@@ -2059,10 +2569,13 @@
       "ThumbnailName": "Relic_3051.sprite",
       "Description": "신비로운 기운이 느껴지는 모래시계. 상단과 하단에 모래가 무한히 흐르고 있다.",
       "Rarity": 3,
-      "Atk": 0,
+      "Atk": 22,
       "MaxHp": 0,
-      "CoolTime": 41,
-      "Speed": 0
+      "CoolTime": 10,
+      "Speed": 52,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3061,
@@ -2071,10 +2584,13 @@
       "ThumbnailName": "Relic_3061.sprite",
       "Description": "대마법사가 소유하던 강력한 마법의 반지. 반드시 선의를 가진 자만이 사용해야 한다.",
       "Rarity": 3,
-      "Atk": 100,
-      "MaxHp": 1000,
-      "CoolTime": 10,
-      "Speed": 100
+      "Atk": 30,
+      "MaxHp": 0,
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3062,
@@ -2083,10 +2599,13 @@
       "ThumbnailName": "Relic_3061.sprite",
       "Description": "대마법사가 소유하던 강력한 마법의 반지. 반드시 선의를 가진 자만이 사용해야 한다.",
       "Rarity": 3,
-      "Atk": 110,
-      "MaxHp": 1100,
-      "CoolTime": 11,
-      "Speed": 110
+      "Atk": 40,
+      "MaxHp": 0,
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3063,
@@ -2095,10 +2614,13 @@
       "ThumbnailName": "Relic_3061.sprite",
       "Description": "대마법사가 소유하던 강력한 마법의 반지. 반드시 선의를 가진 자만이 사용해야 한다.",
       "Rarity": 3,
-      "Atk": 120,
-      "MaxHp": 1200,
-      "CoolTime": 12,
-      "Speed": 120
+      "Atk": 50,
+      "MaxHp": 0,
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3064,
@@ -2107,10 +2629,13 @@
       "ThumbnailName": "Relic_3061.sprite",
       "Description": "대마법사가 소유하던 강력한 마법의 반지. 반드시 선의를 가진 자만이 사용해야 한다.",
       "Rarity": 3,
-      "Atk": 130,
-      "MaxHp": 1300,
-      "CoolTime": 13,
-      "Speed": 130
+      "Atk": 60,
+      "MaxHp": 0,
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3065,
@@ -2119,10 +2644,13 @@
       "ThumbnailName": "Relic_3061.sprite",
       "Description": "대마법사가 소유하던 강력한 마법의 반지. 반드시 선의를 가진 자만이 사용해야 한다.",
       "Rarity": 3,
-      "Atk": 140,
-      "MaxHp": 1400,
-      "CoolTime": 14,
-      "Speed": 140
+      "Atk": 70,
+      "MaxHp": 0,
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3066,
@@ -2131,10 +2659,13 @@
       "ThumbnailName": "Relic_3061.sprite",
       "Description": "대마법사가 소유하던 강력한 마법의 반지. 반드시 선의를 가진 자만이 사용해야 한다.",
       "Rarity": 3,
-      "Atk": 150,
-      "MaxHp": 1500,
-      "CoolTime": 15,
-      "Speed": 150
+      "Atk": 80,
+      "MaxHp": 0,
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3067,
@@ -2143,10 +2674,13 @@
       "ThumbnailName": "Relic_3061.sprite",
       "Description": "대마법사가 소유하던 강력한 마법의 반지. 반드시 선의를 가진 자만이 사용해야 한다.",
       "Rarity": 3,
-      "Atk": 160,
-      "MaxHp": 1600,
-      "CoolTime": 16,
-      "Speed": 160
+      "Atk": 90,
+      "MaxHp": 0,
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3068,
@@ -2155,10 +2689,13 @@
       "ThumbnailName": "Relic_3061.sprite",
       "Description": "대마법사가 소유하던 강력한 마법의 반지. 반드시 선의를 가진 자만이 사용해야 한다.",
       "Rarity": 3,
-      "Atk": 170,
-      "MaxHp": 1700,
-      "CoolTime": 17,
-      "Speed": 170
+      "Atk": 100,
+      "MaxHp": 0,
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 3069,
@@ -2167,10 +2704,13 @@
       "ThumbnailName": "Relic_3061.sprite",
       "Description": "대마법사가 소유하던 강력한 마법의 반지. 반드시 선의를 가진 자만이 사용해야 한다.",
       "Rarity": 3,
-      "Atk": 180,
-      "MaxHp": 1800,
-      "CoolTime": 18,
-      "Speed": 180
+      "Atk": 110,
+      "MaxHp": 0,
+      "CoolTime": 0,
+      "Speed": 0,
+      "CritRate": 0,
+      "CritDmgRate": 0,
+      "ExtraGold": 0
     },
     {
       "RelicId": 4011,
@@ -2179,10 +2719,13 @@
       "ThumbnailName": "Relic_4011.sprite",
       "Description": "YOU ARE THE RELICKING.",
       "Rarity": 4,
-      "Atk": 500,
-      "MaxHp": 5000,
-      "CoolTime": 15,
-      "Speed": 500
+      "Atk": 12,
+      "MaxHp": 120,
+      "CoolTime": 2,
+      "Speed": 20,
+      "CritRate": 0.06,
+      "CritDmgRate": 0.1,
+      "ExtraGold": 0.2
     },
     {
       "RelicId": 4012,
@@ -2191,10 +2734,13 @@
       "ThumbnailName": "Relic_4011.sprite",
       "Description": "YOU ARE THE RELICKING.",
       "Rarity": 4,
-      "Atk": 550,
-      "MaxHp": 5500,
-      "CoolTime": 17,
-      "Speed": 550
+      "Atk": 16,
+      "MaxHp": 140,
+      "CoolTime": 4,
+      "Speed": 24,
+      "CritRate": 0.1,
+      "CritDmgRate": 0.14,
+      "ExtraGold": 0.22
     },
     {
       "RelicId": 4013,
@@ -2203,10 +2749,13 @@
       "ThumbnailName": "Relic_4011.sprite",
       "Description": "YOU ARE THE RELICKING.",
       "Rarity": 4,
-      "Atk": 600,
-      "MaxHp": 600,
-      "CoolTime": 19,
-      "Speed": 600
+      "Atk": 20,
+      "MaxHp": 160,
+      "CoolTime": 4,
+      "Speed": 28,
+      "CritRate": 0.14,
+      "CritDmgRate": 0.18,
+      "ExtraGold": 0.24
     },
     {
       "RelicId": 4014,
@@ -2215,10 +2764,13 @@
       "ThumbnailName": "Relic_4011.sprite",
       "Description": "YOU ARE THE RELICKING.",
       "Rarity": 4,
-      "Atk": 650,
-      "MaxHp": 650,
-      "CoolTime": 21,
-      "Speed": 650
+      "Atk": 24,
+      "MaxHp": 180,
+      "CoolTime": 6,
+      "Speed": 32,
+      "CritRate": 0.18,
+      "CritDmgRate": 0.22,
+      "ExtraGold": 0.26
     },
     {
       "RelicId": 4015,
@@ -2227,10 +2779,13 @@
       "ThumbnailName": "Relic_4011.sprite",
       "Description": "YOU ARE THE RELICKING.",
       "Rarity": 4,
-      "Atk": 700,
-      "MaxHp": 700,
-      "CoolTime": 23,
-      "Speed": 700
+      "Atk": 28,
+      "MaxHp": 200,
+      "CoolTime": 6,
+      "Speed": 36,
+      "CritRate": 0.22,
+      "CritDmgRate": 0.26,
+      "ExtraGold": 0.28
     },
     {
       "RelicId": 4016,
@@ -2239,10 +2794,13 @@
       "ThumbnailName": "Relic_4011.sprite",
       "Description": "YOU ARE THE RELICKING.",
       "Rarity": 4,
-      "Atk": 750,
-      "MaxHp": 750,
-      "CoolTime": 25,
-      "Speed": 750
+      "Atk": 32,
+      "MaxHp": 220,
+      "CoolTime": 8,
+      "Speed": 40,
+      "CritRate": 0.26,
+      "CritDmgRate": 0.3,
+      "ExtraGold": 0.3
     },
     {
       "RelicId": 4017,
@@ -2251,10 +2809,13 @@
       "ThumbnailName": "Relic_4011.sprite",
       "Description": "YOU ARE THE RELICKING.",
       "Rarity": 4,
-      "Atk": 800,
-      "MaxHp": 800,
-      "CoolTime": 27,
-      "Speed": 800
+      "Atk": 36,
+      "MaxHp": 240,
+      "CoolTime": 8,
+      "Speed": 44,
+      "CritRate": 0.3,
+      "CritDmgRate": 0.34,
+      "ExtraGold": 0.32
     },
     {
       "RelicId": 4018,
@@ -2263,10 +2824,13 @@
       "ThumbnailName": "Relic_4011.sprite",
       "Description": "YOU ARE THE RELICKING.",
       "Rarity": 4,
-      "Atk": 850,
-      "MaxHp": 850,
-      "CoolTime": 29,
-      "Speed": 850
+      "Atk": 40,
+      "MaxHp": 260,
+      "CoolTime": 10,
+      "Speed": 48,
+      "CritRate": 0.34,
+      "CritDmgRate": 0.38,
+      "ExtraGold": 0.34
     },
     {
       "RelicId": 4019,
@@ -2275,10 +2839,13 @@
       "ThumbnailName": "Relic_4011.sprite",
       "Description": "YOU ARE THE RELICKING.",
       "Rarity": 4,
-      "Atk": 900,
-      "MaxHp": 900,
-      "CoolTime": 31,
-      "Speed": 900
+      "Atk": 44,
+      "MaxHp": 280,
+      "CoolTime": 10,
+      "Speed": 52,
+      "CritRate": 0.38,
+      "CritDmgRate": 0.42,
+      "ExtraGold": 0.36
     }
   ]
 }

@@ -76,6 +76,16 @@ public class UIManager
 		return null;
 	}
 
+	// 사운드에 필요할 것 같아서 만듬!!
+	public UI_Popup GetCurrentPopup()
+	{
+		if (_popupStack.Count > 0)
+		{
+			return _popupStack.Peek();
+		}
+		return null;
+	}
+
 	public T MakeWorldSpaceUI<T>(Transform parent = null, string name = null) where T : UI_Base
 	{
 		if (string.IsNullOrEmpty(name))
