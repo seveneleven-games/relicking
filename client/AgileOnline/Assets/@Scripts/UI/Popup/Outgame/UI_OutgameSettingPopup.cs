@@ -77,6 +77,7 @@ public class UI_OutgameSettingPopup : UI_Popup
 
     void OnClickBGMSoundToggle()
     {
+        Managers.Sound.PlayButtonClick();
         _isSelectedBGMSound = !_isSelectedBGMSound;
 
         if (_isSelectedBGMSound)
@@ -97,6 +98,7 @@ public class UI_OutgameSettingPopup : UI_Popup
 
     void OnClickSFXSoundToggle()
     {
+        Managers.Sound.PlayButtonClick();
         _isSelectedSFXSound = !_isSelectedSFXSound;
 
         if (_isSelectedSFXSound)
@@ -117,6 +119,7 @@ public class UI_OutgameSettingPopup : UI_Popup
     
     void OnClickLogoutButton()
     {
+        Managers.Sound.PlayButtonClick();
         StartCoroutine(JWTDeleteRequest("members/logout", res =>
         {
             // json -> °´Ã¼·Î º¯È¯
@@ -134,12 +137,14 @@ public class UI_OutgameSettingPopup : UI_Popup
     
     void OnClickChangeNicknameButton()
     {
+        Managers.Sound.PlayButtonClick();
         UI_ChangePopup popup = Managers.UI.ShowPopupUI<UI_ChangePopup>();
         popup.SetInfo(true);
     }
     
     void OnClickChangePasswordButton()
     {
+        Managers.Sound.PlayButtonClick();
         UI_ChangePopup popup = Managers.UI.ShowPopupUI<UI_ChangePopup>();
         popup.SetInfo(false);
     }

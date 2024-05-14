@@ -219,6 +219,7 @@ public class UI_ChangePopup : UI_Popup
     
     void OnClickConfirmButton()
     {
+        Managers.Sound.PlayButtonClick();
         // 닉네임 변경 관련
         if (_isChangeNickname)
         {
@@ -241,6 +242,7 @@ public class UI_ChangePopup : UI_Popup
 
     void OnClickBackButton()
     {
+        Managers.Sound.PlayButtonClick();
         Managers.UI.ClosePopupUI(this);
     }
     

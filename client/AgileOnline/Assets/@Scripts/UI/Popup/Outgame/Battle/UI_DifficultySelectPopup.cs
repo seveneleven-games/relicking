@@ -113,6 +113,7 @@ public class UI_DifficultySelectPopup : UI_Popup
     
     void SelectDifficulty(int level)
     {
+        Managers.Sound.PlayButtonClick();
         Debug.Log($"Selected Difficulty: Level {level}");
         
         // 혹시 몰라서 주석으로 남겨둠.....

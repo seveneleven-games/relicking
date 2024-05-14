@@ -170,13 +170,14 @@ public class UI_LoginInputPopup : UI_Popup
 
     void OnClickBackButton()
     {
+        Managers.Sound.PlayButtonClick();
         Managers.UI.ClosePopupUI(this);
         Managers.UI.ShowPopupUI<UI_LoginPopup>();
     }
     
     void OnClickLoginButton()
     {
-        
+        Managers.Sound.PlayButtonClick();
         // 로그인 객체 만들기
         LoginDataReq loginDataReq = new LoginDataReq
         {

@@ -54,6 +54,7 @@ public class UI_GachaInfoPopup : UI_Popup
 
     void OnClickCloseButton()
     {
+        Managers.Sound.PlayButtonClick();
         Debug.Log("CloseGachaInfo");
         Managers.UI.ClosePopupUI(this);
     }

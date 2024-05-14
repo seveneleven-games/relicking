@@ -65,6 +65,7 @@ public class UI_StageSelectPopup : UI_Popup
     
     void OnClickStageButton1()
     {
+        Managers.Sound.PlayButtonClick();
         Debug.Log("1번 선택");
         OnStageSelected?.Invoke(1);
         Managers.UI.ClosePopupUI(this);
@@ -72,6 +73,7 @@ public class UI_StageSelectPopup : UI_Popup
         
     void OnClickStageButton2()
     {
+        Managers.Sound.PlayButtonClick();
         Debug.Log("2번 선택");
         OnStageSelected?.Invoke(2);
         Managers.UI.ClosePopupUI(this);
@@ -79,6 +81,7 @@ public class UI_StageSelectPopup : UI_Popup
         
     void OnClickStageButton3()
     {
+        Managers.Sound.PlayButtonClick();
         Debug.Log("3번 선택");
         OnStageSelected?.Invoke(3);
         Managers.UI.ClosePopupUI(this);

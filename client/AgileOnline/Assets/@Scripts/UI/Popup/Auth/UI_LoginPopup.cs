@@ -85,6 +85,7 @@ public class UI_LoginPopup : UI_Popup
 
     void OnClickLoginButton()
     {
+        Managers.Sound.PlayButtonClick();
         // 현재 팝업 닫고 로그인 입력 팝업 열기
         Managers.UI.ClosePopupUI(this);
         Managers.UI.ShowPopupUI<UI_LoginInputPopup>();
@@ -92,6 +93,7 @@ public class UI_LoginPopup : UI_Popup
 
     void OnClickSignupButton()
     {
+        Managers.Sound.PlayButtonClick();
         Managers.UI.ClosePopupUI(this);
         Managers.UI.ShowPopupUI<UI_SignupInputPopup>();
     }

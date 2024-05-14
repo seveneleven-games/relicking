@@ -156,12 +156,14 @@ public class UI_SignupInputPopup : UI_Popup
 
     void OnClickBackButton()
     {
+        Managers.Sound.PlayButtonClick();
         Managers.UI.ClosePopupUI(this);
         Managers.UI.ShowPopupUI<UI_LoginPopup>();
     }
     
     void OnClickCheckEmailButton()
     {
+        Managers.Sound.PlayButtonClick();
         Debug.Log("OnClickCheckEmailButton");
         
         if (!ValidateEmail(GetInputField((int)EInputFields.EmailInputField).text))
@@ -293,6 +295,7 @@ public class UI_SignupInputPopup : UI_Popup
     
     void OnClickNextButton()
     {
+        Managers.Sound.PlayButtonClick();
         email = GetInputField((int)EInputFields.EmailInputField).text;
         password = GetInputField((int)EInputFields.PasswordInputField).text;
         

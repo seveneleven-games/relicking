@@ -88,6 +88,7 @@ public class UI_IngameSettingPopup : UI_Popup
 
     void OnClickBGMSoundToggle()
     {
+        Managers.Sound.PlayButtonClick();
         _isSelectedBGMSound = !_isSelectedBGMSound;
 
         if (_isSelectedBGMSound)
@@ -108,6 +109,7 @@ public class UI_IngameSettingPopup : UI_Popup
     
     void OnClickSFXSoundToggle()
     {
+        Managers.Sound.PlayButtonClick();
         _isSelectedSFXSound = !_isSelectedSFXSound;
 
         if (_isSelectedSFXSound)
@@ -191,11 +193,13 @@ public class UI_IngameSettingPopup : UI_Popup
 
     void ShowConfirmPopup()
     {
+        Managers.Sound.PlayButtonClick();
         Managers.UI.ShowPopupUI<UI_GameExitConfirmPopup>();
     }
 
     public override void ClosePopupUI()
     {
+        Managers.Sound.PlayButtonClick();
         Time.timeScale = 1;
         base.ClosePopupUI();
     }
