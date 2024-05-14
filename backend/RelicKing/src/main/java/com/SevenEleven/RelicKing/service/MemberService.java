@@ -88,7 +88,6 @@ public class MemberService {
 		}
 
 		Member member = dto.toEntity(bCryptPasswordEncoder.encode(dto.getPassword()));
-		member.changeGacha(10);
 
 		memberRepository.save(member);
 	}
