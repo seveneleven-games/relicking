@@ -30,7 +30,7 @@ MonoBehaviour:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6c32206e71c32374cb10c06e46efb5a7
-    m_Address: Monster2
+    m_Address: Monster3
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
@@ -48,7 +48,7 @@ MonoBehaviour:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: af75b8a2903e4eb46a22eca772a6d79a
-    m_Address: Monster3
+    m_Address: Monster2
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
@@ -67,6 +67,24 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5b2c73df8a4e3e949a0a08164dd64e02
     m_Address: Monster6
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ca2e90213a5f8a54ea36361e9d1c3456
+    m_Address: Monster12
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 568935db2563f9046994ae1bf44926b6
+    m_Address: Monster9
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9ad8decb4e4e7c64f9be0a586afe0703
+    m_Address: Monster10
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad

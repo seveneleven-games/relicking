@@ -19,13 +19,18 @@ public class UI_World : MonoBehaviour
         Instance = this;
         _canvas = GetComponent<Canvas>();
         _canvasRectTransform = _canvas.GetComponent<RectTransform>();
-        _playerHealthSlider = GetComponentInChildren<Slider>();
+        _playerHealthSlider = GameObject.FindWithTag("PlayerHealthSlider").GetComponent<Slider>();
     }
     
     public void UpdatePlayerHealth(float currentHealth, float maxHealth)
     {
         _playerHealthSlider.value = currentHealth / maxHealth;
     }
+
+    // public void UpdateBossHealth(float currentHealth, float maxHealth)
+    // {
+    //     _bossMonsterHealthSlider.value = currentHealth / maxHealth;
+    // }
 
     private void LateUpdate()
     {
