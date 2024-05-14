@@ -98,10 +98,7 @@ public static class Define
     public static int SPEED_RATE = 500;
     public static int RANGE = 7;
 
-    //난이도 스탯 반영 계수
-    public static float DIFFICULTY_COEFFICIENT = 0.1f;
-    
-    public static int ADDRESSABLE_COUNT = 138;
+    public static int ADDRESSABLE_COUNT = 142;
 
     #endregion
 

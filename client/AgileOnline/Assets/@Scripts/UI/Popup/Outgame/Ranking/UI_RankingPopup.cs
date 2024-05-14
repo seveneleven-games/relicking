@@ -129,6 +129,7 @@ public class UI_RankingPopup : UI_Popup
     }
     
     
+    
     private void UpdateStage(int stage)
     {
         _wantStage = stage;

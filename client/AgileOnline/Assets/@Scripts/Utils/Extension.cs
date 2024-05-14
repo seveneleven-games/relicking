@@ -111,10 +111,10 @@ public static class Extension
 
     public static float RoundThird(float value)
     {
-        Debug.Log((int)(value * 1000));
+        Debug.Log((int)(value * 1000 + 0.5));
         Debug.Log((int)(value * 1000) / 1000f);
 
-        return (int)(value * 1000) / 1000f;
+        return (int)(value * 1000 + 0.5) / 1000f;
     }
     
 }
