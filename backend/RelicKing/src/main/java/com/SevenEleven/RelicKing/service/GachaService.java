@@ -2,19 +2,26 @@ package com.SevenEleven.RelicKing.service;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.SevenEleven.RelicKing.common.Constant;
 import com.SevenEleven.RelicKing.common.exception.CustomException;
 import com.SevenEleven.RelicKing.common.exception.ExceptionType;
 import com.SevenEleven.RelicKing.dto.request.GachaRequestDTO;
+import com.SevenEleven.RelicKing.entity.Member;
 import com.SevenEleven.RelicKing.entity.MemberRelic;
 import com.SevenEleven.RelicKing.repository.MemberRelicRepository;
 import com.SevenEleven.RelicKing.repository.MemberRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.SevenEleven.RelicKing.entity.Member;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -69,12 +76,12 @@ public class GachaService {
 		Set<MemberRelic> memberRelics = member.getMemberRelics();
 		memberRelics.forEach(memberRelic -> {
 			int relicNo = memberRelic.getRelicNo();
-			int rarity = relicNo/100;
+			int rarity = relicNo / 100;
 			try {
 				if (gachaResult[rarity][relicNo % 100] > 0) {
 					// 경험치 더하고 레벨업 여부 따로 계산
 					int before = memberRelic.getLevel();
-					memberRelic.plusExp(Constant.EXP_GACHA * memberRelic.getLevel() * gachaResult[rarity][relicNo % 100]);
+					memberRelic.plusExp(Constant.EXP_GACHA * memberRelic.getLevel() * Constant.RARITY_WEIGHT[rarity] * gachaResult[rarity][relicNo % 100]);
 					int after = memberRelic.getLevel();
 
 					memberRelicList.add(memberRelic);
@@ -96,15 +103,15 @@ public class GachaService {
 			}
 		});
 
-		for (int i = 0; i < raritySize; i++) {
-			for (int j = 1; j < gachaResult[i].length; j++) {
-				if (gachaResult[i][j] > 0) {
-					MemberRelic memberRelic = new MemberRelic(member, i * 100 + j);
-					memberRelic.plusExp(Constant.EXP_GACHA * memberRelic.getLevel() * (gachaResult[i][j] - 1));
+		for (int rarity = 0; rarity < raritySize; rarity++) {
+			for (int j = 1; j < gachaResult[rarity].length; j++) {
+				if (gachaResult[rarity][j] > 0) {
+					MemberRelic memberRelic = new MemberRelic(member, rarity * 100 + j);
+					memberRelic.plusExp(Constant.EXP_GACHA * memberRelic.getLevel() * Constant.RARITY_WEIGHT[rarity] * (gachaResult[rarity][j] - 1));
 					int after = memberRelic.getLevel();
 					memberRelicList.add(memberRelic);
 
-					for (int k = 0; k < gachaResult[i][j]; k++) {
+					for (int k = 0; k < gachaResult[rarity][j]; k++) {
 						Map<String, Object> relic = new LinkedHashMap<>();
 						relic.put("relicNo", memberRelic.getRelicNo());
 						relic.put("level", after);
