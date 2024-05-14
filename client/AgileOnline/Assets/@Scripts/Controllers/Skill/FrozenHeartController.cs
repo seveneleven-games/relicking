@@ -20,6 +20,7 @@ public class FrozenHeartController : SkillController
     public float Radius { get; private set; }
     public float RotationSpeed { get; private set; }
     public int ProjectileNum { get; private set; }
+    public float Scale { get; private set; }
     
     private float _angle;
     

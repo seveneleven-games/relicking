@@ -100,8 +100,6 @@ public class UI_TitleScene : UI_Scene
             
             Debug.Log($"{key} {count}/{totalCount}");
             
-            Debug.Log("잘 되고 있음!!");
-            
             if (count == totalCount)
             {
                 Debug.Log("카운트랑 토탈 카운트가 같음!!");
