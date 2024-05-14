@@ -30,7 +30,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 472976309595064959}
   m_Father: {fileID: 0}
@@ -69,7 +69,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 2.03
+  m_Radius: 3
 --- !u!50 &6845203314256985081
 Rigidbody2D:
   serializedVersion: 4
@@ -109,6 +109,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a1444efb4a348f49869d388c83aaeb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _owner: {fileID: 0}
+  monsterLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1008248509763990552
 GameObject:
   m_ObjectHideFlags: 0
