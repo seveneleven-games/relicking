@@ -1,7 +1,5 @@
 package com.SevenEleven.RelicKing.controller;
 
-import com.SevenEleven.RelicKing.common.security.CustomUserDetails;
-import com.SevenEleven.RelicKing.dto.request.ClassChangeRequestDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.SevenEleven.RelicKing.common.response.Response;
+import com.SevenEleven.RelicKing.common.security.CustomUserDetails;
+import com.SevenEleven.RelicKing.dto.request.ClassChangeRequestDTO;
 import com.SevenEleven.RelicKing.dto.request.RelicChangeRequestDTO;
 import com.SevenEleven.RelicKing.dto.response.InventoryResponseDTO;
 import com.SevenEleven.RelicKing.service.InventoryService;
@@ -60,6 +60,7 @@ public class InventoryController {
 	@PostMapping("/classes")
 	public Response changeClass(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody @Valid ClassChangeRequestDTO classChangeRequestDTO) {
 		inventoryService.changeClass(customUserDetails.getMember(), classChangeRequestDTO.getClassNo());
+		log.info("[클래스 변경] email: {}, classNo: {}", customUserDetails.getMember().getEmail(), classChangeRequestDTO.getClassNo());
 		return new Response(HttpStatus.OK.value(), "클래스가 변경되었습니다.", true);
 	}
 
@@ -74,6 +75,7 @@ public class InventoryController {
 	@PostMapping("/relics")
 	public Response changeRelic(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody @Valid RelicChangeRequestDTO relicChangeRequestDTO) {
 		inventoryService.changeRelic(customUserDetails.getMember(), relicChangeRequestDTO);
+		log.info("[유물 변경] email: {}, relicNo: {}, slot: {}", customUserDetails.getMember().getEmail(), relicChangeRequestDTO.getRelicNo(), relicChangeRequestDTO.getSlot());
 		return new Response(HttpStatus.OK.value(), "유물이 변경되었습니다.", true);
 	}
 
