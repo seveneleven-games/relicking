@@ -384,7 +384,7 @@ public class GameScene : BaseScene
     private IEnumerator SpawnEliteMonsters(List<int> normalMonsterIds, List<int> eliteMonsterIds)
     {
         Vector3 eliteSpawn = new Vector3(0, -4, 0);
-        MonsterController eliteMc = Managers.Object.Spawn<MonsterController>(eliteSpawn, eliteMonsterIds[0]);
+        Managers.Object.Spawn<MonsterController>(eliteSpawn, eliteMonsterIds[0]);
         while (true)
         {
             for (int i = 0; i < PER_SEC_MOSTER_GENERATION; i++)
