@@ -8,13 +8,13 @@
     },
     {
       "GoldId": 2,
-      "PrefabName": "Gold",
+      "PrefabName": "FewGolds",
       "Name": "중간 골드 주머니",
       "DropGold" : 100
     },
     {
       "GoldId": 3,
-      "PrefabName": "Gold",
+      "PrefabName": "ManyGolds",
       "Name": "큰 골드 주머니",
       "DropGold" : 1000
     }
