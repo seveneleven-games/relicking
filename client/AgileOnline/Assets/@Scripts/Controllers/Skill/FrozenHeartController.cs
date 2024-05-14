@@ -50,7 +50,9 @@ public class FrozenHeartController : SkillController
         Radius = radius;
         RotationSpeed = data.Speed;
         ProjectileNum = data.ProjectileNum;
-        
+        Scale = data.Scale;
+
+        transform.localScale = new Vector3() * Scale;
         _angle = angle * Mathf.Deg2Rad; // 각도를 라디안으로 변환
     
         StartDestroy(LifeTime);

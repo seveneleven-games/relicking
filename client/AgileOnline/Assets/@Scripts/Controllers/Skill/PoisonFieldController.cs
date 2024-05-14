@@ -11,7 +11,7 @@ public class PoisonFieldController : SkillController
     private float _lastDamageTime;
 
     private float _scaleUpDuration = 1f;
-    private Vector3 _initialScale;
+    private Vector3 _initScale;
     private Vector3 _targetScale;
     
     public int SkillId { get; private set; }
@@ -58,11 +58,11 @@ public class PoisonFieldController : SkillController
         ProjectileNum = data.ProjectileNum;
         Scale = data.Scale;
         
-        _initialScale = new Vector3(1,1,1) * 0.1f;
+        _initScale = new Vector3(1,1,1) * 0.1f;
         _targetScale = new Vector3(1,1,1) * Scale;
         _radius = gameObject.GetComponent<CircleCollider2D>().radius * Scale;
 
-        transform.localScale = _initialScale;
+        transform.localScale = _initScale;
         
         StartCoroutine(ScaleUpCoroutine());
         
@@ -75,7 +75,7 @@ public class PoisonFieldController : SkillController
 
         while (elapsedTime < _scaleUpDuration)
         {
-            transform.localScale = Vector3.Lerp(_initialScale, _targetScale, elapsedTime / _scaleUpDuration);
+            transform.localScale = Vector3.Lerp(_initScale, _targetScale, elapsedTime / _scaleUpDuration);
             elapsedTime += Time.deltaTime;
             yield return null;
         }

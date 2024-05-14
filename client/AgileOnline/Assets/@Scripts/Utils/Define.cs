@@ -101,7 +101,7 @@ public static class Define
     //난이도 몬스터 스탯 상관계수
     public static float DIFFICULTY_COEFFICIENT = 0.1f;
     
-    public static int ADDRESSABLE_COUNT = 143;
+    public static int ADDRESSABLE_COUNT = 142;
 
     #endregion
 
