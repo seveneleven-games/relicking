@@ -511,11 +511,11 @@
       "Name": "윈드 커터",
       "Description": "바라보는 방향으로 날아갔다가 다시 되돌아오는 투사체를 발사한다",
       "IconName": "WindCutter_icon.sprite",
-      "CoolTime": 5,
+      "CoolTime": 6,
       "Damage": 0.5,
       "LifeTime": 3,
       "Scale": 1,
-      "Speed": 10,
+      "Speed": 7,
       "ProjectileNum": 1
     },
     {
@@ -525,11 +525,11 @@
       "Name": "윈드 커터",
       "Description": "투사체 개수 +1",
       "IconName": "WindCutter_icon.sprite",
-      "CoolTime": 5,
+      "CoolTime": 6,
       "Damage": 0.5,
       "LifeTime": 3,
       "Scale": 1,
-      "Speed": 10,
+      "Speed": 7,
       "ProjectileNum": 2
     },
     {
@@ -539,11 +539,11 @@
       "Name": "윈드 커터",
       "Description": "대미지 증가, 투사체 개수 +1",
       "IconName": "WindCutter_icon.sprite",
-      "CoolTime": 5,
+      "CoolTime": 6,
       "Damage": 0.7,
       "LifeTime": 3,
       "Scale": 1,
-      "Speed": 10,
+      "Speed": 7,
       "ProjectileNum": 3
     },
     {
@@ -553,11 +553,11 @@
       "Name": "윈드 커터",
       "Description": "쿨타임 감소, 투사체 속도 증가",
       "IconName": "WindCutter_icon.sprite",
-      "CoolTime": 4,
+      "CoolTime": 5,
       "Damage": 0.7,
       "LifeTime": 2.4,
       "Scale": 1,
-      "Speed": 12.5,
+      "Speed": 10,
       "ProjectileNum": 3
     },
     {
@@ -567,11 +567,11 @@
       "Name": "윈드 커터",
       "Description": "투사체 크기 증가",
       "IconName": "WindCutter_icon.sprite",
-      "CoolTime": 4,
+      "CoolTime": 5,
       "Damage": 0.7,
       "LifeTime": 2.4,
       "Scale": 1.4,
-      "Speed": 12.5,
+      "Speed": 10,
       "ProjectileNum": 3
     },
     {
@@ -581,11 +581,11 @@
       "Name": "윈드 커터",
       "Description": "투사체 개수 + 2",
       "IconName": "WindCutter_icon.sprite",
-      "CoolTime": 4,
+      "CoolTime": 5,
       "Damage": 0.7,
       "LifeTime": 2.4,
       "Scale": 1.4,
-      "Speed": 12.5,
+      "Speed": 10,
       "ProjectileNum": 5
     },
     {
@@ -595,11 +595,11 @@
       "Name": "윈드 커터",
       "Description": "대미지 증가",
       "IconName": "WindCutter_icon.sprite",
-      "CoolTime": 4,
+      "CoolTime": 5,
       "Damage": 1,
       "LifeTime": 2.4,
       "Scale": 1.4,
-      "Speed": 12.5,
+      "Speed": 10,
       "ProjectileNum": 5
     },
     {
@@ -609,11 +609,11 @@
       "Name": "윈드 커터",
       "Description": "투사체 개수 + 2",
       "IconName": "WindCutter_icon.sprite",
-      "CoolTime": 4,
+      "CoolTime": 5,
       "Damage": 1,
       "LifeTime": 2.4,
       "Scale": 1.4,
-      "Speed": 12.5,
+      "Speed": 10,
       "ProjectileNum": 7
     },
     {
@@ -623,11 +623,11 @@
       "Name": "윈드 커터",
       "Description": "쿨타임 감소, 투사체 속도 증가",
       "IconName": "WindCutter_icon.sprite",
-      "CoolTime": 3.5,
+      "CoolTime": 4.5,
       "Damage": 1,
       "LifeTime": 2.1,
       "Scale": 1.4,
-      "Speed": 14,
+      "Speed": 12,
       "ProjectileNum": 7
     },
     {

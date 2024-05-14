@@ -19,6 +19,7 @@ public class WindCutterController : SkillController
     public float LifeTime { get; private set; } = 10;
     public float Speed { get; private set; }
     public int ProjectileNum { get; private set; }
+    public float Scale { get; private set; }
     
     public override bool Init()
     {
@@ -45,7 +46,9 @@ public class WindCutterController : SkillController
         LifeTime = data.LifeTime;
         Speed = data.Speed;
         ProjectileNum = data.ProjectileNum;
-        
+        Scale = data.Scale;
+
+        gameObject.transform.localScale = new Vector3(1, 1, 1) * Scale; 
         StartDestroy(LifeTime);
     }
     
