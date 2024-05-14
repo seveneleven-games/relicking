@@ -327,9 +327,9 @@ public class MonsterController : CreatureController
                 GameObject go4 = Managers.Resource.Instantiate("CircleAlert");
                 ParticleSystem ps4 = go4.GetComponent<ParticleSystem>();
                 ps4.transform.position = targetPosition2;
-                ps4.transform.localScale = new Vector3(0.8f, 0.8f, 0);
+                ps4.transform.localScale = new Vector3(0.6f, 0.6f, 0);
                 ps4.Play();
-                yield return new WaitForSeconds(0.8f);
+                yield return new WaitForSeconds(1.3f);
                 GameScene.SpawnBossMonsterSkill(_player.transform.position, 6);
                 break;
         }
