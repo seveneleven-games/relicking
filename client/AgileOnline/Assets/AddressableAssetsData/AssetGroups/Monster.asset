@@ -35,7 +35,7 @@ MonoBehaviour:
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0e31a21be8641cd40b85180581848612
+  - m_GUID: af75b8a2903e4eb46a22eca772a6d79a
     m_Address: Monster4
     m_ReadOnly: 0
     m_SerializedLabels:
