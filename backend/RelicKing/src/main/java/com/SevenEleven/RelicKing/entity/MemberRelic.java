@@ -65,7 +65,6 @@ public class MemberRelic implements Comparable<MemberRelic> {
 	public void plusExp(int exp) {
 		if (this.level != Constant.LEVEL_EXP_TABLE.size()){
 			this.exp += exp;
-			log.info("[유물 경험치 증가] (email){} (relicNo){} (plusExp){}", this.member.getEmail(), this.relicNo, exp);
 			setLevel();
 		}
 	}
@@ -75,7 +74,6 @@ public class MemberRelic implements Comparable<MemberRelic> {
 			for (int i = 0; i < Constant.LEVEL_EXP_TABLE.size(); i++) {
 				if (this.exp < Constant.LEVEL_EXP_TABLE.get(i)) {
 					this.level = i + 1;
-					log.info("[유물 레벨업] (email){} (relicNo){} (afterLevel){}", this.member.getEmail(), this.relicNo, this.level);
 					break;
 				}
 			}
