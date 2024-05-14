@@ -211,7 +211,7 @@ public class GameScene : BaseScene
                 StartCoroutine(SpawnEliteMonsters(normalMonsters, eliteMonsters));
                 break;
             case 2:
-                StartCoroutine(SpawnBossMonsters(normalMonsters, eliteMonsters, bossMonsters));
+                StartCoroutine(SpawnBossMonsters(normalMonsters,  bossMonsters));
                 break;
         }
 
@@ -226,7 +226,7 @@ public class GameScene : BaseScene
         {
             // 인게임 사운드 넣기
             Managers.Sound.Play(Define.ESound.Bgm,"Bgm_InGame");
-            _timerCoroutine = StartCoroutine(StartTimer(3f));
+            _timerCoroutine = StartCoroutine(StartTimer(30f));
         }
     }
     
@@ -278,6 +278,15 @@ public class GameScene : BaseScene
         
         foreach (GameObject obj in FindObjectsOfType<GameObject>())
         {
+            if (obj.name.StartsWith("@BaseMap"))
+            {
+                Debug.Log("맵 삭제");
+                Managers.Resource.Destroy(obj);   
+            }
+        }
+        
+        foreach (GameObject obj in FindObjectsOfType<GameObject>())
+        {
             GameObject monsterPool = GameObject.Find("@Monsters");
             if (monsterPool != null)
             {
@@ -289,6 +298,10 @@ public class GameScene : BaseScene
                         Managers.Object.Despawn(monsterController);
                 }
             }
+            
+            // 플레이어 위치 초기화
+            Debug.Log("플레이어 위치 초기화 시킬게요");
+            _player.transform.position = Vector3.zero;
         
             GameObject goldPool = GameObject.Find("@Golds");
             if (goldPool == null)
@@ -305,19 +318,6 @@ public class GameScene : BaseScene
                 }
             }
         }
-        
-        foreach (GameObject obj in FindObjectsOfType<GameObject>())
-        {
-            if (obj.name.StartsWith("@BaseMap"))
-            {
-                Debug.Log("맵 삭제");
-                Managers.Resource.Destroy(obj);   
-            }
-        }
-        
-        // 플레이어 위치 초기화
-        Debug.Log("플레이어 위치 초기화 시킬게요");
-        _player.transform.position = Vector3.zero;
         
         #endregion
     }
@@ -423,8 +423,7 @@ public class GameScene : BaseScene
         }
     }
 
-    private IEnumerator SpawnBossMonsters(List<int> normalMonsterIds, List<int> eliteMonsterIds,
-        List<int> boosMonsterIds)
+    private IEnumerator SpawnBossMonsters(List<int> normalMonsterIds, List<int> boosMonsterIds)
     {
         Vector3 bossSpawn = new Vector3(0, 4, 0);
         Managers.Object.Spawn<MonsterController>(bossSpawn, boosMonsterIds[0]);
@@ -467,6 +466,12 @@ public class GameScene : BaseScene
         } while (Vector3.Distance(playerPosition, randomPosition) <= playerRadius);
 
         return randomPosition;
+    }
+
+    public static void SpawnBossMonsterSkill(Vector3 spawnLocation, int monsterId)
+    {
+        for (int i = 0; i < 10; i++)
+            Managers.Object.Spawn<MonsterController>(spawnLocation, monsterId);
     }
     
     public void InvokeGameOverEvent()
