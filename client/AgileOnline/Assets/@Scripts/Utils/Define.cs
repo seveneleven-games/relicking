@@ -97,7 +97,7 @@ public static class Define
     public static int SPEED_RATE = 1000;
     public static int RANGE = 7;
 
-    public static int ADDRESSABLE_COUNT = 138;
+    public static int ADDRESSABLE_COUNT = 142;
 
     #endregion
 
