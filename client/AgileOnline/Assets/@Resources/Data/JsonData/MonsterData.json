@@ -61,7 +61,8 @@
       "CritDmgRate": 0.0,
       "CoolDown": 1.0,
       "SkillList": [
-        0
+        1031,
+        1011
       ]
     },
     {
@@ -125,7 +126,8 @@
       "CritDmgRate": 0.0,
       "CoolDown": 1.0,
       "SkillList": [
-        0
+        1041,
+        1001
       ]
     },
     {
@@ -189,7 +191,7 @@
       "CritDmgRate": 0.0,
       "CoolDown": 1.0,
       "SkillList": [
-        0
+        1021
       ]
     }
   ]
