@@ -63,6 +63,70 @@
       "SkillList": [
         0
       ]
+    },
+    {
+      "MonsterId": 5,
+      "PrefabName": "Monster5",
+      "MonsterType": 0,
+      "Name": "dmdzz",
+      "MaxHp": 50,
+      "Atk": 2.0,
+      "Speed": 2.0,
+      "DropGold": 1,
+      "CritRate": 0.0,
+      "CritDmgRate": 0.0,
+      "CoolDown": 1.0,
+      "SkillList": [
+        0
+      ]
+    },
+    {
+      "MonsterId": 6,
+      "PrefabName": "Monster6",
+      "MonsterType": 1,
+      "Name": "dmdzz",
+      "MaxHp": 50,
+      "Atk": 2.0,
+      "Speed": 2.0,
+      "DropGold": 1,
+      "CritRate": 0.0,
+      "CritDmgRate": 0.0,
+      "CoolDown": 1.0,
+      "SkillList": [
+        0
+      ]
+    },
+    {
+      "MonsterId": 7,
+      "PrefabName": "Monster7",
+      "MonsterType": 0,
+      "Name": "dmdzz",
+      "MaxHp": 50,
+      "Atk": 2.0,
+      "Speed": 2.0,
+      "DropGold": 1,
+      "CritRate": 0.0,
+      "CritDmgRate": 0.0,
+      "CoolDown": 1.0,
+      "SkillList": [
+        0
+      ]
+    },
+    {
+      "MonsterId": 8,
+      "PrefabName": "Monster8",
+      "MonsterType": 1,
+      "Name": "dmdzz",
+      "MaxHp": 50,
+      "Atk": 2.0,
+      "Speed": 2.0,
+      "DropGold": 1,
+      "CritRate": 0.0,
+      "CritDmgRate": 0.0,
+      "CoolDown": 1.0,
+      "SkillList": [
+        0
+      ]
     }
   ]
 }
