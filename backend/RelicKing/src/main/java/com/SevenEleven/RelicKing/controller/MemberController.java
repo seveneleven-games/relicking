@@ -30,7 +30,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Tag(name = "Member", description = "사용자 관련 API")
 @RestController
 @RequestMapping("/api/members")
@@ -50,6 +52,7 @@ public class MemberController {
 	@PostMapping("/signup")
 	public Response signup(@RequestBody @Validated(ValidationSequence.class) SignUpRequestDto dto) {
 		memberService.signup(dto);
+		log.info("[회원가입] email: {}", dto.getEmail());
 		return new Response(HttpStatus.OK.value(), "회원가입이 완료되었습니다.", true);
 	}
 
@@ -78,6 +81,7 @@ public class MemberController {
 	@DeleteMapping("/logout")
 	public Response logout(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
 		memberService.logout(customUserDetails.getMember());
+		log.info("[로그아웃] email: {}", customUserDetails.getMember().getEmail());
 		return new Response(HttpStatus.OK.value(), "로그아웃 되었습니다.", true);
 	}
 
@@ -92,6 +96,7 @@ public class MemberController {
 	@PatchMapping("/nickname")
 	public Response updateNickname(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody @Validated(ValidationSequence.class) UpdateNicknameRequestDto dto) {
 		memberService.updateNickname(customUserDetails.getMember(), dto.getNickname());
+		log.info("[닉네임 변경] email: {}, newNickname: {}", customUserDetails.getMember().getEmail(), dto.getNickname());
 		return new Response(HttpStatus.OK.value(), "닉네임이 변경되었습니다.", true);
 	}
 
@@ -106,6 +111,7 @@ public class MemberController {
 	@PatchMapping("/password")
 	public Response updatePassword(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody @Validated(ValidationSequence.class) UpdatePasswordRequestDto dto) {
 		memberService.updatePassword(customUserDetails.getMember(), dto.getOldPassword(), dto.getNewPassword(), dto.getNewPasswordRe());
+		log.info("[비밀번호 변경] email: {}", customUserDetails.getMember().getEmail());
 		return new Response(HttpStatus.OK.value(), "비밀번호가 변경되었습니다.", true);
 	}
 
@@ -146,6 +152,7 @@ public class MemberController {
 	@PostMapping("/emails/code")
 	public Response sendCodeToEmail(@RequestBody @Validated(ValidationSequence.class) EmailRequestDto dto) {
 		memberService.sendCodeToEmail(dto.getEmail());
+		log.info("[이메일 인증 코드 발송] email: {}", dto.getEmail());
 		return new Response(HttpStatus.OK.value(), "이메일로 인증 코드를 전송하였습니다.", true);
 	}
 
@@ -160,6 +167,7 @@ public class MemberController {
 	@PostMapping("/emails/verification")
 	public Response verifyEmail(@RequestBody @Validated(ValidationSequence.class) VerifyEmailRequestDto dto) {
 		memberService.verifyEmail(dto.getEmail(), dto.getCode());
+		log.info("[이메일 인증] email: {}", dto.getEmail());
 		return new Response(HttpStatus.OK.value(), "인증되었습니다.", true);
 	}
 
@@ -174,6 +182,7 @@ public class MemberController {
 	@PostMapping("/temp-password")
 	public Response updateTempPassword(@RequestBody @Validated(ValidationSequence.class) EmailRequestDto dto) {
 		memberService.updateTempPassword(dto.getEmail());
+		log.info("[임시 비밀번호 발송] email: {}", dto.getEmail());
 		return new Response(HttpStatus.OK.value(), "이메일로 임시 비밀번호를 발송하였습니다.", true);
 	}
 }

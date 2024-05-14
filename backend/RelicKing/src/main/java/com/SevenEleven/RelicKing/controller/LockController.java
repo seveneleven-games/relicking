@@ -1,7 +1,5 @@
 package com.SevenEleven.RelicKing.controller;
 
-import java.util.TimeZone;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +21,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Tag(name = "Lock", description = "방치 관련 API")
 @RestController
 @RequiredArgsConstructor
@@ -43,6 +43,7 @@ public class LockController {
 	@PostMapping("/end")
 	public Response saveLock(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody SaveLockRequestDto saveLockRequestDto) {
 		SaveLockResponseDto saveLockResponseDto = lockService.saveLock(customUserDetails.getMember(), saveLockRequestDto);
+		log.info("[방치 종료] email: {}, lockTime: {}", customUserDetails.getMember().getEmail(), saveLockRequestDto.getLockTime());
 		return new Response(HttpStatus.OK.value(), "방치가 종료되었습니다.", saveLockResponseDto);
 	}
 

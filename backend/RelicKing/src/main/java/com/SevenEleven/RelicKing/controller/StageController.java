@@ -1,14 +1,5 @@
 package com.SevenEleven.RelicKing.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +13,15 @@ import com.SevenEleven.RelicKing.common.security.CustomUserDetails;
 import com.SevenEleven.RelicKing.dto.request.StageRequestDTO;
 import com.SevenEleven.RelicKing.dto.response.StageResponseDTO;
 import com.SevenEleven.RelicKing.service.StageService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
 @Tag(name = "Stage", description = "스테이지 관련 API")
 @RestController
@@ -57,6 +57,7 @@ public class StageController {
 	)
 	@PatchMapping()
 	public Response clearStage(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody @Valid StageRequestDTO stageRequestDTO) {
+		log.info("[스테이지 클리어] email: {}, stage: {}, difficulty: {}", customUserDetails.getMember().getEmail(), stageRequestDTO.getStage(), stageRequestDTO.getDifficulty());
 		stageService.patchRelicAndRecord(customUserDetails.getMember(), stageRequestDTO);
 		return new Response(HttpStatus.OK.value(), "게임이 클리어 되었습니다.", true);
 	}
