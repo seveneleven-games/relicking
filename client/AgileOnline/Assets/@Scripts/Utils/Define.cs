@@ -102,6 +102,19 @@ public static class Define
     public static float DIFFICULTY_COEFFICIENT = 0.1f;
     
     public static int ADDRESSABLE_COUNT = 142;
+    
+    //포이즌 필드 생성 위치 리스트
+    public static Vector3[] POISON_FIELD_POS = new Vector3[] {
+        new Vector3(2.7f, 0.0f, 0f),
+        new Vector3(1.909f, 1.909f, 0f),
+        new Vector3(0.0f, 2.7f, 0f),
+        new Vector3(-1.909f, 1.909f, 0f),
+        new Vector3(-2.7f, 0.0f, 0f),
+        new Vector3(-1.909f, -1.909f, 0f),
+        new Vector3(0.0f, -2.7f, 0f),
+        new Vector3(1.909f, -1.909f, 0f)
+    };
+
 
     #endregion
 

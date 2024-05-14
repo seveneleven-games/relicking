@@ -62,6 +62,7 @@ public class UI_InGamePopup : UI_Popup
         {
             _bossName = GetText((int)GameObjects.BossName).GetComponent<TextMeshProUGUI>();
             _bossName.text = Managers.Data.StageDic[_templateData.StageId].Name + " BOSS";
+            _remainingTime = 60f;
             Managers.Sound.Play(Define.ESound.Bgm, "Bgm_InGameBoss");
         }
     }

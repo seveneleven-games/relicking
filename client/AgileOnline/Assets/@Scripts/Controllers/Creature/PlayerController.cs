@@ -188,7 +188,7 @@ public class PlayerController : CreatureController
         {
             GoldController gc = collision.GetComponent<GoldController>();
 
-            int goldValue = gc.GoldValue;
+            int goldValue = (int) (gc.GoldValue * (1 + CoinBonus) + 0.5f);
 
             PlayerGold += goldValue;
 
@@ -262,6 +262,8 @@ public class PlayerController : CreatureController
         isSkillsActive = false;
     }
 
+    private int[] _poisonFieldPos;
+    
     IEnumerator CoStartSkill(int skillId)
     {
         SkillData skillData = Managers.Data.SkillDic[skillId];
@@ -332,24 +334,25 @@ public class PlayerController : CreatureController
                     yield break;
 
                 case "PoisonField":
-                    List<Vector3> installedPositions = new List<Vector3>();
-
-                    for (int i = 0; i < skillData.ProjectileNum; i++)
-                    {
-                        Vector3 randomPos;
-                        do
-                        {
-                            float randomX = Random.Range(-6f, 6f);
-                            float randomY = Random.Range(-6f, 6f);
-                            randomPos = new Vector3(randomX, randomY, 0f);
-                        } while (installedPositions.Any(pos => Vector3.Distance(pos, randomPos) < 2f));
-
-                        PoisonFieldController pfc = Managers.Object.Spawn<PoisonFieldController>(randomPos, skillId);
-                        pfc.SetOwner(this);
-
-                        installedPositions.Add(randomPos);
-                    }
-
+                    // List<Vector3> installedPositions = new List<Vector3>();
+                    //
+                    // for (int i = 0; i < skillData.ProjectileNum; i++)
+                    // {
+                    //     Vector3 randomPos;
+                    //     do
+                    //     {
+                    //         float randomX = transform.position.x + Random.Range(-2f, 2f);
+                    //         float randomY = transform.position.y + Random.Range(-2f, 2f);
+                    //         randomPos = new Vector3(randomX, randomY, 0f);
+                    //     } while (installedPositions.Any(pos => Vector3.Distance(pos, randomPos) < 2f));
+                    //
+                    //     PoisonFieldController pfc = Managers.Object.Spawn<PoisonFieldController>(randomPos, skillId);
+                    //     pfc.SetOwner(this);
+                    //
+                    //     installedPositions.Add(randomPos);
+                    // }
+                    StartCoroutine(SpawnPoisonField(skillData, skillId));
+                    
                     break;
 
                 case "WindCutter":
@@ -393,7 +396,12 @@ public class PlayerController : CreatureController
                 case "Meteor":
                     for (int i = 0; i < skillData.ProjectileNum; i++)
                     {
-                        Vector3 shadowSpawnPos = transform.position + new Vector3(Random.Range(-5f, 5f), Random.Range(-5f, 5f), 0f);
+                        Debug.Log("내 포지션 : " + transform.position);
+                        Vector3 shadowSpawnPos = new Vector3(
+                            Mathf.Clamp(transform.position.x + Random.Range(-3f, 3f), -8f, 8f), 
+                            Mathf.Clamp(transform.position.y + Random.Range(-3f, 3f), -8f, 8f), 
+                            0f);
+                        Debug.Log("메테오 포지션 : " + shadowSpawnPos);
                         Managers.Object.Spawn<MeteorShadowController>(shadowSpawnPos, skillId);
                         
                         Vector3 meteorSpawnPos = shadowSpawnPos + new Vector3(0f, 5.5f, 0f);
@@ -450,6 +458,20 @@ public class PlayerController : CreatureController
                     StartCoroutine(ShootStormBlades(skillData.ProjectileNum, skillId));
                     break;
             }
+        }
+    }
+
+    private IEnumerator SpawnPoisonField(SkillData skillData, int skillId)
+    {
+        _poisonFieldPos = Extension.RandomInts(skillData.ProjectileNum, 0, 8);
+
+        for (int i = 0; i < skillData.ProjectileNum; i++)
+        {
+            PoisonFieldController pfc = Managers.Object.Spawn<PoisonFieldController>(
+                transform.position + POISON_FIELD_POS[_poisonFieldPos[i]], skillId);
+            pfc.SetOwner(this);
+
+            yield return new WaitForSeconds(0.2f);;
         }
     }
     
