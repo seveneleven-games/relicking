@@ -83,7 +83,7 @@
     {
       "MonsterId": 6,
       "PrefabName": "Monster6",
-      "MonsterType": 0,
+      "MonsterType": 1,
       "Name": "dmdzz",
       "MaxHp": 50,
       "Atk": 2.0,
@@ -115,7 +115,7 @@
     {
       "MonsterId": 8,
       "PrefabName": "Monster8",
-      "MonsterType": 0,
+      "MonsterType": 1,
       "Name": "dmdzz",
       "MaxHp": 50,
       "Atk": 2.0,

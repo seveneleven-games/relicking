@@ -150,8 +150,8 @@ public class MonsterController : CreatureController
     {
         bool isCritical = base.OnDamaged(attacker, ref damage);
         UI_World.Instance.ShowDamage((int)damage, transform.position + Vector3.up * 1f, isCritical);
-        if (gameObject.activeSelf && MonsterType != 2)
-            StartCoroutine(HitStun(0.1f));
+        // if (gameObject.activeSelf && MonsterType != 2)
+        //     StartCoroutine(HitStun(0.1f));
 
         return isCritical;
     }
