@@ -9,7 +9,8 @@
           "NodeDepth": 1,
           "MapPrefabName": "Map_01",
           "MonsterList": [
-            1
+            1,
+            3
           ]
         },
         {
@@ -31,14 +32,102 @@
           "NodeDepth": 4,
           "MapPrefabName": "Map_01",
           "MonsterList": [
-            1
+            4
           ]
         },
         {
           "NodeDepth": 5,
           "MapPrefabName": "Map_01",
           "MonsterList": [
+            3,
+            4
+          ]
+        }
+      ]
+    },
+    {
+      "NodeMapId": 1,
+      "PrefabName": "UI_Stage1NodeMap_01",
+      "BackgroundImage": "Stage1BG.sprite",
+      "NodeList": [
+        {
+          "NodeDepth": 1,
+          "MapPrefabName": "Map_02",
+          "MonsterList": [
+            1
+          ]
+        },
+        {
+          "NodeDepth": 2,
+          "MapPrefabName": "Map_02",
+          "MonsterList": [
+            1
+          ]
+        },
+        {
+          "NodeDepth": 3,
+          "MapPrefabName": "Map_02",
+          "MonsterList": [
             1,
+            2
+          ]
+        },
+        {
+          "NodeDepth": 4,
+          "MapPrefabName": "Map_02",
+          "MonsterList": [
+            4
+          ]
+        },
+        {
+          "NodeDepth": 5,
+          "MapPrefabName": "Map_02",
+          "MonsterList": [
+            4,
+            3
+          ]
+        }
+      ]
+    },
+    {
+      "NodeMapId": 2,
+      "PrefabName": "UI_Stage1NodeMap_01",
+      "BackgroundImage": "Stage1BG.sprite",
+      "NodeList": [
+        {
+          "NodeDepth": 1,
+          "MapPrefabName": "Map_03",
+          "MonsterList": [
+            1
+          ]
+        },
+        {
+          "NodeDepth": 2,
+          "MapPrefabName": "Map_03",
+          "MonsterList": [
+            1
+          ]
+        },
+        {
+          "NodeDepth": 3,
+          "MapPrefabName": "Map_03",
+          "MonsterList": [
+            1,
+            2
+          ]
+        },
+        {
+          "NodeDepth": 4,
+          "MapPrefabName": "Map_03",
+          "MonsterList": [
+            4
+          ]
+        },
+        {
+          "NodeDepth": 5,
+          "MapPrefabName": "Map_03",
+          "MonsterList": [
+            4,
             3
           ]
         }

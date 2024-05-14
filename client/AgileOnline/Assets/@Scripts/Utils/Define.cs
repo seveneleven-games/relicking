@@ -84,7 +84,7 @@ public static class Define
     public static string STAGE_BG_NAME = "Stage1BG.sprite";
     
     //todo(전지환) : StorePopup 임시 데이터
-    public static int INITIAL_GOLD = 1000;
+    public static int INITIAL_GOLD = 250;
     public static int INITIAL_REROLL_COST = 0;
     
     //todo(전지환) : 총 스킬 개수 
@@ -93,11 +93,11 @@ public static class Define
     
     public static string BASE_URI = "https://k10d211.p.ssafy.io/api/";
     
-    public static int MIN_SPEED = 1;
-    public static int SPEED_RATE = 600;
-    public static int RANGE = 9;
+    public static int MIN_SPEED = 3;
+    public static int SPEED_RATE = 1000;
+    public static int RANGE = 7;
 
-    public static int ADDRESSABLE_COUNT = 125;
+    public static int ADDRESSABLE_COUNT = 127;
 
     #endregion
 

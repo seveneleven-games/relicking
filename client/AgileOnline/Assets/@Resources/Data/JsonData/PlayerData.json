@@ -4,53 +4,57 @@
       "PlayerId": 1,
       "PrefabName": "Player1",
       "ThumbnailName": "Player1_img.sprite",
-      "Name": "전근렬",
-      "Description": "가장 기본적인 캐릭터입니다.",
+      "Name": "싸피인",
+      "Description": "가장 기본적인 밸런스형 캐릭터입니다.",
       "MaxHp": 1000,
       "Atk": 100,
-      "Speed": 300.0,
-      "CritRate": 0.7,
+      "Speed": 50.0,
+      "CritRate": 0.10,
       "CritDmgRate": 2.0,
-      "CoolDown": 1.0
+      "CoolDown": 1.0,
+      "ExtraGold": 0.0
     },
     {
       "PlayerId": 2,
       "PrefabName": "Player2",
       "ThumbnailName": "Player2_img.sprite",
       "Name": "농부",
-      "Description": "최대 생명력이 150%",
+      "Description": "성실한 농부는 추가적으로 골드를 획득합니다.",
       "MaxHp": 1500,
-      "Atk": 100,
-      "Speed": 300.0,
-      "CritRate": 0.7,
+      "Atk": 80,
+      "Speed": 0.0,
+      "CritRate": 0.0,
       "CritDmgRate": 2.0,
-      "CoolDown": 1.0
+      "CoolDown": 1.0,
+      "ExtraGold": 0.5
     },
     {
       "PlayerId": 3,
       "PrefabName": "Player3",
       "ThumbnailName": "Player3_img.sprite",
-      "Name": "개사기캐",
-      "Description": "최대 생명력 300%",
+      "Name": "백수",
+      "Description": "구직난에 시달리다 보니 최대 생명력이 높습니다.",
       "MaxHp": 3000,
-      "Atk": 100,
-      "Speed": 350.0,
-      "CritRate": 0.7,
+      "Atk": 50,
+      "Speed": 0.0,
+      "CritRate": 0.0,
       "CritDmgRate": 2.0,
-      "CoolDown": 1.0
+      "CoolDown": 1.0,
+      "ExtraGold": 0.0
     },
     {
       "PlayerId": 4,
       "PrefabName": "Player4",
       "ThumbnailName": "Player4_img.sprite",
       "Name": "엘프",
-      "Description": "체력은 낮지만 빠르고 강합니다.",
+      "Description": "왜 여기 있는지 모르겠는 엘프는 체력은 낮지만 빠르고 강합니다.",
       "MaxHp": 800,
-      "Atk": 300,
-      "Speed": 450.0,
-      "CritRate": 0.8,
+      "Atk": 200,
+      "Speed": 200.0,
+      "CritRate": 0.2,
       "CritDmgRate": 2.0,
-      "CoolDown": 1.0
+      "CoolDown": 1.0,
+      "ExtraGold": 0.0
     }
   ]
 }

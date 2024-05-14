@@ -15,7 +15,7 @@ public class MonsterController : CreatureController
     public int MonsterType { get; private set; }
     public string Name { get; private set; }
     public float Atk { get; private set; }
-    public float DropGold { get; private set; }
+    public int DropGold { get; private set; }
     public float CritRate { get; private set; }
     public float CritDmgRate { get; private set; }
     public float CoolDown { get; private set; }
@@ -59,7 +59,7 @@ public class MonsterController : CreatureController
         CritDmgRate = data.CritDmgRate;
         CoolDown = data.CoolDown;
 
-        MonsterSkillList = new List<int>(new int[3]);
+        MonsterSkillList = new List<int>(new int[4]);
         if (MonsterType == 1)
         {
             MonsterSkillList[0] = 1001;
@@ -69,6 +69,7 @@ public class MonsterController : CreatureController
             MonsterSkillList[0] = 1001;
             MonsterSkillList[1] = 1011;
             MonsterSkillList[2] = 1021;
+            MonsterSkillList[3] = 1031;
             transform.localScale = new Vector3(3, 3, 1);
         }
     }
@@ -182,7 +183,7 @@ public class MonsterController : CreatureController
             _player.IsBossKilled = true;
         }
 
-        GoldController gc = Managers.Object.Spawn<GoldController>(transform.position, MonsterId);
+        GoldController gc = Managers.Object.Spawn<GoldController>(transform.position, DropGold);
         gc.InitGold(MonsterId);
 
         Managers.Object.Despawn(this);
@@ -223,11 +224,11 @@ public class MonsterController : CreatureController
                     for (int i = 0; i < empProjectileNum; i++)
                     {
                         float angle = i * angleStep1;
-                        Vector3 direction = Quaternion.Euler(0f, 0f, angle) * Vector3.up;
+                        Vector3 direction1 = Quaternion.Euler(0f, 0f, angle) * Vector3.up;
                         EliteMonsterProjectileController emp =
                             Managers.Object.Spawn<EliteMonsterProjectileController>(transform.position, skillId);
                         emp.SetOwner(this);
-                        emp.SetMoveDirection(direction);
+                        emp.SetMoveDirection(direction1);
                     }
                 }
 
@@ -303,6 +304,19 @@ public class MonsterController : CreatureController
                         bmtc.SetOwner(this);
                     }
                 }
+                break;
+            
+            case "BossMonsterJump":
+                _isUsingSkill = true;
+                Vector3 targetPosition = _player.transform.position;
+                GameObject go3 = Managers.Resource.Instantiate("CircleAlert");
+                ParticleSystem ps3 = go3.GetComponent<ParticleSystem>();
+                ps3.transform.position = targetPosition;
+                ps3.transform.localScale = new Vector3(0.8f, 0.8f, 0);
+                ps3.Play();
+                yield return new WaitForSeconds(0.8f);
+                transform.position = targetPosition;
+                _isUsingSkill = false;
                 break;
         }
 
