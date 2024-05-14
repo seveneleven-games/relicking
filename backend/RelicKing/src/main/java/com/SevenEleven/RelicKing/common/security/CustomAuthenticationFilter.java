@@ -58,6 +58,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException {
 
 		memberService.successfulAuthentication(response, authentication.getName());
+		log.info("[로그인] email: {}", authentication.getName());
 	}
 
 	@Override
