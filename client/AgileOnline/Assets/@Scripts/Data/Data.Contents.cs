@@ -23,6 +23,7 @@ namespace Data
         public float CritRate;
         public float CritDmgRate;
         public float CoolDown;
+        public float ExtraGold;
     }
 
     [Serializable]
@@ -219,6 +220,9 @@ namespace Data
         public int MaxHp;
         public int CoolTime;
         public int Speed;
+        public float CritRate;
+        public float CritDmgRate;
+        public float ExtraGold;
     }
 
     [Serializable]
