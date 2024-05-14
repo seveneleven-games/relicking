@@ -62,7 +62,7 @@ public class StageService {
 	private void patchRelic(Member member, int difficulty) {
 		member.getMemberRelics().forEach(memberRelic -> {
 			if (memberRelic.getSlot() > 0) {
-				int earnedExp = 10000 * difficulty * memberRelic.getLevel();
+				int earnedExp = 100 * difficulty * (10 + memberRelic.getLevel());
 				memberRelic.plusExp(earnedExp);
 				memberRelicRepository.save(memberRelic);
 			}
