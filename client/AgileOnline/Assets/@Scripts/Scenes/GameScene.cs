@@ -122,6 +122,8 @@ public class GameScene : BaseScene
         return store;
     }
     
+    
+    
     #region 노드 정보에 맞는 몬스터 스폰
 
     /* 스테이지 정보와 노드맵 템플릿 아이디를 기반으로 노드 정보 배열 관리
@@ -133,7 +135,13 @@ public class GameScene : BaseScene
 
     // 진입한 노드 번호를 가지고 있을 변수
     private int _nodeNo;
-    private bool _isBossNode;
+    private static bool _isBossNode;
+
+    public static bool IsBossNode
+    {
+        get { return _isBossNode; }
+        set { _isBossNode = value; }
+    }
     
     public void StartGame(int nodeNo, bool isBossNode)
     {
@@ -216,9 +224,9 @@ public class GameScene : BaseScene
         }
         else
         {
-            _timerCoroutine = StartCoroutine(StartTimer(30f));
             // 인게임 사운드 넣기
             Managers.Sound.Play(Define.ESound.Bgm,"Bgm_InGame");
+            _timerCoroutine = StartCoroutine(StartTimer(3f));
         }
     }
     

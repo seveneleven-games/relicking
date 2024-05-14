@@ -25,6 +25,8 @@ public class MonsterController : CreatureController
     private bool _isInCoolDown;
 
     private TemplateData _templateData;
+    
+    private UI_InGamePopup _inGamePopup = Managers.UI.GetPopupUI<UI_InGamePopup>();
 
     public override bool Init()
     {
@@ -150,6 +152,8 @@ public class MonsterController : CreatureController
         UI_World.Instance.ShowDamage((int)damage, transform.position + Vector3.up * 1f, isCritical);
         // if (gameObject.activeSelf && MonsterType != 2)
         //     StartCoroutine(HitStun(0.1f));
+        if (MonsterType == 2)
+            _inGamePopup.UpdateBossHealth(Hp, MaxHp);
 
         return isCritical;
     }

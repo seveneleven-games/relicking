@@ -93,21 +93,21 @@
       "NodeList": [
         {
           "NodeDepth": 1,
-          "MapPrefabName": "Map_03",
+          "MapPrefabName": "Map_04",
           "MonsterList": [
             9
           ]
         },
         {
           "NodeDepth": 2,
-          "MapPrefabName": "Map_03",
+          "MapPrefabName": "Map_04",
           "MonsterList": [
             9
           ]
         },
         {
           "NodeDepth": 3,
-          "MapPrefabName": "Map_03",
+          "MapPrefabName": "Map_04",
           "MonsterList": [
             9,
             11
@@ -115,14 +115,14 @@
         },
         {
           "NodeDepth": 4,
-          "MapPrefabName": "Map_03",
+          "MapPrefabName": "Map_04",
           "MonsterList": [
             10
           ]
         },
         {
           "NodeDepth": 5,
-          "MapPrefabName": "Map_03",
+          "MapPrefabName": "Map_04",
           "MonsterList": [
             12
           ]
