@@ -122,6 +122,7 @@ namespace Data
         public float LifeTime;
         public float Speed;
         public int ProjectileNum;
+        public float Scale;
     }
     
     [Serializable]

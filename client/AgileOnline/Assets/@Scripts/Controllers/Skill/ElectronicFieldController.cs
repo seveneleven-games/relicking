@@ -24,7 +24,8 @@ public class ElectronicFieldController : SkillController
     public float LifeTime { get; private set; } = 10;
     public float Speed { get; private set; }
     public int ProjectileNum { get; private set; }
-    
+    public float Scale { get; private set; }
+
     public void SetOwner(CreatureController owner)
     {
         _owner = owner;
@@ -55,6 +56,7 @@ public class ElectronicFieldController : SkillController
         LifeTime = data.LifeTime;
         Speed = data.Speed;
         ProjectileNum = data.ProjectileNum;
+        Scale = data.Scale;
         
         StartDestroy(LifeTime);
     }

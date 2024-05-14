@@ -50,7 +50,7 @@
     },
     {
       "MonsterId": 4,
-      "PrefabName": "Monster4",
+      "PrefabName": "Monster4", 
       "MonsterType": 2,
       "Name": "st1_오크_보스_01",
       "MaxHp": 3000,
