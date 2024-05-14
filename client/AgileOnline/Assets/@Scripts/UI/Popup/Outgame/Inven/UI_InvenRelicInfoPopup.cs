@@ -229,7 +229,7 @@ public class UI_InvenRelicInfoPopup : UI_Popup
 
     public string RelicDetailDescription(RelicData data)
     {
-        string result = "";
+        string result = "\n";
         if (data.Atk > 0)
         {
             result += $"\n공격력 +{data.Atk}";
@@ -245,6 +245,18 @@ public class UI_InvenRelicInfoPopup : UI_Popup
         if (data.Speed > 0)
         {
             result += $"\n이동속도 +{data.Speed}";
+        }
+        if (data.CritRate > 0)
+        {
+            result += $"\n치명타율 {data.CritRate * 100}% 증가";
+        }
+        if (data.CritDmgRate > 0)
+        {
+            result += $"\n치명타데미지 {data.CritDmgRate * 100}% 증가";
+        }
+        if (data.ExtraGold > 0)
+        {
+            result += $"\n골드 획득량 {data.ExtraGold * 100}% 증가";
         }
 
         return result;

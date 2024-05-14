@@ -101,6 +101,8 @@ public class UI_IdleRewardInfoPopup: UI_Popup
             lockTime = Managers.Game.idleRewardTime
         };
         
+        Debug.Log(Managers.Game.idleRewardTime);
+        
         string idleJsonData = JsonUtility.ToJson(idleDataReq);
 
         StartCoroutine(JWTPostRequest("lock/end", idleJsonData, res =>
