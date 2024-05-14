@@ -47,9 +47,10 @@ public class SoundManager
 		audioSource.Play();
 	}
 
-	public void Play(ESound type, string key, float pitch = 1.0f)
+	public void Play(ESound type, string key, float volume = 0.5f, float pitch = 1.0f)
 	{
 		AudioSource audioSource = _audioSources[(int)type];
+		audioSource.volume = volume;
 
 		if (type == ESound.Bgm)
 		{
@@ -74,9 +75,10 @@ public class SoundManager
 		}
 	}
 
-	public void Play(ESound type, AudioClip audioClip, float pitch = 1.0f)
+	public void Play(ESound type, AudioClip audioClip, float volume = 0.5f, float pitch = 1.0f)
 	{
 		AudioSource audioSource = _audioSources[(int)type];
+		audioSource.volume = volume;
 
 		if (type == ESound.Bgm)
 		{
