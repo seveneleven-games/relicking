@@ -285,6 +285,10 @@ public class GameScene : BaseScene
             }
         }
         
+        // 플레이어 위치 초기화
+        Debug.Log("플레이어 위치 초기화 시킬게요");
+        _player.transform.position = Vector3.zero;
+        
         foreach (GameObject obj in FindObjectsOfType<GameObject>())
         {
             GameObject monsterPool = GameObject.Find("@Monsters");
@@ -298,10 +302,6 @@ public class GameScene : BaseScene
                         Managers.Object.Despawn(monsterController);
                 }
             }
-            
-            // 플레이어 위치 초기화
-            Debug.Log("플레이어 위치 초기화 시킬게요");
-            _player.transform.position = Vector3.zero;
         
             GameObject goldPool = GameObject.Find("@Golds");
             if (goldPool == null)
@@ -324,7 +324,6 @@ public class GameScene : BaseScene
 
     void ClearServerCommunication()
     {
-        Debug.Log("보스노드 클리어!");
         ClearDataReq clearDataReq = new ClearDataReq();
         clearDataReq.eliteKill = 0;
         clearDataReq.normalKill = 0;
@@ -332,6 +331,7 @@ public class GameScene : BaseScene
         clearDataReq.difficulty = _templateData.Difficulty;
             
         List<Skill> skillList = _player.PlayerSkillList
+            .Where(skillId => skillId != 0)
             .Select((skillId, index) => new Skill
             {
                 skillNo = skillId / 10,
@@ -339,7 +339,7 @@ public class GameScene : BaseScene
                 slot = index + 1
             })
             .ToList();
-
+        
         clearDataReq.skillList = skillList;
             
         string clearJsonData = JsonUtility.ToJson(clearDataReq);
