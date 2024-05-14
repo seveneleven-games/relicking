@@ -24,8 +24,9 @@ public interface Constant {
 
 	int[] RELIC_INFO_TABLE = {4, 5, 5, 6, 1};
 
-	int EXP_GACHA = 2000;
+	int EXP_GACHA = 1000;
 	double[] GACHA_POSSIBILITY = {0, 0.6, 0.9, 0.98, 0.9999, 1};
+	int[] RARITY_WEIGHT = {2, 4, 7, 10, 10};
 
 	// email
 	String AUTH_CODE_PREFIX = "AuthCode ";
