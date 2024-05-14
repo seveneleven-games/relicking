@@ -36,7 +36,7 @@ MonoBehaviour:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 198e4b93981a4153aec67ceded13a759
-    m_Address: SkillData
+    m_Address: SkillDataVer1
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
@@ -54,13 +54,19 @@ MonoBehaviour:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 43cbac1c86704ebcaa0b81a4374be6b2
-    m_Address: RelicDataOld
+    m_Address: RelicDataVer1
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e9811c7642f20ca49aeda06759a6543c
     m_Address: RelicData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e9944c4075ef16b43b0eb9f57e0e4b63
+    m_Address: SkillData
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
