@@ -246,7 +246,12 @@ public class UI_InvenPopup : UI_Popup
             CritDmgRate += Managers.Data.RelicDic[i].CritDmgRate;
             CoolDown -= Managers.Data.RelicDic[i].CoolTime / 100f;
         }
-        
+
+        Debug.Log($"첫 스탯 {CoinBonus}");
+        Debug.Log($"첫 스탯 {CritRate}");
+        Debug.Log($"첫 스탯 {CritDmgRate}");
+        Debug.Log($"첫 스탯 {CoolDown}");
+
         if (CoolDown < 0.1)
             CoolDown = 0.1f;
 
@@ -333,12 +338,10 @@ public class UI_InvenPopup : UI_Popup
             Transform child = relicListObject.transform.GetChild(i);
             if (equipedRelics.Contains(child.name))
             {
-                Debug.Log(child.name + " 유물은 착용했음 그래서 끈다.");
                 child.gameObject.SetActive(false);
             }
             else
             {
-                Debug.Log(child.name + " 켠다!!!!! ");
                 child.gameObject.SetActive(true);
             }
         }

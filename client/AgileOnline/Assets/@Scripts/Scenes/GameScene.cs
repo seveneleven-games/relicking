@@ -218,9 +218,14 @@ public class GameScene : BaseScene
         if (_isBossNode)
         {
             _timerCoroutine = StartCoroutine(StartBossTimer(30f));
+            // 인게임보스 사운드 넣기
+            Managers.Sound.Play(Define.ESound.Bgm,"Bgm_InGameBoss");
+            
         }
         else
         {
+            // 인게임 사운드 넣기
+            Managers.Sound.Play(Define.ESound.Bgm,"Bgm_InGame");
             _timerCoroutine = StartCoroutine(StartTimer(3f));
         }
     }
