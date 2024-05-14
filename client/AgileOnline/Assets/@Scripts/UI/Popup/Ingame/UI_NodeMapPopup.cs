@@ -54,11 +54,15 @@ public class UI_NodeMapPopup : UI_Popup
 
     private void OnEnable()
     {
+        Managers.Sound.Play(Define.ESound.Bgm,"Bgm_NodeMap");
+        
         if (_nodeMap == null) return;
 
         // 첫 화면 말고 켜질 때 마다 클리어한 노드를 반영해서 새로 그려야 한다
         _nodeMap.NodeSync();
         _nodeMap.LineSync();
+        
+        
     }
 
 
