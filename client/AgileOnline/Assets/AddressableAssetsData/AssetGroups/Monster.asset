@@ -17,8 +17,8 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: d591da36d612033429f93c4018d78472
   m_SerializeEntries:
-  - m_GUID: af75b8a2903e4eb46a22eca772a6d79a
-    m_Address: Monster6
+  - m_GUID: 0af379dbb6485ec429a5c86a6453225a
+    m_Address: Monster7
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
@@ -53,8 +53,8 @@ MonoBehaviour:
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 6c32206e71c32374cb10c06e46efb5a7
-    m_Address: Monster7
+  - m_GUID: 9c348fffccf45f74dbf7223bcd14c051
+    m_Address: Monster6
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
