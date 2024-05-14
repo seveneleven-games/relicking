@@ -185,6 +185,7 @@ public class UI_GachaResultPopup : UI_Popup
     
     void OnClickCloseButton()
     {
+        Managers.Sound.PlayButtonClick();
         Debug.Log("CloseGachaResultPopup");
         Transform UI_root = gameObject.transform.parent; // @UI_Root
         FindChild(UI_root.gameObject, "UI_LobbyScene").SetActive(true);

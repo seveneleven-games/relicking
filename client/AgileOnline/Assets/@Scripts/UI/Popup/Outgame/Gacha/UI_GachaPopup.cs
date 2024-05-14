@@ -137,18 +137,21 @@ public class UI_GachaPopup : UI_Popup
     
     void OnClickDetailInfoButton()
     {
+        Managers.Sound.PlayButtonClick();
         Debug.Log("InfoButtonClicked");
         Managers.UI.ShowPopupUI<UI_GachaInfoPopup>();
     }
 
     void OnClickGachaOneButton()
     {
+        Managers.Sound.PlayButtonClick();
         Debug.Log("GachaOne");
         SendGachaRequest(1);
     }
 
     void OnClickGachaTenButton()
     {
+        Managers.Sound.PlayButtonClick();
         Debug.Log("GachaTen");
         SendGachaRequest(10);
     }

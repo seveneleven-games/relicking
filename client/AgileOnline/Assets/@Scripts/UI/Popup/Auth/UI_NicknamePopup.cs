@@ -145,6 +145,7 @@ public class UI_NicknamePopup : UI_Popup
 
     void OnClickConfirmButton()
     {
+        Managers.Sound.PlayButtonClick();
         CheckNickname(() => {
             // 닉네임 중복 검사 후 회원가입 진행
             if (!isDuplicateNickname)
