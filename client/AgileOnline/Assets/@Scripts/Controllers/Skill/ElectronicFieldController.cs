@@ -58,6 +58,8 @@ public class ElectronicFieldController : SkillController
         ProjectileNum = data.ProjectileNum;
         Scale = data.Scale;
         
+        gameObject.transform.localScale *= Scale;
+        
         StartDestroy(LifeTime);
     }
     
