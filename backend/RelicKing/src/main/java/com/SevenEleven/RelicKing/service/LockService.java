@@ -90,6 +90,15 @@ public class LockService {
 			bonusGacha = bonusGachaForYesterday + bonusGachaForToday;
 			gachaAfterLock = member.getGacha() + earnedGacha + bonusGacha;
 			member.changeGacha(gachaAfterLock);
+
+			log.info("lockToday: {}", lockToday);
+			log.info("lockYesterday: {}", lockYesterday);
+			log.info("earnedGacha: {}", earnedGacha);
+			log.info("earnedGachaToday: {}", earnedGachaToday);
+			log.info("earnedGachaYesterday: {}", earnedGachaYesterday);
+			log.info("bonusGachaForToday: {}", bonusGachaForToday);
+			log.info("bonusGachaForYesterday: {}", bonusGachaForYesterday);
+			log.info("bonusGacha: {}", bonusGacha);
 		}
 
 		// 시작 시간이 어제든 오늘이든 전체 누적과 마지막 잠금일은 영향 받지 않으므로 조건문 타지 않음.
