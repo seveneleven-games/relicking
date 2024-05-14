@@ -98,6 +98,9 @@ public static class Define
     public static int SPEED_RATE = 500;
     public static int RANGE = 7;
 
+    //난이도 몬스터 스탯 상관계수
+    public static float DIFFICULTY_COEFFICIENT = 0.1f;
+    
     public static int ADDRESSABLE_COUNT = 142;
 
     #endregion
