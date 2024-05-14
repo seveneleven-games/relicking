@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -76,14 +77,14 @@ public class UIManager
 		return null;
 	}
 
-	// 사운드에 필요할 것 같아서 만듬!!
-	public UI_Popup GetCurrentPopup()
+	// 사운드에 필요할 것 같아서 만듬!! -> 현재 팝업 (setting) 바로 전에 추가 되었던 것을 찾아줌.
+	public UI_Popup.PopupType GetSecondTopPopupType()
 	{
-		if (_popupStack.Count > 0)
+		if (_popupStack.Count > 1)
 		{
-			return _popupStack.Peek();
+			return _popupStack.ElementAt(1).popupType;
 		}
-		return null;
+		return UI_Popup.PopupType.None;
 	}
 
 	public T MakeWorldSpaceUI<T>(Transform parent = null, string name = null) where T : UI_Base

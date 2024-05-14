@@ -38,6 +38,8 @@ public class UI_NodeMapPopup : UI_Popup
         if (base.Init() == false)
             return false;
         
+        popupType = PopupType.NodeMap;
+        
         BindObject(typeof(GameObjects));
         BindText(typeof(Texts));
         BindButton(typeof(Buttons));

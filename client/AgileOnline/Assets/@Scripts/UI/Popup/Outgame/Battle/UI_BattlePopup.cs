@@ -86,6 +86,7 @@ public class UI_BattlePopup : UI_Popup
     public TemplateData _templateData;
     
     
+    
     // 이거 죽이면 에러 뜸
     private void Awake()
     {
@@ -160,7 +161,6 @@ public class UI_BattlePopup : UI_Popup
     {
         if (_clearInfo != null)
         {
-            _clearInfo.SelectedDifficulty = level;
             StageInfoRefresh(); // 스테이지 정보 갱신
         }
     }
@@ -297,10 +297,11 @@ public class UI_BattlePopup : UI_Popup
         // 현재 난이도도 나중에 줘야 됨.
         // 여기서 게임씬으로 가는 것도 나중에 추가하기!!!
         
-        // 임시
+        // Todo -> change
         Debug.Log("go Game");
         _templateData.StageId = Managers.Game.CurrentSelectStage.StageId;
-
+        _templateData.Difficulty =
+            Managers.Game.DicStageClearInfo[Managers.Game.CurrentSelectStage.StageId].SelectedDifficulty;
         StartCoroutine(Util.JWTGetRequest("stages", res =>
         {
             Debug.Log(res);

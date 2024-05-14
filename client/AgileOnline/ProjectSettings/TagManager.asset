@@ -7,6 +7,8 @@ TagManager:
   - Wall
   - WallCollider
   - Gold
+  - PlayerHealthSlider
+  - BossHealthSlider
   layers:
   - Default
   - TransparentFX

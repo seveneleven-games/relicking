@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using static Define;
 
 public class UI_InGamePopup : UI_Popup
@@ -9,7 +10,8 @@ public class UI_InGamePopup : UI_Popup
     enum GameObjects
     {
         TimerText,
-        RemainGold
+        RemainGold,
+        BossSlider
     }
 
     enum Buttons
@@ -19,15 +21,21 @@ public class UI_InGamePopup : UI_Popup
 
     private TextMeshProUGUI timerText;
     private float remainingTime = 30f;
-    
+
 
     public override bool Init()
     {
         if (base.Init() == false)
             return false;
 
+        
+        
         BindText(typeof(GameObjects));
         BindButton(typeof(Buttons));
+        Bind<Slider>(typeof(GameObjects));
+        Slider bossSlider = Get<Slider>((int)GameObjects.BossSlider);
+        bossSlider.gameObject.SetActive(false);
+        CheckBossNode();
         GetButton((int)Buttons.SettingButton).gameObject.BindEvent(ShowSettingPopup);
 
         timerText = GetText((int)GameObjects.TimerText).GetComponent<TextMeshProUGUI>();
@@ -37,6 +45,21 @@ public class UI_InGamePopup : UI_Popup
         pc.UpdateRemainGoldText();
 
         return true;
+    }
+
+    public void CheckBossNode()
+    {
+        bool isBossNode = GameScene.IsBossNode;
+
+        Slider bossSlider = Get<Slider>((int)GameObjects.BossSlider);
+        Debug.Log("이즈 보스 노드" + isBossNode);
+        bossSlider.gameObject.SetActive(isBossNode);
+    }
+
+    public void UpdateBossHealth(float currentHealth, float maxHealth)
+    {
+        Slider bossSlider = Get<Slider>((int)GameObjects.BossSlider);
+        bossSlider.value = currentHealth / maxHealth;
     }
 
     public void UpdateRemainGoldText(int gold)

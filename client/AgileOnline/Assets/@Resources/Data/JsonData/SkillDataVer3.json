@@ -1287,6 +1287,45 @@
       "Scale": 1,
       "Speed": 20,
       "ProjectileNum": 0
+    },
+    {
+      "SkillId": 1021,
+      "NextId": -1,
+      "PrefabName": "BossMonsterThorn",
+      "Name": "보스 몬스터 가시 (3스테이지 임프 보스)",
+      "Description": "맵 전체에 가시 공격!",
+      "IconName": "BossMonsterThorn_icon.sprite",
+      "CoolTime": 10,
+      "Damage": 2.0,
+      "LifeTime": 1.5,
+      "Speed": 20.0,
+      "ProjectileNum": 0
+    },
+    {
+      "SkillId": 1031,
+      "NextId": -1,
+      "PrefabName": "BossMonsterJump",
+      "Name": "보스 몬스터 점프 (1스테이지 오크 보스)",
+      "Description": "보스 몬스터 점프 공격!",
+      "IconName": "BossMonsterJump_icon.sprite",
+      "CoolTime": 10,
+      "Damage": 4.0,
+      "LifeTime": 1.5,
+      "Speed": 20.0,
+      "ProjectileNum": 0
+    },
+    {
+      "SkillId": 1041,
+      "NextId": -1,
+      "PrefabName": "BossMonsterSummons",
+      "Name": "언데드 몬스터 소환",
+      "Description": "언데드 잡몹 소환 (2스테이지 언데드 보스)",
+      "IconName": "BossMonsterSummons_icon.sprite",
+      "CoolTime": 3,
+      "Damage": 2.0,
+      "LifeTime": 5.0,
+      "Speed": 3.0,
+      "ProjectileNum": 10
     }
   ]
 }

@@ -61,7 +61,8 @@
       "CritDmgRate": 0.0,
       "CoolDown": 1.0,
       "SkillList": [
-        0
+        1031,
+        1011
       ]
     },
     {
@@ -125,12 +126,13 @@
       "CritDmgRate": 0.0,
       "CoolDown": 1.0,
       "SkillList": [
-        0
+        1041,
+        1001
       ]
     },
     {
       "MonsterId": 9,
-      "PrefabName": "Monster5",
+      "PrefabName": "Monster9",
       "MonsterType": 0,
       "Name": "st3_임프_일반_01",
       "MaxHp": 50,
@@ -146,7 +148,7 @@
     },
     {
       "MonsterId": 10,
-      "PrefabName": "Monster6",
+      "PrefabName": "Monster10",
       "MonsterType": 0,
       "Name": "st3_임프_일반_02",
       "MaxHp": 200,
@@ -162,7 +164,7 @@
     },
     {
       "MonsterId": 11,
-      "PrefabName": "Monster7",
+      "PrefabName": "Monster11",
       "MonsterType": 1,
       "Name": "st3_임프_엘리트_01",
       "MaxHp": 1000,
@@ -178,7 +180,7 @@
     },
     {
       "MonsterId": 12,
-      "PrefabName": "Monster8",
+      "PrefabName": "Monster12",
       "MonsterType": 2,
       "Name": "st3_임프_보스_01",
       "MaxHp": 3000,
@@ -189,7 +191,7 @@
       "CritDmgRate": 0.0,
       "CoolDown": 1.0,
       "SkillList": [
-        0
+        1021
       ]
     }
   ]
