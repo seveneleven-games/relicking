@@ -7,7 +7,7 @@ using static Define;
 public class ElectronicFieldController : SkillController
 {
     public CreatureController _owner;
-    private float _damageInterval = 0.2f;
+    private float _damageInterval = 0.1f;
     private float _lastDamageTime;
     private Vector3 _moveDir;
     
@@ -24,7 +24,8 @@ public class ElectronicFieldController : SkillController
     public float LifeTime { get; private set; } = 10;
     public float Speed { get; private set; }
     public int ProjectileNum { get; private set; }
-    
+    public float Scale { get; private set; }
+
     public void SetOwner(CreatureController owner)
     {
         _owner = owner;
@@ -55,6 +56,9 @@ public class ElectronicFieldController : SkillController
         LifeTime = data.LifeTime;
         Speed = data.Speed;
         ProjectileNum = data.ProjectileNum;
+        Scale = data.Scale;
+        
+        gameObject.transform.localScale *= Scale;
         
         StartDestroy(LifeTime);
     }
@@ -75,7 +79,7 @@ public class ElectronicFieldController : SkillController
     
     private void DealDamageToNearbyMonsters()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, transform.localScale.x / 0.6f);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, transform.localScale.x);
         foreach (Collider2D collider in colliders)
         {
             MonsterController monster = collider.GetComponent<MonsterController>();
