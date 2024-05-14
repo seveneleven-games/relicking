@@ -1,8 +1,6 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Data;
-using TMPro;
 using UnityEngine;
 using static Define;
 
@@ -50,9 +48,9 @@ public class MonsterController : CreatureController
         PrefabName = data.PrefabName;
         MonsterType = data.MonsterType;
         Name = data.Name;
-        MaxHp = data.MaxHp * difficulty;
+        MaxHp = (int) (data.MaxHp * (1 + DIFFICULTY_COEFFICIENT * difficulty));
         Hp = MaxHp;
-        Atk = data.Atk * difficulty;
+        Atk = data.Atk * (1 + DIFFICULTY_COEFFICIENT * difficulty);
         Speed = data.Speed;
         DropGold = data.DropGold;
         CritRate = data.CritRate;
