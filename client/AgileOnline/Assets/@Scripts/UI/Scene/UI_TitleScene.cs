@@ -113,6 +113,8 @@ public class UI_TitleScene : UI_Scene
                 GetButton((int)EButtons.StartButton).gameObject.SetActive(true);
                 GetText((int)ETexts.StartText).text = "터치하여 시작하기";
                 
+                Managers.Sound.Play(Define.ESound.Bgm,"Bgm_Login", 0.3f);
+                
                 Managers.Game._gameData.isLoaded = true;
             }
         });
