@@ -207,13 +207,11 @@ public class UI_NicknamePopup : UI_Popup
     void OnInputFieldSelected()
     {
         _logoImage.SetActive(false);
-        GetButton((int)EButtons.ConfirmButton).gameObject.SetActive(false);
     }
 
     // 입력 필드 선택이 해제될 때 호출
     void OnInputFieldDeselected()
     {
         _logoImage.SetActive(true);
-        GetButton((int)EButtons.ConfirmButton).gameObject.SetActive(true);
     }
 }

@@ -74,7 +74,8 @@ public class UI_LoginPopup : UI_Popup
         #endregion
 
         Refresh();
-        
+        // 내가 하면서 느낀건데 되도록이면 타이틀 씬에는 가져오는 것만 이용하는 것이 best인 듯
+        Managers.Sound.Play(Define.ESound.Bgm,"Bgm_Login");
         return true;
     }
 

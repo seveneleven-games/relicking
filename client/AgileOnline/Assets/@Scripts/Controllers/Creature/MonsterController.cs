@@ -15,7 +15,7 @@ public class MonsterController : CreatureController
     public int MonsterType { get; private set; }
     public string Name { get; private set; }
     public float Atk { get; private set; }
-    public float DropGold { get; private set; }
+    public int DropGold { get; private set; }
     public float CritRate { get; private set; }
     public float CritDmgRate { get; private set; }
     public float CoolDown { get; private set; }
@@ -59,7 +59,7 @@ public class MonsterController : CreatureController
         CritDmgRate = data.CritDmgRate;
         CoolDown = data.CoolDown;
 
-        MonsterSkillList = new List<int>(new int[3]);
+        MonsterSkillList = new List<int>(new int[4]);
         if (MonsterType == 1)
         {
             MonsterSkillList[0] = 1001;
@@ -68,6 +68,8 @@ public class MonsterController : CreatureController
         {
             MonsterSkillList[0] = 1001;
             MonsterSkillList[1] = 1011;
+            MonsterSkillList[2] = 1021;
+            MonsterSkillList[3] = 1031;
             transform.localScale = new Vector3(3, 3, 1);
         }
     }
@@ -83,17 +85,8 @@ public class MonsterController : CreatureController
             return;
 
         if (!_isUsingSkill)
-        {
-            if (MonsterType == 2)
-                Debug.Log("플레이어 따라가는중 : " + Speed);
             ChasePlayer();
-        }
-        else
-        {
-            if (MonsterType == 2)
-                Debug.Log("플레이어 안 따라가는중 : " + Speed);
-        }
-
+        
         if (!_isInCoolDown && MonsterType != 0)
             StartRandomSkill();
     }
@@ -190,7 +183,7 @@ public class MonsterController : CreatureController
             _player.IsBossKilled = true;
         }
 
-        GoldController gc = Managers.Object.Spawn<GoldController>(transform.position, MonsterId);
+        GoldController gc = Managers.Object.Spawn<GoldController>(transform.position, DropGold);
         gc.InitGold(MonsterId);
 
         Managers.Object.Despawn(this);
@@ -231,11 +224,11 @@ public class MonsterController : CreatureController
                     for (int i = 0; i < empProjectileNum; i++)
                     {
                         float angle = i * angleStep1;
-                        Vector3 direction = Quaternion.Euler(0f, 0f, angle) * Vector3.up;
+                        Vector3 direction1 = Quaternion.Euler(0f, 0f, angle) * Vector3.up;
                         EliteMonsterProjectileController emp =
                             Managers.Object.Spawn<EliteMonsterProjectileController>(transform.position, skillId);
                         emp.SetOwner(this);
-                        emp.SetMoveDirection(direction);
+                        emp.SetMoveDirection(direction1);
                     }
                 }
 
@@ -269,6 +262,17 @@ public class MonsterController : CreatureController
 
                 Vector3 playerDirection = (_player.transform.position - transform.position).normalized;
 
+                GameObject go1 = Managers.Resource.Instantiate("LineAlert");
+                ParticleSystem ps1 = go1.GetComponent<ParticleSystem>();
+                ps1.transform.position = transform.position;
+                float psAngle = Mathf.Atan2(playerDirection.y, playerDirection.x) * Mathf.Rad2Deg;
+                ps1.transform.rotation = Quaternion.AngleAxis(psAngle, Vector3.forward);
+                ps1.transform.rotation *= Quaternion.Euler(0f, 0f, -90f);
+                ps1.transform.localScale = new Vector3(ps1.transform.localScale.x * 2f, ps1.transform.localScale.y * 10f, ps1.transform.localScale.z);
+
+                yield return new WaitForSeconds(0.5f);
+                Destroy(go1);
+
                 for (float t = 0; t < 1.5f; t += Time.deltaTime)
                 {
                     transform.position += playerDirection * 15f * Time.deltaTime;
@@ -277,6 +281,42 @@ public class MonsterController : CreatureController
 
                 _isUsingSkill = false;
 
+                break;
+            
+            case "BossMonsterThorn":
+                for (int x = -8; x <= 8; x += 4) {
+                    for (int y = -8; y <= 8; y += 4) {
+                        Vector3 spawnPosition = new Vector3(x, y, 0);
+                        GameObject go2 = Managers.Resource.Instantiate("CircleAlert");
+                        ParticleSystem ps2 = go2.GetComponent<ParticleSystem>();
+                        ps2.transform.position = spawnPosition;
+                        ps2.Play();
+                    }
+                }
+
+                yield return new WaitForSeconds(1.5f);
+                
+                for (int x = -8; x <= 8; x += 4) {
+                    for (int y = -8; y <= 8; y += 4) {
+                        Vector3 spawnPosition = new Vector3(x, y, 0);
+                        BossMonsterThornController bmtc = 
+                            Managers.Object.Spawn<BossMonsterThornController>(spawnPosition, skillId);
+                        bmtc.SetOwner(this);
+                    }
+                }
+                break;
+            
+            case "BossMonsterJump":
+                _isUsingSkill = true;
+                Vector3 targetPosition = _player.transform.position;
+                GameObject go3 = Managers.Resource.Instantiate("CircleAlert");
+                ParticleSystem ps3 = go3.GetComponent<ParticleSystem>();
+                ps3.transform.position = targetPosition;
+                ps3.transform.localScale = new Vector3(0.8f, 0.8f, 0);
+                ps3.Play();
+                yield return new WaitForSeconds(0.8f);
+                transform.position = targetPosition;
+                _isUsingSkill = false;
                 break;
         }
 

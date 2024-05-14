@@ -21,6 +21,7 @@ public class StageClearInfo
 // 계정에 관한 모든 정보
 public class GameData
 {
+    public bool isLoaded = false; // 리소스 로딩 관련
     
     public string UserName = "우주최강귀요미박설연";
 
@@ -41,6 +42,11 @@ public class GameData
     
     // 유저가 깬 각 스테이지별 난이도 정보
     public Dictionary<int, StageClearInfo> DicStageClearInfo = new Dictionary<int, StageClearInfo>();
+    
+    // 사운드 관련
+    public bool BGMOn = true;
+    public bool EffectSoundOn = true;
+    
 }
 
 public class GameManager
@@ -158,6 +164,42 @@ public class GameManager
 
     
     #endregion
+
+    #region Option
+
+    public bool BGMOn
+    {
+        get { return _gameData.BGMOn; }
+        set 
+        {
+            if (_gameData.BGMOn == value)
+                return;
+            _gameData.BGMOn = value;
+            if (_gameData.BGMOn == false)
+            {
+                Managers.Sound.Stop(ESound.Bgm);
+            }
+            
+            // Todo 여긴 계속 추가 될 것임!!! -> 아니면 현재 제일 위 팝업이 무엇인지를 알면 될듯
+            else
+            {
+                string name = "Bgm_Lobby";
+                if (Managers.Scene.CurrentScene.SceneType == Define.EScene.GameScene)
+                    name = "Bgm_InGame";
+
+                Managers.Sound.Play(Define.ESound.Bgm, name);
+            }
+        }
+    }
+
+    public bool EffectSoundOn
+    {
+        get { return _gameData.EffectSoundOn; }
+        set { _gameData.EffectSoundOn = value; }
+    }
+    
+
+    #endregion
     
     
     // 초기 세팅
@@ -197,6 +239,7 @@ public class GameManager
         {
             // 난이도가 0인 경우 최소값 1로 설정
             int validDifficulty = Math.Max(difficulty, 1);
+            
             _gameData.DicStageClearInfo[stageId].MaxDifficulty = validDifficulty;
             _gameData.DicStageClearInfo[stageId].SelectedDifficulty = difficulty + 1;
         }

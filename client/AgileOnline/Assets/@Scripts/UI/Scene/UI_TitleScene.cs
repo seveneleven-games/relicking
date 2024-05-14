@@ -31,6 +31,8 @@ public class UI_TitleScene : UI_Scene
 
     bool isPreload = false;
     
+    // 내가 하면서 느낀건데 되도록이면 타이틀 씬에는 가져오는 것만 이용하는 것이 best인 듯
+    
     // 로그인 관련 팝업 작성
     UI_LoginPopup _loginPopupUI;
     private GameObject _loadingSlide;
@@ -65,9 +67,16 @@ public class UI_TitleScene : UI_Scene
         });
         GetButton((int)EButtons.StartButton).gameObject.SetActive(false);
         GetText((int)ETexts.StartText).text = $"";
-        
-        
 
+        // 전에 로드를 했다면.
+        if (Managers.Game._gameData.isLoaded)
+        {
+            _loadingSlide.SetActive(false);
+            GetButton((int)EButtons.StartButton).gameObject.SetActive(true);
+            GetText((int)ETexts.StartText).text = "터치하여 시작하기";
+        }
+        
+        
         StartLoadAssets();
         
         return true;
@@ -103,6 +112,8 @@ public class UI_TitleScene : UI_Scene
                 _loadingSlide.SetActive(false);
                 GetButton((int)EButtons.StartButton).gameObject.SetActive(true);
                 GetText((int)ETexts.StartText).text = "터치하여 시작하기";
+                
+                Managers.Game._gameData.isLoaded = true;
             }
         });
     }

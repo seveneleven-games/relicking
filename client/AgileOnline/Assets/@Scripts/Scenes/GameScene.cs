@@ -88,6 +88,8 @@ public class GameScene : BaseScene
 
         // TODO: 노드맵 UI에서 게임을 시작해야 한다. 
 
+        
+        
 
         return true;
     }
@@ -253,7 +255,6 @@ public class GameScene : BaseScene
         }
         
         #region 플레이어 설정
-        
         // 플레이어 스킬 중지
         _player.StopSkills();
         
@@ -270,7 +271,7 @@ public class GameScene : BaseScene
                         Managers.Object.Despawn(monsterController);
                 }
             }
-
+        
             GameObject goldPool = GameObject.Find("@Golds");
             if (goldPool == null)
                 return;
