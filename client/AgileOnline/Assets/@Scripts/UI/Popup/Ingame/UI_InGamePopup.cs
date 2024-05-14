@@ -26,6 +26,8 @@ public class UI_InGamePopup : UI_Popup
         if (base.Init() == false)
             return false;
 
+        
+        
         BindText(typeof(GameObjects));
         BindButton(typeof(Buttons));
         GetButton((int)Buttons.SettingButton).gameObject.BindEvent(ShowSettingPopup);
