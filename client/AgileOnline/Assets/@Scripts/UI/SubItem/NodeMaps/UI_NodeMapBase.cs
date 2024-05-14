@@ -33,7 +33,7 @@ public class UI_NodeMapBase : UI_Base
     {
         Util.FindChild(node, "Deactivated").SetActive(false);
         Util.FindChild(node, "Activated").SetActive(true);
-        Util.FindChild(node, "Visited").SetActive(false);
+        Util.FindChild(node, "Visited")?.SetActive(false);
     }
     
     protected void Deactivate(GameObject node)

@@ -60,7 +60,7 @@ public class WindCutterController : SkillController
     {
         _moveDir = direction.normalized;
         _owner = Managers.Object.Player;
-        StartCoroutine(ReverseDirection(1.5f));
+        StartCoroutine(ReverseDirection(LifeTime / 2));
     }
     
     public void SetOwner(CreatureController owner)
@@ -82,7 +82,7 @@ public class WindCutterController : SkillController
             _moveDir = -_moveDir;
         }
 
-        StartCoroutine(ReverseDirection(1.5f));
+        StartCoroutine(ReverseDirection(LifeTime / 2));
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

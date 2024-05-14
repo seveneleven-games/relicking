@@ -51,7 +51,7 @@ public class UI_GrowthPopup : UI_Popup
 
     enum EButtons
     {
-        IdleSettingButton,
+        //IdleSettingButton,
         StartIdleButton,
     }
 
@@ -95,7 +95,7 @@ public class UI_GrowthPopup : UI_Popup
         BindText(typeof(ETexts));
         BindImage(typeof(EImages));
 
-        GetButton((int)EButtons.IdleSettingButton).gameObject.BindEvent(OnClickIdleSettingButton);
+        //GetButton((int)EButtons.IdleSettingButton).gameObject.BindEvent(OnClickIdleSettingButton);
         GetButton((int)EButtons.StartIdleButton).gameObject.BindEvent(OnClickStartIdleButton);
         
         // 처음엔 전부 비활성화 상태로
@@ -113,14 +113,7 @@ public class UI_GrowthPopup : UI_Popup
         Managers.Game.OnResourcesChanged += Refresh;
         Refresh();
         
-  
-        AndroidJavaClass ajc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-        UnityActivity = ajc.GetStatic<AndroidJavaObject>("currentActivity");
-
-        AndroidJavaClass ajc2 = new AndroidJavaClass("com.ssafy.idlearr.PermissionIdleHelper");
-        UnityInstance = ajc2.CallStatic<AndroidJavaObject>("instance", UnityActivity);
         
-       
 
         return true;
     }
@@ -172,11 +165,11 @@ public class UI_GrowthPopup : UI_Popup
         }
     }
 
-    void OnClickIdleSettingButton()
-    {
-        Debug.Log("잠금 앱 설정 버튼 Clicked");
-        Managers.UI.ShowPopupUI<UI_ToBeContinuedPopup>();
-    }
+    // void OnClickIdleSettingButton()
+    // {
+    //     Debug.Log("잠금 앱 설정 버튼 Clicked");
+    //     Managers.UI.ShowPopupUI<UI_ToBeContinuedPopup>();
+    // }
 
     void OnClickStartIdleButton()
     {

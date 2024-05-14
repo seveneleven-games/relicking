@@ -37,9 +37,16 @@ public class ClearDataRes
 
 public class GameScene : BaseScene
 {
-    private const float MONSTER_SPAWN_INTERVAL = 5f;
-    private const int PER_SEC_MOSTER_GENERATION = 20;
-    private const float TARGET_SPAWN_TIME = 0.5f;
+    //todo(전지환) : 스폰 관련 수치 원복
+    /*
+     * private const float MONSTER_SPAWN_INTERVAL = 5f;
+     * private const int PER_SEC_MOSTER_GENERATION = 20;
+     * private const float TARGET_SPAWN_TIME = 0.5f;
+     * 
+     */
+    private const float MONSTER_SPAWN_INTERVAL = 2f;
+    private const int PER_SEC_MOSTER_GENERATION = 40;
+    private const float TARGET_SPAWN_TIME = 0.3f;
     private const int NORMAL_MONSTER = 0;
     private const int ELITE_MONSTER = 1;
     private const int BOSS_MONSTER = 2;
@@ -382,7 +389,7 @@ public class GameScene : BaseScene
     private IEnumerator SpawnEliteMonsters(List<int> normalMonsterIds, List<int> eliteMonsterIds)
     {
         Vector3 eliteSpawn = new Vector3(0, -4, 0);
-        MonsterController eliteMc = Managers.Object.Spawn<MonsterController>(eliteSpawn, eliteMonsterIds[0]);
+        Managers.Object.Spawn<MonsterController>(eliteSpawn, eliteMonsterIds[0]);
         while (true)
         {
             for (int i = 0; i < PER_SEC_MOSTER_GENERATION; i++)
