@@ -11,7 +11,6 @@ public class TitleScene : BaseScene
 
         SceneType = Define.EScene.TitleScene;
         
-        
         return true;
     }
 

@@ -31,6 +31,8 @@ public class UI_TitleScene : UI_Scene
 
     bool isPreload = false;
     
+    // 내가 하면서 느낀건데 되도록이면 타이틀 씬에는 가져오는 것만 이용하는 것이 best인 듯
+    
     // 로그인 관련 팝업 작성
     UI_LoginPopup _loginPopupUI;
     private GameObject _loadingSlide;
