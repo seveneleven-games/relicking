@@ -30,7 +30,7 @@ MonoBehaviour:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6c32206e71c32374cb10c06e46efb5a7
-    m_Address: Monster3
+    m_Address: Monster2
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
@@ -48,7 +48,7 @@ MonoBehaviour:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: af75b8a2903e4eb46a22eca772a6d79a
-    m_Address: Monster2
+    m_Address: Monster3
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
