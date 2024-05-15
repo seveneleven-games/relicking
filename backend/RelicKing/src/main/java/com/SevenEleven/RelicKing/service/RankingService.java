@@ -38,7 +38,7 @@ public class RankingService {
                 myRank.put("rank", 0);
             }
             myRank.put("nickname", member.getNickname());
-            myRank.put("classNo", member.getCurrentClassNo());
+            myRank.put("classNo", myRecord[i - 1].getClassNo());
             myRank.put("difficulty", myRecord[i - 1].getDifficulty());
             stage.put("myRank", myRank);
 
@@ -48,7 +48,7 @@ public class RankingService {
                                 Map<String, Object> rank = new LinkedHashMap<>();
                                 rank.put("recordId", record.getRecordId());
                                 rank.put("nickname", record.getMember().getNickname());
-                                rank.put("classNo", record.getMember().getCurrentClassNo());
+                                rank.put("classNo", record.getClassNo());
                                 rank.put("difficulty", record.getDifficulty());
                                 return rank;
                             }).toList();
