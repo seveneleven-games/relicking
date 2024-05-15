@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using static Util;
 
 [Serializable]
@@ -67,6 +68,7 @@ public class UI_GrowthPopup : UI_Popup
     enum EImages
     {
         //todo(박설연) : 이걸 오브젝트가 아니라 이미지로 빼서 일주일 단위 스트릭 로직을 추가해야 해여
+        OneWeekStreakGraph,
         StreakGraphContent,
     }
 
@@ -156,12 +158,52 @@ public class UI_GrowthPopup : UI_Popup
             // 스트릭 일수가 0보다 클 때만 보너스를 받는다는 텍스트 활성화
             GetText((int)ETexts.StreakBonusText).text = $"스트릭 누적 보너스 +{data.continuousLockDate}";
             GetText((int)ETexts.StreakBonusText).gameObject.SetActive(true);
+
+            MakeGraph(data.continuousLockDate);
         }
         else
         {
             // 스트릭 일수가 0 이하일 때 텍스트 비활성화
             GetText((int)ETexts.StreakBonusText).gameObject.SetActive(false);
             GetImage((int)EImages.StreakGraphContent).gameObject.SetActive(false);
+        }
+    }
+
+    void MakeGraph(int data)
+    {
+        
+        if (data < 7)
+        {
+            Image component = GetImage((int)EImages.OneWeekStreakGraph).GetComponent<Image>();
+            float mywidth = component.rectTransform.rect.width - 40;
+            
+            float segmentWidth = mywidth / 7.0f;
+            float childWidth = segmentWidth * data;
+            
+            
+            // RectTransform 가져오기
+            Image currentImage = GetImage((int)EImages.StreakGraphContent).GetComponent<Image>();
+
+            // 현재 높이 유지
+            float currentHeight = currentImage.rectTransform.sizeDelta.y;
+
+            // 너비 설정
+            currentImage.rectTransform.sizeDelta = new Vector2(childWidth, currentHeight);
+            
+            GetImage((int)EImages.StreakGraphContent).gameObject.SetActive(true);
+            
+
+        }
+        else
+        {
+            Image component = GetImage((int)EImages.OneWeekStreakGraph).GetComponent<Image>();
+            float mywidth = component.rectTransform.rect.width - 40;
+            
+            Image currentImage = GetImage((int)EImages.StreakGraphContent).GetComponent<Image>();
+            float currentHeight = currentImage.rectTransform.sizeDelta.y;
+            currentImage.rectTransform.sizeDelta = new Vector2(mywidth, currentHeight);
+            
+            GetImage((int)EImages.StreakGraphContent).gameObject.SetActive(true);
         }
     }
 
@@ -173,6 +215,7 @@ public class UI_GrowthPopup : UI_Popup
 
     void OnClickStartIdleButton()
     {
+        Managers.Sound.PlayButtonClick();
         Debug.Log("성장하러 가기(방치) 버튼 Clicked");
         // 여기서 플러그인 허용 요청 -> 요청이 모두 잘 오면 화면 이동하기
         // if (Managers.Android.AllPermissionFlag)

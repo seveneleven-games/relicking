@@ -162,7 +162,9 @@ public class UI_GachaPopup : UI_Popup
         // 만약 티켓이 부족하다면?
         if (Managers.Game.Ticket - gachaNum < 0)
         {
-            Managers.UI.ShowPopupUI<UI_GachaNoTicketPopup>();
+            // 팝업에서 Toast 방식으로 변환
+            Managers.UI.ShowToast("티켓이 부족합니다.");
+            // Managers.UI.ShowPopupUI<UI_GachaNoTicketPopup>();
         }
         else
         {

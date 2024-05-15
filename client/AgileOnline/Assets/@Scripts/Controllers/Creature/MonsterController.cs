@@ -150,6 +150,8 @@ public class MonsterController : CreatureController
 
     public override bool OnDamaged(BaseController attacker, ref float damage)
     {
+        Managers.Sound.Play(ESound.Effect,"MonsterHurt",0.3f);
+        
         bool isCritical = base.OnDamaged(attacker, ref damage);
         UI_World.Instance.ShowDamage((int)damage, transform.position + Vector3.up * 1f, isCritical);
         // if (gameObject.activeSelf && MonsterType != 2)
@@ -175,6 +177,8 @@ public class MonsterController : CreatureController
 
     public override void OnDead()
     {
+        Managers.Sound.Play(ESound.Effect,"MonsterDead",0.3f);
+        
         base.OnDead();
         CreatureState = ECreatureState.Dead;
 

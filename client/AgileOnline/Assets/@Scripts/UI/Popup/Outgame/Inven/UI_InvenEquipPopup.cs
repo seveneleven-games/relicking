@@ -91,6 +91,7 @@ public class UI_InvenEquipPopup : UI_Popup
 
     void OnClickCloseButton()
     {
+        Managers.Sound.PlayButtonClick();
         Debug.Log("CloseEquipPopup");
         Managers.UI.ClosePopupUI(this);
     }
@@ -116,6 +117,7 @@ public class UI_InvenEquipPopup : UI_Popup
  
             if (relicDataRes.status == 200)
             {
+                Managers.Sound.Play(Define.ESound.Effect,"Equip_Inventory");
                 _templateData.SetRelicAt(number, _templateData.SelectedRelicId);
                 Debug.Log($"Button number {number}");
                 Debug.Log("[" + string.Join(", ", _templateData.EquipedRelicIds) + "]");

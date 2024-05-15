@@ -20,6 +20,7 @@ public class FrozenHeartController : SkillController
     public float Radius { get; private set; }
     public float RotationSpeed { get; private set; }
     public int ProjectileNum { get; private set; }
+    public float Scale { get; private set; }
     
     private float _angle;
     
@@ -49,7 +50,9 @@ public class FrozenHeartController : SkillController
         Radius = radius;
         RotationSpeed = data.Speed;
         ProjectileNum = data.ProjectileNum;
-        
+        Scale = data.Scale;
+
+        transform.localScale = new Vector3(1,1,1) * Scale;
         _angle = angle * Mathf.Deg2Rad; // 각도를 라디안으로 변환
     
         StartDestroy(LifeTime);

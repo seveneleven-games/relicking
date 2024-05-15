@@ -649,6 +649,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 272f99e555a23ac429d2aa9bf7227c02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  popupType: 0
 --- !u!1 &3193692283157780755
 GameObject:
   m_ObjectHideFlags: 0
@@ -1167,7 +1168,7 @@ GameObject:
   - component: {fileID: 5989022089638009483}
   - component: {fileID: 9120696234197945811}
   m_Layer: 5
-  m_Name: Checkmark
+  m_Name: BGMCheckmark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1689,7 +1690,7 @@ GameObject:
   - component: {fileID: 2287177246491396177}
   - component: {fileID: 500375628227280387}
   m_Layer: 5
-  m_Name: Checkmark
+  m_Name: SFXCheckmark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

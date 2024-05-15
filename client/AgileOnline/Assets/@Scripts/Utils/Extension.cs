@@ -51,6 +51,29 @@ public static class Extension
         }
     }
 
+    public static int[] RandomInts(int length, int min, int max)
+    {
+        int[] result = new int[length];
+        
+        List<int> rangePool = new();
+        
+        for (int i = min; i < max; i++)
+        {
+            rangePool.Add(i);
+        }
+        
+        for (int j = 0; j < length; j++)
+        {
+            if (rangePool.Count == 0) break;
+            
+            int index = UnityEngine.Random.Range(0, rangePool.Count);
+            result[j] = rangePool[index];
+            rangePool.RemoveAt(index);
+        }
+        
+        return result;
+    }
+
     public static int[] RandomIntList(int length, int min, int max, HashSet<int> maxSkillTypes)
     {
         int[] result = new int[length];
