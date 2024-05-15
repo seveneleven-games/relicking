@@ -322,6 +322,11 @@ public class UI_ChangePopup : UI_Popup
             {
                 Managers.UI.ClosePopupUI(this);
             }
+            else if (changePasswordDataRes.message == "기존 비밀번호가 일치하지 않습니다.")
+            {
+                GetText((int)ETexts.OldPasswordResultText).gameObject.SetActive(true);
+            }
+            
         }));
     }
     

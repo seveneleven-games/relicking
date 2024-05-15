@@ -5,6 +5,7 @@
     <file url="file://$PROJECT_DIR$/Assets/@Resources/Data/JsonData/StageData.json" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Assets/@Scripts/Contents/Relic.cs" charset="x-windows-949" />
     <file url="file://$PROJECT_DIR$/Assets/@Scripts/Managers/Core/SoundManager.cs" charset="x-windows-949" />
+    <file url="file://$PROJECT_DIR$/Assets/@Scripts/Managers/Core/UIManager.cs" charset="x-windows-949" />
     <file url="file://$PROJECT_DIR$/Assets/@Scripts/UI/Popup/Lobby/UI_GachaResultPopup.cs" charset="x-windows-949" />
     <file url="file://$PROJECT_DIR$/Assets/@Scripts/UI/Popup/Lobby/UI_RankingDetailPopup.cs" charset="x-windows-949" />
     <file url="file://$PROJECT_DIR$/Assets/@Scripts/UI/Popup/Outgame/Gacha/UI_GachaResultPopup.cs" charset="x-windows-949" />

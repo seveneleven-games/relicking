@@ -10,9 +10,10 @@ using UnityEngine.UI;
 public class UIManager
 {
 	private int _order = 10;
-
+	int _toastOrder = 500;
+	
 	private Stack<UI_Popup> _popupStack = new Stack<UI_Popup>();
-
+	private Stack<UI_Toast> _toastStack = new Stack<UI_Toast>();
 	private UI_Scene _sceneUI = null;
 	public UI_Scene SceneUI
 	{
@@ -185,6 +186,35 @@ public class UIManager
 	{
 		while (_popupStack.Count > 0)
 			ClosePopupUI();
+	}
+	
+	public UI_Toast ShowToast(string msg)
+	{
+		string name = typeof(UI_Toast).Name;
+		GameObject go = Managers.Resource.Instantiate($"{name}", pooling: true);
+		UI_Toast popup = Util.GetOrAddComponent<UI_Toast>(go);
+		popup.SetInfo(msg);
+		_toastStack.Push(popup);
+		go.transform.SetParent(Root.transform);
+		CoroutineManager.StartCoroutine(CoCloseToastUI());
+		return popup;
+	}
+
+	IEnumerator CoCloseToastUI()
+	{
+		yield return new WaitForSeconds(1f);
+		CloseToastUI();
+	}
+
+	public void CloseToastUI()
+	{
+		if (_toastStack.Count == 0)
+			return;
+
+		UI_Toast toast = _toastStack.Pop();
+		Managers.Resource.Destroy(toast.gameObject);
+		toast = null;
+		_toastOrder--;
 	}
 
 	public int GetPopupCount()

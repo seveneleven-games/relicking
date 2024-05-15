@@ -156,7 +156,9 @@ public class UI_RankingPopup : UI_Popup
     // 자기 정보 가져오기
     void SetMyInfo()
     {
+        
         StageRanking currentRanking = GetCurrentStageRanking();
+        
         GetText((int)ETexts.MyRank).text = $"{currentRanking.myRank.rank}";
         GetText((int)ETexts.MyNickName).text = currentRanking.myRank.nickname;
         GetText((int)ETexts.MyDifficulty).text = $"{currentRanking.myRank.difficulty}";
@@ -225,6 +227,13 @@ public class UI_RankingPopup : UI_Popup
     void OnClickRankingDetailButton(MyRankingInfo myRankingInfo)
     {
         Managers.Sound.PlayButtonClick();
+
+        if (myRankingInfo.recordId == 0)
+        {
+            Managers.UI.ShowToast("현재 기록이 없습니다.");
+            return;
+        }
+        
         Debug.Log("RankingDetail");
         // 디테일 쪽에 내 랭킹 정보 그대로 보내줘야됨....(정보를 쬐매만 줌.) -> 원하는 스테이지 정보도 같이 보내주기!!
         _uiRankingDetailPopup.gameObject.SetActive(true);
