@@ -17,7 +17,7 @@ public interface RecordRepository extends JpaRepository<Record, Integer> {
 	List<Record> findTop100ByStageOrderByDifficultyDescUpdatedDate(int stage);
 
 	@Query(value = "SELECT ranking.stage_rank FROM (" +
-			"SELECT r.member_id as memberId, RANK() OVER (ORDER BY r.difficulty DESC, r.updatedDate) as stage_rank " +
+			"SELECT r.member_id as memberId, RANK() OVER (ORDER BY r.difficulty DESC, r.updated_date) as stage_rank " +
 			"FROM record r WHERE r.stage = :stage) ranking " +
 			"WHERE ranking.memberId = :memberId", nativeQuery = true)
 	int findRankByMemberAndStage(@Param("memberId") int memberId, @Param("stage") int stage);
