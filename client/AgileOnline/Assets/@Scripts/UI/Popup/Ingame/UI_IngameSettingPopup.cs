@@ -45,12 +45,14 @@ public class UI_IngameSettingPopup : UI_Popup
 
     enum Images
     {
-        ClassImage
+        ClassImage,
+        BGMCheckmark,
+        SFXCheckmark,
     }
 
     private TemplateData _templateData;
-    private bool _isSelectedBGMSound = true;
-    private bool _isSelectedSFXSound = true;
+    private bool _isSelectedBGMSound;
+    private bool _isSelectedSFXSound;
 
     public override bool Init()
     {
@@ -65,8 +67,11 @@ public class UI_IngameSettingPopup : UI_Popup
         BindToggle(typeof(Toggles));
         BindImage(typeof(Images));
 
-        GetText((int)Texts.BGMOFFText).gameObject.SetActive(false);
-        GetText((int)Texts.SFXOFFText).gameObject.SetActive(false);
+        _isSelectedBGMSound = Managers.Game.BGMOn;
+        _isSelectedSFXSound = Managers.Game.EffectSoundOn;
+        
+        // 토글 텍스트 초기 설정
+        TogglesInit();
         
         GetButton((int)Buttons.ExitButton).gameObject.BindEvent(ShowConfirmPopup);
         GetButton((int)Buttons.CloseButton).gameObject.BindEvent(ClosePopupUI);
@@ -77,15 +82,33 @@ public class UI_IngameSettingPopup : UI_Popup
         
         SetInfo();
 
-        //todo(전지환) : 설정 정보에 따라 toggle 싱크 맞춰줘야 함
         GetText((int)Texts.BGMOFFText).gameObject.SetActive(false);
         GetText((int)Texts.SFXOFFText).gameObject.SetActive(false);
-
-        //todo(전지환) : 설정 정보에 따라 toggle 싱크 맞춰줘야 함
-
+        
         return true;
     }
 
+    #region 토글 초기화
+
+    void TogglesInit()
+    {
+        // BGM 토글 설정
+        Toggle bgmToggle = GetToggle((int)Toggles.BGMSoundToggle);
+        bgmToggle.isOn = _isSelectedBGMSound;
+        GetText((int)Texts.BGMOFFText).gameObject.SetActive(!_isSelectedBGMSound);
+        GetText((int)Texts.BGMONText).gameObject.SetActive(_isSelectedBGMSound);
+
+        // SFX 토글 설정
+        Toggle sfxToggle = GetToggle((int)Toggles.SFXSoundToggle);
+        sfxToggle.isOn = _isSelectedSFXSound;
+        GetText((int)Texts.SFXOFFText).gameObject.SetActive(!_isSelectedSFXSound);
+        GetText((int)Texts.SFXONText).gameObject.SetActive(_isSelectedSFXSound);
+    }
+
+    #endregion
+    
+    
+    
     void OnClickBGMSoundToggle()
     {
         Managers.Sound.PlayButtonClick();
@@ -106,7 +129,7 @@ public class UI_IngameSettingPopup : UI_Popup
             GetText((int)Texts.BGMONText).gameObject.SetActive(false);
         }
     }
-    
+
     void OnClickSFXSoundToggle()
     {
         Managers.Sound.PlayButtonClick();
