@@ -86,7 +86,7 @@ public class UI_StageInfoItem : UI_Base
 
     void Refresh()
     {
-        GetText((int)ETexts.StageValueText).text = $"스테이지{_stageData.StageId}: {_stageData.Name}";
+        GetText((int)ETexts.StageValueText).text = $"스테이지{_stageData.StageId} : {_stageData.Name}";
         Debug.Log(_stageData.ThumbnailName);
         GetImage((int)EImages.StageImage).sprite = Managers.Resource.Load<Sprite>(_stageData.ThumbnailName);
     }
