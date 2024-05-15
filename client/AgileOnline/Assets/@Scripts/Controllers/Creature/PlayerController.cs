@@ -24,7 +24,7 @@ public class PlayerController : CreatureController
     private int playerGold = INITIAL_GOLD;
 
     private bool _isPlayerFrozen = false;
-    private float _freezeDuration = 3f;
+    private float _freezeDuration = 2f;
 
     public void FreezePlayerMovement()
     {
@@ -34,15 +34,17 @@ public class PlayerController : CreatureController
     private IEnumerator FreezePlayerMovementCoroutine()
     {
         _isPlayerFrozen = true;
+        GameObject restraintObj = Managers.Resource.Instantiate("Restraint");
+        restraintObj.transform.position = transform.position + new Vector3(0, 0.2f, 0);
         float elapsedTime = 0f;
 
         while (elapsedTime < _freezeDuration)
         {
-            _moveDir = Vector2.zero; // 플레이어 이동 벡터를 0으로 설정
+            _moveDir = Vector2.zero;
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-
+        Destroy(restraintObj);
         _isPlayerFrozen = false;
     }
 

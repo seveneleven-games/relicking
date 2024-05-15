@@ -328,6 +328,10 @@ public class MonsterController : CreatureController
                 ps3.Play();
                 yield return new WaitForSeconds(0.8f);
                 transform.position = targetPosition1;
+                GameObject go5 = Managers.Resource.Instantiate("BossSmashHitEffect");
+                ParticleSystem ps5 = go5.GetComponent<ParticleSystem>();
+                ps5.transform.position = targetPosition1;
+                ps5.Play();
                 _isUsingSkill = false;
                 break;
 
@@ -344,6 +348,7 @@ public class MonsterController : CreatureController
 
             case "BossMonsterRestraint":
                 _player.FreezePlayerMovement();
+                yield return new WaitForSeconds(2f);
                 break;
         }
 
