@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Data;
@@ -47,6 +48,12 @@ public class UI_StageInfoItem : UI_Base
     // 객체 관련 두는 곳
     StageData _stageData;
 
+    // 이거 죽이면 에러 뜸.
+    private void Awake()
+    {
+        Init();
+    }
+
     // 초기 세팅
     public override bool Init()
     {
@@ -61,7 +68,10 @@ public class UI_StageInfoItem : UI_Base
         BindToggle(typeof(EToggles));
         BindImage(typeof(EImages)); 
         
-        ClearRewardCompleteInit();
+        // 이건 잠겨있을 경우를 위한 것임.. (스테이지 잠금이 있을 시..)
+        // GetImage((int)EImages.StageLockImage).gameObject.SetActive(true);
+        // GetImage((int)EImages.StageImage).color = Util.HexToColor("6D6D6D");
+        
         #endregion
         
         return true;
@@ -70,47 +80,15 @@ public class UI_StageInfoItem : UI_Base
     public void SetInfo(StageData data)
     {
         _stageData = data;
-        // transform.localScale = Vector3.one;
+        transform.localScale = Vector3.one;
         Refresh();
     }
 
     void Refresh()
     {
-        GetText((int)ETexts.StageValueText).text = $"스테이지{_stageData.StageId}: {_stageData.Name}";
+        GetText((int)ETexts.StageValueText).text = $"스테이지{_stageData.StageId} : {_stageData.Name}";
+        Debug.Log(_stageData.ThumbnailName);
         GetImage((int)EImages.StageImage).sprite = Managers.Resource.Load<Sprite>(_stageData.ThumbnailName);
-        if (Managers.Game.DicStageClearInfo.TryGetValue(_stageData.StageId, out StageClearInfo info) == false)
-            return;
-        
-        // 최대 클리어 스테이지
-        if (info.MaxDifficulty > 0)
-        {
-            GetImage((int)EImages.StageLockImage).gameObject.SetActive(false);
-            GetImage((int)EImages.StageImage).color = Color.white;
-        }
-        else
-        {
-            //게임 처음 시작하고 스테이지창을 오픈 한 경우
-            if (info.StageId == 1 && info.MaxDifficulty == 0)
-            {
-                GetImage((int)EImages.StageLockImage).gameObject.SetActive(false);
-                GetImage((int)EImages.StageImage).color = Color.white;
-            }
-            // 새로운 스테이지
-            if (Managers.Game.DicStageClearInfo.TryGetValue(_stageData.StageId - 1, out StageClearInfo PrevInfo) == false)
-                return;
-            if (PrevInfo.isClear == true)
-            {
-                GetImage((int)EImages.StageLockImage).gameObject.SetActive(false);
-                GetImage((int)EImages.StageImage).color = Color.white;
-            }
-            
-        }
-        
     }
     
-    void ClearRewardCompleteInit()
-    {
-        GetImage((int)EImages.StageLockImage).gameObject.SetActive(true);
-        GetImage((int)EImages.StageImage).color = Util.HexToColor("6D6D6D");
-    }
 }

@@ -17,8 +17,20 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 1f91081db3151a840978bf8e8758f31b
   m_SerializeEntries:
-  - m_GUID: c48708c31e42e5f4395635e6b42d5531
-    m_Address: UI_StageInfoItem
+  - m_GUID: 32544e52683a92249922b736d5302ff3
+    m_Address: Stage1_Thumbnail.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e7d06dac40983c34a93a4ee575712242
+    m_Address: Stage2_Thumbnail.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 14bc74e80f264de4ab813d0e9774c698
+    m_Address: Stage3_Thumbnail.sprite
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad

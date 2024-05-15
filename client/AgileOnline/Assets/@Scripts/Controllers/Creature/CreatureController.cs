@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,20 +34,35 @@ public class CreatureController : BaseController
         return true;
     }
 
-    public virtual void OnDamaged(BaseController attacker, int damage)
+    public virtual bool OnDamaged(BaseController attacker, ref float damage)
     {
-        Debug.Log(attacker + " " + damage);
-        Hp -= damage;
+        bool isCritical = false;
+        
+        Debug.Log("때린놈 : " + attacker);
+        Debug.Log("데미지 : " + damage);
+        
+        if (attacker is PlayerController playerAttacker)
+        {
+            float critRoll = UnityEngine.Random.value;
+            if (critRoll <= playerAttacker.CritRate)
+            {
+                damage *= (int)playerAttacker.CritDmgRate;
+                isCritical = true;
+            }
+        }
+        
+        Hp -= (int) damage;
         if (Hp <= 0)
         {
             Hp = 0;
             OnDead();
         }
+
+        return isCritical;
     }
 
-    protected virtual void OnDead()
+    public virtual void OnDead()
     {
-        transform.localScale = new Vector3(1, 1, 1);
         CreatureState = ECreatureState.Dead;
     }
     

@@ -18,8 +18,14 @@ public class BaseController : InitBase
         set
         {
             _lookLeft = value;
-            transform.localScale = new Vector3(value ? 1 : -1, 1, 1);
+            UpdateScale();
         }
+    }
+
+    private void UpdateScale()
+    {
+        float direction = _lookLeft ? 1f : -1f;
+        transform.localScale = new Vector3(_initialScale.x * direction, _initialScale.y, _initialScale.z);
     }
 
     public override bool Init()

@@ -17,20 +17,74 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: d591da36d612033429f93c4018d78472
   m_SerializeEntries:
+  - m_GUID: 0af379dbb6485ec429a5c86a6453225a
+    m_Address: Monster7
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 605ce522473758c4690d4974a0b9b0fc
+    m_Address: Monster11
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dddf310250d804c49b667b15beb376fc
+    m_Address: Monster4
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5c3ea9d9e99742245bc60248beb07433
+    m_Address: Monster3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5b2c73df8a4e3e949a0a08164dd64e02
+    m_Address: Monster2
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8531b21ab34a9c841bbfcf66f4cc9b45
+    m_Address: Monster5
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9c348fffccf45f74dbf7223bcd14c051
+    m_Address: Monster6
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3b9ec0f31a176c347872c6650fdef985
     m_Address: Monster1
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2d470e11b44912f4aa4ef6335fd7f3a2
-    m_Address: Monster3
+    m_Address: Monster8
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 6c32206e71c32374cb10c06e46efb5a7
-    m_Address: Monster2
+  - m_GUID: ca2e90213a5f8a54ea36361e9d1c3456
+    m_Address: Monster12
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 568935db2563f9046994ae1bf44926b6
+    m_Address: Monster9
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9ad8decb4e4e7c64f9be0a586afe0703
+    m_Address: Monster10
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad

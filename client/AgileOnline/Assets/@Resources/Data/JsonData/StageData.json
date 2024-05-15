@@ -2,17 +2,26 @@
   "stages": [
     {
       "StageId": 1,
-      "PrefabName": "Stage1NodeMap_01",
-      "Name": "Stage1",
+      "Name": "고대 숲",
       "ThumbnailName": "Stage1_Thumbnail.sprite",
-      "NormalMonsterList": [
+      "NodeMaps": [
+        0
+      ]
+    },
+    {
+      "StageId": 2,
+      "Name": "설원",
+      "ThumbnailName": "Stage2_Thumbnail.sprite",
+      "NodeMaps": [
         1
-      ],
-      "EliteMonsterList": [
+      ]
+    },
+    {
+      "StageId": 3,
+      "Name": "지하 세계",
+      "ThumbnailName": "Stage3_Thumbnail.sprite",
+      "NodeMaps": [
         2
-      ],
-      "BossMonsterList": [
-        3
       ]
     }
   ]

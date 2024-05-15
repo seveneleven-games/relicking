@@ -20,6 +20,12 @@ public class Managers : MonoBehaviour
 
     private GameManager _game = new GameManager();
     private ObjectManager _object = new ObjectManager();
+    private AndroidPluginManager _android = new AndroidPluginManager();
+    
+    public static AndroidPluginManager Android
+    {
+        get { return Instance?._android; }
+    }
     
     public static GameManager Game
     {
@@ -62,6 +68,15 @@ public class Managers : MonoBehaviour
             
             DontDestroyOnLoad(go);
             s_instance = go.GetComponent<Managers>();
+            s_instance._sound.Init();
         }
+    }
+    
+    public static void Clear()
+    {
+        Sound.Clear();
+        Scene.Clear();
+        UI.Clear();
+        Pool.Clear();
     }
 }

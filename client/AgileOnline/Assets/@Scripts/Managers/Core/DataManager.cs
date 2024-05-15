@@ -16,7 +16,9 @@ public class DataManager
     public Dictionary<int, StageData> StageDic { get; private set; } = new Dictionary<int, StageData>();
     public Dictionary<int, SkillData> SkillDic { get; private set; } = new Dictionary<int, SkillData>();
     public Dictionary<int, GoldData> GoldDic { get; private set; } = new Dictionary<int, GoldData>();
-
+    public Dictionary<int, NodeMapData> NodeMapDic { get; private set; } = new Dictionary<int, NodeMapData>();
+    public Dictionary<int, RelicData> RelicDic { get; private set; } = new Dictionary<int, RelicData>();
+    
     public void Init()
     {
         PlayerDic = LoadJson<PlayerDataLoader, int, PlayerData>("PlayerData").MakeDict();
@@ -24,6 +26,8 @@ public class DataManager
         StageDic = LoadJson<StageDataLoader, int, StageData>("StageData").MakeDict();
         SkillDic = LoadJson<SkillDataLoader, int, SkillData>("SkillData").MakeDict();
         GoldDic = LoadJson<GoldDataLoader, int, GoldData>("GoldData").MakeDict();
+        NodeMapDic = LoadJson<NodeMapDataLoader, int, NodeMapData>("NodeMapData").MakeDict();
+        RelicDic = LoadJson<RelicDataLoader, int, RelicData>("RelicData").MakeDict();
     }
 
     private Loader LoadJson<Loader, Key, Value>(string path) where Loader : ILoader<Key, Value>
@@ -51,6 +55,30 @@ public class DataManager
             case "EnergyBoltData":
                 return Managers.Data.SkillDic[templateId].PrefabName;
             case "IceArrowData":
+                return Managers.Data.SkillDic[templateId].PrefabName;
+            case "ElectronicFieldData":
+                return Managers.Data.SkillDic[templateId].PrefabName;
+            case "PoisonFieldData":
+                return Managers.Data.SkillDic[templateId].PrefabName;
+            case "EliteMonsterProjectileData":
+                return Managers.Data.SkillDic[templateId].PrefabName;
+            case "WindCutterData":
+                return Managers.Data.SkillDic[templateId].PrefabName;
+            case "FrozenHeartData":
+                return Managers.Data.SkillDic[templateId].PrefabName;
+            case "ChainLightningData":
+                return Managers.Data.SkillDic[templateId].PrefabName;
+            case "MeteorHitData":
+                return Managers.Data.SkillDic[templateId].PrefabName;
+            case "MeteorData":
+                return Managers.Data.SkillDic[templateId].PrefabName;
+            case "MeteorShadowData":
+                return Managers.Data.SkillDic[templateId].PrefabName;
+            case "ShurikenData":
+                return Managers.Data.SkillDic[templateId].PrefabName;
+            case "StormBladeData":
+                return Managers.Data.SkillDic[templateId].PrefabName;
+            case "BossMonsterThornData":
                 return Managers.Data.SkillDic[templateId].PrefabName;
             default:
                 return null;

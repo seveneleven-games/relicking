@@ -47,9 +47,10 @@ public class SoundManager
 		audioSource.Play();
 	}
 
-	public void Play(ESound type, string key, float pitch = 1.0f)
+	public void Play(ESound type, string key, float volume = 0.5f, float pitch = 1.0f)
 	{
 		AudioSource audioSource = _audioSources[(int)type];
+		audioSource.volume = volume;
 
 		if (type == ESound.Bgm)
 		{
@@ -59,7 +60,8 @@ public class SoundManager
 					audioSource.Stop();
 
 				audioSource.clip = audioClip;
-				audioSource.Play();
+				if (Managers.Game.BGMOn)
+					audioSource.Play();
 			});
 		}
 		else
@@ -67,14 +69,16 @@ public class SoundManager
 			LoadAudioClip(key, (audioClip) =>
 			{
 				audioSource.pitch = pitch;
-				audioSource.PlayOneShot(audioClip);
+				if (Managers.Game.EffectSoundOn)
+					audioSource.PlayOneShot(audioClip);
 			});
 		}
 	}
 
-	public void Play(ESound type, AudioClip audioClip, float pitch = 1.0f)
+	public void Play(ESound type, AudioClip audioClip, float volume = 0.5f, float pitch = 1.0f)
 	{
 		AudioSource audioSource = _audioSources[(int)type];
+		audioSource.volume = volume;
 
 		if (type == ESound.Bgm)
 		{
@@ -82,12 +86,14 @@ public class SoundManager
 				audioSource.Stop();
 
 			audioSource.clip = audioClip;
-			audioSource.Play();
+			if (Managers.Game.BGMOn)
+				audioSource.Play();
 		}
 		else
 		{
 			audioSource.pitch = pitch;
-			audioSource.PlayOneShot(audioClip);
+			if (Managers.Game.EffectSoundOn)
+				audioSource.PlayOneShot(audioClip);
 		}
 	}
 
@@ -97,6 +103,13 @@ public class SoundManager
 		audioSource.Stop();
 	}
 
+	// 여기에다가 자주 쓰이는 버튼 클릭이라던가 팝업 관련 사운드 넣기!!
+	
+	public void PlayButtonClick()
+	{
+		Play(Define.ESound.Effect, "Click_CommonButton");
+	}
+	
 	private void LoadAudioClip(string key, Action<AudioClip> callback)
 	{
 		AudioClip audioClip = null;

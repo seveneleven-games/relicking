@@ -35,14 +35,26 @@ MonoBehaviour:
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 198e4b93981a4153aec67ceded13a759
-    m_Address: SkillData
+  - m_GUID: a5e6bd3b7fc1420cbde43444f2217ce4
+    m_Address: GoldData
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a5e6bd3b7fc1420cbde43444f2217ce4
-    m_Address: GoldData
+  - m_GUID: 3d18af8f84ee4afd8da725b4e4f7f37e
+    m_Address: NodeMapData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e9811c7642f20ca49aeda06759a6543c
+    m_Address: RelicData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a3b98a66ce663014db22aa3db527cef6
+    m_Address: SkillData
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad

@@ -14,13 +14,16 @@ namespace Data
     {
         public int PlayerId;
         public string PrefabName;
+        public string ThumbnailName;
         public string Name;
+        public string Description;
         public int MaxHp;
         public int Atk;
         public float Speed;
         public float CritRate;
         public float CritDmgRate;
         public float CoolDown;
+        public float ExtraGold;
     }
 
     [Serializable]
@@ -50,12 +53,13 @@ namespace Data
         public int MonsterType;
         public string Name;
         public int MaxHp;
-        public int Atk;
+        public float Atk;
         public float Speed;
         public int DropGold;
         public float CritRate;
         public float CritDmgRate;
         public float CoolDown;
+        public int[] SkillList;
     }
     
     [Serializable]
@@ -81,12 +85,9 @@ namespace Data
     public class StageData
     {
         public int StageId;
-        public string PrefabName;
         public string Name;
         public string ThumbnailName;
-        public List<int> NormalMonsterList;
-        public List<int> EliteMonsterList;
-        public List<int> BossMonsterList;
+        public int[] NodeMaps;
     }
     
     [Serializable]
@@ -118,10 +119,11 @@ namespace Data
         public string Description;
         public string IconName; 
         public float CoolTime;
-        public int Damage;
+        public float Damage;
         public float LifeTime;
         public float Speed;
         public int ProjectileNum;
+        public float Scale;
     }
     
     [Serializable]
@@ -168,5 +170,77 @@ namespace Data
     }
 
     #endregion
+    
+    #region NodeMapData
 
+    [Serializable]
+    public class NodeData
+    {
+        public int NodeDepth;
+        public string MapPrefabName;
+        public int[] MonsterList;
+    }
+
+    [Serializable]
+    public class NodeMapData
+    {
+        public int NodeMapId;
+        public string PrefabName;
+        public string BackgroundImage;
+        public List<NodeData> NodeList;
+    }
+
+    [Serializable]
+    public class NodeMapDataLoader : ILoader<int, NodeMapData>
+    {
+        public List<NodeMapData> nodeMaps;
+
+        public Dictionary<int, NodeMapData> MakeDict()
+        {
+            Dictionary<int, NodeMapData> dict = new Dictionary<int, NodeMapData>();
+            foreach (NodeMapData nodeMap in nodeMaps)
+                dict.Add(nodeMap.NodeMapId, nodeMap);
+
+            return dict;
+        }
+    }
+
+    #endregion
+
+    #region RelicData
+
+    [Serializable]
+    public class RelicData
+    {
+        public int RelicId;
+        public string PrefabName;
+        public string Name;
+        public string ThumbnailName;
+        public string Description;
+        public int Rarity;
+        public int Atk;
+        public int MaxHp;
+        public int CoolTime;
+        public int Speed;
+        public float CritRate;
+        public float CritDmgRate;
+        public float ExtraGold;
+    }
+
+    [Serializable]
+    public class RelicDataLoader : ILoader<int, RelicData>
+    {
+        public List<RelicData> relics = new List<RelicData>();
+
+        public Dictionary<int, RelicData> MakeDict()
+        {
+            Dictionary<int, RelicData> dict = new Dictionary<int, RelicData>();
+            foreach (RelicData relic in relics)
+                dict.Add(relic.RelicId, relic);
+
+            return dict;
+        }
+    }
+
+    #endregion
 }

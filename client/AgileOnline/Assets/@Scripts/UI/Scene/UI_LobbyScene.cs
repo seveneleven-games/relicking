@@ -28,7 +28,7 @@ public class UI_LobbyScene : UI_Scene
     
     enum EButtons
     {
-        
+        SettingButton
     }
     
     enum ETexts
@@ -70,14 +70,18 @@ public class UI_LobbyScene : UI_Scene
     bool _isSelectedGrowth = false;
     bool _isSelectedRanking = false;
 
+    private bool _isFirst = false;
     
     UI_BattlePopup _battlePopupUI;
     UI_GachaPopup _gachaPopupUI;
     UI_InvenPopup _invenPopupUI;
+    UI_RankingPopup _rankingPopupUI;
+    UI_GrowthPopup _growthPopupUI;
     
     
     public void OnDestroy()
     {
+        StopAllCoroutines();
         if(Managers.Game != null)
             Managers.Game.OnResourcesChanged -= Refresh;
     }
@@ -107,15 +111,34 @@ public class UI_LobbyScene : UI_Scene
         _battlePopupUI = Managers.UI.ShowPopupUI<UI_BattlePopup>();
         _gachaPopupUI = Managers.UI.ShowPopupUI<UI_GachaPopup>();
         _invenPopupUI = Managers.UI.ShowPopupUI<UI_InvenPopup>();
+        _rankingPopupUI = Managers.UI.ShowPopupUI<UI_RankingPopup>();
+        _growthPopupUI = Managers.UI.ShowPopupUI<UI_GrowthPopup>();
         
         TogglesInit();
+
+
+        if (Managers.Game.showIdleRewardPopup)
+        {
+            GetToggle((int)EToggles.GrowthToggle).gameObject.GetComponent<Toggle>().isOn = true;
+            OnClickGrowthToggle();
+            Managers.Game.showIdleRewardPopup = false;
+            _isFirst = true;
+        }
+        else
+        {
+            // 맨 처음은 배틀로
+            GetToggle((int)EToggles.BattleToggle).gameObject.GetComponent<Toggle>().isOn = true;
+            OnClickBattleToggle();
+            _isFirst = true;
+        }
         
-        // 맨 처음은 배틀로
-        GetToggle((int)EToggles.BattleToggle).gameObject.GetComponent<Toggle>().isOn = true;
-        OnClickBattleToggle();
+        
         // 가챠
         //GetToggle((int)EToggles.GachaToggle).gameObject.GetComponent<Toggle>().isOn = true;
         //OnClickGachaToggle();
+        
+        // 설정 버튼
+        GetButton((int)EButtons.SettingButton).gameObject.BindEvent(ShowSettingPopup);
 
         #endregion
 
@@ -124,6 +147,13 @@ public class UI_LobbyScene : UI_Scene
         
         return true;
     }
+    
+    void ShowSettingPopup()
+    {
+        Managers.Sound.PlayButtonClick();
+        Managers.UI.ShowPopupUI<UI_OutgameSettingPopup>();
+    }
+    
 
     // 갱신
     void Refresh()
@@ -141,6 +171,8 @@ public class UI_LobbyScene : UI_Scene
         _battlePopupUI.gameObject.SetActive(false);
         _gachaPopupUI.gameObject.SetActive(false);
         _invenPopupUI.gameObject.SetActive(false);
+        _rankingPopupUI.gameObject.SetActive(false);
+        _growthPopupUI.gameObject.SetActive(false);
         
         // 선택여부 초기화
         _isSelectedInventory = false;
@@ -164,16 +196,20 @@ public class UI_LobbyScene : UI_Scene
         // 팝업 버튼 사이즈 및 위치 초기화 (check 안한 상태로) -> 필요 없어짐 (툴에서 따로 처리)
         
         // 팝업버튼 밑의 글씨 비활성화
-        GetText((int)ETexts.InventoryToggleText).gameObject.SetActive(false);
-        GetText((int)ETexts.GachaToggleText).gameObject.SetActive(false);
-        GetText((int)ETexts.BattleToggleText).gameObject.SetActive(false);
-        GetText((int)ETexts.GrowthToggleText).gameObject.SetActive(false);
-        GetText((int)ETexts.RankingToggleText).gameObject.SetActive(false);
+        GetText((int)ETexts.CheckInventoryToggleText).gameObject.SetActive(false);
+        GetText((int)ETexts.CheckGachaToggleText).gameObject.SetActive(false);
+        GetText((int)ETexts.CheckBattleToggleText).gameObject.SetActive(false);
+        GetText((int)ETexts.CheckGrowthToggleText).gameObject.SetActive(false);
+        GetText((int)ETexts.CheckRankingToggleText).gameObject.SetActive(false);
     }
     
     
     void ShowUI(GameObject contentPopup, Toggle toggle, TMP_Text text, GameObject obj1, GameObject obj2, float duration = 0.1f)
     {
+        if (_isFirst)
+        {
+            Managers.Sound.PlayButtonClick();
+        }
         TogglesInit();
         
         contentPopup.SetActive(true);
@@ -194,11 +230,12 @@ public class UI_LobbyScene : UI_Scene
         // ShowUI
         ShowUI(_invenPopupUI.gameObject,
             GetToggle((int)EToggles.InventoryToggle),
-            GetText((int)ETexts.InventoryToggleText),
+            GetText((int)ETexts.CheckInventoryToggleText),
             GetObject((int)EGameObjects.CheckInventoryBgImage),
             GetObject((int)EGameObjects.CheckInventoryImage));
         _isSelectedInventory = true;
     }
+    
     void OnClickGachaToggle()
     {
         GetImage((int)EImages.Backgroundimage).color = Util.HexToColor("525DAD"); // 배경 색상 변경
@@ -211,6 +248,7 @@ public class UI_LobbyScene : UI_Scene
             GetObject((int)EGameObjects.CheckGachaImage));
         _isSelectedGacha = true;
     }
+    
     void OnClickBattleToggle()
     {
         GetImage((int)EImages.Backgroundimage).color = Util.HexToColor("1F5FA0"); // 배경 색상 변경
@@ -224,23 +262,35 @@ public class UI_LobbyScene : UI_Scene
             GetObject((int)EGameObjects.CheckBattleImage));
         _isSelectedBattle = true;
     }
+    
     void OnClickGrowthToggle()
     {
-        GetImage((int)EImages.Backgroundimage).color = Util.HexToColor("525DAD"); // 배경 색상 변경 (변화필요)
+        GetImage((int)EImages.Backgroundimage).color = Util.HexToColor("C48152"); // 배경 색상 변경 
         if (_isSelectedGrowth == true) // 활성화 후 토글 클릭 방지
             return;
         
         // ShowUI
-        _isSelectedGacha = true;
+        ShowUI(_growthPopupUI.gameObject,
+            GetToggle((int)EToggles.GrowthToggle),
+            GetText((int)ETexts.CheckGrowthToggleText),
+            GetObject((int)EGameObjects.CheckGrowthBgImage),
+            GetObject((int)EGameObjects.CheckGrowthImage));
+        _isSelectedGrowth = true;
     }
+    
     void OnClickRankingToggle()
     {
-        GetImage((int)EImages.Backgroundimage).color = Util.HexToColor("525DAD"); // 배경 색상 변경 (변화필요)
+        GetImage((int)EImages.Backgroundimage).color = Util.HexToColor("87A9AF"); // 배경 색상 변경 (변화필요)
         if (_isSelectedRanking == true) // 활성화 후 토글 클릭 방지
             return;
         
         // ShowUI
-        _isSelectedGacha = true;
+        ShowUI(_rankingPopupUI.gameObject,
+            GetToggle((int)EToggles.RankingToggle),
+            GetText((int)ETexts.CheckRankingToggleText),
+            GetObject((int)EGameObjects.CheckRankingBgImage),
+            GetObject((int)EGameObjects.CheckRankingImage));
+        _isSelectedRanking = true;
     }
     
     

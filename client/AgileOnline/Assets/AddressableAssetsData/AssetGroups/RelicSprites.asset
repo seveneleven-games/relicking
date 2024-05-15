@@ -1,0 +1,223 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: RelicSprites
+  m_EditorClassIdentifier: 
+  m_GroupName: RelicSprites
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 804c233563eff7043a7227fcde849701
+  m_SerializeEntries:
+  - m_GUID: 2f7828e3ea690654bb0256a1ec05b0a8
+    m_Address: Relic_01.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5ec18095156bf66499de19c0f5650d7a
+    m_Address: Relic_02.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e56bc02e3973ada46a1df8a8dc168047
+    m_Address: Relic_03.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4252fb03195fad8409f7cb606054d986
+    m_Address: Relic_04.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bab717d4caf8bc840a3f86d193441ded
+    m_Address: Relic_05.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3b1847c1deb44cd498d5718166a4adf5
+    m_Address: Relic_06.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a7a9cd1b250fdb345b03e09e31a582f0
+    m_Address: Relic_11.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 46fe9efcdda364c4ca5b2c1b17ce7e17
+    m_Address: Relic_21.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3dba2d48f76321e42b5179ee0200795a
+    m_Address: Relic_31.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5c5441ad682ee71468e53d425d3ff805
+    m_Address: Relic_41.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 23c5bfe2058fa16458962320a4eb4db1
+    m_Address: Relic_1011.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 175140a9aa145084395c571a2dd868f5
+    m_Address: Relic_1021.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b17d426c0b4801146839353cca79759c
+    m_Address: Relic_1031.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 78e2355784123954985611e06982d475
+    m_Address: Relic_1041.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 938b138411936a14abd7caffbe6c437e
+    m_Address: Relic_1051.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c1f8c0c490abfcf4b8c46d49a9fa11b0
+    m_Address: Relic_2011.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8d5a08786d08f2a4d99303051928fadf
+    m_Address: Relic_2021.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b2363727cb4340b4fbe5c3e9b4f5983e
+    m_Address: Relic_2031.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6901f60315516da4b924ea4c847f6068
+    m_Address: Relic_2041.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 009e7325fffc69342ad8ef3e6f6c8e4d
+    m_Address: Relic_2051.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d4fb64bf8e5a56240915f2369f122003
+    m_Address: Relic_3011.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1921fa63368505b408f532e546692dea
+    m_Address: Relic_3021.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ff4257e5dc8af724f859d5df4d138887
+    m_Address: Relic_3031.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d9573fbf3fa826b4996075059acfe3da
+    m_Address: Relic_3041.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 275b0586f5a540447b3a628d0327e355
+    m_Address: Relic_3051.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4ffda9914c146f14f8475b2eecc79f88
+    m_Address: Relic_3061.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ad5b717c21cb2864fac7f14a49f7f140
+    m_Address: Relic_4011.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 15a168279db45824fa7c218d69658e51
+    m_Address: RelicFrame_SSS.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e660975ec32b6a545a00df2449a578e1
+    m_Address: RelicFrame_S.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 322775f6d0679a44f96175debf32472f
+    m_Address: RelicFrame_A.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 690b1263dfbe7c34d80b9c35bf034ddf
+    m_Address: RelicFrame_B.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3b096a0b5ab908c4fbf35811a5b7f7fe
+    m_Address: RelicFrame_C.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 929acc47094048e4e8419186858f8ca2
+    m_Address: RelicFrame_Default.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 5172e12bf4a124f4e9826e7812874449, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: ef00e5d91c132d748936d242fe41caf2, type: 2}
+    - {fileID: 11400000, guid: 4b9b445049437794a99331059107e60b, type: 2}
