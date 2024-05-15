@@ -196,9 +196,14 @@ public class UI_LoginInputPopup : UI_Popup
 
             // json -> 객체로 변환
             LoginDataRes loginDataRes = JsonUtility.FromJson<LoginDataRes>(res);
+
+            if (loginDataRes == null)
+            {
+                Managers.UI.ShowToast("로그인 또는 비밀번호가 일치하지 않습니다.");
+            }
             
             // 성공시 로비로 가기
-            if (loginDataRes.data != null && loginDataRes.data.accessToken != null)
+            else if (loginDataRes.data != null && loginDataRes.data.accessToken != null)
             {
                 // 토큰들 저장하기
                 Managers.Game._gameData.accessToken = loginDataRes.data.accessToken;
