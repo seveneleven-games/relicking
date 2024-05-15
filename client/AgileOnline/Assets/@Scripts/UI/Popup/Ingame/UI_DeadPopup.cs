@@ -15,6 +15,8 @@ public class UI_DeadPopup : UI_Popup
         if (base.Init() == false)
             return false;
         
+        Managers.Sound.Play(Define.ESound.Effect,"GameOver");
+        
         BindButton(typeof(Buttons));
         
         GetButton((int)Buttons.ExitButton).gameObject.BindEvent(Exit);
@@ -24,6 +26,7 @@ public class UI_DeadPopup : UI_Popup
     
     void Exit()
     {
+        Managers.Sound.PlayButtonClick();
         Managers.Scene.LoadScene(Define.EScene.LobbyScene);
         ClosePopupUI();
     }

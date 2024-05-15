@@ -186,6 +186,8 @@ public class PlayerController : CreatureController
     {
         if (collision.CompareTag("Gold"))
         {
+            Managers.Sound.Play(ESound.Effect,"Reroll");
+            
             GoldController gc = collision.GetComponent<GoldController>();
 
             int goldValue = (int) (gc.GoldValue * (1 + CoinBonus) + 0.5f);
@@ -207,6 +209,8 @@ public class PlayerController : CreatureController
 
     public override bool OnDamaged(BaseController attacker,ref float damage)
     {
+        Managers.Sound.Play(ESound.Effect,"FemaleHurt",0.3f);
+        
         base.OnDamaged(attacker, ref damage);
         UI_World.Instance.UpdatePlayerHealth(Hp, MaxHp);
         return true;

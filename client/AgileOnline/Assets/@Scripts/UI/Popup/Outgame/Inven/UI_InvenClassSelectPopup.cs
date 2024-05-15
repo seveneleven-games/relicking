@@ -106,17 +106,20 @@ public class UI_InvenClassSelectPopup : UI_Popup
 
     void OnClickCloseButton()
     {
+        Managers.Sound.PlayButtonClick();
         Debug.Log("CloseClassSelect");
         Managers.UI.ClosePopupUI(this);
     }
 
     void OnClickSelectButton()
     {
+        Managers.Sound.PlayButtonClick();
         ClassSelect();
     }
 
     void OnClickClassSelectButton(int num)
     {
+        Managers.Sound.PlayButtonClick();
         Debug.Log(num);
         TempClassId = num;
         GetText((int)ETexts.ClassNameText).text = Managers.Data.PlayerDic[num].Name;

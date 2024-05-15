@@ -215,6 +215,7 @@ public class UI_GrowthPopup : UI_Popup
 
     void OnClickStartIdleButton()
     {
+        Managers.Sound.PlayButtonClick();
         Debug.Log("성장하러 가기(방치) 버튼 Clicked");
         // 여기서 플러그인 허용 요청 -> 요청이 모두 잘 오면 화면 이동하기
         // if (Managers.Android.AllPermissionFlag)
