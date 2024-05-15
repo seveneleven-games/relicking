@@ -191,7 +191,8 @@
       "CritDmgRate": 0.0,
       "CoolDown": 1.0,
       "SkillList": [
-        1021
+        1021,
+        1051
       ]
     }
   ]
