@@ -81,8 +81,8 @@ public class UI_GrowthPopup : UI_Popup
     }
     
     
-    private AndroidJavaObject UnityInstance;
-    private AndroidJavaObject UnityActivity;
+    private static AndroidJavaObject plugin;
+
 
     // 초기 세팅
     public override bool Init()
@@ -115,9 +115,37 @@ public class UI_GrowthPopup : UI_Popup
         Managers.Game.OnResourcesChanged += Refresh;
         Refresh();
         
-        
+        if (plugin == null)
+        {
+            using (AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+            {
+                AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+                plugin = new AndroidJavaObject("com.ssafy.idlearr.OverlayPermissionHelper", currentActivity);
+            }
+        }
 
         return true;
+    }
+    
+    public void CheckAndRequestOverlayPermission()
+    {
+        plugin.Call("checkAndRequestOverlayPermission");
+    }
+
+    // 권한 결과를 처리하는 메서드 (안드로이드에서 Unity로 호출)
+    public void OnOverlayPermissionResult(string result)
+    {
+        if (result == "true")
+        {
+            Debug.Log("오버레이 권한이 허용되었습니다.");
+            // 권한이 허용되었을 때 특정 씬으로 이동
+            Managers.Scene.LoadScene(Define.EScene.IdleScene);
+        }
+        else
+        {
+            Debug.Log("오버레이 권한이 거부되었습니다.");
+            // 권한이 거부되었을 때 사용자에게 알림
+        }
     }
 
     void GetGrowth()
@@ -213,27 +241,14 @@ public class UI_GrowthPopup : UI_Popup
     //     Managers.UI.ShowPopupUI<UI_ToBeContinuedPopup>();
     // }
 
+    
     void OnClickStartIdleButton()
     {
         Managers.Sound.PlayButtonClick();
         Debug.Log("성장하러 가기(방치) 버튼 Clicked");
-        // 여기서 플러그인 허용 요청 -> 요청이 모두 잘 오면 화면 이동하기
-        // if (Managers.Android.AllPermissionFlag)
-        // {
-        //     Debug.Log("허용 잘받앗다 더블체크");
-        // }
-        // else
-        // {
-        //     Debug.Log("잘 받긴햇는데 허용은 아님요 ");
-        // }
 
-        // if (UnityInstance == null)
-        // {
-        //     Debug.Log("널이다");
-        // }
-        // Debug.Log(UnityInstance.ToString());
-        
-        Managers.Scene.LoadScene(Define.EScene.IdleScene);
+        CheckAndRequestOverlayPermission();
+        //Managers.Scene.LoadScene(Define.EScene.IdleScene);
     }
 
     string FormatTime(int totalSeconds)
