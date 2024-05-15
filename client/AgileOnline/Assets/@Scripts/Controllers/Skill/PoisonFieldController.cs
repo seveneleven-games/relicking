@@ -7,11 +7,11 @@ using static Define;
 public class PoisonFieldController : SkillController
 {
     private CreatureController _owner;
-    private float _damageInterval = 0.1f;
+    private float _damageInterval = 0.2f;
     private float _lastDamageTime;
 
     private float _scaleUpDuration = 1f;
-    private Vector3 _initialScale;
+    private Vector3 _initScale;
     private Vector3 _targetScale;
     
     public int SkillId { get; private set; }
@@ -26,7 +26,7 @@ public class PoisonFieldController : SkillController
     public float Speed { get; private set; }
     public int ProjectileNum { get; private set; }
     public float Scale { get; private set; }
-
+    private float _radius;
     public void SetOwner(CreatureController owner)
     {
         _owner = owner;
@@ -58,11 +58,12 @@ public class PoisonFieldController : SkillController
         ProjectileNum = data.ProjectileNum;
         Scale = data.Scale;
         
-        _initialScale = transform.localScale * 0.1f;
-        _targetScale = transform.localScale * Scale;
+        _initScale = new Vector3(1,1,1) * 0.1f;
+        _targetScale = new Vector3(1,1,1) * Scale;
+        _radius = gameObject.GetComponent<CircleCollider2D>().radius * Scale;
 
-        transform.localScale = _initialScale;
-
+        transform.localScale = _initScale;
+        
         StartCoroutine(ScaleUpCoroutine());
         
         StartDestroy(LifeTime);
@@ -74,7 +75,7 @@ public class PoisonFieldController : SkillController
 
         while (elapsedTime < _scaleUpDuration)
         {
-            transform.localScale = Vector3.Lerp(_initialScale, _targetScale, elapsedTime / _scaleUpDuration);
+            transform.localScale = Vector3.Lerp(_initScale, _targetScale, elapsedTime / _scaleUpDuration);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
@@ -93,7 +94,7 @@ public class PoisonFieldController : SkillController
     
     private void DealDamageToNearbyMonsters()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, transform.localScale.x);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, _radius * (transform.localScale.x / Scale));
         foreach (Collider2D collider in colliders)
         {
             MonsterController monster = collider.GetComponent<MonsterController>();
