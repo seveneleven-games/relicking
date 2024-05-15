@@ -496,6 +496,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf38b1bcc36d68e4dbe13a70e58ec2c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  popupType: 0
   RankingObject: {fileID: 8772400769393281220, guid: cf93a58738bb00541b01c16e9fdf1600, type: 3}
 --- !u!1 &2558085652091706272
 GameObject:
@@ -689,7 +690,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.8509804, g: 0.8509804, b: 0.8509804, a: 0.8509804}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
