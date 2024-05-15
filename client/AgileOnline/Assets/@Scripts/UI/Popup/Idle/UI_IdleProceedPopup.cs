@@ -169,6 +169,7 @@ public class UI_IdleProceedPopup : UI_Popup
 
     void OnClickExitIdleButton()
     {
+        Managers.Sound.Play(Define.ESound.Effect, "LockResult");
         StopStopwatch();
         Debug.Log("종료하기 Clicked");
         Managers.UI.ShowPopupUI<UI_IdleRewardInfoPopup>();

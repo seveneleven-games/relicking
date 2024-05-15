@@ -244,6 +244,7 @@ public class UI_GrowthPopup : UI_Popup
     
     void OnClickStartIdleButton()
     {
+        Managers.Sound.PlayButtonClick();
         Debug.Log("성장하러 가기(방치) 버튼 Clicked");
 
         CheckAndRequestOverlayPermission();

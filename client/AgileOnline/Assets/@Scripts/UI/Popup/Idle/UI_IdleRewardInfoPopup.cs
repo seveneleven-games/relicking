@@ -146,6 +146,7 @@ public class UI_IdleRewardInfoPopup: UI_Popup
 
     void OnClickCloseButton()
     {
+        Managers.Sound.PlayButtonClick();
         Debug.Log("Closed Button Clicked");
         // 플래그 on
         Managers.Game.showIdleRewardPopup = true;

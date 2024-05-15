@@ -181,12 +181,14 @@ public class UI_InvenRelicInfoPopup : UI_Popup
 
     void OnClickCloseButton()
     {
+        Managers.Sound.PlayButtonClick();
         Debug.Log("CloseRelicDetail");
         Managers.UI.ClosePopupUI(this);
     }
 
     void OnClickEquipButton()
     {
+        Managers.Sound.PlayButtonClick();
         Debug.Log("EquipClicked");
         Managers.UI.ClosePopupUI(this);
         Managers.UI.ShowPopupUI<UI_InvenEquipPopup>();
@@ -194,6 +196,7 @@ public class UI_InvenRelicInfoPopup : UI_Popup
 
     void OnClickUnequipButton()
     {
+        Managers.Sound.PlayButtonClick();
         int EquipedIndex = -1;
         for (int i = 0; i < _templateData.EquipedRelicIds.Length; i++)
         {

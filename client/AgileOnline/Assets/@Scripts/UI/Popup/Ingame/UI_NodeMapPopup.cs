@@ -120,6 +120,7 @@ public class UI_NodeMapPopup : UI_Popup
     
     public void EnterNode(int clickNode, bool isBossNode)
     {
+        Managers.Sound.PlayButtonClick();
         // 팝업 닫기
         // 노드 정보 반영시키기
         // 게임 시작하기
@@ -135,6 +136,7 @@ public class UI_NodeMapPopup : UI_Popup
 
     void ShowSettingPopup()
     {
+        Managers.Sound.PlayButtonClick();
         Managers.UI.ShowPopupUI<UI_IngameSettingPopup>();
     }
 
