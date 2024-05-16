@@ -334,6 +334,7 @@ public class UI_BattlePopup : UI_Popup
 
     void OnChangeStage(int index)
     {
+        Managers.Sound.PlayButtonClick();
         // 현재 스테이지 설정
         _stageData = Managers.Data.StageDic[index + 1];
         Debug.Log(_stageData.StageId);

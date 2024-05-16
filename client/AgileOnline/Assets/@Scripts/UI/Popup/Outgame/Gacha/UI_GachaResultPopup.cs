@@ -111,6 +111,9 @@ public class UI_GachaResultPopup : UI_Popup
         
         if (_relics != null && _relics.Count > 0)
         {
+            
+            Managers.Sound.Play(Define.ESound.Effect,"GachaPrepare");
+            
             // 루키스 방식!
             GameObject container = GetObject((int)EGameObjects.GachaResultListObject);
             container.DestroyChilds();
@@ -167,6 +170,9 @@ public class UI_GachaResultPopup : UI_Popup
     
     IEnumerator WaitAndTriggerSkipButton()
     {
+        
+        // 상자 열릴때의 이펙트 사운드 넣기
+        
         // 3초 동안 대기
         yield return new WaitForSeconds(1.5f);
     
@@ -177,6 +183,9 @@ public class UI_GachaResultPopup : UI_Popup
     
     void OnClickSkipButton()
     {
+        Managers.Sound.Stop(Define.ESound.Effect);
+        Managers.Sound.Play(Define.ESound.Effect,"GachaResult");
+        
         // 뽑기 연출을 스킵하고 결과 보여주기
         GetObject((int)EGameObjects.OpenContentObject).gameObject.SetActive(false);
         GetObject((int)EGameObjects.ContentObject).gameObject.SetActive(true);

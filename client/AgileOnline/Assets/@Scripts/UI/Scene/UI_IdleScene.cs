@@ -60,7 +60,7 @@ public class UI_IdleScene : UI_Scene
         return true;
     }
 
-    // 얜 뭐하는 애니?
+    
     private void Awake()
     {
         Init();

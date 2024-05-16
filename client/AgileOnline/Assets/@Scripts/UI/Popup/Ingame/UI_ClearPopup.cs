@@ -49,6 +49,8 @@ public class UI_ClearPopup : UI_Popup
         if (base.Init() == false)
             return false;
 
+        Managers.Sound.Play(ESound.Effect,"GameClear");
+        
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
         Debug.Log("받아오니?" + _templateData);
         _player = Managers.Object.Player;
@@ -111,6 +113,7 @@ public class UI_ClearPopup : UI_Popup
 
     public override void ClosePopupUI()
     {
+        Managers.Sound.PlayButtonClick();
         ExitGame();
         base.ClosePopupUI();
     }
