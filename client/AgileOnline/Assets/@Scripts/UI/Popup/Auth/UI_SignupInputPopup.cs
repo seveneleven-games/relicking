@@ -108,6 +108,7 @@ public class UI_SignupInputPopup : UI_Popup
         
         // NoNext 버튼
         GetButton((int)EButtons.NoNextButton).gameObject.SetActive(true);
+        GetButton((int)EButtons.NoNextButton).gameObject.BindEvent(OnClickNoNextButton);
         
         // 이메일 필드 값 변화에 대한 이벤트 넣기
         GetInputField((int)EInputFields.EmailInputField).onValueChanged.AddListener(OnChangeEmail);
@@ -304,6 +305,14 @@ public class UI_SignupInputPopup : UI_Popup
         var nicknamePopup = Managers.UI.ShowPopupUI<UI_NicknamePopup>();
         nicknamePopup.SetInfo(email, password);  // 닉네임 팝업으로 데이터 전달
         
+    }
+
+    void OnClickNoNextButton()
+    {
+        if (!isValidateEmail)
+        {
+            Managers.UI.ShowToast("이메일 체크 버튼을 확인해주세요.");
+        }
     }
     
     // 입력 필드가 선택될 때 호출
