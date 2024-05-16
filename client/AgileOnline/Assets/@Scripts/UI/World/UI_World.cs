@@ -11,6 +11,7 @@ public class UI_World : MonoBehaviour
     private Canvas _canvas;
     private RectTransform _canvasRectTransform;
     private Slider _playerHealthSlider;
+    private GameObject _playerHitEffect;
     
     public TMP_FontAsset damageTextFont;
 
@@ -20,6 +21,8 @@ public class UI_World : MonoBehaviour
         _canvas = GetComponent<Canvas>();
         _canvasRectTransform = _canvas.GetComponent<RectTransform>();
         _playerHealthSlider = GameObject.FindWithTag("PlayerHealthSlider").GetComponent<Slider>();
+        _playerHitEffect = GameObject.FindWithTag("HitEffect");
+        _playerHitEffect.SetActive(false);
     }
     
     public void UpdatePlayerHealth(float currentHealth, float maxHealth)
@@ -44,7 +47,7 @@ public class UI_World : MonoBehaviour
             _playerHealthSlider.GetComponent<RectTransform>().anchoredPosition = canvasPosition;
         }
     }
-
+    
     public void ShowDamage(int damage, Vector3 position, bool isCritical = false)
     {
         GameObject damageTextObject = new GameObject("DamageText");
