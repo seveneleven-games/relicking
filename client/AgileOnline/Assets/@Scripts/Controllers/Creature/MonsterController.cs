@@ -388,23 +388,7 @@ public class MonsterController : CreatureController
                 break;
 
             case "BossMonsterRestraint":
-                GameObject go6 = Managers.Resource.Instantiate("BossMonsterThornLay");
-                ParticleSystem ps6 = go6.GetComponent<ParticleSystem>();
-
-                Vector3 direction6 = _player.transform.position - transform.position;
-                float angle6 = Mathf.Atan2(direction6.y, direction6.x) * Mathf.Rad2Deg;
-                var main = ps6.main;
-                main.startRotation = angle6 * Mathf.Deg2Rad;
-
-                float distance = Vector3.Distance(_player.transform.position, transform.position);
-                ps6.transform.localScale = new Vector3(ps6.transform.localScale.x, distance, ps6.transform.localScale.z);
-
-                yield return new WaitForSeconds(0.5f);
-                
-                Destroy(go6);
-
                 _player.FreezePlayerMovement();
-
                 yield return new WaitForSeconds(2f);
                 break;
         }
