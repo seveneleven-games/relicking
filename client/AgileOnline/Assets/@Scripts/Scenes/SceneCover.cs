@@ -20,9 +20,9 @@ public class SceneCover : UI_Base
         DontDestroyOnLoad(gameObject);
     }
 
-    public void CoverToScene(string sceneName)
+    public void CoverToScene(Define.EScene eScene)
     {
-        StartCoroutine(UncoverScreen(sceneName));
+        StartCoroutine(UncoverScreen(eScene));
     }
 
     IEnumerator CoverScreen()
@@ -37,8 +37,8 @@ public class SceneCover : UI_Base
             yield return null;
         }
     }
-
-    IEnumerator UncoverScreen(string sceneName)
+    
+    IEnumerator UncoverScreen(Define.EScene eScene)
     {
         float positionY = coverRectTransform.anchoredPosition.y;
 
@@ -50,7 +50,7 @@ public class SceneCover : UI_Base
             yield return null;
         }
 
-        SceneManager.LoadScene(sceneName);
+        Managers.Scene.LoadScene(eScene);
         
         // 새 씬이 로드된 후, 이 이미지를 비활성화하거나 제거
         Destroy(gameObject);  // 이 방식은 GameObject를 완전히 파괴합니다.

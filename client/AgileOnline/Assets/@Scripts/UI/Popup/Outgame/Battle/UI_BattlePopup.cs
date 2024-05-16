@@ -329,9 +329,11 @@ public class UI_BattlePopup : UI_Popup
                 
                 if (enterStageRes.status == 200)
                 {
-                    // SceneCover sceneCover = Managers.Resource.Instantiate("SceneCover").GetOrAddComponent<SceneCover>();
-                    // sceneCover.CoverToScene("GameScene");
-                    Managers.Scene.LoadScene(Define.EScene.GameScene);
+
+                    SceneCover sceneCover = Managers.UI.ShowBaseUI<SceneCover>();
+                    sceneCover.CoverToScene(Define.EScene.GameScene);
+                    
+                    // Managers.Scene.LoadScene(Define.EScene.GameScene);
                 }
             }
         }));
