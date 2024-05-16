@@ -248,7 +248,6 @@ public class UI_GrowthPopup : UI_Popup
         Debug.Log("성장하러 가기(방치) 버튼 Clicked");
 
         CheckAndRequestOverlayPermission();
-        //Managers.Scene.LoadScene(Define.EScene.IdleScene);
     }
 
     string FormatTime(int totalSeconds)
