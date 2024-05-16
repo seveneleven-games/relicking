@@ -41,22 +41,27 @@ public class GachaService {
 
 	public List<Map<String, Object>> doGacha(Member member, GachaRequestDTO gachaRequestDTO) {
 
+		// 가챠권 개수 충분한지 확인
 		if (gachaRequestDTO.getGachaNum().getValue() > member.getGacha()) {
 			throw new CustomException(ExceptionType.NOT_ENOUGH_GACHA);
 		}
+
+		// 가챠권 차감
 		member.changeGacha(member.getGacha() - gachaRequestDTO.getGachaNum().getValue());
 		memberRepository.save(member);
 
+		// 반환할 최종 결과
 		List<Map<String, Object>> results = new ArrayList<>();
 
 		int raritySize = Constant.RELIC_INFO_TABLE.length;
-		int[][] gachaResult = new int[raritySize][];
+		int[][] gachaResult = new int[raritySize][]; // 각 유물 별 가챠로 얻은 개수를 저장할 counting array
 		for (int i = 0; i < raritySize; i++) {
 			int[] rarityCountingArray = new int[Constant.RELIC_INFO_TABLE[i] + 1];
 			Arrays.fill(rarityCountingArray, 0);
 			gachaResult[i] = rarityCountingArray;
 		}
 
+		// 가챠 돌리는 로직
 		try {
 			Random rand = SecureRandom.getInstanceStrong();
 			for (int i = 0; i < gachaRequestDTO.getGachaNum().getValue(); i++) {
@@ -72,8 +77,9 @@ public class GachaService {
 			throw new RuntimeException(e);
 		}
 
-		List<MemberRelic> memberRelicList = new ArrayList<>();
-		Set<MemberRelic> memberRelics = member.getMemberRelics();
+		List<MemberRelic> memberRelicList = new ArrayList<>(); // 가챠 후 새로 갱신될 최종 유물 리스트
+		Set<MemberRelic> memberRelics = member.getMemberRelics(); // 가챠 전 보유 중인 유물 집합
+		// 기존 유물 갱신
 		memberRelics.forEach(memberRelic -> {
 			int relicNo = memberRelic.getRelicNo();
 			int rarity = relicNo / 100;
@@ -103,6 +109,7 @@ public class GachaService {
 			}
 		});
 
+		// 새로 얻은 유물 추가
 		for (int rarity = 0; rarity < raritySize; rarity++) {
 			for (int j = 1; j < gachaResult[rarity].length; j++) {
 				if (gachaResult[rarity][j] > 0) {
