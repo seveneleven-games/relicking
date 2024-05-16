@@ -240,9 +240,6 @@ public class PlayerController : CreatureController
     public override bool OnDamaged(BaseController attacker, ref float damage)
     {
         Managers.Sound.Play(ESound.Effect, "FemaleHurt", 0.3f);
-        GameObject damageEffect = Managers.Resource.Instantiate("DamageEffect");
-        Animator anim = damageEffect.GetComponent<Animator>();
-        anim.Play("Anim");
         base.OnDamaged(attacker, ref damage);
         UI_World.Instance.UpdatePlayerHealth(Hp, MaxHp);
         return true;
