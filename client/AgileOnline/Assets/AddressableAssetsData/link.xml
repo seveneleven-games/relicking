@@ -41,6 +41,7 @@
     <type fullname="UI_NicknamePopup" preserve="all" />
     <type fullname="UI_NodeMapPopup" preserve="all" />
     <type fullname="UI_OutgameSettingPopup" preserve="all" />
+    <type fullname="UI_RankingObject" preserve="all" />
     <type fullname="UI_RankingPopup" preserve="all" />
     <type fullname="UI_SignupInputPopup" preserve="all" />
     <type fullname="UI_Stage1NodeMap_01" preserve="all" />
