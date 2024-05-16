@@ -35,14 +35,14 @@ MonoBehaviour:
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 30240672571ba834a84e35f1e27deb6c
-    m_Address: UI_GachaResultPopup
+  - m_GUID: 81ad9a90f1d6f2149ae6a0fecb328d49
+    m_Address: UI_GachaRelicObject
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 81ad9a90f1d6f2149ae6a0fecb328d49
-    m_Address: UI_GachaRelicObject
+  - m_GUID: c557b2b3d44a39b44a96593f35da457b
+    m_Address: UI_GachaResultPopup
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
