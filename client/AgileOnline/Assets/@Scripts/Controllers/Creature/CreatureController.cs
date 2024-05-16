@@ -26,14 +26,19 @@ public class CreatureController : BaseController
     }
 
     private bool _hitState;
+    protected bool IsRage = false;
 
     public virtual bool HitState
     {
         get => _hitState;
         set
         {
-            _hitState = value;
-            Animator.SetBool("HitState", value);
+            if (!IsRage)
+            {
+                _hitState = value;
+                Animator.SetBool("HitState", value);
+            }
+            
         }
     }
 

@@ -27,8 +27,8 @@ public class MonsterController : CreatureController
     private TemplateData _templateData;
 
     private UI_InGamePopup _inGamePopup;
-    private bool _isRage = false;
-
+    
+    
     public override bool Init()
     {
         if (base.Init() == false)
@@ -158,10 +158,11 @@ public class MonsterController : CreatureController
             _inGamePopup.UpdateBossHealth(Hp, MaxHp);
         }
 
-        if (MonsterType == 2 && Hp < MaxHp * 0.5 && _isRage == false)
+        if (MonsterType == 2 && Hp < MaxHp * 0.5 && IsRage == false)
         {
             ChangeColorOfChildren(gameObject, Color.red);
-            _isRage = true;
+            HitState = true;
+            IsRage = true;
             Speed *= 2;
             CoolDown *= 0.5f;
         }
