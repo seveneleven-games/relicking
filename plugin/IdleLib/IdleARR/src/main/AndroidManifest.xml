@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <application>
+        <receiver android:name=".UnityReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.seveneleven.agileonline.BRING_TO_FOREGROUND" />
+            </intent-filter>
+        </receiver>
+        <service android:name=".OverlayService"
+            android:permission="android.permission.SYSTEM_ALERT_WINDOW"/>
+    </application>
+</manifest>

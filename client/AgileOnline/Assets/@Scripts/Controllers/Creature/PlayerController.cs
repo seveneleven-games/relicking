@@ -23,6 +23,31 @@ public class PlayerController : CreatureController
     
     private int playerGold = INITIAL_GOLD;
 
+    private bool _isPlayerFrozen = false;
+    private float _freezeDuration = 2f;
+
+    public void FreezePlayerMovement()
+    {
+        StartCoroutine(FreezePlayerMovementCoroutine());
+    }
+    
+    private IEnumerator FreezePlayerMovementCoroutine()
+    {
+        _isPlayerFrozen = true;
+        GameObject restraintObj = Managers.Resource.Instantiate("Restraint");
+        restraintObj.transform.position = transform.position + new Vector3(0, 0.2f, 0);
+        float elapsedTime = 0f;
+
+        while (elapsedTime < _freezeDuration)
+        {
+            _moveDir = Vector2.zero;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        Destroy(restraintObj);
+        _isPlayerFrozen = false;
+    }
+
     // 스킬풀 플래그 변수
     public bool SkillPoolFixedInit { get; set; } = false;
 
@@ -141,13 +166,15 @@ public class PlayerController : CreatureController
 
     private void Update()
     {
-        Vector3 dir = _moveDir * (Time.deltaTime * Util.UnitySpeed(Speed));
-
-        transform.TranslateEx(dir);
-
-        if (_moveDir != Vector2.zero)
+        if (!_isPlayerFrozen)
         {
-            _indicator.eulerAngles = new Vector3(0, 0, Mathf.Atan2(-dir.x, dir.y) * 180 / Mathf.PI);
+            Vector3 dir = _moveDir * (Time.deltaTime * Util.UnitySpeed(Speed));
+            transform.TranslateEx(dir);
+
+            if (_moveDir != Vector2.zero)
+            {
+                _indicator.eulerAngles = new Vector3(0, 0, Mathf.Atan2(-dir.x, dir.y) * 180 / Mathf.PI);
+            }
         }
 
         GetComponent<Rigidbody2D>().velocity = Vector3.zero;
