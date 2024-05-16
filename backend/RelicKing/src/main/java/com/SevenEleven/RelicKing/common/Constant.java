@@ -33,4 +33,7 @@ public interface Constant {
 
 	// skill
 	int THE_NUMBER_OF_SKILL = 10;
+
+	// app
+	String APP_VERSION = "0.9.3";
 }

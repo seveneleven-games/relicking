@@ -47,6 +47,9 @@ public enum ExceptionType {
 
     // relic
     NO_SUCH_RELIC(HttpStatus.NOT_FOUND.value(), "No such relic"),
+
+    // app
+    OUTDATED_VERSION(HttpStatus.UPGRADE_REQUIRED.value(), "앱이 최신 버전이 아닙니다."),
     ;
 
     private final int status;
