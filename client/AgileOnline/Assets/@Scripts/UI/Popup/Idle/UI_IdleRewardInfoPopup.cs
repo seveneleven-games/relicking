@@ -122,7 +122,7 @@ public class UI_IdleRewardInfoPopup: UI_Popup
     void UpdateRewardUI(IdleRewardData data)
     {
         GetText((int)ETexts.TotalIdleContent).text = FormatTime(Managers.Game.idleRewardTime);
-        GetText((int)ETexts.RewardBonusText).text = $"스트릭 누적 보너스 {data.bonusGacha}%";
+        GetText((int)ETexts.RewardBonusText).text = $"스트릭 누적 보너스 +{data.bonusGacha}";
         GetText((int)ETexts.Tickets).text = data.earnedGacha.ToString();
         
         GetText((int)ETexts.TotalIdleContent).gameObject.SetActive(true);
@@ -146,6 +146,7 @@ public class UI_IdleRewardInfoPopup: UI_Popup
 
     void OnClickCloseButton()
     {
+        Managers.Sound.PlayButtonClick();
         Debug.Log("Closed Button Clicked");
         // 플래그 on
         Managers.Game.showIdleRewardPopup = true;

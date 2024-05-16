@@ -13,7 +13,7 @@ public class IdleScene : BaseScene
         
         // UI
         Managers.UI.ShowSceneUI<UI_IdleScene>();
-        //Screen.sleepTimeout = SleepTimeout.SystemSetting;
+        
         
         
         return true;

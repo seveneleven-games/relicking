@@ -27,6 +27,7 @@ public class UI_Popup : UI_Base
 
     public virtual void ClosePopupUI()
     {
+        Managers.Sound.PlayButtonClick();
         Managers.UI.ClosePopupUI(this);
     }
 }

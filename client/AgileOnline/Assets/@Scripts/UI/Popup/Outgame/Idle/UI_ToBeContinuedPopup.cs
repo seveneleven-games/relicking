@@ -55,6 +55,7 @@ public class UI_ToBeContinuedPopup : UI_Popup
 
     void OnClickCloseButton()
     {
+        Managers.Sound.PlayButtonClick();
         Debug.Log("모달 닫힘");
         
         Managers.UI.ClosePopupUI(this);

@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uB098\uAC00\uAE30"
+  m_text: "\uAC8C\uC784 \uB098\uAC00\uAE30"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9861196b713cc3f4f8eb83b2c30f87e9, type: 2}
   m_sharedMaterial: {fileID: -2224570256509993638, guid: 9861196b713cc3f4f8eb83b2c30f87e9, type: 2}
@@ -92,8 +92,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 85
-  m_fontSizeBase: 85
+  m_fontSize: 64
+  m_fontSizeBase: 64
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2566,7 +2566,7 @@ GameObject:
   - component: {fileID: 322555072589521279}
   - component: {fileID: 4281976959579714745}
   m_Layer: 5
-  m_Name: Checkmark
+  m_Name: SFXCheckmark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3268,7 +3268,7 @@ GameObject:
   - component: {fileID: 1093271030872293630}
   - component: {fileID: 3474884795115984184}
   m_Layer: 5
-  m_Name: Checkmark
+  m_Name: BGMCheckmark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4330,6 +4330,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ca9646c37c566f46a87b779f545c735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  popupType: 0
 --- !u!1 &6873164243705026704
 GameObject:
   m_ObjectHideFlags: 0

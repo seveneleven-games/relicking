@@ -89,8 +89,15 @@ public static class Util
     // Get (json 형식으로)
     public static IEnumerator GetRequest(string uri, Action<string> callback)
     {
-        string finalUri = BASE_URI + uri;
+        if (Application.internetReachability == NetworkReachability.NotReachable)
+        {
+            Debug.LogError("네트워크 연결이 불가능합니다.");
+            Managers.UI.ShowToast("네트워크 연결을 확인해주세요.");
+            callback(null); 
+            yield break; 
+        }
 
+        string finalUri = BASE_URI + uri;
         using (UnityWebRequest webRequest = UnityWebRequest.Get(finalUri))
         {
             // 요청 보내기
@@ -100,12 +107,12 @@ public static class Util
                 webRequest.result == UnityWebRequest.Result.ProtocolError)
             {
                 Debug.LogError(webRequest.error);
+                callback(null); // 오류 발생 시 콜백에 null 전달
             }
             else
             {
                 Debug.Log(webRequest.downloadHandler.text);
-                string data = webRequest.downloadHandler.text;
-                callback(data);
+                callback(webRequest.downloadHandler.text); // 성공적인 응답 처리
             }
         }
     }
@@ -114,6 +121,14 @@ public static class Util
     // POST 요청 (json 형식으로)
     public static IEnumerator PostRequest(string uri, string jsonData, Action<string> callback)
     {
+        if (Application.internetReachability == NetworkReachability.NotReachable)
+        {
+            Debug.LogError("네트워크 연결이 불가능합니다.");
+            Managers.UI.ShowToast("네트워크 연결을 확인해주세요.");
+            callback(null);
+            yield break;
+        }
+
         string finalUri = BASE_URI + uri;
         using (UnityWebRequest webRequest = new UnityWebRequest(finalUri, "POST"))
         {
@@ -122,19 +137,16 @@ public static class Util
             webRequest.downloadHandler = new DownloadHandlerBuffer();
             webRequest.SetRequestHeader("Content-Type", "application/json");
 
-            // 요청 보내기
             yield return webRequest.SendWebRequest();
 
             if (webRequest.result == UnityWebRequest.Result.ConnectionError ||
                 webRequest.result == UnityWebRequest.Result.ProtocolError)
             {
                 Debug.LogError(webRequest.error);
-                Debug.LogError($"Server Response: {webRequest.downloadHandler.text}"); // 서버 응답 로깅
-                // callback(null);
+                callback(null);
             }
             else
             {
-                Debug.Log("Received: " + webRequest.downloadHandler.text);
                 callback(webRequest.downloadHandler.text);
             }
         }
@@ -143,6 +155,14 @@ public static class Util
     // PATCH 요청
     public static IEnumerator PatchRequest(string uri, string jsonData, Action<string> callback)
     {
+        if (Application.internetReachability == NetworkReachability.NotReachable)
+        {
+            Debug.LogError("네트워크 연결이 불가능합니다.");
+            Managers.UI.ShowToast("네트워크 연결을 확인해주세요.");
+            callback(null);
+            yield break;
+        }
+
         string finalUri = BASE_URI + uri;
         using (UnityWebRequest webRequest = new UnityWebRequest(finalUri, "PATCH"))
         {
@@ -151,18 +171,16 @@ public static class Util
             webRequest.downloadHandler = new DownloadHandlerBuffer();
             webRequest.SetRequestHeader("Content-Type", "application/json");
 
-            // 요청 보내기
             yield return webRequest.SendWebRequest();
 
             if (webRequest.result == UnityWebRequest.Result.ConnectionError ||
                 webRequest.result == UnityWebRequest.Result.ProtocolError)
             {
                 Debug.LogError(webRequest.error);
-                // callback(null); // 오류 시 콜백을 null로 호출할 경우 주석을 해제
+                callback(null);
             }
             else
             {
-                Debug.Log("Received: " + webRequest.downloadHandler.text);
                 callback(webRequest.downloadHandler.text);
             }
         }
@@ -204,6 +222,14 @@ public static class Util
 
     public static IEnumerator JWTGetRequest(string uri, Action<string> callback)
     {
+        if (Application.internetReachability == NetworkReachability.NotReachable)
+        {
+            Debug.LogError("네트워크 연결이 불가능합니다.");
+            Managers.UI.ShowToast("네트워크 연결을 확인해주세요.");
+            callback(null);
+            yield break;
+        }
+        
         string finalUri = BASE_URI + uri;
 
         string accessToken = Managers.Game.AccessToken;
@@ -239,6 +265,14 @@ public static class Util
 
     public static IEnumerator JWTPostRequest(string uri, string jsonData, Action<string> callback)
     {
+        if (Application.internetReachability == NetworkReachability.NotReachable)
+        {
+            Debug.LogError("네트워크 연결이 불가능합니다.");
+            Managers.UI.ShowToast("네트워크 연결을 확인해주세요.");
+            callback(null);
+            yield break;
+        }
+        
         string finalUri = BASE_URI + uri;
 
         string accessToken = Managers.Game.AccessToken;
@@ -279,6 +313,14 @@ public static class Util
 
     public static IEnumerator JWTPatchRequest(string uri, string jsonData, Action<string> callback)
     {
+        if (Application.internetReachability == NetworkReachability.NotReachable)
+        {
+            Debug.LogError("네트워크 연결이 불가능합니다.");
+            Managers.UI.ShowToast("네트워크 연결을 확인해주세요.");
+            callback(null);
+            yield break;
+        }
+        
         string finalUri = BASE_URI + uri;
 
         string accessToken = Managers.Game.AccessToken;
@@ -308,6 +350,10 @@ public static class Util
                     yield return RequestNewToken(); // 토큰 재발급 요청
                     yield return JWTPostRequest(uri, jsonData, callback); // 요청 재시도
                 }
+                else
+                {
+                    callback(webRequest.downloadHandler.text); // 오류 정보 전달, 요청 실패를 명시
+                }
             }
             else
             {
@@ -319,6 +365,14 @@ public static class Util
     
     public static IEnumerator JWTDeleteRequest(string uri, Action<string> callback)
     {
+        if (Application.internetReachability == NetworkReachability.NotReachable)
+        {
+            Debug.LogError("네트워크 연결이 불가능합니다.");
+            Managers.UI.ShowToast("네트워크 연결을 확인해주세요.");
+            callback(null);
+            yield break;
+        }
+        
         string finalUri = BASE_URI + uri;
 
         string accessToken = Managers.Game.AccessToken;
@@ -356,59 +410,14 @@ public static class Util
 
     #endregion
 
-    #region 안드로이드 플러그인 통신
+    #region 네트워크 확인
 
-    private static AndroidJavaObject permissionHelper;
-    private static AndroidJavaObject unityActivity;
-    private static AndroidJavaObject unityContext;
+    public static bool IsNetworkAvailable()
+    {
+        return Application.internetReachability != NetworkReachability.NotReachable;
+    }
     
-
-    public static void InitializePlugin()
-    {
-        using (var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
-        {
-            unityActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-            unityContext = unityActivity.Call<AndroidJavaObject>("getApplicationContext");
-        }
-
-        permissionHelper = new AndroidJavaObject("com.ssafy.idlearr.PermissionIdleHelper", unityContext);
-    }
-
-    public static void CheckAndRequestPermissions()
-    {
-        if (permissionHelper.Call<bool>("checkPermissions"))
-        {
-            //StartIdleService();
-            Debug.Log("허용 두가지 했음여");
-        }
-        else
-        {
-            permissionHelper.Call("showPermissionModal");
-            
-        }
-    }
-
-    public static void StartIdleService()
-    {
-        using (var idleService = new AndroidJavaClass("com.ssafy.idlearr.IdleService"))
-        {
-            idleService.CallStatic("startService", unityContext);
-        }
-    }
-
-    public static void StopIdleService()
-    {
-        using (var idleService = new AndroidJavaClass("com.ssafy.idlearr.IdleService"))
-        {
-            idleService.CallStatic("stopService", unityContext);
-        }
-    }
-
-    public static void OnServiceStopped(string result)
-    {
-        Debug.Log("Service stopped: " + result);
-        // Here, load your main scene or perform other actions.
-    }
-
     #endregion
+
+
 }

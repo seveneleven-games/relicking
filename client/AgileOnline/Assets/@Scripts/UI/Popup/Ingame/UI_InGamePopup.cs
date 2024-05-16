@@ -11,7 +11,8 @@ public class UI_InGamePopup : UI_Popup
     {
         TimerText,
         RemainGold,
-        BossSlider
+        BossSlider,
+        BossName
     }
 
     enum Buttons
@@ -19,8 +20,10 @@ public class UI_InGamePopup : UI_Popup
         SettingButton
     }
 
-    private TextMeshProUGUI timerText;
-    private float remainingTime = 30f;
+    private TextMeshProUGUI _timerText;
+    private TextMeshProUGUI _bossName;
+    private float _remainingTime = 30f;
+    private TemplateData _templateData;
 
 
     public override bool Init()
@@ -29,6 +32,7 @@ public class UI_InGamePopup : UI_Popup
             return false;
         
         popupType = GameScene.IsBossNode ? PopupType.InGameBoss : PopupType.InGame;
+        _templateData = Resources.Load<TemplateData>("GameTemplateData");
         
         BindText(typeof(GameObjects));
         BindButton(typeof(Buttons));
@@ -38,7 +42,7 @@ public class UI_InGamePopup : UI_Popup
         CheckBossNode();
         GetButton((int)Buttons.SettingButton).gameObject.BindEvent(ShowSettingPopup);
 
-        timerText = GetText((int)GameObjects.TimerText).GetComponent<TextMeshProUGUI>();
+        _timerText = GetText((int)GameObjects.TimerText).GetComponent<TextMeshProUGUI>();
         StartCoroutine(UpdateTimer());
 
         PlayerController pc = Managers.Object.Player;
@@ -52,10 +56,13 @@ public class UI_InGamePopup : UI_Popup
         bool isBossNode = GameScene.IsBossNode;
 
         Slider bossSlider = Get<Slider>((int)GameObjects.BossSlider);
-        Debug.Log("이즈 보스 노드" + isBossNode);
+        
         bossSlider.gameObject.SetActive(isBossNode);
         if (isBossNode)
         {
+            _bossName = GetText((int)GameObjects.BossName).GetComponent<TextMeshProUGUI>();
+            _bossName.text = Managers.Data.StageDic[_templateData.StageId].Name + " BOSS";
+            _remainingTime = 60f;
             Managers.Sound.Play(Define.ESound.Bgm, "Bgm_InGameBoss");
         }
     }
@@ -80,14 +87,14 @@ public class UI_InGamePopup : UI_Popup
 
     private IEnumerator UpdateTimer()
     {
-        while (remainingTime > 1f)
+        while (_remainingTime > 1f)
         {
-            timerText.text = Mathf.FloorToInt(remainingTime).ToString();
-            remainingTime -= Time.deltaTime;
+            _timerText.text = Mathf.FloorToInt(_remainingTime).ToString();
+            _remainingTime -= Time.deltaTime;
             yield return null;
         }
 
-        timerText.text = "0";
+        _timerText.text = "0";
     }
 
     private void CleanupResources()

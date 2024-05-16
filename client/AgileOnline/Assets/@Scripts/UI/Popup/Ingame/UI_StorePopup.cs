@@ -143,6 +143,8 @@ public class UI_StorePopup : UI_Popup
             return;
         }
 
+        Managers.Sound.Play(Define.ESound.Effect,"SkillUp");
+        
         //GameScene에서 구독한 BuySkill 함수 실행 & 싱크 작업
         DataSync(_player.AddSkill(skill.SkillId));
         _player.PlayerGold -= skill.SkillCost;
@@ -230,6 +232,8 @@ public class UI_StorePopup : UI_Popup
             return;
         }
 
+        Managers.Sound.Play(Define.ESound.Effect,"Reroll");
+        
         _skillTypes = GetRandomSkillIdList(3);
         
         // 스킬 정보에 따라서 더해주는 값을 바꾸어 줘야 할 것.

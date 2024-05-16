@@ -28,6 +28,7 @@ public class UI_GameExitConfirmPopup : UI_Popup
     
     void ExitGame()
     {
+        Managers.Sound.PlayButtonClick();
         PlayerController player = Managers.Object.Player;
         if (player != null)
         {
