@@ -37,7 +37,7 @@ public class UI_World : MonoBehaviour
         if (Managers.Object.Player != null)
         {
             Vector3 playerPosition = Managers.Object.Player.transform.position;
-            Vector3 healthBarPosition = playerPosition + Vector3.up * 1f;
+            Vector3 healthBarPosition = playerPosition + Vector3.down * 0.4f;
             Vector2 screenPosition = Camera.main.WorldToScreenPoint(healthBarPosition);
             Vector2 canvasPosition;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(_canvasRectTransform, screenPosition, _canvas.worldCamera, out canvasPosition);
