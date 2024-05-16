@@ -1297,7 +1297,7 @@
       "IconName": "BossMonsterThorn_icon.sprite",
       "CoolTime": 10,
       "Damage": 2.0,
-      "LifeTime": 1.5,
+      "LifeTime": 0.7,
       "Speed": 20.0,
       "ProjectileNum": 0
     },
