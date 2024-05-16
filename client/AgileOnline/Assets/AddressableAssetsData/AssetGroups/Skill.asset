@@ -95,6 +95,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1ac91b8f1631cb34094a517b048b957f
+    m_Address: BossMonsterRestraint
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 87e7084bbc6999c498f702ac7046af5e
     m_Address: BossMonsterThorn
     m_ReadOnly: 0

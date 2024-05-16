@@ -1269,9 +1269,9 @@
       "IconName": "EliteMonsterProjectile_icon.sprite",
       "CoolTime": 3,
       "Damage": 2,
-      "LifeTime": 5,
+      "LifeTime": 7,
       "Scale": 1,
-      "Speed": 3,
+      "Speed": 4,
       "ProjectileNum": 10
     },
     {
@@ -1336,9 +1336,9 @@
       "IconName": "BossMonsterRestraint_icon.sprite",
       "CoolTime": 3,
       "Damage": 2.0,
-      "LifeTime": 3.0,
-      "Speed": 3.0,
-      "ProjectileNum": 10
+      "LifeTime": 2.0,
+      "Speed": 13.0,
+      "ProjectileNum": 1
     }
   ]
 }

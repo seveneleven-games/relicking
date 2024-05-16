@@ -33,6 +33,9 @@ public class ObjectManager
     public HashSet<StormBladeController> StormBlades { get; } = new HashSet<StormBladeController>();
 
     public HashSet<BossMonsterThornController> BossMonsterThorns { get; } = new HashSet<BossMonsterThornController>();
+
+    public HashSet<BossMonsterRestraintController> BossMonsterRestraints { get; } =
+        new HashSet<BossMonsterRestraintController>();
     
     #region Roots
 
@@ -128,6 +131,11 @@ public class ObjectManager
     public Transform BossMonsterThornRoot
     {
         get { return GetRootTransform("@BossMonsterThorn"); }
+    }
+
+    public Transform BossMonsterRestraintRoot
+    {
+        get { return GetRootTransform("@BossMonsterRestraint"); }
     }
 
     #endregion
@@ -290,6 +298,13 @@ public class ObjectManager
                     BossMonsterThorns.Add(bmtc);
                     bmtc.InitSkill(templateId);
                     break;
+                
+                case ESkillType.BossMonsterRestraint:
+                    sc.transform.parent = BossMonsterRestraintRoot;
+                    BossMonsterRestraintController bmrc = sc.GetComponent<BossMonsterRestraintController>();
+                    BossMonsterRestraints.Add(bmrc);
+                    bmrc.InitSkill(templateId);
+                    break;
             }
         }
 
@@ -385,6 +400,11 @@ public class ObjectManager
                 case ESkillType.BossMonsterThorn:
                     BossMonsterThornController bmtc = sc as BossMonsterThornController;
                     BossMonsterThorns.Remove(bmtc);
+                    break;
+                
+                case ESkillType.BossMonsterRestraint:
+                    BossMonsterRestraintController bmrc = sc as BossMonsterRestraintController;
+                    BossMonsterRestraints.Remove(bmrc);
                     break;
             }
         }

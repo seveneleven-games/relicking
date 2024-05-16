@@ -66,7 +66,8 @@ public static class Define
         ChainLightning,
         Shuriken,
         StormBlade,
-        BossMonsterThorn
+        BossMonsterThorn,
+        BossMonsterRestraint
     }
 
     public enum EJoystickState

@@ -19,37 +19,27 @@ public class PlayerController : CreatureController
     public float CritRate { get; private set; }
     public float CritDmgRate { get; private set; }
     public float CoolDown { get; private set; }
-    public float CoinBonus {get; private set; }
-    
+    public float CoinBonus { get; private set; }
+
     private int playerGold = INITIAL_GOLD;
 
-    private bool _isPlayerFrozen = false;
-    private float _freezeDuration = 1.5f;
-
-    public void FreezePlayerMovement()
-    {
-        StartCoroutine(FreezePlayerMovementCoroutine());
-    }
+    private bool _isSlow = false;
     
-    private IEnumerator FreezePlayerMovementCoroutine()
+    public bool IsSlow
     {
-        _isPlayerFrozen = true;
-        GameObject restraintObj = Managers.Resource.Instantiate("Restraint");
-        restraintObj.transform.position = transform.position + new Vector3(0, 0.2f, 0);
-        float elapsedTime = 0f;
-        GameObject go6 = Managers.Resource.Instantiate("BossMonsterThornLay");
-        ParticleSystem ps6 = go6.GetComponent<ParticleSystem>();
-        ps6.transform.position = transform.position;
-
-        while (elapsedTime < _freezeDuration)
+        get { return _isSlow; }
+        set
         {
-            _moveDir = Vector2.zero;
-            elapsedTime += Time.deltaTime;
-            yield return null;
+            _isSlow = value;
+            if (value == true)
+            {
+                Speed *= 0.2f;
+            }
+            else
+            {
+                Speed /= 0.2f;
+            }
         }
-        Destroy(restraintObj);
-        Destroy(go6);
-        _isPlayerFrozen = false;
     }
 
     // 스킬풀 플래그 변수
@@ -61,14 +51,14 @@ public class PlayerController : CreatureController
 
     public bool IsBossKilled
     {
-        get {return _isBossKilled; }
+        get { return _isBossKilled; }
         set
         {
             _isBossKilled = value;
             OnBossKilled?.Invoke();
         }
     }
-    
+
     public int PlayerGold
     {
         get { return playerGold; }
@@ -95,7 +85,7 @@ public class PlayerController : CreatureController
     private List<Coroutine> _skillCoroutines = new List<Coroutine>();
 
     private bool isSkillsActive = false;
-    
+
     private GameScene _gameScene;
 
     private TemplateData _templateData;
@@ -104,7 +94,7 @@ public class PlayerController : CreatureController
     {
         if (base.Init() == false)
             return false;
-        
+
         _gameScene = FindObjectOfType<GameScene>();
 
         ObjectType = EObjectType.Player;
@@ -117,7 +107,7 @@ public class PlayerController : CreatureController
 
         PlayerSkillList = new List<int>(new int[6]);
         PlayerRelicList = new List<int>(new int[6]);
-        
+
         GameObject indicatorObject = new GameObject("Indicator");
         indicatorObject.transform.SetParent(transform);
         indicatorObject.transform.localPosition = Vector3.zero;
@@ -145,9 +135,9 @@ public class PlayerController : CreatureController
         CritDmgRate = data.CritDmgRate;
         CoolDown = data.CoolDown;
         CoinBonus = data.ExtraGold;
-        
+
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
-        
+
         int[] relicIds = _templateData.EquipedRelicIds;
         foreach (int relicId in relicIds)
         {
@@ -160,26 +150,23 @@ public class PlayerController : CreatureController
             CritDmgRate += relicData.CritDmgRate;
             CoolDown -= relicData.CoolTime / 100f;
         }
-        
+
         Hp = MaxHp;
 
         if (CoolDown < 0.1)
             CoolDown = 0.1f;
-        
     }
 
     private void Update()
     {
-        if (!_isPlayerFrozen)
-        {
-            Vector3 dir = _moveDir * (Time.deltaTime * Util.UnitySpeed(Speed));
-            transform.TranslateEx(dir);
+        Vector3 dir = _moveDir * (Time.deltaTime * Util.UnitySpeed(Speed));
+        transform.TranslateEx(dir);
 
-            if (_moveDir != Vector2.zero)
-            {
-                _indicator.eulerAngles = new Vector3(0, 0, Mathf.Atan2(-dir.x, dir.y) * 180 / Mathf.PI);
-            }
+        if (_moveDir != Vector2.zero)
+        {
+            _indicator.eulerAngles = new Vector3(0, 0, Mathf.Atan2(-dir.x, dir.y) * 180 / Mathf.PI);
         }
+
 
         GetComponent<Rigidbody2D>().velocity = Vector3.zero;
     }
@@ -205,6 +192,18 @@ public class PlayerController : CreatureController
                 break;
         }
     }
+    
+    public void ApplySlow(float duration)
+    {
+        StartCoroutine(SlowDuration(duration));
+    }
+
+    private IEnumerator SlowDuration(float duration)
+    {
+        IsSlow = true;
+        yield return new WaitForSeconds(duration);
+        IsSlow = false;
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -217,11 +216,11 @@ public class PlayerController : CreatureController
     {
         if (collision.CompareTag("Gold"))
         {
-            Managers.Sound.Play(ESound.Effect,"Reroll");
-            
+            Managers.Sound.Play(ESound.Effect, "Reroll");
+
             GoldController gc = collision.GetComponent<GoldController>();
 
-            int goldValue = (int) (gc.GoldValue * (1 + CoinBonus) + 0.5f);
+            int goldValue = (int)(gc.GoldValue * (1 + CoinBonus) + 0.5f);
 
             PlayerGold += goldValue;
 
@@ -238,10 +237,12 @@ public class PlayerController : CreatureController
             popup.UpdateRemainGoldText(PlayerGold);
     }
 
-    public override bool OnDamaged(BaseController attacker,ref float damage)
+    public override bool OnDamaged(BaseController attacker, ref float damage)
     {
-        Managers.Sound.Play(ESound.Effect,"FemaleHurt",0.3f);
-        
+        Managers.Sound.Play(ESound.Effect, "FemaleHurt", 0.3f);
+        GameObject damageEffect = Managers.Resource.Instantiate("DamageEffect");
+        Animator anim = damageEffect.GetComponent<Animator>();
+        anim.Play("Anim");
         base.OnDamaged(attacker, ref damage);
         UI_World.Instance.UpdatePlayerHealth(Hp, MaxHp);
         return true;
@@ -298,7 +299,7 @@ public class PlayerController : CreatureController
     }
 
     private int[] _poisonFieldPos;
-    
+
     IEnumerator CoStartSkill(int skillId)
     {
         SkillData skillData = Managers.Data.SkillDic[skillId];
@@ -387,7 +388,7 @@ public class PlayerController : CreatureController
                     //     installedPositions.Add(randomPos);
                     // }
                     StartCoroutine(SpawnPoisonField(skillData, skillId));
-                    
+
                     break;
 
                 case "WindCutter":
@@ -427,32 +428,33 @@ public class PlayerController : CreatureController
                     }
 
                     yield break;
-                
+
                 case "Meteor":
                     for (int i = 0; i < skillData.ProjectileNum; i++)
                     {
                         Debug.Log("내 포지션 : " + transform.position);
                         Vector3 shadowSpawnPos = new Vector3(
-                            Mathf.Clamp(transform.position.x + Random.Range(-3f, 3f), -8f, 8f), 
-                            Mathf.Clamp(transform.position.y + Random.Range(-3f, 3f), -8f, 8f), 
+                            Mathf.Clamp(transform.position.x + Random.Range(-3f, 3f), -8f, 8f),
+                            Mathf.Clamp(transform.position.y + Random.Range(-3f, 3f), -8f, 8f),
                             0f);
                         Debug.Log("메테오 포지션 : " + shadowSpawnPos);
                         Managers.Object.Spawn<MeteorShadowController>(shadowSpawnPos, skillId);
-                        
+
                         Vector3 meteorSpawnPos = shadowSpawnPos + new Vector3(0f, 5.5f, 0f);
                         Managers.Object.Spawn<MeteorController>(meteorSpawnPos, skillId);
-                        
+
                         Vector3 hitSpawnPos = shadowSpawnPos;
                         StartCoroutine(DelayedMeteorHit(hitSpawnPos, skillId, 2f));
                     }
+
                     break;
-                
+
                 case "ChainLightning":
                     for (int i = 0; i < skillData.ProjectileNum; i++)
                     {
                         float damageFloat = Managers.Data.SkillDic[skillId].Damage;
                         float realDamage = (damageFloat * Atk);
-                        
+
                         List<MonsterController> chainMonsters = new List<MonsterController>();
                         Collider2D[] chainColliders = Physics2D.OverlapCircleAll(transform.position, 10f);
                         foreach (Collider2D collider in chainColliders)
@@ -461,11 +463,12 @@ public class PlayerController : CreatureController
                             if (monster != null)
                                 chainMonsters.Add(monster);
                         }
+
                         chainMonsters.Sort((a, b) => Vector3.Distance(transform.position, a.transform.position)
                             .CompareTo(Vector3.Distance(transform.position, b.transform.position)));
                         int numOfBounce = Mathf.Min(3, chainMonsters.Count);
                         List<MonsterController> chainTargetMonsters = chainMonsters.Take(numOfBounce).ToList();
-                        
+
                         foreach (MonsterController monster in chainTargetMonsters)
                         {
                             monster.OnDamaged(this, ref realDamage);
@@ -473,8 +476,9 @@ public class PlayerController : CreatureController
                             Managers.Object.Spawn<ChainLightningController>(endPoint, skillId);
                         }
                     }
+
                     break;
-                
+
                 case "Shuriken":
                     for (int i = 0; i < skillData.ProjectileNum; i++)
                     {
@@ -482,11 +486,12 @@ public class PlayerController : CreatureController
                         skc.SetOwner(this);
                         float randomAngle = Random.Range(0f, 360f);
                         Vector3 moveDirection = Quaternion.Euler(0f, 0f, randomAngle * Mathf.Rad2Deg) * _indicator.up;
-                        
+
                         skc.SetMoveDirection(moveDirection);
                     }
+
                     break;
-                
+
                 case "StormBlade":
                     StartCoroutine(ShootStormBlades(skillData.ProjectileNum, skillId));
                     break;
@@ -504,10 +509,11 @@ public class PlayerController : CreatureController
                 transform.position + POISON_FIELD_POS[_poisonFieldPos[i]], skillId);
             pfc.SetOwner(this);
 
-            yield return new WaitForSeconds(0.2f);;
+            yield return new WaitForSeconds(0.2f);
+            ;
         }
     }
-    
+
     private IEnumerator ShootStormBlades(int projectileNum, int skillId)
     {
         for (int i = 0; i < projectileNum; i++)
@@ -524,7 +530,7 @@ public class PlayerController : CreatureController
             yield return new WaitForSeconds(0.1f);
         }
     }
-    
+
     private IEnumerator DelayedMeteorHit(Vector3 spawnPos, int skillId, float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -570,27 +576,28 @@ public class PlayerController : CreatureController
     public override void OnDead()
     {
         base.OnDead();
-        
+
         Managers.UI.ShowPopupUI<UI_DeadPopup>();
-        
+
         CreatureState = ECreatureState.Dead;
-        
+
         PlayerController player = Managers.Object.Player;
         if (player != null)
         {
             player.gameObject.SetActive(false);
             Managers.Object.Player = null;
         }
+
         StopAllCoroutines();
         // 리소스 정리
         CleanupResources();
-        
+
         if (_gameScene != null)
         {
             _gameScene.InvokeGameOverEvent();
         }
     }
-    
+
     private void CleanupResources()
     {
         // 몬스터와 골드 오브젝트 despawn
