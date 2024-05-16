@@ -383,6 +383,7 @@ public class GameScene : BaseScene
 
                 MonsterController mc = Managers.Object.Spawn<MonsterController>(randomPosition, randomMonsterId);
                 mc.InitMonster(randomMonsterId);
+                mc.HitState = false;
                 
                 if (gameObject == null)
                     yield break;

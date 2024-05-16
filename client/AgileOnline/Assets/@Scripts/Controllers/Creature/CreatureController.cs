@@ -27,16 +27,13 @@ public class CreatureController : BaseController
 
     private bool _hitState;
 
-    protected virtual bool HitState
+    public virtual bool HitState
     {
         get => _hitState;
         set
         {
-            if (_hitState != value)
-            {
-                _hitState = value;
-                Animator.SetBool("HitState", value);
-            }
+            _hitState = value;
+            Animator.SetBool("HitState", value);
         }
     }
 
@@ -60,8 +57,8 @@ public class CreatureController : BaseController
             StartCoroutine(StopHitEffect());
         }
         
-        Debug.Log("������ : " + attacker);
-        Debug.Log("������ : " + damage);
+        Debug.Log("때린놈 : " + attacker);
+        Debug.Log("대미지 : " + damage);
         
         if (attacker is PlayerController playerAttacker)
         {
