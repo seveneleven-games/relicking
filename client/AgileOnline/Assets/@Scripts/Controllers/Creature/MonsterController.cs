@@ -246,7 +246,7 @@ public class MonsterController : CreatureController
                     int empProjectileNum = skillData.ProjectileNum;
                     float angleStep1 = 360f / empProjectileNum;
 
-                    for (int j = 0; j < 3; j++)
+                    for (int j = 0; j < 5; j++)
                     {
                         for (int i = 0; i < empProjectileNum; i++)
                         {
@@ -388,8 +388,30 @@ public class MonsterController : CreatureController
                 break;
 
             case "BossMonsterRestraint":
-                _player.FreezePlayerMovement();
-                yield return new WaitForSeconds(2f);
+
+                yield return new WaitForSeconds(1f);
+
+                for (int i = 0; i < 5; i++)
+                {
+                    var position = transform.position;
+                    Vector3 playerDirection2 = (_player.transform.position - position).normalized;
+
+                    GameObject go9 = Managers.Resource.Instantiate("LineAlert");
+                    ParticleSystem ps9 = go9.GetComponent<ParticleSystem>();
+                    ps9.transform.position = position;
+                    float psAngle2 = Mathf.Atan2(playerDirection2.y, playerDirection2.x) * Mathf.Rad2Deg;
+                    ps9.transform.rotation = Quaternion.AngleAxis(psAngle2, Vector3.forward);
+                    ps9.transform.rotation *= Quaternion.Euler(0f, 0f, -90f);
+                    ps9.transform.localScale = new Vector3(ps9.transform.localScale.x * 4f,
+                        ps9.transform.localScale.y * 20f, ps9.transform.localScale.z);
+                    yield return new WaitForSeconds(0.5f);
+                    Destroy(go9);
+
+                    BossMonsterRestraintController bmrc = Managers.Object.Spawn<BossMonsterRestraintController>(position, skillId);
+                    bmrc.SetOwner(this);
+                    bmrc.SetMoveDirection(playerDirection2);   
+                }
+
                 break;
         }
 
