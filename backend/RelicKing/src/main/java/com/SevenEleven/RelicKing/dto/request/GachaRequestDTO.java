@@ -15,7 +15,7 @@ public class GachaRequestDTO {
 
     @Getter
     public enum ValidValues {
-        ONE(1), TEN(10);
+        ONE(1), TEN(10), TWENTY(20), THIRTY(30), HUNDREAD(100);
 
         private final int value;
 

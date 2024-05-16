@@ -39,7 +39,7 @@ public enum ExceptionType {
     WRONG_AUTH_CODE(HttpStatus.UNAUTHORIZED.value(), "인증 코드가 불일치합니다."),
 
     // Gacha
-    ILLEGAL_ARGUMENT(HttpStatus.BAD_REQUEST.value(), "유효하지 않은 가챠 뽑기 횟수를 입력했습니다. 1 또는 10만 가능합니다."),
+    ILLEGAL_ARGUMENT(HttpStatus.BAD_REQUEST.value(), "유효하지 않은 가챠 뽑기 횟수를 입력했습니다."),
     NOT_ENOUGH_GACHA(HttpStatus.BAD_REQUEST.value(), "가챠권 개수가 부족합니다."),
 
     // rankings
