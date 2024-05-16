@@ -33,5 +33,5 @@ public interface Constant {
 	int THE_NUMBER_OF_SKILL = 10;
 
 	// app
-	String APP_VERSION = "0.9.3";
+	String APP_VERSION = "1.0.0";
 }
