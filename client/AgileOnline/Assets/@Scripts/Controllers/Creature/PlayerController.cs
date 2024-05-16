@@ -24,7 +24,7 @@ public class PlayerController : CreatureController
     private int playerGold = INITIAL_GOLD;
 
     private bool _isPlayerFrozen = false;
-    private float _freezeDuration = 2f;
+    private float _freezeDuration = 1.5f;
 
     public void FreezePlayerMovement()
     {
