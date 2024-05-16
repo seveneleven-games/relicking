@@ -326,8 +326,13 @@ public class UI_BattlePopup : UI_Popup
                     Debug.Log("relic id is : " + relicId);
                 }
 
+                
                 if (enterStageRes.status == 200)
+                {
+                    // SceneCover sceneCover = Managers.Resource.Instantiate("SceneCover").GetOrAddComponent<SceneCover>();
+                    // sceneCover.CoverToScene("GameScene");
                     Managers.Scene.LoadScene(Define.EScene.GameScene);
+                }
             }
         }));
     }

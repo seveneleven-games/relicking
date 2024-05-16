@@ -92,7 +92,7 @@ public class UI_DifficultySelectPopup : UI_Popup
     void GenerateDifficultyButtons(int maxDifficulty, int selectedDifficulty)
     {
         // 현재 난이도가 5보다 작을 경우 대비
-        int startLevel = Mathf.Max(1, maxDifficulty - 5);  // 1 이하로 내려가지 않도록 제한
+        int startLevel = 1;
         int endLevel = maxDifficulty + 5;
         
         for (int i = endLevel; i >= startLevel; i--)
