@@ -143,7 +143,7 @@ public static class Util
                 webRequest.result == UnityWebRequest.Result.ProtocolError)
             {
                 Debug.LogError(webRequest.error);
-                callback(null);
+                callback(webRequest.downloadHandler.text);
             }
             else
             {
