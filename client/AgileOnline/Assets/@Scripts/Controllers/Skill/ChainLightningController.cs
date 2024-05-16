@@ -33,7 +33,7 @@ public class ChainLightningController : SkillController
         return true;
     }
     
-    public void InitSkill(int templateId, Vector3 start, Vector3 end)
+    public void InitSkill(int templateId)
     {
         SkillData data = Managers.Data.SkillDic[templateId];
         
@@ -55,10 +55,9 @@ public class ChainLightningController : SkillController
             Damage = Mathf.RoundToInt(data.Damage * playerAtk);
         }
         
-        Vector3 direction = end - start;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        transform.localScale = new Vector3(direction.magnitude, 1f, 1f);
+        // float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        // transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        // transform.localScale = new Vector3(direction.magnitude, 1f, 1f);
         
         StartDestroy(LifeTime);
     }
