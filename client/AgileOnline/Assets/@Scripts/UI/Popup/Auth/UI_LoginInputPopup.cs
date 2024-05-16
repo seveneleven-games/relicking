@@ -177,9 +177,7 @@ public class UI_LoginInputPopup : UI_Popup
     }
     
     void OnClickLoginButton()
-    {
-        // Managers.UI.ShowToast("여기 클릭되고 있니??");
-        
+    {        
         Managers.Sound.PlayButtonClick();
         // 로그인 객체 만들기
         LoginDataReq loginDataReq = new LoginDataReq
