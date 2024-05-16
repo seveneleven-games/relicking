@@ -31,7 +31,7 @@ import lombok.ToString;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(exclude = {"memberRelics", "records"})
 @EntityListeners(AuditingEntityListener.class)
-public class Member { // Todo 엔티티 빌더 빼고 생성자 만들기
+public class Member {
 
 	@Id
 	@Column(name = "member_id")
