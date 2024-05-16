@@ -61,7 +61,18 @@ public class UI_InGamePopup : UI_Popup
         if (isBossNode)
         {
             _bossName = GetText((int)GameObjects.BossName).GetComponent<TextMeshProUGUI>();
-            _bossName.text = Managers.Data.StageDic[_templateData.StageId].Name + " BOSS";
+            switch (Managers.Data.StageDic[_templateData.StageId].Name)
+            {
+                case "고대 숲":
+                    _bossName.text = "깊은 숲의 그롬쉬";
+                    break;
+                case "설원":
+                    _bossName.text = "혹한의 크루스";
+                    break;
+                case "지하 세계":
+                    _bossName.text = "용암 지대의 론트";
+                    break;
+            }
             _remainingTime = 60f;
             Managers.Sound.Play(Define.ESound.Bgm, "Bgm_InGameBoss");
         }

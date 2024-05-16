@@ -24,7 +24,7 @@ public class PlayerController : CreatureController
     private int playerGold = INITIAL_GOLD;
 
     private bool _isPlayerFrozen = false;
-    private float _freezeDuration = 2f;
+    private float _freezeDuration = 1.5f;
 
     public void FreezePlayerMovement()
     {
@@ -37,6 +37,9 @@ public class PlayerController : CreatureController
         GameObject restraintObj = Managers.Resource.Instantiate("Restraint");
         restraintObj.transform.position = transform.position + new Vector3(0, 0.2f, 0);
         float elapsedTime = 0f;
+        GameObject go6 = Managers.Resource.Instantiate("BossMonsterThornLay");
+        ParticleSystem ps6 = go6.GetComponent<ParticleSystem>();
+        ps6.transform.position = transform.position;
 
         while (elapsedTime < _freezeDuration)
         {
@@ -45,6 +48,7 @@ public class PlayerController : CreatureController
             yield return null;
         }
         Destroy(restraintObj);
+        Destroy(go6);
         _isPlayerFrozen = false;
     }
 
@@ -461,14 +465,12 @@ public class PlayerController : CreatureController
                             .CompareTo(Vector3.Distance(transform.position, b.transform.position)));
                         int numOfBounce = Mathf.Min(3, chainMonsters.Count);
                         List<MonsterController> chainTargetMonsters = chainMonsters.Take(numOfBounce).ToList();
-
-                        Vector3 startPoint = transform.position;
+                        
                         foreach (MonsterController monster in chainTargetMonsters)
                         {
                             monster.OnDamaged(this, ref realDamage);
                             Vector3 endPoint = monster.transform.position;
-                            Managers.Object.Spawn<ChainLightningController>(startPoint, skillId, new object[] { startPoint, endPoint });
-                            startPoint = endPoint;
+                            Managers.Object.Spawn<ChainLightningController>(endPoint, skillId);
                         }
                     }
                     break;

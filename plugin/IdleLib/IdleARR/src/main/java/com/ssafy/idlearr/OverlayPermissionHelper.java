@@ -25,14 +25,14 @@ public class OverlayPermissionHelper {
         if (!Settings.canDrawOverlays(activity)) {
             new AlertDialog.Builder(activity)
                     .setTitle("오버레이 권한 요청")
-                    .setMessage("이 앱은 오버레이 권한이 필요합니다. 설정에서 권한을 허용해 주세요.")
+                    .setMessage("이 앱은 다른 앱 위에 표시 권한이 필요합니다. 설정에서 권한을 허용해 주세요.")
                     .setPositiveButton("설정", (dialog, which) -> {
                         Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + activity.getPackageName()));
                         activity.startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE);
                         Toast.makeText(activity, activity.getPackageName(), Toast.LENGTH_SHORT).show();
                     })
                     .setNegativeButton("취소", (dialog, which) -> {
-                        Toast.makeText(activity, "오버레이 권한이 필요합니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, "다른 앱 위에 표시 권한이 필요합니다.", Toast.LENGTH_SHORT).show();
                         Log.d("OverlayPermissionHelper", "취소버튼클릭함");
                         notifyUnity(false);
                     })
