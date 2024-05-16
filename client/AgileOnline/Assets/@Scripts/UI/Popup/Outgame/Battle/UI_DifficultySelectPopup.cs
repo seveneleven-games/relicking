@@ -93,7 +93,7 @@ public class UI_DifficultySelectPopup : UI_Popup
     {
         // 현재 난이도가 5보다 작을 경우 대비
         int startLevel = 1;
-        int endLevel = maxDifficulty + 5;
+        int endLevel = maxDifficulty + 10;
         
         for (int i = endLevel; i >= startLevel; i--)
         {

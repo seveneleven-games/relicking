@@ -62,17 +62,27 @@ public class UI_GachaPopup : UI_Popup
         DetailInfoButton,
         GachaOneButton,
         GachaTenButton,
+        UpButton,
+        DownButton,
+        NoUpButton,
+        NoDownButton,
+        
     }
 
     enum ETexts
     {
         GachaTitle,
         Tickets,
+        GachaOneText,
+        GachaTenText,
+        TicketOneNumber,
+        TicketTenNumber
     }
 
     #endregion
 
     // 객체 관련 두는 곳
+    private int _gachaFold;
     
     public void OnDestroy()
     {
@@ -97,6 +107,11 @@ public class UI_GachaPopup : UI_Popup
         GetButton((int)EButtons.GachaTenButton).gameObject.BindEvent(OnClickGachaTenButton);
 
         #endregion
+
+        _gachaFold = 1;
+        
+        GetButton((int)EButtons.UpButton).gameObject.BindEvent(OnClickUpButton);
+        GetButton((int)EButtons.DownButton).gameObject.BindEvent(OnClickDownButton);
         
         // 맨 처음에 백 통신을 통해 티켓정보 가져오기 
         GetTicket();
@@ -109,6 +124,20 @@ public class UI_GachaPopup : UI_Popup
         return true;
     }
 
+    
+
+    void OnClickUpButton()
+    {
+        _gachaFold = 2;
+        GachaInfoRefresh();
+    }
+
+    void OnClickDownButton()
+    {
+        _gachaFold = 1;
+        GachaInfoRefresh();
+    }
+    
     void GetTicket()
     {
         // 티켓 조회 테스트
@@ -125,6 +154,7 @@ public class UI_GachaPopup : UI_Popup
     {
 
         TicketInfoRefresh();
+        GachaInfoRefresh();
 
     }
 
@@ -133,6 +163,36 @@ public class UI_GachaPopup : UI_Popup
     {
         // 티켓 UI정보 갱신
         GetText((int)ETexts.Tickets).text = $"{Managers.Game.Ticket}";
+    }
+    
+    void GachaInfoRefresh()
+    {
+        if (_gachaFold == 1)
+        {
+            GetButton((int)EButtons.UpButton).gameObject.SetActive(true);
+            GetButton((int)EButtons.NoUpButton).gameObject.SetActive(false);
+            GetButton((int)EButtons.NoDownButton).gameObject.SetActive(true);
+            GetButton((int)EButtons.DownButton).gameObject.SetActive(false);
+            GetText((int)ETexts.GachaOneText).text = "1회 뽑기";
+            GetText((int)ETexts.GachaTenText).text = "10회 뽑기";
+            GetText((int)ETexts.TicketOneNumber).text = "-1";
+            GetText((int)ETexts.TicketTenNumber).text = "-10";
+            
+
+
+        }
+
+        else if (_gachaFold == 2)
+        {
+            GetButton((int)EButtons.UpButton).gameObject.SetActive(false);
+            GetButton((int)EButtons.NoUpButton).gameObject.SetActive(true);
+            GetButton((int)EButtons.NoDownButton).gameObject.SetActive(false);
+            GetButton((int)EButtons.DownButton).gameObject.SetActive(true);
+            GetText((int)ETexts.GachaOneText).text = "50회 뽑기";
+            GetText((int)ETexts.GachaTenText).text = "100회 뽑기";
+            GetText((int)ETexts.TicketOneNumber).text = "-50";
+            GetText((int)ETexts.TicketTenNumber).text = "-100";
+        }
     }
     
     void OnClickDetailInfoButton()
@@ -146,14 +206,29 @@ public class UI_GachaPopup : UI_Popup
     {
         Managers.Sound.PlayButtonClick();
         Debug.Log("GachaOne");
-        SendGachaRequest(1);
+
+        if (_gachaFold == 1)
+        {
+            SendGachaRequest(1);
+        }
+        else if (_gachaFold == 2)
+        {
+            SendGachaRequest(50);
+        }
     }
 
     void OnClickGachaTenButton()
     {
         Managers.Sound.PlayButtonClick();
         Debug.Log("GachaTen");
-        SendGachaRequest(10);
+        if (_gachaFold == 1)
+        {
+            SendGachaRequest(10);
+        }
+        else if (_gachaFold == 2)
+        {
+            SendGachaRequest(100);
+        }
     }
 
     // 가쟈 요청하기
