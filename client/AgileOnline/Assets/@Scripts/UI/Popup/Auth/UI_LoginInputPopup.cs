@@ -197,7 +197,7 @@ public class UI_LoginInputPopup : UI_Popup
             // json -> 객체로 변환
             LoginDataRes loginDataRes = JsonUtility.FromJson<LoginDataRes>(res);
 
-            if (loginDataRes == null)
+            if (loginDataRes.status == 401)
             {
                 Managers.UI.ShowToast("로그인 또는 비밀번호가 일치하지 않습니다.");
             }
