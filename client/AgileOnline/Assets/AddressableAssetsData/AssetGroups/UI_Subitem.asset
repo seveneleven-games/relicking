@@ -41,12 +41,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: cf93a58738bb00541b01c16e9fdf1600
-    m_Address: UI_RankingObject
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - PreLoad
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8268bf0fb00cd844686d53cda3a9ea05
     m_Address: UI_Toast
     m_ReadOnly: 0
@@ -65,7 +59,7 @@ MonoBehaviour:
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 399c96de39c11824a95c9d7bbaf613cf
+  - m_GUID: d0a41a0b26fedf2448482df153d5d90c
     m_Address: SceneCover
     m_ReadOnly: 0
     m_SerializedLabels:
