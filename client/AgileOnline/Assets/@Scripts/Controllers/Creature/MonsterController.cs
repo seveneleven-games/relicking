@@ -27,6 +27,7 @@ public class MonsterController : CreatureController
     private TemplateData _templateData;
 
     private UI_InGamePopup _inGamePopup;
+    private bool _isRage = false;
 
     public override bool Init()
     {
@@ -62,16 +63,13 @@ public class MonsterController : CreatureController
 
         MonsterSkillList = new List<int>(new int[4]);
         if (MonsterType == 1)
-        {
             MonsterSkillList[0] = 1001;
-        }
+        
         else if (MonsterType == 2)
         {
             int[] skillList = Managers.Data.MonsterDic[templateId].SkillList;
             for (int i = 0; i < skillList.Length; i++)
-            {
                 MonsterSkillList[i] = skillList[i];
-            }
 
             transform.localScale = new Vector3(3, 3, 1);
         }
@@ -155,25 +153,29 @@ public class MonsterController : CreatureController
         
         bool isCritical = base.OnDamaged(attacker, ref damage);
         UI_World.Instance.ShowDamage((int)damage, transform.position + Vector3.up * 1f, isCritical);
-        // if (gameObject.activeSelf && MonsterType != 2)
-        //     StartCoroutine(HitStun(0.1f));
         if (MonsterType == 2)
+        {
             _inGamePopup.UpdateBossHealth(Hp, MaxHp);
+        }
+
+        if (MonsterType == 2 && Hp < MaxHp * 0.5 && _isRage == false)
+        {
+            ChangeColorOfChildren(gameObject, Color.red);
+            _isRage = true;
+            Speed *= 2;
+            CoolDown *= 0.5f;
+        }
 
         return isCritical;
     }
-
-    private IEnumerator HitStun(float duration)
+    
+    void ChangeColorOfChildren(GameObject parent, Color color)
     {
-        CreatureState = ECreatureState.Idle;
-        float originalSpeed = Speed;
-        Speed = 0f;
-
-        yield return new WaitForSeconds(duration);
-
-        Speed = originalSpeed;
-
-        yield return null;
+        SpriteRenderer renderer = parent.GetComponent<SpriteRenderer>();
+        if (renderer != null)
+            renderer.color = color;
+        foreach (Transform child in parent.transform)
+            ChangeColorOfChildren(child.gameObject, color);
     }
 
     public override void OnDead()
@@ -188,9 +190,7 @@ public class MonsterController : CreatureController
         _coDotDamage = null;
 
         if (MonsterType == 2)
-        {
             _player.IsBossKilled = true;
-        }
 
         GoldController gc = Managers.Object.Spawn<GoldController>(transform.position, DropGold);
         gc.InitGold(MonsterId);
@@ -284,7 +284,7 @@ public class MonsterController : CreatureController
 
                 for (float t = 0; t < 1.5f; t += Time.deltaTime)
                 {
-                    Vector3 nextPosition = transform.position + playerDirection * 15f * Time.deltaTime;
+                    Vector3 nextPosition = transform.position + playerDirection * 20f * Time.deltaTime;
                     if (nextPosition.x < -9.5f || nextPosition.x > 9.5f || nextPosition.y < -9.5f || nextPosition.y > 9.5f)
                         break;
                     transform.position = nextPosition;
@@ -299,11 +299,14 @@ public class MonsterController : CreatureController
                 {
                     for (int y = -8; y <= 8; y += 4)
                     {
-                        Vector3 spawnPosition = new Vector3(x, y, 0);
-                        GameObject go2 = Managers.Resource.Instantiate("CircleAlert");
-                        ParticleSystem ps2 = go2.GetComponent<ParticleSystem>();
-                        ps2.transform.position = spawnPosition;
-                        ps2.Play();
+                        if (((x / 4) + (y / 4)) % 2 == 0)
+                        {
+                            Vector3 spawnPosition = new Vector3(x, y, 0);
+                            GameObject go2 = Managers.Resource.Instantiate("CircleAlert");
+                            ParticleSystem ps2 = go2.GetComponent<ParticleSystem>();
+                            ps2.transform.position = spawnPosition;
+                            ps2.Play();
+                        }
                     }
                 }
 
@@ -313,10 +316,44 @@ public class MonsterController : CreatureController
                 {
                     for (int y = -8; y <= 8; y += 4)
                     {
-                        Vector3 spawnPosition = new Vector3(x, y, 0);
-                        BossMonsterThornController bmtc =
-                            Managers.Object.Spawn<BossMonsterThornController>(spawnPosition, skillId);
-                        bmtc.SetOwner(this);
+                        if (((x / 4) + (y / 4)) % 2 == 0)
+                        {
+                            Vector3 spawnPosition = new Vector3(x, y, 0);
+                            BossMonsterThornController bmtc =
+                                Managers.Object.Spawn<BossMonsterThornController>(spawnPosition, skillId);
+                            bmtc.SetOwner(this);
+                        }
+                    }
+                }
+                
+                for (int x = -8; x <= 8; x += 4)
+                {
+                    for (int y = -8; y <= 8; y += 4)
+                    {
+                        if (((x / 4) + (y / 4)) % 2 != 0)
+                        {
+                            Vector3 spawnPosition = new Vector3(x, y, 0);
+                            GameObject go2 = Managers.Resource.Instantiate("CircleAlert");
+                            ParticleSystem ps2 = go2.GetComponent<ParticleSystem>();
+                            ps2.transform.position = spawnPosition;
+                            ps2.Play();
+                        }
+                    }
+                }
+
+                yield return new WaitForSeconds(1.5f);
+
+                for (int x = -8; x <= 8; x += 4)
+                {
+                    for (int y = -8; y <= 8; y += 4)
+                    {
+                        if (((x / 4) + (y / 4)) % 2 != 0)
+                        {
+                            Vector3 spawnPosition = new Vector3(x, y, 0);
+                            BossMonsterThornController bmtc =
+                                Managers.Object.Spawn<BossMonsterThornController>(spawnPosition, skillId);
+                            bmtc.SetOwner(this);
+                        }
                     }
                 }
 
@@ -351,7 +388,23 @@ public class MonsterController : CreatureController
                 break;
 
             case "BossMonsterRestraint":
+                GameObject go6 = Managers.Resource.Instantiate("BossMonsterThornLay");
+                ParticleSystem ps6 = go6.GetComponent<ParticleSystem>();
+
+                Vector3 direction6 = _player.transform.position - transform.position;
+                float angle6 = Mathf.Atan2(direction6.y, direction6.x) * Mathf.Rad2Deg;
+                var main = ps6.main;
+                main.startRotation = angle6 * Mathf.Deg2Rad;
+
+                float distance = Vector3.Distance(_player.transform.position, transform.position);
+                ps6.transform.localScale = new Vector3(ps6.transform.localScale.x, distance, ps6.transform.localScale.z);
+
+                yield return new WaitForSeconds(0.5f);
+                
+                Destroy(go6);
+
                 _player.FreezePlayerMovement();
+
                 yield return new WaitForSeconds(2f);
                 break;
         }
