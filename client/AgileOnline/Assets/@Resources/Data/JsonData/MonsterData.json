@@ -21,7 +21,7 @@
       "PrefabName": "Monster2",
       "MonsterType": 0,
       "Name": "st1_오크_일반_02",
-      "MaxHp": 200,
+      "MaxHp": 400,
       "Atk": 3.0,
       "Speed": 2.0,
       "DropGold": 2,
@@ -37,7 +37,7 @@
       "PrefabName": "Monster3",
       "MonsterType": 1,
       "Name": "st1_오크_엘리트_01",
-      "MaxHp": 1500,
+      "MaxHp": 2000,
       "Atk": 5.0,
       "Speed": 2.0,
       "DropGold": 3,
@@ -86,7 +86,7 @@
       "PrefabName": "Monster6",
       "MonsterType": 0,
       "Name": "st2_언데드_일반_02",
-      "MaxHp": 200,
+      "MaxHp": 400,
       "Atk": 3.0,
       "Speed": 2.0,
       "DropGold": 2,
@@ -102,7 +102,7 @@
       "PrefabName": "Monster7",
       "MonsterType": 1,
       "Name": "st2_언데드_엘리트_01",
-      "MaxHp": 1500,
+      "MaxHp": 2000,
       "Atk": 5.0,
       "Speed": 2.0,
       "DropGold": 3,
@@ -151,7 +151,7 @@
       "PrefabName": "Monster10",
       "MonsterType": 0,
       "Name": "st3_임프_일반_02",
-      "MaxHp": 200,
+      "MaxHp": 400,
       "Atk": 3.0,
       "Speed": 2.0,
       "DropGold": 2,
@@ -167,7 +167,7 @@
       "PrefabName": "Monster11",
       "MonsterType": 1,
       "Name": "st3_임프_엘리트_01",
-      "MaxHp": 1500,
+      "MaxHp": 2000,
       "Atk": 5.0,
       "Speed": 2.0,
       "DropGold": 3,
@@ -191,7 +191,8 @@
       "CritDmgRate": 0.0,
       "CoolDown": 1.0,
       "SkillList": [
-        1021
+        1021,
+        1051
       ]
     }
   ]

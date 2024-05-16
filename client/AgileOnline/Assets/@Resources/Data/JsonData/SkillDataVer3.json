@@ -1269,9 +1269,9 @@
       "IconName": "EliteMonsterProjectile_icon.sprite",
       "CoolTime": 3,
       "Damage": 2,
-      "LifeTime": 5,
+      "LifeTime": 7,
       "Scale": 1,
-      "Speed": 3,
+      "Speed": 4,
       "ProjectileNum": 10
     },
     {
@@ -1297,7 +1297,7 @@
       "IconName": "BossMonsterThorn_icon.sprite",
       "CoolTime": 10,
       "Damage": 2.0,
-      "LifeTime": 1.5,
+      "LifeTime": 0.7,
       "Speed": 20.0,
       "ProjectileNum": 0
     },
@@ -1326,6 +1326,19 @@
       "LifeTime": 5.0,
       "Speed": 3.0,
       "ProjectileNum": 10
+    },
+    {
+      "SkillId": 1051,
+      "NextId": -1,
+      "PrefabName": "BossMonsterRestraint",
+      "Name": "플레이어 속박",
+      "Description": "플레이어 속박 (3스테이지 임프 보스)",
+      "IconName": "BossMonsterRestraint_icon.sprite",
+      "CoolTime": 3,
+      "Damage": 2.0,
+      "LifeTime": 2.0,
+      "Speed": 13.0,
+      "ProjectileNum": 1
     }
   ]
 }

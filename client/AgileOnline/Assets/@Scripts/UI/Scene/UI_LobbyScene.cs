@@ -238,7 +238,7 @@ public class UI_LobbyScene : UI_Scene
     
     void OnClickGachaToggle()
     {
-        GetImage((int)EImages.Backgroundimage).color = Util.HexToColor("525DAD"); // 배경 색상 변경
+        GetImage((int)EImages.Backgroundimage).color = Util.HexToColor("6A7044"); // 배경 색상 변경
         if (_isSelectedGacha == true) // 활성화 후 토글 클릭 방지
             return;
         ShowUI(_gachaPopupUI.gameObject, 

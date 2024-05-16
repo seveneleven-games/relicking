@@ -33,6 +33,9 @@ public class ObjectManager
     public HashSet<StormBladeController> StormBlades { get; } = new HashSet<StormBladeController>();
 
     public HashSet<BossMonsterThornController> BossMonsterThorns { get; } = new HashSet<BossMonsterThornController>();
+
+    public HashSet<BossMonsterRestraintController> BossMonsterRestraints { get; } =
+        new HashSet<BossMonsterRestraintController>();
     
     #region Roots
 
@@ -130,6 +133,11 @@ public class ObjectManager
         get { return GetRootTransform("@BossMonsterThorn"); }
     }
 
+    public Transform BossMonsterRestraintRoot
+    {
+        get { return GetRootTransform("@BossMonsterRestraint"); }
+    }
+
     #endregion
     
     public PlayerController CreatePlayer(int templateId)
@@ -146,7 +154,7 @@ public class ObjectManager
         return pc;
     }
 
-    public T Spawn<T>(Vector3 position, int templateId, params object[] parameters) where T : BaseController
+    public T Spawn<T>(Vector3 position, int templateId) where T : BaseController
     {
         string dataType = typeof(T).Name.Replace("Controller", "Data");
 
@@ -264,12 +272,10 @@ public class ObjectManager
                     break;
                 
                 case ESkillType.ChainLightning:
-                    Vector3 startPoint = (Vector3)parameters[0];
-                    Vector3 endPoint = (Vector3)parameters[1];
                     sc.transform.parent = ChainLightningRoot;
                     ChainLightningController clc = sc.GetComponent<ChainLightningController>();
                     ChainLightnings.Add(clc);
-                    clc.InitSkill(templateId, startPoint, endPoint);
+                    clc.InitSkill(templateId);
                     break;
                 
                 case ESkillType.Shuriken:
@@ -291,6 +297,13 @@ public class ObjectManager
                     BossMonsterThornController bmtc = sc.GetComponent<BossMonsterThornController>();
                     BossMonsterThorns.Add(bmtc);
                     bmtc.InitSkill(templateId);
+                    break;
+                
+                case ESkillType.BossMonsterRestraint:
+                    sc.transform.parent = BossMonsterRestraintRoot;
+                    BossMonsterRestraintController bmrc = sc.GetComponent<BossMonsterRestraintController>();
+                    BossMonsterRestraints.Add(bmrc);
+                    bmrc.InitSkill(templateId);
                     break;
             }
         }
@@ -387,6 +400,11 @@ public class ObjectManager
                 case ESkillType.BossMonsterThorn:
                     BossMonsterThornController bmtc = sc as BossMonsterThornController;
                     BossMonsterThorns.Remove(bmtc);
+                    break;
+                
+                case ESkillType.BossMonsterRestraint:
+                    BossMonsterRestraintController bmrc = sc as BossMonsterRestraintController;
+                    BossMonsterRestraints.Remove(bmrc);
                     break;
             }
         }

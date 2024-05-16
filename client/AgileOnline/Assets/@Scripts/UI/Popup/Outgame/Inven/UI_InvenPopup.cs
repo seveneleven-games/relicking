@@ -187,6 +187,7 @@ public class UI_InvenPopup : UI_Popup
     
     void OnClickRelicToggle()
     {
+        Managers.Sound.PlayButtonClick();
         ToggleInit();
         GetImage((int)EImages.RelicToggleBGImage).color = Util.HexToColor("B38C61");
         if (_isSelectedEquip == true)
@@ -198,6 +199,7 @@ public class UI_InvenPopup : UI_Popup
     
     void OnClickStatToggle()
     {
+        Managers.Sound.PlayButtonClick();
         ToggleInit();
         GetImage((int)EImages.StatToggleBGImage).color = Util.HexToColor("B38C61");
         if (_isSelectedStat == true)
@@ -209,11 +211,13 @@ public class UI_InvenPopup : UI_Popup
     
     void OnClickClassSelectButton()
     {
+        Managers.Sound.PlayButtonClick();
         Managers.UI.ShowPopupUI<UI_InvenClassSelectPopup>();
     }
     
     void OnClickRelicInfoButton(int num)
     {
+        Managers.Sound.PlayButtonClick();
         _templateData.SelectedRelicId = num;
         Managers.UI.ShowPopupUI<UI_InvenRelicInfoPopup>();
     }
@@ -222,7 +226,7 @@ public class UI_InvenPopup : UI_Popup
     {
         if (_templateData.EquipedRelicIds[num] == 0)
             return;
-    
+        Managers.Sound.PlayButtonClick();
         OnClickRelicInfoButton(_templateData.EquipedRelicIds[num]);
     }
     

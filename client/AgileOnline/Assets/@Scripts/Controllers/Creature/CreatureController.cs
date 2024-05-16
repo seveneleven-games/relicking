@@ -25,21 +25,45 @@ public class CreatureController : BaseController
         }
     }
 
+    private bool _hitState;
+    protected bool IsRage = false;
+
+    public virtual bool HitState
+    {
+        get => _hitState;
+        set
+        {
+            if (!IsRage)
+            {
+                _hitState = value;
+                Animator.SetBool("HitState", value);
+            }
+            
+        }
+    }
+
     public override bool Init()
     {
         if (base.Init() == false)
             return false;
         
         CreatureState = ECreatureState.Idle;
+        HitState = false;
         return true;
     }
 
     public virtual bool OnDamaged(BaseController attacker, ref float damage)
     {
         bool isCritical = false;
+
+        if (HitState == false)
+        {
+            HitState = true;
+            StartCoroutine(StopHitEffect());
+        }
         
-        Debug.Log("¶§¸°³ð : " + attacker);
-        Debug.Log("µ¥¹ÌÁö : " + damage);
+        Debug.Log("ë•Œë¦°ë†ˆ : " + attacker);
+        Debug.Log("ëŒ€ë¯¸ì§€ : " + damage);
         
         if (attacker is PlayerController playerAttacker)
         {
@@ -61,6 +85,12 @@ public class CreatureController : BaseController
         return isCritical;
     }
 
+    private IEnumerator StopHitEffect()
+    {
+        yield return new WaitForSeconds(0.3f);
+        HitState = false;
+    }
+    
     public virtual void OnDead()
     {
         CreatureState = ECreatureState.Dead;

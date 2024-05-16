@@ -9,6 +9,7 @@ TagManager:
   - Gold
   - PlayerHealthSlider
   - BossHealthSlider
+  - HitEffect
   layers:
   - Default
   - TransparentFX

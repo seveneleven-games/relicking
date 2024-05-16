@@ -383,6 +383,7 @@ public class GameScene : BaseScene
 
                 MonsterController mc = Managers.Object.Spawn<MonsterController>(randomPosition, randomMonsterId);
                 mc.InitMonster(randomMonsterId);
+                mc.HitState = false;
                 
                 if (gameObject == null)
                     yield break;
@@ -427,31 +428,7 @@ public class GameScene : BaseScene
     {
         Vector3 bossSpawn = new Vector3(0, 4, 0);
         Managers.Object.Spawn<MonsterController>(bossSpawn, boosMonsterIds[0]);
-        while (true)
-        {
-            for (int i = 0; i < PER_SEC_MOSTER_GENERATION; i++)
-            {
-                Vector3 randomPosition = GetRandomPositionOutsidePlayerRadius();
-                GameObject target = Managers.Resource.Load<GameObject>("Target");
-                target = Managers.Pool.Pop(target);
-                target.transform.position = randomPosition;
-
-                yield return new WaitForSeconds(TARGET_SPAWN_TIME);
-
-                Managers.Pool.Push(target);
-
-                int randomIndex = Random.Range(0, normalMonsterIds.Count);
-                int randomMonsterId = normalMonsterIds[randomIndex];
-
-                MonsterController mc = Managers.Object.Spawn<MonsterController>(randomPosition, randomMonsterId);
-                mc.InitMonster(randomMonsterId);
-                
-                if (gameObject == null)
-                    yield break;
-            }
-
-            yield return new WaitForSeconds(MONSTER_SPAWN_INTERVAL);
-        }
+        return null;
     }
 
     private Vector3 GetRandomPositionOutsidePlayerRadius()

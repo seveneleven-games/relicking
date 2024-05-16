@@ -326,14 +326,20 @@ public class UI_BattlePopup : UI_Popup
                     Debug.Log("relic id is : " + relicId);
                 }
 
+                
                 if (enterStageRes.status == 200)
+                {
+                    // SceneCover sceneCover = Managers.Resource.Instantiate("SceneCover").GetOrAddComponent<SceneCover>();
+                    // sceneCover.CoverToScene("GameScene");
                     Managers.Scene.LoadScene(Define.EScene.GameScene);
+                }
             }
         }));
     }
 
     void OnChangeStage(int index)
     {
+        Managers.Sound.PlayButtonClick();
         // 현재 스테이지 설정
         _stageData = Managers.Data.StageDic[index + 1];
         Debug.Log(_stageData.StageId);

@@ -8,6 +8,7 @@ Library: C:\Users\SSAFY\Desktop\Final\D211\S10P31D211\client\AgileOnline\Temp\Bu
 --float-precision=Standard
 --target-framework=NetFramework
 --assembly-defines=Assembly-CSharp;
+--assembly-defines=FangAutoTile;
 --assembly-defines=Mono.Security;
 --assembly-defines=mscorlib;
 --assembly-defines=Newtonsoft.Json;
