@@ -206,32 +206,26 @@ public class UI_RankingDetailPopup : UI_Popup
                     case 1:
                         GetText((int)ETexts.LevelText1).text = $"{relicDetail.level}";
                         GetImage((int)EImages.RelicImage1).sprite = Managers.Resource.Load<Sprite>(Managers.Data.RelicDic[relicDetail.relicNo * 10 + relicDetail.level].ThumbnailName);
-                        GetImage((int)EImages.RelicBGImage1).color = GetRelicColorByRarity(Managers.Data.RelicDic[relicDetail.relicNo * 10 + relicDetail.level].Rarity);
                         break;
                     case 2:
                         GetText((int)ETexts.LevelText2).text = $"{relicDetail.level}";
                         GetImage((int)EImages.RelicImage2).sprite = Managers.Resource.Load<Sprite>(Managers.Data.RelicDic[relicDetail.relicNo * 10 + relicDetail.level].ThumbnailName);
-                        GetImage((int)EImages.RelicBGImage2).color = GetRelicColorByRarity(Managers.Data.RelicDic[relicDetail.relicNo * 10 + relicDetail.level].Rarity);
                         break;
                     case 3:
                         GetText((int)ETexts.LevelText3).text = $"{relicDetail.level}";
                         GetImage((int)EImages.RelicImage3).sprite = Managers.Resource.Load<Sprite>(Managers.Data.RelicDic[relicDetail.relicNo * 10 + relicDetail.level].ThumbnailName);
-                        GetImage((int)EImages.RelicBGImage3).color = GetRelicColorByRarity(Managers.Data.RelicDic[relicDetail.relicNo * 10 + relicDetail.level].Rarity);
                         break;
                     case 4:
                         GetText((int)ETexts.LevelText4).text = $"{relicDetail.level}";
                         GetImage((int)EImages.RelicImage4).sprite = Managers.Resource.Load<Sprite>(Managers.Data.RelicDic[relicDetail.relicNo * 10 + relicDetail.level].ThumbnailName);
-                        GetImage((int)EImages.RelicBGImage4).color = GetRelicColorByRarity(Managers.Data.RelicDic[relicDetail.relicNo * 10 + relicDetail.level].Rarity);
                         break;
                     case 5:
                         GetText((int)ETexts.LevelText5).text = $"{relicDetail.level}";
                         GetImage((int)EImages.RelicImage5).sprite = Managers.Resource.Load<Sprite>(Managers.Data.RelicDic[relicDetail.relicNo * 10 + relicDetail.level].ThumbnailName);
-                        GetImage((int)EImages.RelicBGImage5).color = GetRelicColorByRarity(Managers.Data.RelicDic[relicDetail.relicNo * 10 + relicDetail.level].Rarity);
                         break;
                     case 6:
                         GetText((int)ETexts.LevelText6).text = $"{relicDetail.level}";
                         GetImage((int)EImages.RelicImage6).sprite = Managers.Resource.Load<Sprite>(Managers.Data.RelicDic[relicDetail.relicNo * 10 + relicDetail.level].ThumbnailName);
-                        GetImage((int)EImages.RelicBGImage6).color = GetRelicColorByRarity(Managers.Data.RelicDic[relicDetail.relicNo * 10 + relicDetail.level].Rarity);
                         break;
                     
                     default:
@@ -247,26 +241,32 @@ public class UI_RankingDetailPopup : UI_Popup
                     case 1:
                         GetText((int)ETexts.SkillLevelText1).text = $"Lv.{skillDetail.level}";
                         GetImage((int)EImages.Image1).sprite = Managers.Resource.Load<Sprite>(Managers.Data.SkillDic[skillDetail.skillNo * 10 + skillDetail.level].IconName);
+                        GetImage((int)EImages.Image1).color = new Color(1,1,1,1);
                         break;
                     case 2:
                         GetText((int)ETexts.SkillLevelText2).text = $"Lv.{skillDetail.level}";
                         GetImage((int)EImages.Image2).sprite = Managers.Resource.Load<Sprite>(Managers.Data.SkillDic[skillDetail.skillNo * 10 + skillDetail.level].IconName);
+                        GetImage((int)EImages.Image2).color = new Color(1,1,1,1);
                         break;
                     case 3:
                         GetText((int)ETexts.SkillLevelText3).text = $"Lv.{skillDetail.level}";
                         GetImage((int)EImages.Image3).sprite = Managers.Resource.Load<Sprite>(Managers.Data.SkillDic[skillDetail.skillNo * 10 + skillDetail.level].IconName);
+                        GetImage((int)EImages.Image3).color = new Color(1,1,1,1);
                         break;
                     case 4:
                         GetText((int)ETexts.SkillLevelText4).text = $"Lv.{skillDetail.level}";
                         GetImage((int)EImages.Image4).sprite = Managers.Resource.Load<Sprite>(Managers.Data.SkillDic[skillDetail.skillNo * 10 + skillDetail.level].IconName);
+                        GetImage((int)EImages.Image4).color = new Color(1,1,1,1);
                         break;
                     case 5:
                         GetText((int)ETexts.SkillLevelText5).text = $"Lv.{skillDetail.level}";
                         GetImage((int)EImages.Image5).sprite = Managers.Resource.Load<Sprite>(Managers.Data.SkillDic[skillDetail.skillNo * 10 + skillDetail.level].IconName);
+                        GetImage((int)EImages.Image5).color = new Color(1,1,1,1);
                         break;
                     case 6:
                         GetText((int)ETexts.SkillLevelText6).text = $"Lv.{skillDetail.level}";
                         GetImage((int)EImages.Image6).sprite = Managers.Resource.Load<Sprite>(Managers.Data.SkillDic[skillDetail.skillNo * 10 + skillDetail.level].IconName);
+                        GetImage((int)EImages.Image6).color = new Color(1,1,1,1);
                         break;
                     
                     default:
