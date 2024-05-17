@@ -62,15 +62,14 @@ public class CreatureController : BaseController
             StartCoroutine(StopHitEffect());
         }
         
-        Debug.Log("때린놈 : " + attacker);
-        Debug.Log("대미지 : " + damage);
-        
         if (attacker is PlayerController playerAttacker)
         {
             float critRoll = UnityEngine.Random.value;
             if (critRoll <= playerAttacker.CritRate)
             {
-                damage *= (int)playerAttacker.CritDmgRate;
+                Debug.Log("이전데미지 : " + damage + "크증 : " + playerAttacker.CritDmgRate);
+                damage *= playerAttacker.CritDmgRate;
+                Debug.Log("크리데미지 : " + damage);
                 isCritical = true;
             }
         }
