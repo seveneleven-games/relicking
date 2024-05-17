@@ -11,7 +11,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.SevenEleven.RelicKing.dto.request.model.SkillDTO;
 import com.SevenEleven.RelicKing.dto.request.StageRequestDTO;
 import com.SevenEleven.RelicKing.dto.response.StageResponseDTO;
 import com.SevenEleven.RelicKing.dto.model.RelicDTO;
@@ -55,18 +54,15 @@ public class StageService {
 
 	public void patchRelicAndRecord(Member member, StageRequestDTO stageRequestDTO) {
 		// member relic 레벨, 경험치 갱신
-		patchRelic(member,
-			stageRequestDTO.getEliteKill(),
-			stageRequestDTO.getNormalKill(),
-			stageRequestDTO.getDifficulty());
+		patchRelic(member, stageRequestDTO.getDifficulty());
 		// 랭킹 최신화
 		patchRecord(member, stageRequestDTO);
 	}
 
-	private void patchRelic(Member member, int eliteKill, int normalKill, int difficulty) {
+	private void patchRelic(Member member, int difficulty) {
 		member.getMemberRelics().forEach(memberRelic -> {
 			if (memberRelic.getSlot() > 0) {
-				int earnedExp = (1000 / difficulty) + eliteKill * 10 * difficulty + normalKill * difficulty;
+				int earnedExp = 100 * difficulty * (10 + memberRelic.getLevel());
 				memberRelic.plusExp(earnedExp);
 				memberRelicRepository.save(memberRelic);
 			}
@@ -92,8 +88,6 @@ public class StageService {
 			.member(member)
 			.stage(stageRequestDTO.getStage())
 			.difficulty(stageRequestDTO.getDifficulty())
-			.eliteKill(stageRequestDTO.getEliteKill())
-			.normalKill(stageRequestDTO.getNormalKill())
 			.classNo(member.getCurrentClassNo())
 			.build();
 
@@ -114,13 +108,13 @@ public class StageService {
 
 		recordRelics.sort(RecordRelic::compareTo);
 
-		for (RecordRelic recordRelic: recordRelics) {
-				record.addRecordRelic(recordRelic.getRelicNo(), recordRelic.getLevel(), recordRelic.getSlot());
-			}
+		recordRelics.forEach(recordRelic -> {
+			record.getRecordRelics().add(recordRelic);
+		});
 
-		for (SkillDTO skillDTO: stageRequestDTO.getSkillList()) {
+		stageRequestDTO.getSkillList().forEach(skillDTO -> {
 			record.addRecordSkill(skillDTO.getSkillNo(), skillDTO.getLevel(), skillDTO.getSlot());
-		}
+		});
 
 		recordRepository.save(record);
 	}

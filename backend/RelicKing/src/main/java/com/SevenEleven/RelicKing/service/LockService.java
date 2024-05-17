@@ -50,7 +50,7 @@ public class LockService {
 			}
 
 			// 가챠권 지급
-			earnedGacha = lockTime / Constant.GACHA_PER_MINUTE;
+			earnedGacha = lockTime / Constant.SECONDS_PER_GACHA;
 			bonusGacha = earnedGacha * Constant.BONUS_GACHA_PERCENTAGE[Math.min(member.getContinuousLockDate(), Constant.BONUS_GACHA_PERCENTAGE.length - 1)] / 100;
 			gachaAfterLock = member.getGacha() + earnedGacha + bonusGacha;
 			member.changeGacha(gachaAfterLock);
@@ -82,9 +82,11 @@ public class LockService {
 			}
 
 			// 가챠권 지급
-			earnedGacha = lockTime / Constant.GACHA_PER_MINUTE;
-			int bonusGachaForYesterday = lockYesterday * Constant.BONUS_GACHA_PERCENTAGE[Math.min(member.getContinuousLockDatePrev(), Constant.BONUS_GACHA_PERCENTAGE.length - 1)] / 100;
-			int bonusGachaForToday = lockToday * Constant.BONUS_GACHA_PERCENTAGE[Math.min(member.getContinuousLockDate(), Constant.BONUS_GACHA_PERCENTAGE.length - 1)] / 100;
+			earnedGacha = lockTime / Constant.SECONDS_PER_GACHA;
+			int earnedGachaToday = lockToday / Constant.SECONDS_PER_GACHA;
+			int earnedGachaYesterday = earnedGacha - earnedGachaToday;
+			int bonusGachaForToday = earnedGachaToday * Constant.BONUS_GACHA_PERCENTAGE[Math.min(member.getContinuousLockDate(), Constant.BONUS_GACHA_PERCENTAGE.length - 1)] / 100;
+			int bonusGachaForYesterday = earnedGachaYesterday * Constant.BONUS_GACHA_PERCENTAGE[Math.min(member.getContinuousLockDatePrev(), Constant.BONUS_GACHA_PERCENTAGE.length - 1)] / 100;
 			bonusGacha = bonusGachaForYesterday + bonusGachaForToday;
 			gachaAfterLock = member.getGacha() + earnedGacha + bonusGacha;
 			member.changeGacha(gachaAfterLock);

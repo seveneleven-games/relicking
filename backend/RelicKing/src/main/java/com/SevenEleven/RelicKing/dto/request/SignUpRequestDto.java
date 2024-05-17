@@ -34,10 +34,6 @@ public class SignUpRequestDto {
 	private String password;
 
 	public Member toEntity(String encryptedPassword) {
-		return Member.builder()
-			.email(this.email)
-			.nickname(this.nickname)
-			.password(encryptedPassword)
-			.build();
+		return new Member(this.email, this.nickname, encryptedPassword);
 	}
 }

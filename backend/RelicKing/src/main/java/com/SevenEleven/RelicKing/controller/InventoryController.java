@@ -1,11 +1,7 @@
 package com.SevenEleven.RelicKing.controller;
 
-import com.SevenEleven.RelicKing.common.security.CustomUserDetails;
-import com.SevenEleven.RelicKing.common.validation.ValidationSequence;
-import com.SevenEleven.RelicKing.dto.request.ClassChangeRequestDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.SevenEleven.RelicKing.common.response.Response;
+import com.SevenEleven.RelicKing.common.security.CustomUserDetails;
+import com.SevenEleven.RelicKing.dto.request.ClassChangeRequestDTO;
 import com.SevenEleven.RelicKing.dto.request.RelicChangeRequestDTO;
 import com.SevenEleven.RelicKing.dto.response.InventoryResponseDTO;
 import com.SevenEleven.RelicKing.service.InventoryService;
@@ -43,7 +41,7 @@ public class InventoryController {
 		responseCode = "200", description = "인벤토리 정보 조회 성공",
 		content = @Content(schema = @Schema(implementation = InventoryResponseDTO.class))
 	)
-	@GetMapping("/inventories") // Todo 유물 비어있을 때 번호 0짜리 새 유물 객체 넘기기
+	@GetMapping("/inventories")
 	public Response getInventory(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
 		return new Response(
 			HttpStatus.OK.value(),
@@ -60,8 +58,9 @@ public class InventoryController {
 		content = @Content(schema = @Schema(implementation = boolean.class))
 	)
 	@PostMapping("/classes")
-	public Response changeClass(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody @Validated(ValidationSequence.class) ClassChangeRequestDTO classChangeRequestDTO) {
+	public Response changeClass(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody @Valid ClassChangeRequestDTO classChangeRequestDTO) {
 		inventoryService.changeClass(customUserDetails.getMember(), classChangeRequestDTO.getClassNo());
+		log.info("[클래스 변경] email: {}, classNo: {}", customUserDetails.getMember().getEmail(), classChangeRequestDTO.getClassNo());
 		return new Response(HttpStatus.OK.value(), "클래스가 변경되었습니다.", true);
 	}
 
@@ -73,9 +72,10 @@ public class InventoryController {
 		responseCode = "200", description = "유물 변경 성공",
 		content = @Content(schema = @Schema(implementation = boolean.class))
 	)
-	@PostMapping("/relics") // Todo 유물 비어있을 때 바꾸는 로직
+	@PostMapping("/relics")
 	public Response changeRelic(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody @Valid RelicChangeRequestDTO relicChangeRequestDTO) {
 		inventoryService.changeRelic(customUserDetails.getMember(), relicChangeRequestDTO);
+		log.info("[유물 변경] email: {}, relicNo: {}, slot: {}", customUserDetails.getMember().getEmail(), relicChangeRequestDTO.getRelicNo(), relicChangeRequestDTO.getSlot());
 		return new Response(HttpStatus.OK.value(), "유물이 변경되었습니다.", true);
 	}
 

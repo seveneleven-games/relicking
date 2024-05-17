@@ -29,7 +29,6 @@ import com.SevenEleven.RelicKing.entity.Member;
 import com.SevenEleven.RelicKing.entity.Record;
 import com.SevenEleven.RelicKing.entity.RefreshToken;
 import com.SevenEleven.RelicKing.repository.MemberRepository;
-import com.SevenEleven.RelicKing.repository.RecordRepository;
 import com.SevenEleven.RelicKing.repository.RefreshTokenRepository;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -49,7 +48,6 @@ public class MemberService {
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	private final JWTUtil jwtUtil;
 	private final RefreshTokenRepository refreshTokenRepository;
-	private final RecordRepository recordRepository;
 	private final EmailService emailService;
 	private final RedisService redisService;
 	private final StageService stageService;
@@ -90,7 +88,6 @@ public class MemberService {
 		}
 
 		Member member = dto.toEntity(bCryptPasswordEncoder.encode(dto.getPassword()));
-		member.changeGacha(10);
 
 		memberRepository.save(member);
 	}
@@ -180,7 +177,7 @@ public class MemberService {
 		int[] stageInfo = new int[Constant.MAX_STAGE];
 		Arrays.fill(stageInfo, 0);
 
-		List<Record> recordList = recordRepository.findByMember(member);
+		List<Record> recordList = member.getRecords().stream().toList();
 		recordList.forEach(record -> {
 			stageInfo[record.getStage() - 1] = record.getDifficulty();
 		});

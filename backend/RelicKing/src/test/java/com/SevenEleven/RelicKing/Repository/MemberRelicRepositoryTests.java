@@ -1,11 +1,16 @@
 package com.SevenEleven.RelicKing.Repository;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Random;
+import java.util.Stack;
 import java.util.stream.IntStream;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,42 +34,39 @@ public class MemberRelicRepositoryTests {
 	private MemberRepository memberRepository;
 
 	@Test
-	public void test1() {
-		Assertions.assertNotNull(memberRelicRepository);
-		log.info("--------------------------------------------------------------");
-		log.info(memberRelicRepository.getClass().getName());
-		log.info("--------------------------------------------------------------");
-	}
-
-	@Test
 	public void insertTest() {
-		for (int i = 1; i <= 100; i++) {
+		int totalRelicNo = Arrays.stream(Constant.RELIC_INFO_TABLE).sum();
+		List<MemberRelic> newMemberRelics = new ArrayList<>();
+		for (int i = 1; i <= memberRepository.count(); i++) {
 			Member member = memberRepository.findByMemberId(i).orElseThrow();
+			int raritySize = Constant.RELIC_INFO_TABLE.length;
+			Stack<Integer>[] relicNoList = new Stack[raritySize];
+			for (int j = 0; j < raritySize; j++) {
+				ArrayList<Integer> relicNoArray = new ArrayList<>(
+					IntStream.rangeClosed(1, Constant.RELIC_INFO_TABLE[j]).boxed().toList());
+				Collections.shuffle(relicNoArray);
+				Stack<Integer> stack = new Stack<>();
+				relicNoArray.forEach(stack::push);
+				relicNoList[j] = stack;
+			}
 
-			List<Integer> relicNoList = new java.util.ArrayList<>(
-				IntStream.rangeClosed(1, Constant.THE_NUMBER_OF_C).boxed().toList());
-			Collections.shuffle(relicNoList);
-
-			Random rand = new Random();
-
-			for (int j = 1; j <= rand.nextInt(Constant.THE_NUMBER_OF_C) + 1; j++ ) {
-				MemberRelic memberRelic = MemberRelic.builder()
-					.member(member)
-					.relicNo(relicNoList.get(j - 1))
-					.slot(j > 6 ? 0 : j)
-					.build();
-				memberRelic.plusExp(Constant.LEVEL_EXP_TABLE.get(rand.nextInt(10)) - 1);
-				memberRelicRepository.save(memberRelic);
+			try {
+				Random rand = SecureRandom.getInstanceStrong();
+				for (int j = 0; j < totalRelicNo; j++) {
+					double w = rand.nextDouble();
+					for (int k = 1; k < Constant.GACHA_POSSIBILITY.length; k++) {
+						if (relicNoList[k - 1].isEmpty()) continue;
+						if (Constant.GACHA_POSSIBILITY[k - 1] <= w && w < Constant.GACHA_POSSIBILITY[k]) {
+							MemberRelic memberRelic = new MemberRelic(member, relicNoList[k - 1].pop() + 100 * (k - 1));
+							newMemberRelics.add(memberRelic);
+							break;
+						}
+					}
+				}
+			} catch (NoSuchAlgorithmException | EmptyStackException e) {
+				throw new RuntimeException(e);
 			}
 		}
-	}
-
-	@Test
-	public void readTest() {
-		MemberRelic memberRelic = memberRelicRepository.findById(1).orElseThrow();
-
-		log.info("--------------------------------------------------------------");
-		log.info(memberRelic);
-		log.info("--------------------------------------------------------------");
+		memberRelicRepository.saveAll(newMemberRelics);
 	}
 }

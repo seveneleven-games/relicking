@@ -7,6 +7,8 @@ import java.util.Set;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.SevenEleven.RelicKing.common.Constant;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,7 +21,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,12 +28,10 @@ import lombok.ToString;
 
 @Entity
 @Getter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(exclude = {"memberRelics", "records"})
 @EntityListeners(AuditingEntityListener.class)
-public class Member { // Todo 엔티티 빌더 빼고 생성자 만들기
+public class Member {
 
 	@Id
 	@Column(name = "member_id")
@@ -51,31 +50,24 @@ public class Member { // Todo 엔티티 빌더 빼고 생성자 만들기
 	@Column(nullable = false)
 	private String password;
 
-	@Builder.Default
 	@Column(nullable = false)
-	private int gacha = 0;
+	private int gacha = Constant.INITIAL_GACHA;
 
-	@Builder.Default
 	@Column(nullable = false)
 	private int currentClassNo = 1;
 
-	@Builder.Default
 	@Column(nullable = false)
 	private int todayLockTime = 0;
 
-	@Builder.Default
 	@Column(nullable = false)
 	private int yesterdayLockTime = 0;
 
-	@Builder.Default
 	@Column(nullable = false)
 	private int totalLockTime = 0;
 
-	@Builder.Default
 	@Column(nullable = false)
 	private int continuousLockDate = 0;
 
-	@Builder.Default
 	@Column(nullable = false)
 	private int continuousLockDatePrev = 0;
 
@@ -93,12 +85,17 @@ public class Member { // Todo 엔티티 빌더 빼고 생성자 만들기
 
 	@Column(nullable = false)
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@Builder.Default
-	private Set<MemberRelic> memberRelics = new LinkedHashSet<>();
+	private final Set<MemberRelic> memberRelics = new LinkedHashSet<>();
 
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@Builder.Default
-	private Set<Record> records = new LinkedHashSet<>();
+	private final Set<Record> records = new LinkedHashSet<>();
+
+	@Builder
+	public Member(String email, String nickname, String password) {
+		this.email = email;
+		this.nickname = nickname;
+		this.password = password;
+	}
 
 	public void changeCurrentClassNo(int classNo) {
 		this.currentClassNo = classNo;
