@@ -396,7 +396,7 @@ public class GameScene : BaseScene
 
     private IEnumerator SpawnEliteMonsters(List<int> normalMonsterIds, List<int> eliteMonsterIds)
     {
-        Vector3 eliteSpawn = new Vector3(0, -4, 0);
+        Vector3 eliteSpawn = new Vector3(0, -6, 0);
         Managers.Object.Spawn<MonsterController>(eliteSpawn, eliteMonsterIds[0]);
         while (true)
         {
@@ -427,7 +427,7 @@ public class GameScene : BaseScene
 
     private void SpawnBossMonsters(List<int> boosMonsterIds)
     {
-        Vector3 bossSpawn = new Vector3(0, 4, 0);
+        Vector3 bossSpawn = new Vector3(0, 5, 0);
         Managers.Object.Spawn<MonsterController>(bossSpawn, boosMonsterIds[0]);
     }
 
