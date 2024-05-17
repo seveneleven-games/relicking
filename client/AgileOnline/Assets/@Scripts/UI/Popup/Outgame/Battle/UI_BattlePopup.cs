@@ -330,10 +330,10 @@ public class UI_BattlePopup : UI_Popup
                     // SceneCover sceneCover = Managers.UI.ShowBaseUI<SceneCover>();
                     // sceneCover.CoverToScene(Define.EScene.GameScene);
 
-                    ChangeScene changeScene = Managers.UI.ShowPopupUI<ChangeScene>();
-                    changeScene.LoadScene(Define.EScene.GameScene);
+                    // ChangeScene changeScene = Managers.UI.ShowPopupUI<ChangeScene>();
+                    // changeScene.LoadScene(Define.EScene.GameScene);
 
-                    // Managers.Scene.LoadScene(Define.EScene.GameScene);
+                    Managers.Scene.LoadScene(Define.EScene.GameScene);
                 }
             }
         }));
