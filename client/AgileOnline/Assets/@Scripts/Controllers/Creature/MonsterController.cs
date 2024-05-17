@@ -294,7 +294,7 @@ public class MonsterController : CreatureController
 
                     for (float t = 0; t < 1.5f; t += Time.deltaTime)
                     {
-                        Vector3 nextPosition = transform.position + playerDirection * 30f * Time.deltaTime;
+                        Vector3 nextPosition = transform.position + playerDirection * 50f * Time.deltaTime;
                         if (nextPosition.x < -9.5f || nextPosition.x > 9.5f || nextPosition.y < -9.5f ||
                             nextPosition.y > 9.5f)
                             break;
@@ -379,7 +379,7 @@ public class MonsterController : CreatureController
                     GameObject go3 = Managers.Resource.Instantiate("CircleAlert");
                     ParticleSystem ps3 = go3.GetComponent<ParticleSystem>();
                     ps3.transform.position = targetPosition1;
-                    ps3.transform.localScale = new Vector3(0.8f, 0.8f, 0);
+                    ps3.transform.localScale = new Vector3(0.5f, 0.5f, 0);
                     ps3.Play();
                     yield return new WaitForSeconds(0.8f);
                     transform.position = targetPosition1;
