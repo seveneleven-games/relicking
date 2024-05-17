@@ -269,6 +269,7 @@ public class GameScene : BaseScene
             
             yield return null;
         }
+        _player.GetComponent<CircleCollider2D>().enabled = false;
         OnGameClear();
     }
 
@@ -284,7 +285,6 @@ public class GameScene : BaseScene
         }
         else
         {
-            _player.GetComponent<CircleCollider2D>().enabled = false;
             EnableNodeMap(_nodeNo);
             _store = InstantiateStore();
         }
