@@ -67,9 +67,7 @@ public class CreatureController : BaseController
             float critRoll = UnityEngine.Random.value;
             if (critRoll <= playerAttacker.CritRate)
             {
-                Debug.Log("이전데미지 : " + damage + "크증 : " + playerAttacker.CritDmgRate);
                 damage *= playerAttacker.CritDmgRate;
-                Debug.Log("크리데미지 : " + damage);
                 isCritical = true;
             }
         }
