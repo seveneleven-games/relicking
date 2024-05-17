@@ -227,7 +227,7 @@ public class GameScene : BaseScene
         {
             // 인게임 사운드 넣기
             Managers.Sound.Play(Define.ESound.Bgm,"Bgm_InGame");
-            _timerCoroutine = StartCoroutine(StartTimer(1f));
+            _timerCoroutine = StartCoroutine(StartTimer(30f));
         }
     }
     
@@ -447,8 +447,11 @@ public class GameScene : BaseScene
 
     public static void SpawnBossMonsterSkill(Vector3 spawnLocation, int monsterId)
     {
-        for (int i = 0; i < 10; i++)
-            Managers.Object.Spawn<MonsterController>(spawnLocation, monsterId);
+        for (int i = 0; i < 5; i++)
+        {
+            MonsterController spawningMc = Managers.Object.Spawn<MonsterController>(spawnLocation, monsterId);
+            spawningMc.Speed *= 2;
+        }
     }
     
     public void InvokeGameOverEvent()

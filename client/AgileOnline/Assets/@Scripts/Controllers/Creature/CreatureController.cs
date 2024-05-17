@@ -6,7 +6,7 @@ using static Define;
 
 public class CreatureController : BaseController
 {
-    public float Speed { get; protected set; }
+    public float Speed { get; set; }
     public int Hp { get; protected set; }
     public int MaxHp { get; protected set; }
 

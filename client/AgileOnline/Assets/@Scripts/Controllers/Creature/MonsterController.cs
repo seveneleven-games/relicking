@@ -259,6 +259,15 @@ public class MonsterController : CreatureController
                             emp.SetMoveDirection(direction);
                         }
 
+                        for (int k = 0; k < 3; k++)
+                        {
+                            EliteMonsterProjectileController emp2 =
+                                Managers.Object.Spawn<EliteMonsterProjectileController>(transform.position, skillId);
+                            emp2.SetOwner(this);
+                            emp2.Speed *= 3;
+                            emp2.SetMoveDirection(_player.transform.position.normalized);
+                        }
+
                         yield return new WaitForSeconds(0.5f);
                     }
                 }
