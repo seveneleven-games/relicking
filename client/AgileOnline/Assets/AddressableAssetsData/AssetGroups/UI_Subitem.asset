@@ -47,14 +47,8 @@ MonoBehaviour:
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 17a83d26ed6e77444904659dc21fe058
-    m_Address: ScenesIn
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - PreLoad
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 2c670bf7f5a3b15448a57b0bd40f3e4e
-    m_Address: ScenesOut
+  - m_GUID: 2dbacd31b5aab2c458ee0cddb9654c0f
+    m_Address: ChangeScene
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
