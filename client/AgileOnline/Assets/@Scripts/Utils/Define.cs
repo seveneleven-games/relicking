@@ -102,7 +102,7 @@ public static class Define
     //난이도 몬스터 스탯 상관계수
     public static float DIFFICULTY_COEFFICIENT = 0.1f;
     
-    public static int ADDRESSABLE_COUNT = 165;
+    public static int ADDRESSABLE_COUNT = 166;
     
     //포이즌 필드 생성 위치 리스트
     public static Vector3[] POISON_FIELD_POS = new Vector3[] {

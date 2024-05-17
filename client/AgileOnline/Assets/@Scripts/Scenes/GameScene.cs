@@ -234,10 +234,18 @@ public class GameScene : BaseScene
     private IEnumerator StartBossTimer(float duration)
     {
         float timer = duration;
-
+        bool fiveSecondWarningPlayed = false;
+        
         while (timer > 0f)
         {
             timer -= Time.deltaTime;
+            
+            if (timer <= 5f && !fiveSecondWarningPlayed)
+            {
+                Managers.Sound.Play(Define.ESound.Effect, "Timer", 1f);
+                fiveSecondWarningPlayed = true;
+            }
+            
             yield return null;
         }
         Debug.Log("플레이어 사망!!");
@@ -247,10 +255,18 @@ public class GameScene : BaseScene
     private IEnumerator StartTimer(float duration)
     {
         float timer = duration;
-
+        bool fiveSecondWarningPlayed = false;
+        
         while (timer > 0f)
         {
             timer -= Time.deltaTime;
+            
+            if (timer <= 5f && !fiveSecondWarningPlayed)
+            {
+                Managers.Sound.Play(Define.ESound.Effect, "Timer",1f);
+                fiveSecondWarningPlayed = true;
+            }
+            
             yield return null;
         }
         OnGameClear();
