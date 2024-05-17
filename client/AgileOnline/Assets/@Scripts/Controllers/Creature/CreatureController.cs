@@ -6,7 +6,7 @@ using static Define;
 
 public class CreatureController : BaseController
 {
-    public float Speed { get; protected set; }
+    public float Speed { get; set; }
     public int Hp { get; protected set; }
     public int MaxHp { get; protected set; }
 
@@ -25,28 +25,49 @@ public class CreatureController : BaseController
         }
     }
 
+    private bool _hitState;
+    protected bool IsRage = false;
+
+    public virtual bool HitState
+    {
+        get => _hitState;
+        set
+        {
+            if (!IsRage)
+            {
+                _hitState = value;
+                Animator.SetBool("HitState", value);
+            }
+            
+        }
+    }
+
     public override bool Init()
     {
         if (base.Init() == false)
             return false;
         
         CreatureState = ECreatureState.Idle;
+        HitState = false;
         return true;
     }
 
     public virtual bool OnDamaged(BaseController attacker, ref float damage)
     {
         bool isCritical = false;
-        
-        Debug.Log("때린놈 : " + attacker);
-        Debug.Log("데미지 : " + damage);
+
+        if (HitState == false)
+        {
+            HitState = true;
+            StartCoroutine(StopHitEffect());
+        }
         
         if (attacker is PlayerController playerAttacker)
         {
             float critRoll = UnityEngine.Random.value;
             if (critRoll <= playerAttacker.CritRate)
             {
-                damage *= (int)playerAttacker.CritDmgRate;
+                damage *= playerAttacker.CritDmgRate;
                 isCritical = true;
             }
         }
@@ -61,6 +82,12 @@ public class CreatureController : BaseController
         return isCritical;
     }
 
+    private IEnumerator StopHitEffect()
+    {
+        yield return new WaitForSeconds(0.3f);
+        HitState = false;
+    }
+    
     public virtual void OnDead()
     {
         CreatureState = ECreatureState.Dead;

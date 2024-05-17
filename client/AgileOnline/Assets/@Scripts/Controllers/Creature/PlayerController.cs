@@ -155,6 +155,7 @@ public class PlayerController : CreatureController
 
         if (CoolDown < 0.1)
             CoolDown = 0.1f;
+        
     }
 
     private void Update()
@@ -242,8 +243,11 @@ public class PlayerController : CreatureController
         Managers.Sound.Play(ESound.Effect, "FemaleHurt", 0.3f);
         base.OnDamaged(attacker, ref damage);
         UI_World.Instance.UpdatePlayerHealth(Hp, MaxHp);
+        
         return true;
     }
+
+    
 
     #region Skill
 
@@ -367,23 +371,6 @@ public class PlayerController : CreatureController
                     yield break;
 
                 case "PoisonField":
-                    // List<Vector3> installedPositions = new List<Vector3>();
-                    //
-                    // for (int i = 0; i < skillData.ProjectileNum; i++)
-                    // {
-                    //     Vector3 randomPos;
-                    //     do
-                    //     {
-                    //         float randomX = transform.position.x + Random.Range(-2f, 2f);
-                    //         float randomY = transform.position.y + Random.Range(-2f, 2f);
-                    //         randomPos = new Vector3(randomX, randomY, 0f);
-                    //     } while (installedPositions.Any(pos => Vector3.Distance(pos, randomPos) < 2f));
-                    //
-                    //     PoisonFieldController pfc = Managers.Object.Spawn<PoisonFieldController>(randomPos, skillId);
-                    //     pfc.SetOwner(this);
-                    //
-                    //     installedPositions.Add(randomPos);
-                    // }
                     StartCoroutine(SpawnPoisonField(skillData, skillId));
 
                     break;

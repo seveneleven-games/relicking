@@ -27,7 +27,7 @@ public class MonsterController : CreatureController
     private TemplateData _templateData;
 
     private UI_InGamePopup _inGamePopup;
-    private bool _isRage = false;
+
 
     public override bool Init()
     {
@@ -64,7 +64,7 @@ public class MonsterController : CreatureController
         MonsterSkillList = new List<int>(new int[4]);
         if (MonsterType == 1)
             MonsterSkillList[0] = 1001;
-        
+
         else if (MonsterType == 2)
         {
             int[] skillList = Managers.Data.MonsterDic[templateId].SkillList;
@@ -149,8 +149,8 @@ public class MonsterController : CreatureController
 
     public override bool OnDamaged(BaseController attacker, ref float damage)
     {
-        Managers.Sound.Play(ESound.Effect,"MonsterHurt",0.3f);
-        
+        Managers.Sound.Play(ESound.Effect, "MonsterHurt", 0.3f);
+
         bool isCritical = base.OnDamaged(attacker, ref damage);
         UI_World.Instance.ShowDamage((int)damage, transform.position + Vector3.up * 1f, isCritical);
         if (MonsterType == 2)
@@ -158,17 +158,18 @@ public class MonsterController : CreatureController
             _inGamePopup.UpdateBossHealth(Hp, MaxHp);
         }
 
-        if (MonsterType == 2 && Hp < MaxHp * 0.5 && _isRage == false)
+        if (MonsterType == 2 && Hp < MaxHp * 0.5 && IsRage == false)
         {
             ChangeColorOfChildren(gameObject, Color.red);
-            _isRage = true;
+            HitState = true;
+            IsRage = true;
             Speed *= 2;
             CoolDown *= 0.5f;
         }
 
         return isCritical;
     }
-    
+
     void ChangeColorOfChildren(GameObject parent, Color color)
     {
         SpriteRenderer renderer = parent.GetComponent<SpriteRenderer>();
@@ -180,8 +181,8 @@ public class MonsterController : CreatureController
 
     public override void OnDead()
     {
-        Managers.Sound.Play(ESound.Effect,"MonsterDead",0.3f);
-        
+        Managers.Sound.Play(ESound.Effect, "MonsterDead", 0.3f);
+
         base.OnDead();
         CreatureState = ECreatureState.Dead;
 
@@ -258,6 +259,15 @@ public class MonsterController : CreatureController
                             emp.SetMoveDirection(direction);
                         }
 
+                        for (int k = 0; k < 3; k++)
+                        {
+                            EliteMonsterProjectileController emp2 =
+                                Managers.Object.Spawn<EliteMonsterProjectileController>(transform.position, skillId);
+                            emp2.SetOwner(this);
+                            emp2.Speed *= 3;
+                            emp2.SetMoveDirection(_player.transform.position.normalized);
+                        }
+
                         yield return new WaitForSeconds(0.5f);
                     }
                 }
@@ -267,28 +277,30 @@ public class MonsterController : CreatureController
             case "BossMonsterCharge":
                 _isUsingSkill = true;
 
-                yield return new WaitForSeconds(1f);
-
-                Vector3 playerDirection = (_player.transform.position - transform.position).normalized;
-
-                GameObject go1 = Managers.Resource.Instantiate("LineAlert");
-                ParticleSystem ps1 = go1.GetComponent<ParticleSystem>();
-                ps1.transform.position = transform.position;
-                float psAngle = Mathf.Atan2(playerDirection.y, playerDirection.x) * Mathf.Rad2Deg;
-                ps1.transform.rotation = Quaternion.AngleAxis(psAngle, Vector3.forward);
-                ps1.transform.rotation *= Quaternion.Euler(0f, 0f, -90f);
-                ps1.transform.localScale = new Vector3(ps1.transform.localScale.x * 4f,
-                    ps1.transform.localScale.y * 20f, ps1.transform.localScale.z);
-                yield return new WaitForSeconds(0.5f);
-                Destroy(go1);
-
-                for (float t = 0; t < 1.5f; t += Time.deltaTime)
+                for (int i = 0; i < 3; i++)
                 {
-                    Vector3 nextPosition = transform.position + playerDirection * 20f * Time.deltaTime;
-                    if (nextPosition.x < -9.5f || nextPosition.x > 9.5f || nextPosition.y < -9.5f || nextPosition.y > 9.5f)
-                        break;
-                    transform.position = nextPosition;
-                    yield return null;
+                    Vector3 playerDirection = (_player.transform.position - transform.position).normalized;
+
+                    GameObject go1 = Managers.Resource.Instantiate("LineAlert");
+                    ParticleSystem ps1 = go1.GetComponent<ParticleSystem>();
+                    ps1.transform.position = transform.position;
+                    float psAngle = Mathf.Atan2(playerDirection.y, playerDirection.x) * Mathf.Rad2Deg;
+                    ps1.transform.rotation = Quaternion.AngleAxis(psAngle, Vector3.forward);
+                    ps1.transform.rotation *= Quaternion.Euler(0f, 0f, -90f);
+                    ps1.transform.localScale = new Vector3(ps1.transform.localScale.x * 4f,
+                        ps1.transform.localScale.y * 20f, ps1.transform.localScale.z);
+                    yield return new WaitForSeconds(0.5f);
+                    Destroy(go1);
+
+                    for (float t = 0; t < 1.5f; t += Time.deltaTime)
+                    {
+                        Vector3 nextPosition = transform.position + playerDirection * 30f * Time.deltaTime;
+                        if (nextPosition.x < -9.5f || nextPosition.x > 9.5f || nextPosition.y < -9.5f ||
+                            nextPosition.y > 9.5f)
+                            break;
+                        transform.position = nextPosition;
+                        yield return null;
+                    }
                 }
 
                 _isUsingSkill = false;
@@ -325,7 +337,7 @@ public class MonsterController : CreatureController
                         }
                     }
                 }
-                
+
                 for (int x = -8; x <= 8; x += 4)
                 {
                     for (int y = -8; y <= 8; y += 4)
@@ -361,18 +373,22 @@ public class MonsterController : CreatureController
 
             case "BossMonsterJump":
                 _isUsingSkill = true;
-                Vector3 targetPosition1 = _player.transform.position;
-                GameObject go3 = Managers.Resource.Instantiate("CircleAlert");
-                ParticleSystem ps3 = go3.GetComponent<ParticleSystem>();
-                ps3.transform.position = targetPosition1;
-                ps3.transform.localScale = new Vector3(0.8f, 0.8f, 0);
-                ps3.Play();
-                yield return new WaitForSeconds(0.8f);
-                transform.position = targetPosition1;
-                GameObject go5 = Managers.Resource.Instantiate("BossSmashHitEffect");
-                ParticleSystem ps5 = go5.GetComponent<ParticleSystem>();
-                ps5.transform.position = targetPosition1;
-                ps5.Play();
+                for (int i = 0; i < 3; i++)
+                {
+                    Vector3 targetPosition1 = _player.transform.position;
+                    GameObject go3 = Managers.Resource.Instantiate("CircleAlert");
+                    ParticleSystem ps3 = go3.GetComponent<ParticleSystem>();
+                    ps3.transform.position = targetPosition1;
+                    ps3.transform.localScale = new Vector3(0.8f, 0.8f, 0);
+                    ps3.Play();
+                    yield return new WaitForSeconds(0.8f);
+                    transform.position = targetPosition1;
+                    GameObject go5 = Managers.Resource.Instantiate("BossSmashHitEffect");
+                    ParticleSystem ps5 = go5.GetComponent<ParticleSystem>();
+                    ps5.transform.position = targetPosition1;
+                    ps5.Play();
+                }
+
                 _isUsingSkill = false;
                 break;
 
@@ -407,9 +423,10 @@ public class MonsterController : CreatureController
                     yield return new WaitForSeconds(0.5f);
                     Destroy(go9);
 
-                    BossMonsterRestraintController bmrc = Managers.Object.Spawn<BossMonsterRestraintController>(position, skillId);
+                    BossMonsterRestraintController bmrc =
+                        Managers.Object.Spawn<BossMonsterRestraintController>(position, skillId);
                     bmrc.SetOwner(this);
-                    bmrc.SetMoveDirection(playerDirection2);   
+                    bmrc.SetMoveDirection(playerDirection2);
                 }
 
                 break;
