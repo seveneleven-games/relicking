@@ -2,11 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChangeScene : MonoBehaviour
+public class ChangeScene : UI_Popup
 {
-    public Animator transitionAnimator;
     public float transitionTime = 1f;
 
+    #region Enum
+    enum EGameObjects
+    {
+        DownScene,
+    }
+
+    enum EImages
+    {
+        
+    }
+    #endregion
+    
+    public override bool Init()
+    {
+        if (base.Init() == false)
+            return false;
+
+        #region Object Bind
+        
+        BindObject(typeof(EGameObjects));
+        
+        GetObject((int)EGameObjects.DownScene).SetActive(false);
+        
+        #endregion
+        
+        return true;
+    }
+    
     // 씬 전환 함수
     public void LoadScene(Define.EScene eScene)
     {
@@ -15,9 +42,8 @@ public class ChangeScene : MonoBehaviour
 
     IEnumerator Transition(Define.EScene eScene)
     {
-        // 애니메이션을 플레이합니다.
-        transitionAnimator.SetTrigger("StartTransition");
-
+        
+        GetObject((int)EGameObjects.DownScene).SetActive(true);
         // 애니메이션 재생 시간만큼 대기합니다.
         yield return new WaitForSeconds(transitionTime);
 

@@ -9,8 +9,17 @@ public class SceneCover : UI_Base
     public float coverSpeed = 1.5f;
     private RectTransform coverRectTransform;
 
-    void Start()
+    
+    private void Awake()
     {
+        Init();
+    }
+    
+    public override bool Init()
+    {
+        if (base.Init() == false)
+            return false;
+
         coverRectTransform = coverImage.GetComponent<RectTransform>();
         // 초기 위치 설정: 화면 위쪽 바깥에 위치시키기
         coverRectTransform.anchoredPosition = new Vector2(0, coverRectTransform.sizeDelta.y);
@@ -18,8 +27,10 @@ public class SceneCover : UI_Base
         
         // 이 GameObject를 씬 전환 중에도 파괴되지 않도록 설정
         DontDestroyOnLoad(gameObject);
+        
+        return true;
     }
-
+    
     public void CoverToScene(Define.EScene eScene)
     {
         StartCoroutine(UncoverScreen(eScene));

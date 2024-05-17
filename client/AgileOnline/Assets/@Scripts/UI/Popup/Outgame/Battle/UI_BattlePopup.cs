@@ -297,9 +297,6 @@ public class UI_BattlePopup : UI_Popup
         Managers.Game.CurrentSelectStage = _stageData;
         SetInfo(Managers.Game.CurrentSelectStage);
         
-        // 현재 난이도도 나중에 줘야 됨.
-        // 여기서 게임씬으로 가는 것도 나중에 추가하기!!!
-        
         // Todo -> change
         Debug.Log("go Game");
         _templateData.StageId = Managers.Game.CurrentSelectStage.StageId;
@@ -330,9 +327,12 @@ public class UI_BattlePopup : UI_Popup
                 if (enterStageRes.status == 200)
                 {
 
-                    SceneCover sceneCover = Managers.UI.ShowBaseUI<SceneCover>();
-                    sceneCover.CoverToScene(Define.EScene.GameScene);
-                    
+                    // SceneCover sceneCover = Managers.UI.ShowBaseUI<SceneCover>();
+                    // sceneCover.CoverToScene(Define.EScene.GameScene);
+
+                    ChangeScene changeScene = Managers.UI.ShowPopupUI<ChangeScene>();
+                    changeScene.LoadScene(Define.EScene.GameScene);
+
                     // Managers.Scene.LoadScene(Define.EScene.GameScene);
                 }
             }
