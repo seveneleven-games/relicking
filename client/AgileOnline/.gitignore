@@ -9,11 +9,11 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
-
+# 바뀐거 인식함????
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
 /[Mm]emoryCaptures/
-
+# 바뀐거 인식하고 있니?
 # Recordings can get excessive in size
 /[Rr]ecordings/
 

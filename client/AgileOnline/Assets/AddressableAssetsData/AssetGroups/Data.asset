@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Data
+  m_EditorClassIdentifier: 
+  m_GroupName: Data
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 51e81a2d8c0f2fb429b75f63343ed0d4
+  m_SerializeEntries:
+  - m_GUID: 4657d0e78810c5d44a44cde0f092f5b3
+    m_Address: StageData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a94f25a7efd846dbbb8187f0c39d66c4
+    m_Address: MonsterData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 52aa0cd7a3ae410c8400f46336219ef5
+    m_Address: PlayerData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a5e6bd3b7fc1420cbde43444f2217ce4
+    m_Address: GoldData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3d18af8f84ee4afd8da725b4e4f7f37e
+    m_Address: NodeMapData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e9811c7642f20ca49aeda06759a6543c
+    m_Address: RelicData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a3b98a66ce663014db22aa3db527cef6
+    m_Address: SkillData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 5172e12bf4a124f4e9826e7812874449, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: be6452dab56a1734198e1f2d9fe5a11b, type: 2}
+    - {fileID: 11400000, guid: 9612d9271d11bb5428f8a618af8be091, type: 2}
