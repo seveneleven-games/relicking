@@ -211,12 +211,13 @@ public class GameScene : BaseScene
                 StartCoroutine(SpawnEliteMonsters(normalMonsters, eliteMonsters));
                 break;
             case 2:
-                StartCoroutine(SpawnBossMonsters(normalMonsters,  bossMonsters));
+                SpawnBossMonsters(bossMonsters);
                 break;
         }
 
         if (_isBossNode)
         {
+            Debug.Log("지금 보스 노드임!");
             _timerCoroutine = StartCoroutine(StartBossTimer(60f));
             // 인게임보스 사운드 넣기
             Managers.Sound.Play(Define.ESound.Bgm,"Bgm_InGameBoss");
@@ -226,7 +227,7 @@ public class GameScene : BaseScene
         {
             // 인게임 사운드 넣기
             Managers.Sound.Play(Define.ESound.Bgm,"Bgm_InGame");
-            _timerCoroutine = StartCoroutine(StartTimer(30f));
+            _timerCoroutine = StartCoroutine(StartTimer(1f));
         }
     }
     
@@ -239,7 +240,7 @@ public class GameScene : BaseScene
             timer -= Time.deltaTime;
             yield return null;
         }
-
+        Debug.Log("플레이어 사망!!");
         _player.OnDead();
     }
     
@@ -424,11 +425,10 @@ public class GameScene : BaseScene
         }
     }
 
-    private IEnumerator SpawnBossMonsters(List<int> normalMonsterIds, List<int> boosMonsterIds)
+    private void SpawnBossMonsters(List<int> boosMonsterIds)
     {
         Vector3 bossSpawn = new Vector3(0, 4, 0);
         Managers.Object.Spawn<MonsterController>(bossSpawn, boosMonsterIds[0]);
-        return null;
     }
 
     private Vector3 GetRandomPositionOutsidePlayerRadius()
