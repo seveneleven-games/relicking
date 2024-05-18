@@ -162,6 +162,9 @@ public class UI_OutgameSettingPopup : UI_Popup
                 SceneManager.LoadScene("NewTitleScene");
                 Managers.Game.AccessToken = "";
                 Managers.Game.RefreshToken = "";
+                
+                PlayerPrefs.DeleteKey("Email");
+                
             }
         }));
     }
