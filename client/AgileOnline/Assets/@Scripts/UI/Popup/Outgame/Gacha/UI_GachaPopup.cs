@@ -128,12 +128,14 @@ public class UI_GachaPopup : UI_Popup
 
     void OnClickUpButton()
     {
+        Managers.Sound.PlayButtonClick();
         _gachaFold = 2;
         GachaInfoRefresh();
     }
 
     void OnClickDownButton()
     {
+        Managers.Sound.PlayButtonClick();
         _gachaFold = 1;
         GachaInfoRefresh();
     }
@@ -177,9 +179,7 @@ public class UI_GachaPopup : UI_Popup
             GetText((int)ETexts.GachaTenText).text = "10회 뽑기";
             GetText((int)ETexts.TicketOneNumber).text = "-1";
             GetText((int)ETexts.TicketTenNumber).text = "-10";
-            
-
-
+           
         }
 
         else if (_gachaFold == 2)

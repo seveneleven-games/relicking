@@ -15,7 +15,8 @@ public class UI_DeadPopup : UI_Popup
         if (base.Init() == false)
             return false;
         
-        Managers.Sound.Play(Define.ESound.Effect,"GameOver");
+        Managers.Sound.Stop(Define.ESound.Bgm);
+        Managers.Sound.Play(Define.ESound.Effect,"GameOver",0.7f);
         
         BindButton(typeof(Buttons));
         

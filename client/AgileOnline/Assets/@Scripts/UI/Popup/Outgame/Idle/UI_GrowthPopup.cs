@@ -253,7 +253,20 @@ public class UI_GrowthPopup : UI_Popup
     string FormatTime(int totalSeconds)
     {
         TimeSpan time = TimeSpan.FromSeconds(totalSeconds);
-        return time.ToString(@"hh\:mm\:ss");
+        int days = time.Days;
+        int hours = time.Hours;
+        int minutes = time.Minutes;
+        int seconds = time.Seconds;
+
+        if (days > 0)
+        {
+            return $"{days:D2}:{hours:D2}:{minutes:D2}:{seconds:D2}";
+        }
+        else
+        {
+            return $"{hours:D2}:{minutes:D2}:{seconds:D2}";
+        }
     }
+
     
 }

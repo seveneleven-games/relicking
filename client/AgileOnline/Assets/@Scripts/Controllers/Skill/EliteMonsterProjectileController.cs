@@ -17,7 +17,7 @@ public class EliteMonsterProjectileController : SkillController
     public float CoolTime { get; private set; }
     public float Damage { get; private set; }
     public float LifeTime { get; private set; } = 10;
-    public float Speed { get; private set; }
+    public float Speed { get; set; }
     public int ProjectileNum { get; private set; }
 
     public override bool Init()

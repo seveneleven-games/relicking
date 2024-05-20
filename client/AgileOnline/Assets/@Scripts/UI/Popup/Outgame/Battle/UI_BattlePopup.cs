@@ -48,6 +48,7 @@ public class UI_BattlePopup : UI_Popup
         ContentObject, // 나중에 애니메이션 넣을 시에 필요
         StageSelectScrollView,
         StageScrollContentObject,
+        DownScene,
     }
     
     enum EButtons
@@ -136,6 +137,9 @@ public class UI_BattlePopup : UI_Popup
         
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
         
+        // 씬 전환 가리기 용
+        GetObject((int)EGameObjects.DownScene).SetActive(false);
+        
         #endregion
         
         Refresh();
@@ -172,7 +176,8 @@ public class UI_BattlePopup : UI_Popup
     public void SetInfo(StageData stageData)
     {
         _stageData = stageData;
-        Refresh();
+        // 내가 이거 왜 해놨지??
+        // Refresh();
     }
     
     // 갱신
@@ -188,6 +193,7 @@ public class UI_BattlePopup : UI_Popup
         #region 초기화
         
         #region 스테이지 리스트
+        
         
         // 다 날리고
         GameObject StageContainer = GetObject((int)EGameObjects.StageScrollContentObject);
@@ -265,7 +271,7 @@ public class UI_BattlePopup : UI_Popup
             GetButton((int)EButtons.LArrowButton).gameObject.SetActive(true);
             GetButton((int)EButtons.RArrowButton).gameObject.SetActive(false);
         }
-
+        
         #endregion
         
     }
@@ -297,9 +303,6 @@ public class UI_BattlePopup : UI_Popup
         Managers.Game.CurrentSelectStage = _stageData;
         SetInfo(Managers.Game.CurrentSelectStage);
         
-        // 현재 난이도도 나중에 줘야 됨.
-        // 여기서 게임씬으로 가는 것도 나중에 추가하기!!!
-        
         // Todo -> change
         Debug.Log("go Game");
         _templateData.StageId = Managers.Game.CurrentSelectStage.StageId;
@@ -329,14 +332,36 @@ public class UI_BattlePopup : UI_Popup
                 
                 if (enterStageRes.status == 200)
                 {
-                    // SceneCover sceneCover = Managers.Resource.Instantiate("SceneCover").GetOrAddComponent<SceneCover>();
-                    // sceneCover.CoverToScene("GameScene");
+
+                    // SceneCover sceneCover = Managers.UI.ShowBaseUI<SceneCover>();
+                    // sceneCover.CoverToScene(Define.EScene.GameScene);
+
+                    // ChangeScene changeScene = Managers.UI.ShowPopupUI<ChangeScene>();
+                    // changeScene.LoadScene(Define.EScene.GameScene);
+                    GetObject((int)EGameObjects.DownScene).SetActive(true);
+
                     Managers.Scene.LoadScene(Define.EScene.GameScene);
+                    
+                    // 0.1초 기다림
+                    // StartCoroutine(DelaySceneLoad());
+                    
                 }
             }
         }));
     }
 
+    // IEnumerator DelaySceneLoad()
+    // {
+    //     // 잠깐의 화면 전환을 위해 하단의 오브젝트를 활성화
+    //     GetObject((int)EGameObjects.DownScene).SetActive(true);
+    //
+    //     // 0.1초 기다리기
+    //     yield return new WaitForSeconds(0.1f);
+    //
+    //     // 씬 로드
+    //     Managers.Scene.LoadScene(Define.EScene.GameScene);
+    // }
+    
     void OnChangeStage(int index)
     {
         Managers.Sound.PlayButtonClick();
