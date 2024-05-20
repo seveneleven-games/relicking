@@ -6,7 +6,7 @@ using static Define;
 
 public class CreatureController : BaseController
 {
-    public float Speed { get; protected set; }
+    public float Speed { get; set; }
     public int Hp { get; protected set; }
     public int MaxHp { get; protected set; }
 
@@ -62,15 +62,12 @@ public class CreatureController : BaseController
             StartCoroutine(StopHitEffect());
         }
         
-        Debug.Log("때린놈 : " + attacker);
-        Debug.Log("대미지 : " + damage);
-        
         if (attacker is PlayerController playerAttacker)
         {
             float critRoll = UnityEngine.Random.value;
             if (critRoll <= playerAttacker.CritRate)
             {
-                damage *= (int)playerAttacker.CritDmgRate;
+                damage *= playerAttacker.CritDmgRate;
                 isCritical = true;
             }
         }

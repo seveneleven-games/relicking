@@ -217,7 +217,7 @@ public class PlayerController : CreatureController
     {
         if (collision.CompareTag("Gold"))
         {
-            Managers.Sound.Play(ESound.Effect, "Reroll");
+            Managers.Sound.Play(ESound.Effect, "Reroll", 0.3f);
 
             GoldController gc = collision.GetComponent<GoldController>();
 

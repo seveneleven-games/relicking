@@ -211,12 +211,13 @@ public class GameScene : BaseScene
                 StartCoroutine(SpawnEliteMonsters(normalMonsters, eliteMonsters));
                 break;
             case 2:
-                StartCoroutine(SpawnBossMonsters(normalMonsters,  bossMonsters));
+                SpawnBossMonsters(bossMonsters);
                 break;
         }
 
         if (_isBossNode)
         {
+            Debug.Log("지금 보스 노드임!");
             _timerCoroutine = StartCoroutine(StartBossTimer(60f));
             // 인게임보스 사운드 넣기
             Managers.Sound.Play(Define.ESound.Bgm,"Bgm_InGameBoss");
@@ -233,25 +234,42 @@ public class GameScene : BaseScene
     private IEnumerator StartBossTimer(float duration)
     {
         float timer = duration;
-
+        bool fiveSecondWarningPlayed = false;
+        
         while (timer > 0f)
         {
             timer -= Time.deltaTime;
+            
+            if (timer <= 5f && !fiveSecondWarningPlayed)
+            {
+                Managers.Sound.Play(Define.ESound.Effect, "Timer", 1f);
+                fiveSecondWarningPlayed = true;
+            }
+            
             yield return null;
         }
-
+        Debug.Log("플레이어 사망!!");
         _player.OnDead();
     }
     
     private IEnumerator StartTimer(float duration)
     {
         float timer = duration;
-
+        bool fiveSecondWarningPlayed = false;
+        
         while (timer > 0f)
         {
             timer -= Time.deltaTime;
+            
+            if (timer <= 5f && !fiveSecondWarningPlayed)
+            {
+                Managers.Sound.Play(Define.ESound.Effect, "Timer",1f);
+                fiveSecondWarningPlayed = true;
+            }
+            
             yield return null;
         }
+        _player.GetComponent<CircleCollider2D>().enabled = false;
         OnGameClear();
     }
 
@@ -267,7 +285,6 @@ public class GameScene : BaseScene
         }
         else
         {
-            _player.GetComponent<CircleCollider2D>().enabled = false;
             EnableNodeMap(_nodeNo);
             _store = InstantiateStore();
         }
@@ -395,7 +412,7 @@ public class GameScene : BaseScene
 
     private IEnumerator SpawnEliteMonsters(List<int> normalMonsterIds, List<int> eliteMonsterIds)
     {
-        Vector3 eliteSpawn = new Vector3(0, -4, 0);
+        Vector3 eliteSpawn = new Vector3(0, -6, 0);
         Managers.Object.Spawn<MonsterController>(eliteSpawn, eliteMonsterIds[0]);
         while (true)
         {
@@ -424,11 +441,10 @@ public class GameScene : BaseScene
         }
     }
 
-    private IEnumerator SpawnBossMonsters(List<int> normalMonsterIds, List<int> boosMonsterIds)
+    private void SpawnBossMonsters(List<int> boosMonsterIds)
     {
-        Vector3 bossSpawn = new Vector3(0, 4, 0);
+        Vector3 bossSpawn = new Vector3(0, 5, 0);
         Managers.Object.Spawn<MonsterController>(bossSpawn, boosMonsterIds[0]);
-        return null;
     }
 
     private Vector3 GetRandomPositionOutsidePlayerRadius()
@@ -447,8 +463,11 @@ public class GameScene : BaseScene
 
     public static void SpawnBossMonsterSkill(Vector3 spawnLocation, int monsterId)
     {
-        for (int i = 0; i < 10; i++)
-            Managers.Object.Spawn<MonsterController>(spawnLocation, monsterId);
+        for (int i = 0; i < 5; i++)
+        {
+            MonsterController spawningMc = Managers.Object.Spawn<MonsterController>(spawnLocation, monsterId);
+            spawningMc.Speed *= 2;
+        }
     }
     
     public void InvokeGameOverEvent()

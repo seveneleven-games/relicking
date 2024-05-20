@@ -9,8 +9,17 @@ public class SceneCover : UI_Base
     public float coverSpeed = 1.5f;
     private RectTransform coverRectTransform;
 
-    void Start()
+    
+    private void Awake()
     {
+        Init();
+    }
+    
+    public override bool Init()
+    {
+        if (base.Init() == false)
+            return false;
+
         coverRectTransform = coverImage.GetComponent<RectTransform>();
         // 초기 위치 설정: 화면 위쪽 바깥에 위치시키기
         coverRectTransform.anchoredPosition = new Vector2(0, coverRectTransform.sizeDelta.y);
@@ -18,11 +27,13 @@ public class SceneCover : UI_Base
         
         // 이 GameObject를 씬 전환 중에도 파괴되지 않도록 설정
         DontDestroyOnLoad(gameObject);
+        
+        return true;
     }
-
-    public void CoverToScene(string sceneName)
+    
+    public void CoverToScene(Define.EScene eScene)
     {
-        StartCoroutine(UncoverScreen(sceneName));
+        StartCoroutine(UncoverScreen(eScene));
     }
 
     IEnumerator CoverScreen()
@@ -37,8 +48,8 @@ public class SceneCover : UI_Base
             yield return null;
         }
     }
-
-    IEnumerator UncoverScreen(string sceneName)
+    
+    IEnumerator UncoverScreen(Define.EScene eScene)
     {
         float positionY = coverRectTransform.anchoredPosition.y;
 
@@ -50,7 +61,7 @@ public class SceneCover : UI_Base
             yield return null;
         }
 
-        SceneManager.LoadScene(sceneName);
+        Managers.Scene.LoadScene(eScene);
         
         // 새 씬이 로드된 후, 이 이미지를 비활성화하거나 제거
         Destroy(gameObject);  // 이 방식은 GameObject를 완전히 파괴합니다.

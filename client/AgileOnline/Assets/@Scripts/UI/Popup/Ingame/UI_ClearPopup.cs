@@ -49,7 +49,8 @@ public class UI_ClearPopup : UI_Popup
         if (base.Init() == false)
             return false;
 
-        Managers.Sound.Play(ESound.Effect,"GameClear");
+        Managers.Sound.Stop(ESound.Bgm);
+        Managers.Sound.Play(ESound.Effect,"GameClear",0.7f);
         
         _templateData = Resources.Load<TemplateData>("GameTemplateData");
         Debug.Log("받아오니?" + _templateData);

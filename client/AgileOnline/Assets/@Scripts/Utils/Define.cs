@@ -116,7 +116,7 @@ public static class Define
         new Vector3(1.909f, -1.909f, 0f)
     };
 
-    public static string VERSION = "1.0.0";
+    public static string VERSION = "1.0.2";
 
     #endregion
 

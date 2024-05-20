@@ -163,7 +163,10 @@ public class UI_LoginInputPopup : UI_Popup
         #region 초기화
 
         // Field 입력내용들 다 날리기
-        GetInputField((int)EInputFields.EmailInputField).text = "";
+
+        string email = PlayerPrefs.GetString("Email", "");
+        
+        GetInputField((int)EInputFields.EmailInputField).text = email;
         GetInputField((int)EInputFields.PasswordInputField).text = "";
 
         #endregion
@@ -214,6 +217,8 @@ public class UI_LoginInputPopup : UI_Popup
                 Managers.Game._gameData.accessToken = loginDataRes.data.accessToken;
                 Managers.Game._gameData.refreshToken = loginDataRes.data.refreshToken;
                 
+                // 아이디 저장하기 (프리팹에)
+                PlayerPrefs.SetString("Email", GetInputField((int)EInputFields.EmailInputField).text);
                 
                 // 스테이지별 난이도 정보 업데이트
                 Managers.Game.UpdateStageClearInfo(loginDataRes.data.stageData);

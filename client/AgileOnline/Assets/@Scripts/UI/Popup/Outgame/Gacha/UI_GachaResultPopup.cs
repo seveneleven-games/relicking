@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using static Util;
-
+using Vector2 = System.Numerics.Vector2;
 
 
 public class UI_GachaResultPopup : UI_Popup
@@ -12,6 +13,8 @@ public class UI_GachaResultPopup : UI_Popup
     // 사용할 프리팹 가져오기
     [SerializeField]
     GameObject UI_GachaRelicObject;
+
+    [SerializeField] private ScrollRect ScrollRect;
     
     #region Enum
     enum EGameObjects
@@ -42,7 +45,6 @@ public class UI_GachaResultPopup : UI_Popup
 
     private Canvas _canvas;
     
-
     // 초기 세팅
     public override bool Init()
     {
@@ -156,7 +158,7 @@ public class UI_GachaResultPopup : UI_Popup
     {
 
     }
-
+    
     void OnClickBoxButton()
     {
         GetObject((int)EGameObjects.LuckyboxIdle).SetActive(false);
