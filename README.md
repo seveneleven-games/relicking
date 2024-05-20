@@ -2,7 +2,7 @@
 
 <div align="center">
   <br />
-  <img src="image/앱로고.png" width="50%"/>
+  <img src="image/앱로고.png" width="40%"/>
   <br />
 </div>
 
@@ -121,7 +121,7 @@
 
 <div align="middle">
   <br />
-  <img src="image/아키텍쳐.jpg" width="80%"/>
+  <img src="image/아키텍쳐.jpg" width="70%"/>
   <br />
 </div>
 
@@ -149,7 +149,7 @@
 
 <div align="middle">
   <br />
-  <img src="image/erd.png" width="90%"/>
+  <img src="image/erd.PNG" width="70%"/>
   <br />
 </div>
 
@@ -159,7 +159,7 @@
 - 와이어프레임
 <div align="middle">
   <br />
-  <img src="image/와이어프레임.PNG" width="70%"/>
+  <img src="image/와이어프레임.PNG" width="50%"/>
   <br />
 
 > https://www.figma.com/design/eObPcWQnqiQnUCLzvlgdsK/D211-%3A-Agile-Online?node-id=886%3A523&t=FeyDexWx7kHtsljD-1type=design&node-id=143%3A533&mode=design&t=jmWbTaIamnQybbWO-1
