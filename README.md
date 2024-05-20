@@ -53,7 +53,7 @@
 ### 게임 클라이언트
 
 <div align="middle">
-<img src="https://img.shields.io/badge/Unity-FFF?logo=unity&logoColor=000&style=for-the-badge">
+<img src="https://img.shields.io/badge/Unity-lightgrey?logo=unity&logoColor=000&style=for-the-badge">
 <img src="https://img.shields.io/badge/C%23-512BD4?logo=csharp&logoColor=fff&style=for-the-badge">
 
 **Language |** C# 9.0
