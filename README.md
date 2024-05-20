@@ -172,7 +172,8 @@
 
 - 포팅매뉴얼
 
-<!-- > [포팅매뉴얼](./exec/distributed_file_system_setting.md) -->
+> [포팅매뉴얼](./exec/포팅 매뉴얼/포팅 매뉴얼.md)
+
 
 ## 컨벤션
 
