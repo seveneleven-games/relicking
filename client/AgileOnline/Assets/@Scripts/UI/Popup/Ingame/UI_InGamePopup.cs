@@ -22,7 +22,7 @@ public class UI_InGamePopup : UI_Popup
 
     private TextMeshProUGUI _timerText;
     private TextMeshProUGUI _bossName;
-    private float _remainingTime = 10f;
+    private float _remainingTime = 15f;
     private TemplateData _templateData;
 
 

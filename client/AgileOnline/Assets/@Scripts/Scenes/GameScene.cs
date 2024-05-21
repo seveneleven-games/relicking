@@ -227,7 +227,7 @@ public class GameScene : BaseScene
         {
             // 인게임 사운드 넣기
             Managers.Sound.Play(Define.ESound.Bgm,"Bgm_InGame");
-            _timerCoroutine = StartCoroutine(StartTimer(10f));
+            _timerCoroutine = StartCoroutine(StartTimer(15f));
         }
     }
     
