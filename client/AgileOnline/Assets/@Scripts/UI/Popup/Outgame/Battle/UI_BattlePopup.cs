@@ -192,7 +192,7 @@ public class UI_BattlePopup : UI_Popup
         
         #region 초기화
         
-        #region 스테이지 리스트
+         #region 스테이지 리스트
         
         
         // 다 날리고
