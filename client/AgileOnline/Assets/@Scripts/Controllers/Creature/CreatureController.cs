@@ -90,7 +90,7 @@ public class CreatureController : BaseController
     
     public virtual void OnDead()
     {
-        CreatureState = ECreatureState.Dead;
+
     }
     
 }

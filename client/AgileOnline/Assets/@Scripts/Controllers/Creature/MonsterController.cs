@@ -184,7 +184,6 @@ public class MonsterController : CreatureController
         Managers.Sound.Play(ESound.Effect, "MonsterDead", 0.3f);
 
         base.OnDead();
-        CreatureState = ECreatureState.Dead;
 
         if (_coDotDamage != null)
             StopCoroutine(_coDotDamage);

@@ -46,8 +46,7 @@ public static class Define
     {
         None = 0,
         Idle = 1,
-        Move = 2,
-        Dead = 3
+        Move = 2
     }
 
     public enum ESkillType

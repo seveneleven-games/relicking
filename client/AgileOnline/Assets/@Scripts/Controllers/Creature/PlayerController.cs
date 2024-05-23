@@ -563,8 +563,6 @@ public class PlayerController : CreatureController
 
         Managers.UI.ShowPopupUI<UI_DeadPopup>();
 
-        CreatureState = ECreatureState.Dead;
-
         PlayerController player = Managers.Object.Player;
         if (player != null)
         {
