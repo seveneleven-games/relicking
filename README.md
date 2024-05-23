@@ -2,7 +2,7 @@
 
 <div align="center">
   <br />
-  <img src="image/앱로고.png" width="40%"/>
+  <img src="./readme-assets/앱로고.png" width="40%"/>
   <br />
 </div>
 
@@ -62,7 +62,6 @@
 
 **IDE |** Unity Hub 3.7.0, Unity Editor 2022.3.23f1, Rider 2024.1.1
 
-
 <br>
 <br>
 
@@ -71,8 +70,6 @@
 ### 게임 서버 (백엔드)
 
 <div align="middle">
-
-
 
 <img src="https://img.shields.io/badge/spring boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
 <img src="https://img.shields.io/badge/spring mvc-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
@@ -88,14 +85,12 @@
 
 **Build Tool |** Gradle 8.7.0
 
-**IDE |** 	Intellij 2023.3.2
+**IDE |** Intellij 2023.3.2
 
 </div>
 
 <br>
 <br>
-
-
 
 ### 인프라
 
@@ -109,8 +104,6 @@
 <img src="https://img.shields.io/badge/nginx-00953B?style=for-the-badge&logo=nginx&logoColor=white">
 <img src="https://img.shields.io/badge/SonarQube-4E9BCD?logo=sonarqube&logoColor=fff&style=for-the-badge">
 
-
-
 **Server |** GitLab, Jenkins, Docker
 
 </div>
@@ -121,35 +114,183 @@
 
 <div align="middle">
   <br />
-  <img src="image/아키텍쳐.jpg" width="70%"/>
+  <img src="./readme-assets/아키텍쳐.jpg" width="70%"/>
   <br />
 </div>
 
 ## 기능소개
 
-- 기능 소개 추가할 예정... 화면별로 녹화해두기.@!!
+### 구성
+
+<table>
+  <tbody align="center">
+    <tr>
+      <td width="33%">
+        <img width="100%" src="./readme-assets/스테이지.gif"/><br>
+      </td>
+      <td width="33%">
+        <img width="100%" src="./readme-assets/노드맵.jpg"/><br>
+      </td>
+      <td width="33%">
+        <img width="100%" src="./readme-assets/인게임.gif"/><br>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>다양한 스테이지</b><br>
+      </td>
+      <td>
+        <b>보스로 향하는 길</b><br>
+      </td>
+      <td>
+        <b>인게임</b><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### 보스
+
+<table>
+  <tbody align="center">
+    <tr>
+      <td width="33%">
+        <img width="100%" src="./readme-assets/보스1.gif"/><br>
+      </td>
+      <td width="33%">
+        <img width="100%" src="./readme-assets/보스2.gif"/><br>
+      </td>
+      <td width="33%">
+        <img width="100%" src="./readme-assets/보스3.gif"/><br>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>스테이지 1</b>
+      </td>
+      <td>
+        <b>스테이지 2</b>
+      </td>
+      <td>
+        <b>스테이지 3</b>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### 스킬
+
+<table>
+  <tbody align="center">
+    <tr>
+      <td width="33%">
+        <img width="100%" src="./readme-assets/스킬1.gif"/><br>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>스킬 상점</b><br>
+      </td>
+    </tr>
+    <tr>
+      <td width="33%">
+        <img width="100%" src="./readme-assets/스킬2.gif"/><br>
+      </td>
+      <td width="33%">
+        <img width="100%" src="./readme-assets/스킬3.gif"/><br>
+      </td>
+      <td width="33%">
+        <img width="100%" src="./readme-assets/스킬4.gif"/><br>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>방어형 스킬</b><br>
+        <img height="30rem" src="./readme-assets/방어형_스킬.png"/><br>
+      </td>
+      <td>
+        <b>투척형 스킬</b><br>
+        <img height="30rem" src="./readme-assets/투척형_스킬.png"/><br>
+      </td>
+      <td>
+        <b>소환형 스킬</b><br>
+        <img height="30rem" src="./readme-assets/소환형_스킬.png"/><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 
+### 인벤토리
 
+<table>
+  <tbody align="center">
+    <tr>
+      <td width="33%">
+        <img width="100%" src="./readme-assets/클래스_변경.gif"/><br>
+      </td>
+      <td width="33%">
+        <img width="100%" src="./readme-assets/유물_변경.gif"/><br>
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>
+        <b>클래스 변경</b>
+      </td>
+      <td>
+        <b>유물 변경</b>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### 아웃게임
+
+<table>
+  <tbody align="center">
+    <tr>
+      <td width="33%">
+        <img width="100%" src="./readme-assets/방치.gif"/><br>
+      </td>
+      <td width="33%">
+        <img width="100%" src="./readme-assets/가챠.gif"/><br>
+      </td>
+      <td width="33%">
+        <img width="100%" src="./readme-assets/랭킹.gif"/><br>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>방치</b>
+      </td>
+      <td>
+        <b>가챠</b>
+      </td>
+      <td>
+        <b>랭킹</b>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 ## 프로젝트 산출물
 
 - API 명세서
-<div align="middle">
-  <br />
-  <img src="image/api명세.PNG" width="70%"/>
-  <br />
+  <div align="middle">
+    <br />
+    <img src="./readme-assets/api명세.PNG" width="70%"/>
+    <br />
 
   > https://www.notion.so/API-4bb236aef86748c98996c0af4759be59
-</div>
 
-
+  </div>
 
 - ERD
 
 <div align="middle">
   <br />
-  <img src="image/erd.PNG" width="70%"/>
+  <img src="./readme-assets/erd.PNG" width="70%"/>
   <br />
 </div>
 
@@ -159,33 +300,31 @@
 - 와이어프레임
 <div align="middle">
   <br />
-  <img src="image/와이어프레임.PNG" width="50%"/>
+  <img src="./readme-assets/와이어프레임.PNG" width="50%"/>
   <br />
 
 > https://www.figma.com/design/eObPcWQnqiQnUCLzvlgdsK/D211-%3A-Agile-Online?node-id=886%3A523&t=FeyDexWx7kHtsljD-1type=design&node-id=143%3A533&mode=design&t=jmWbTaIamnQybbWO-1
+
 </div>
 
-
 <br>
 <br>
-
 
 - 포팅매뉴얼
 
 > [포팅매뉴얼](./exec/포팅 매뉴얼/포팅 매뉴얼.md)
 
+## GIT 컨벤션
 
-## 컨벤션
-
-### GIT
+### Commit
 
 ```
 ################
 # type, body, footer는 각각 공백 줄로 한칸씩 띄워작성합니다.
 # 1. Type
-# [Skill] type: Subject (공백 작성 시 주의)
-# Ex)[CT] feat: 회원정보 수정 기능 추가
-# Ex)[BE] feat: 회원정보 수정 기능 추가
+# [Skill] type: Subject (#이슈번호)
+# Ex)[CT] feat: 회원정보 수정 기능 추가 (#1)
+# Ex)[BE] feat: 회원정보 수정 기능 추가 (#1)
 
 ################
 # 1-1. Subject Type
@@ -207,7 +346,7 @@
 
 # 2. Body
 # body는 작업 내용이 복잡하거나 상세한 내용을 남겨야 하는 경우에만 작성
-# Ex) 
+# Ex)
 # - 이미지 업로드 기능 추가
 # - 회원 정보 수정 api 연동
 
@@ -215,7 +354,7 @@
 # 2-1. Body 작성 규칙
 #   - 본문은 72자 내로 작성
 #   - 필요한 경우 여러줄로도 작성 가능
-#   - 여러 줄의 메시지를 작성할 땐 "-"로 구분 
+#   - 여러 줄의 메시지를 작성할 땐 "-"로 구분
 #   - 변경 내용보다 변경 이유를 작성해야 한다.(나중에 봤을 때 코드 작성 이유를 파악하기 위해)
 ################(아래는 공백 유지 : Body와 Footer의 구분)s
 
@@ -232,22 +371,29 @@
 #   - Fixes: 이슈 수정 중(아직 해결되지 않은 경우)
 
 # 최종 메세지 예시
-# [FE] Feat #1: 회원정보 수정 기능 추가 
+# [CT] feat: 회원정보 수정 기능 추가 (#1)
 # (공백 필수)
 # - 이미지 업로드 기능 추가(옵션)
 # - 회원 정보 수정 api 연동(옵션)
 # (공백 필수)
 # Fixes: #1(옵션_여기선 이슈번호에 []를 치면 안됨, 반영할려면 merge 필요)
-
-## Branch
-
-1. **main 브랜치**: 안정적인 버전의 코드가 저장되는 브랜치로, 프로덕션 준비가 완료된 코드만이 master에 병합됩니다. 일반적으로 배포 가능한 상태만을 유지합니다.
-2. **develop 브랜치**: 개발을 위한 주요 브랜치로, 기능 개발 브랜치들이 병합되는 곳입니다. 개발의 최신 상태를 반영하며, 다음 릴리즈를 준비하는 코드가 모여 있습니다.
-3. **feature 브랜치들**: 새로운 기능 개발이나 버그 수정을 위해 develop 브랜치로부터 분기된 브랜치입니다. 개발이 완료되면 다시 develop 브랜치로 병합됩니다.
-
 ```
 
-### 예시
+### Branch
+
+1. **main 브랜치**
+
+   안정적인 버전의 코드가 저장되는 브랜치로, 프로덕션 준비가 완료된 코드만이 master에 병합됩니다. 일반적으로 배포 가능한 상태만을 유지합니다.
+
+2. **develop 브랜치**
+
+   개발을 위한 주요 브랜치로, 기능 개발 브랜치들이 병합되는 곳입니다. 개발의 최신 상태를 반영하며, 다음 릴리즈를 준비하는 코드가 모여 있습니다.
+
+3. **feature 브랜치들**
+
+   새로운 기능 개발이나 버그 수정을 위해 develop 브랜치로부터 분기된 브랜치입니다. 개발이 완료되면 다시 develop 브랜치로 병합됩니다.
+
+#### 예시
 
 ```
 - master
